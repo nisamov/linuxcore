@@ -1,27 +1,59 @@
 [
   {
-    "servicio": "apache2",
+    "servicio": "mariadb",
     "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start apache2",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
+    "estructura": "mariadb",
+    "categoria_db": "database",
+    "archivo_fuente": "servicios\\database\\mariadb.json"
   },
   {
-    "servicio": "nginx",
+    "servicio": "postgresql",
     "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start nginx",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
+    "estructura": "postgresql",
+    "categoria_db": "database",
+    "archivo_fuente": "servicios\\database\\postgresql.json"
+  },
+  {
+    "servicio": "redis",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "redis",
+    "categoria_db": "database",
+    "archivo_fuente": "servicios\\database\\redis.json"
+  },
+  {
+    "servicio": "chronyd",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "chronyd",
+    "categoria_db": "network",
+    "archivo_fuente": "servicios\\network\\chronyd.json"
+  },
+  {
+    "servicio": "dhcpd",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "dhcpd",
+    "categoria_db": "network",
+    "archivo_fuente": "servicios\\network\\dhcpd.json"
+  },
+  {
+    "servicio": "named",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "named",
+    "categoria_db": "network",
+    "archivo_fuente": "servicios\\network\\named.json"
+  },
+  {
+    "servicio": "iptables",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "iptables",
+    "categoria_db": "security",
+    "archivo_fuente": "servicios\\security\\iptables.json"
+  },
+  {
+    "servicio": "sshd",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "sshd",
+    "categoria_db": "security",
+    "archivo_fuente": "servicios\\security\\sshd.json"
   },
   {
     "servicio": "ufw",
@@ -62,126 +94,36 @@
         "comando_ejemplo": "ufw reject from 192.168.1.50",
         "explicacion": "Deniega el tráfico proveniente de una dirección IP específica de la red local, notificando activamente al emisor el rechazo."
       }
-    ]
-  },
-  {
-    "servicio": "sshd",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start sshd",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
-  },
-  {
-    "servicio": "iptables",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start iptables",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
-  },
-  {
-    "servicio": "mariadb",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start mariadb",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
-  },
-  {
-    "servicio": "postgresql",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start postgresql",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
-  },
-  {
-    "servicio": "redis",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start redis",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
-  },
-  {
-    "servicio": "dhcpd",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start dhcpd",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
-  },
-  {
-    "servicio": "chronyd",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start chronyd",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
-  },
-  {
-    "servicio": "named",
-    "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start named",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
+    ],
+    "estructura": "ufw",
+    "archivo_fuente": "servicios\\security\\ufw.json"
   },
   {
     "servicio": "crond",
     "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start crond",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
+    "estructura": "crond",
+    "categoria_db": "system",
+    "archivo_fuente": "servicios\\system\\crond.json"
   },
   {
     "servicio": "systemd-journald",
     "descripcion": "Sin descripción registrada.",
-    "comando_servicio": "systemctl start systemd-journald",
-    "categoria_db": "general",
-    "configuraciones": [],
-    "instalacion": {
-      "es_instalable": false,
-      "pasos": {}
-    },
-    "ejemplos": []
+    "estructura": "systemd-journald",
+    "categoria_db": "system",
+    "archivo_fuente": "servicios\\system\\systemd-journald.json"
+  },
+  {
+    "servicio": "apache2",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "apache2",
+    "categoria_db": "web",
+    "archivo_fuente": "servicios\\web\\apache2.json"
+  },
+  {
+    "servicio": "nginx",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "nginx",
+    "categoria_db": "web",
+    "archivo_fuente": "servicios\\web\\nginx.json"
   }
 ]

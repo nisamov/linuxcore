@@ -1,842 +1,2145 @@
 [
   {
-    "comando": "rpm",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "rpm.json"
-  },
-  {
-    "comando": "yum",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "yum.json"
-  },
-  {
-    "comando": "dpkg",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "dpkg.json"
-  },
-  {
-    "comando": "snap_snapctl",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "snap_snapctl.json"
-  },
-  {
-    "comando": "pacman",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "pacman.json"
-  },
-  {
-    "comando": "dnf",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "dnf.json"
-  },
-  {
-    "comando": "apk",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "apk.json"
-  },
-  {
-    "comando": "zypper",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "zypper.json"
-  },
-  {
-    "comando": "apt",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "apt.json"
-  },
-  {
-    "comando": "flatpak",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "flatpak.json"
-  },
-  {
-    "comando": "apt-cache",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "apt-cache.json"
-  },
-  {
-    "comando": "apt-get",
-    "categoria_db": "package_manager",
-    "archivo_fuente": "apt-get.json"
-  },
-  {
-    "comando": "column",
-    "categoria_db": "files",
-    "archivo_fuente": "column.json"
-  },
-  {
-    "comando": "xargs",
-    "categoria_db": "files",
-    "archivo_fuente": "xargs.json"
-  },
-  {
-    "comando": "truncate",
-    "categoria_db": "files",
-    "archivo_fuente": "truncate.json"
-  },
-  {
-    "comando": "shred",
-    "categoria_db": "files",
-    "archivo_fuente": "shred.json"
-  },
-  {
-    "comando": "fmt",
-    "categoria_db": "files",
-    "archivo_fuente": "fmt.json"
-  },
-  {
-    "comando": "mktemp",
-    "categoria_db": "files",
-    "archivo_fuente": "mktemp.json"
-  },
-  {
-    "comando": "zgrep",
-    "categoria_db": "files",
-    "archivo_fuente": "zgrep.json"
-  },
-  {
-    "comando": "nl",
-    "categoria_db": "files",
-    "archivo_fuente": "nl.json"
-  },
-  {
-    "comando": "tr",
-    "categoria_db": "files",
-    "archivo_fuente": "tr.json"
-  },
-  {
-    "comando": "head",
-    "categoria_db": "files",
-    "archivo_fuente": "head.json"
-  },
-  {
-    "comando": "cp",
-    "categoria_db": "files",
-    "archivo_fuente": "cp.json"
-  },
-  {
-    "comando": "stat",
-    "categoria_db": "files",
-    "archivo_fuente": "stat.json"
-  },
-  {
-    "comando": "tail",
-    "categoria_db": "files",
-    "archivo_fuente": "tail.json"
-  },
-  {
-    "comando": "unlink",
-    "categoria_db": "files",
-    "archivo_fuente": "unlink.json"
-  },
-  {
-    "comando": "readlink",
-    "categoria_db": "files",
-    "archivo_fuente": "readlink.json"
-  },
-  {
-    "comando": "chgrp",
-    "categoria_db": "files",
-    "archivo_fuente": "chgrp.json"
-  },
-  {
-    "comando": "diff",
-    "categoria_db": "files",
-    "archivo_fuente": "diff.json"
-  },
-  {
-    "comando": "dirname",
-    "categoria_db": "files",
-    "archivo_fuente": "dirname.json"
-  },
-  {
-    "comando": "rev",
-    "categoria_db": "files",
-    "archivo_fuente": "rev.json"
-  },
-  {
-    "comando": "rmdir",
-    "categoria_db": "files",
-    "archivo_fuente": "rmdir.json"
-  },
-  {
-    "comando": "rename",
-    "categoria_db": "files",
-    "archivo_fuente": "rename.json"
-  },
-  {
-    "comando": "mv",
-    "categoria_db": "files",
-    "archivo_fuente": "mv.json"
-  },
-  {
-    "comando": "tree",
-    "categoria_db": "files",
-    "archivo_fuente": "tree.json"
-  },
-  {
-    "comando": "fallocate",
-    "categoria_db": "files",
-    "archivo_fuente": "fallocate.json"
-  },
-  {
-    "comando": "mkdir",
-    "categoria_db": "files",
-    "archivo_fuente": "mkdir.json"
-  },
-  {
-    "comando": "cat",
-    "categoria_db": "files",
-    "archivo_fuente": "cat.json"
-  },
-  {
-    "comando": "pr",
-    "categoria_db": "files",
-    "archivo_fuente": "pr.json"
-  },
-  {
-    "comando": "sed",
-    "categoria_db": "files",
-    "archivo_fuente": "sed.json"
-  },
-  {
-    "comando": "wc",
-    "categoria_db": "files",
-    "archivo_fuente": "wc.json"
-  },
-  {
-    "comando": "file",
-    "categoria_db": "files",
-    "archivo_fuente": "file.json"
-  },
-  {
-    "comando": "realpath",
-    "categoria_db": "files",
-    "archivo_fuente": "realpath.json"
-  },
-  {
-    "comando": "join",
-    "categoria_db": "files",
-    "archivo_fuente": "join.json"
-  },
-  {
-    "comando": "locate",
-    "categoria_db": "files",
-    "archivo_fuente": "locate.json"
-  },
-  {
-    "comando": "tac",
-    "categoria_db": "files",
-    "archivo_fuente": "tac.json"
-  },
-  {
-    "comando": "ln",
-    "categoria_db": "files",
-    "archivo_fuente": "ln.json"
-  },
-  {
-    "comando": "chattr",
-    "categoria_db": "files",
-    "archivo_fuente": "chattr.json"
-  },
-  {
-    "comando": "echo",
-    "categoria_db": "files",
-    "archivo_fuente": "echo.json"
-  },
-  {
-    "comando": "less",
-    "categoria_db": "files",
-    "archivo_fuente": "less.json"
-  },
-  {
-    "comando": "uniq",
-    "categoria_db": "files",
-    "archivo_fuente": "uniq.json"
-  },
-  {
-    "comando": "ls",
-    "categoria_db": "files",
-    "archivo_fuente": "ls.json"
-  },
-  {
-    "comando": "more",
-    "categoria_db": "files",
-    "archivo_fuente": "more.json"
-  },
-  {
-    "comando": "namereply",
-    "categoria_db": "files",
-    "archivo_fuente": "namereply.json"
-  },
-  {
-    "comando": "awk",
-    "categoria_db": "files",
-    "archivo_fuente": "awk.json"
-  },
-  {
-    "comando": "cut",
-    "categoria_db": "files",
-    "archivo_fuente": "cut.json"
-  },
-  {
-    "comando": "grep",
-    "categoria_db": "files",
-    "archivo_fuente": "grep.json"
-  },
-  {
-    "comando": "lsattr",
-    "categoria_db": "files",
-    "archivo_fuente": "lsattr.json"
-  },
-  {
-    "comando": "fold",
-    "categoria_db": "files",
-    "archivo_fuente": "fold.json"
-  },
-  {
-    "comando": "updatedb",
-    "categoria_db": "files",
-    "archivo_fuente": "updatedb.json"
-  },
-  {
-    "comando": "find",
-    "categoria_db": "files",
-    "archivo_fuente": "find.json"
-  },
-  {
-    "comando": "touch",
-    "categoria_db": "files",
-    "archivo_fuente": "touch.json"
-  },
-  {
-    "comando": "split",
-    "categoria_db": "files",
-    "archivo_fuente": "split.json"
-  },
-  {
-    "comando": "mmv",
-    "categoria_db": "files",
-    "archivo_fuente": "mmv.json"
-  },
-  {
-    "comando": "iconv",
-    "categoria_db": "files",
-    "archivo_fuente": "iconv.json"
-  },
-  {
-    "comando": "install",
-    "categoria_db": "files",
-    "archivo_fuente": "install.json"
-  },
-  {
-    "comando": "cd",
-    "categoria_db": "files",
-    "archivo_fuente": "cd.json"
-  },
-  {
-    "comando": "basename",
-    "categoria_db": "files",
-    "archivo_fuente": "basename.json"
-  },
-  {
-    "comando": "sync",
-    "categoria_db": "files",
-    "archivo_fuente": "sync.json"
-  },
-  {
-    "comando": "mkfifo",
-    "categoria_db": "files",
-    "archivo_fuente": "mkfifo.json"
-  },
-  {
-    "comando": "paste",
-    "categoria_db": "files",
-    "archivo_fuente": "paste.json"
-  },
-  {
-    "comando": "shasum",
-    "categoria_db": "files",
-    "archivo_fuente": "shasum.json"
-  },
-  {
-    "comando": "cmp",
-    "categoria_db": "files",
-    "archivo_fuente": "cmp.json"
-  },
-  {
-    "comando": "comm",
-    "categoria_db": "files",
-    "archivo_fuente": "comm.json"
-  },
-  {
-    "comando": "sort",
-    "categoria_db": "files",
-    "archivo_fuente": "sort.json"
-  },
-  {
-    "comando": "rm",
-    "categoria_db": "files",
-    "archivo_fuente": "rm.json"
-  },
-  {
-    "comando": "partx",
-    "categoria_db": "storage",
-    "archivo_fuente": "partx.json"
-  },
-  {
-    "comando": "vgscan",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgscan.json"
-  },
-  {
-    "comando": "cfdisk",
-    "categoria_db": "storage",
-    "archivo_fuente": "cfdisk.json"
-  },
-  {
-    "comando": "fio",
-    "categoria_db": "storage",
-    "archivo_fuente": "fio.json"
-  },
-  {
-    "comando": "xfs_repair",
-    "categoria_db": "storage",
-    "archivo_fuente": "xfs_repair.json"
-  },
-  {
-    "comando": "lvdisplay",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvdisplay.json"
-  },
-  {
-    "comando": "lvreduce",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvreduce.json"
-  },
-  {
-    "comando": "iostat",
-    "categoria_db": "storage",
-    "archivo_fuente": "iostat.json"
-  },
-  {
-    "comando": "pvmove",
-    "categoria_db": "storage",
-    "archivo_fuente": "pvmove.json"
+    "comando": "badblocks",
+    "descripcion": "Busca bloques defectuosos en un dispositivo (generalmente una partición de disco) mediante pruebas de lectura, escritura o lectura-escritura no destructiva.",
+    "categoria": "almacenamiento",
+    "estructura": "badblocks [opciones] dispositivo [último_bloque] [primer_bloque]",
+    "opciones": [
+      {
+        "parametro": "-b block_size",
+        "descripcion": "Especifica el tamaño de los bloques en bytes. El valor predeterminado es 1024."
+      },
+      {
+        "parametro": "-c blocks_at_once",
+        "descripcion": "Número de bloques que se prueban a la vez. El valor predeterminado es 64."
+      },
+      {
+        "parametro": "-d read_delay_factor",
+        "descripcion": "Si se pasa y es distinto de cero, provoca una pausa entre lecturas si no hubo errores; el retraso se calcula como un porcentaje del tiempo que tomó la operación de lectura anterior."
+      },
+      {
+        "parametro": "-e max_bad_blocks",
+        "descripcion": "Especifica un número máximo de bloques defectuosos antes de abortar la prueba. El valor predeterminado es 0 (continuar hasta el final)."
+      },
+      {
+        "parametro": "-f",
+        "descripcion": "Fuerza la prueba incluso si el dispositivo está montado (peligroso, puede dañar el sistema de archivos)."
+      },
+      {
+        "parametro": "-i input_file",
+        "descripcion": "Lee una lista de bloques defectuosos conocidos desde un archivo y omite su prueba. Si se especifica '-' como archivo, lee desde la entrada estándar."
+      },
+      {
+        "parametro": "-n",
+        "descripcion": "Usa el modo de lectura-escritura no destructiva (no combinar con -w)."
+      },
+      {
+        "parametro": "-o output_file",
+        "descripcion": "Escribe la lista de bloques defectuosos en el archivo especificado. Si no se usa, la lista se muestra en la salida estándar."
+      },
+      {
+        "parametro": "-p num_passes",
+        "descripcion": "Repite el escaneo hasta que no se descubran nuevos bloques en num_passes pasadas consecutivas. El valor predeterminado es 0 (una sola pasada)."
+      },
+      {
+        "parametro": "-s",
+        "descripcion": "Muestra el progreso del escaneo indicando el porcentaje aproximado completado de la pasada actual."
+      },
+      {
+        "parametro": "-t test_pattern",
+        "descripcion": "Especifica un patrón de prueba (valor numérico o la palabra 'random') para leer y escribir en los bloques. Se puede usar múltiples veces para varios patrones."
+      },
+      {
+        "parametro": "-v",
+        "descripcion": "Modo verbose (detallado). Muestra el número de errores de lectura, escritura y corrupción de datos en stderr."
+      },
+      {
+        "parametro": "-w",
+        "descripcion": "Usa el modo de prueba de escritura (escribe patrones 0xaa, 0x55, 0xff, 0x00 en cada bloque y los verifica). ¡Elimina datos! No combinar con -n."
+      },
+      {
+        "parametro": "-B",
+        "descripcion": "Usa E/S con búfer y no usa E/S directa, incluso si está disponible."
+      },
+      {
+        "parametro": "-X",
+        "descripcion": "Bandera interna usada solo por e2fsck y mke2fs. Omite la verificación de seguridad de dispositivo en uso."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install e2fsprogs -y",
+        "arch_linux": "sudo pacman -S e2fsprogs",
+        "rhel_centos": "sudo dnf install e2fsprogs -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "sudo badblocks -s -v /dev/sda",
+        "explicacion": "Realiza una prueba de solo lectura en el dispositivo /dev/sda, mostrando el progreso y detalles en modo verbose."
+      },
+      {
+        "uso": "sudo badblocks -n -o bloques_defectuosos.txt /dev/sdb1",
+        "explicacion": "Realiza una prueba no destructiva en la partición /dev/sdb1 y guarda la lista de bloques defectuosos en el archivo bloques_defectuosos.txt."
+      },
+      {
+        "uso": "sudo badblocks -w -p 2 /dev/sdc",
+        "explicacion": "Realiza una prueba destructiva de escritura en /dev/sdc, repitiendo el escaneo hasta que no haya nuevos bloques en 2 pasadas consecutivas."
+      }
+    ],
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "badblocks.json"
+  },
+  {
+    "comando": "blkid",
+    "descripcion": "Localiza e imprime información de atributos de dispositivos de bloques (UUID, TYPE, LABEL, PARTUUID, etc.) mediante el sondeo de superbloques o el uso de una caché.",
+    "categoria": "almacenamiento",
+    "estructura": "blkid [opciones] [dispositivo...]",
+    "opciones": [
+      {
+        "parametro": "-c cache_file",
+        "descripcion": "Especifica un archivo de caché alternativo (por defecto /etc/blkid.tab o /etc/blkid/blkid.tab)."
+      },
+      {
+        "parametro": "-d",
+        "descripcion": "No codifica caracteres no imprimibles en la salida (modo sin codificación)."
+      },
+      {
+        "parametro": "-D",
+        "descripcion": "Muestra todos los dispositivos, incluidos aquellos que no tienen etiqueta (LABEL) o UUID."
+      },
+      {
+        "parametro": "-g",
+        "descripcion": "Realiza una recolección de basura en el archivo de caché, eliminando entradas de dispositivos inexistentes."
+      },
+      {
+        "parametro": "-h",
+        "descripcion": "Muestra la ayuda del comando con un resumen de opciones."
+      },
+      {
+        "parametro": "-i",
+        "descripcion": "Muestra los límites de E/S (I/O limits) del dispositivo, generalmente usado junto con el sondeo en modo bajo nivel."
+      },
+      {
+        "parametro": "-k",
+        "descripcion": "Mantiene el archivo de caché sin actualizar (no escribe cambios en el disco)."
+      },
+      {
+        "parametro": "-l",
+        "descripcion": "Busca y muestra un solo dispositivo que coincida con el token especificado (usado con -t). Útil para evitar salidas múltiples."
+      },
+      {
+        "parametro": "-L label",
+        "descripcion": "Busca y muestra el dispositivo que tenga la etiqueta (LABEL) exacta especificada."
+      },
+      {
+        "parametro": "-o formato",
+        "descripcion": "Define el formato de salida. Valores posibles: value (solo valores), device (solo dispositivo), udev (formato clave=valor para udev), export (formato exportable), full (todos los atributos), list (formato de lista)."
+      },
+      {
+        "parametro": "-O offset",
+        "descripcion": "Realiza el sondeo en un desplazamiento (offset) específico desde el inicio del dispositivo (en bytes)."
+      },
+      {
+        "parametro": "-p",
+        "descripcion": "Activa el sondeo de superbloque en modo bajo nivel, ignorando por completo la caché y probando directamente el dispositivo."
+      },
+      {
+        "parametro": "-s tag",
+        "descripcion": "Muestra solo la etiqueta (tag) especificada, por ejemplo: UUID, TYPE, LABEL, PARTUUID, PARTLABEL. Se puede usar múltiples veces."
+      },
+      {
+        "parametro": "-S size",
+        "descripcion": "Especifica el tamaño (en bytes) para el sondeo, útil para particiones o imágenes con tamaño fijo."
+      },
+      {
+        "parametro": "-t token",
+        "descripcion": "Busca el dispositivo que coincida con el token dado (p.ej., UUID=xxx, LABEL=yyy, PARTUUID=zzz)."
+      },
+      {
+        "parametro": "-u list",
+        "descripcion": "Filtra los dispositivos por tipo de uso. Lista separada por comas de: filesystem, raid, crypto, etc. (por defecto 'filesystem,raid')."
+      },
+      {
+        "parametro": "-v",
+        "descripcion": "Muestra la versión del comando blkid."
+      },
+      {
+        "parametro": "-w wipe_file",
+        "descripcion": "Escribe el contenido de la caché en el archivo especificado (en lugar del predeterminado)."
+      },
+      {
+        "parametro": "-x",
+        "descripcion": "Muestra todas las etiquetas disponibles para el dispositivo, incluidas las internas (extiende la salida de -o full)."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install util-linux -y",
+        "arch_linux": "sudo pacman -S util-linux",
+        "rhel_centos": "sudo dnf install util-linux -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "sudo blkid /dev/sda1",
+        "explicacion": "Muestra todos los atributos (UUID, TYPE, LABEL, etc.) de la partición /dev/sda1."
+      },
+      {
+        "uso": "sudo blkid -s UUID -o value /dev/sdb1",
+        "explicacion": "Obtiene únicamente el valor del UUID de /dev/sdb1 y lo imprime en formato simple (sin etiquetas)."
+      },
+      {
+        "uso": "sudo blkid -t LABEL='datos' -l",
+        "explicacion": "Busca el dispositivo que tenga la etiqueta 'datos' y muestra su información, limitando la salida a un solo resultado."
+      }
+    ],
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "blkid.json"
   },
   {
     "comando": "blockdev",
-    "categoria_db": "storage",
+    "descripcion": "Permite llamar a funciones ioctl del kernel desde la línea de comandos para obtener y establecer parámetros de dispositivos de bloques (tamaño, solo lectura, alineación, lectura anticipada, etc.).",
+    "categoria": "almacenamiento",
+    "estructura": "blockdev [opciones] [dispositivo...]",
+    "opciones": [
+      {
+        "parametro": "--getro",
+        "descripcion": "Muestra el estado de solo lectura (1 si es solo lectura, 0 si es lectura/escritura) del dispositivo."
+      },
+      {
+        "parametro": "--setro",
+        "descripcion": "Establece el dispositivo como solo lectura."
+      },
+      {
+        "parametro": "--setrw",
+        "descripcion": "Establece el dispositivo como lectura/escritura (quita el modo solo lectura)."
+      },
+      {
+        "parametro": "--getss",
+        "descripcion": "Muestra el tamaño del sector lógico del dispositivo (en bytes)."
+      },
+      {
+        "parametro": "--getpbsz",
+        "descripcion": "Muestra el tamaño del bloque físico del dispositivo (en bytes)."
+      },
+      {
+        "parametro": "--getiomin",
+        "descripcion": "Muestra el tamaño mínimo de E/S del dispositivo (en bytes)."
+      },
+      {
+        "parametro": "--getioopt",
+        "descripcion": "Muestra el tamaño óptimo de E/S del dispositivo (en bytes)."
+      },
+      {
+        "parametro": "--getalignoff",
+        "descripcion": "Muestra el desplazamiento de alineación del dispositivo (en bytes)."
+      },
+      {
+        "parametro": "--getmaxsect",
+        "descripcion": "Muestra el número máximo de sectores por solicitud de E/S."
+      },
+      {
+        "parametro": "--getbsz",
+        "descripcion": "Muestra el tamaño de bloque del dispositivo (tamaño de búfer) en bytes."
+      },
+      {
+        "parametro": "--setbsz block_size",
+        "descripcion": "Establece el tamaño de bloque del dispositivo (en bytes) para operaciones de búfer."
+      },
+      {
+        "parametro": "--getsz",
+        "descripcion": "Muestra el tamaño total del dispositivo en sectores de 512 bytes (tamaño de bloques de 512 bytes)."
+      },
+      {
+        "parametro": "--getsize",
+        "descripcion": "Muestra el tamaño total del dispositivo en sectores de 512 bytes (similar a --getsz)."
+      },
+      {
+        "parametro": "--getsize64",
+        "descripcion": "Muestra el tamaño total del dispositivo en bytes (formato de 64 bits)."
+      },
+      {
+        "parametro": "--getra",
+        "descripcion": "Muestra el valor de lectura anticipada (read-ahead) del dispositivo (en sectores de 512 bytes)."
+      },
+      {
+        "parametro": "--setra read_ahead_value",
+        "descripcion": "Establece el valor de lectura anticipada (read-ahead) del dispositivo (en sectores de 512 bytes)."
+      },
+      {
+        "parametro": "--getfra",
+        "descripcion": "Muestra el valor de lectura anticipada del sistema de archivos (filesystem read-ahead) en sectores de 512 bytes."
+      },
+      {
+        "parametro": "--flushbufs",
+        "descripcion": "Vacía todos los búferes del dispositivo (fuerza la escritura de datos en caché al disco)."
+      },
+      {
+        "parametro": "--rereadpt",
+        "descripcion": "Vuelve a leer la tabla de particiones del dispositivo (sin necesidad de reiniciar)."
+      },
+      {
+        "parametro": "--getdiscardzeroes",
+        "descripcion": "Muestra si el dispositivo soporta que las operaciones de descarte (discard/TRIM) devuelvan ceros (1 si es soportado, 0 si no)."
+      },
+      {
+        "parametro": "--report",
+        "descripcion": "Muestra un informe detallado con todas las propiedades disponibles para los dispositivos especificados (o para todos si no se especifica ninguno)."
+      },
+      {
+        "parametro": "-v",
+        "descripcion": "Modo verbose (detallado). Muestra información adicional sobre las operaciones realizadas."
+      },
+      {
+        "parametro": "-h",
+        "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones."
+      },
+      {
+        "parametro": "-V",
+        "descripcion": "Muestra la versión del comando blockdev."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install util-linux -y",
+        "arch_linux": "sudo pacman -S util-linux",
+        "rhel_centos": "sudo dnf install util-linux -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "sudo blockdev --getsize64 /dev/sda",
+        "explicacion": "Obtiene el tamaño total en bytes del dispositivo /dev/sda."
+      },
+      {
+        "uso": "sudo blockdev --setro /dev/sdb1 && sudo blockdev --getro /dev/sdb1",
+        "explicacion": "Establece la partición /dev/sdb1 como solo lectura y luego verifica que el cambio se haya aplicado correctamente."
+      },
+      {
+        "uso": "sudo blockdev --report /dev/sda /dev/sdb",
+        "explicacion": "Genera un informe detallado con todas las propiedades (tamaño, sectores, alineación, E/S, etc.) de los dispositivos /dev/sda y /dev/sdb."
+      }
+    ],
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "blockdev.json"
   },
   {
     "comando": "btrfs",
-    "categoria_db": "storage",
+    "descripcion": "Conjunto de herramientas para administrar sistemas de archivos Btrfs. Permite crear y eliminar snapshots y subvolúmenes, desfragmentar archivos, vaciar datos al disco, redimensionar el sistema de archivos, escanear dispositivos y más.",
+    "categoria": "almacenamiento",
+    "estructura": "btrfs [opciones_globales] <grupo> <comando> [opciones] [<args>]",
+    "opciones": [
+      {
+        "parametro": "--help",
+        "descripcion": "Muestra ayuda resumida para todos los subcomandos."
+      },
+      {
+        "parametro": "--version",
+        "descripcion": "Muestra la versión de btrfs-progs."
+      },
+      {
+        "parametro": "-v|--verbose",
+        "descripcion": "Aumenta la verbosidad del subcomando."
+      },
+      {
+        "parametro": "-q|--quiet",
+        "descripcion": "Muestra solo errores."
+      },
+      {
+        "parametro": "--log <level>",
+        "descripcion": "Establece el nivel de registro (default, info, verbose, debug, quiet)."
+      },
+      {
+        "parametro": "--format <formato>",
+        "descripcion": "Formato de salida (text, json) si el subcomando lo soporta."
+      },
+      {
+        "parametro": "--dry-run",
+        "descripcion": "Simula la operación sin realizar cambios."
+      },
+      {
+        "parametro": "balance",
+        "descripcion": "Reequilibra los chunks del sistema de archivos Btrfs entre uno o varios dispositivos. Ver btrfs-balance(8)."
+      },
+      {
+        "parametro": "check",
+        "descripcion": "Realiza una verificación fuera de línea del sistema de archivos Btrfs. Ver btrfs-check(8)."
+      },
+      {
+        "parametro": "device",
+        "descripcion": "Administra los dispositivos del sistema de archivos Btrfs (añadir, eliminar, escanear, etc.). Ver btrfs-device(8). Subcomandos: add [-Kf] <dev>... <path>, remove <dev>... <path>, delete (alias de remove), ready <path>, scan [-du] [dev]..., stats [-zc] <path>|<dev>, usage [-bhmHk...] <path> [<path>...]."
+      },
+      {
+        "parametro": "filesystem",
+        "descripcion": "Gestiona el sistema de archivos Btrfs a nivel global (etiquetas, redimensionado, estadísticas, desfragmentación). Ver btrfs-filesystem(8). Subcomandos: df [-bhH...] <path>, defragment [-c[algo] -r -f -s offset -l len -t size] <file>|<dir>, du [-s --raw --human-readable...] <file>..., label [<dev>] [<newlabel>], resize [--enqueue] [<devid>:][+/-]<size>|<devid>:max <path>, show [-md --raw --human-readable...] [<path>|<uuid>|<device>|<label>], sync <path>, usage [-bhH...] <path> [<path>...]."
+      },
+      {
+        "parametro": "inspect-internal",
+        "descripcion": "Herramientas de depuración para desarrolladores. Ver btrfs-inspect-internal(8)."
+      },
+      {
+        "parametro": "property",
+        "descripcion": "Obtiene o establece una propiedad de un objeto Btrfs. Ver btrfs-property(8)."
+      },
+      {
+        "parametro": "qgroup",
+        "descripcion": "Administra grupos de cuota (qgroup) del sistema de archivos Btrfs. Ver btrfs-qgroup(8)."
+      },
+      {
+        "parametro": "quota",
+        "descripcion": "Administra las cuotas del sistema de archivos Btrfs (habilitar, reescanear, etc.). Ver btrfs-quota(8)."
+      },
+      {
+        "parametro": "receive",
+        "descripcion": "Recibe datos de un subvolumen desde stdin/archivo para restaurar. Ver btrfs-receive(8)."
+      },
+      {
+        "parametro": "replace",
+        "descripcion": "Reemplaza dispositivos Btrfs. Ver btrfs-replace(8)."
+      },
+      {
+        "parametro": "rescue",
+        "descripcion": "Intenta rescatar un sistema de archivos Btrfs dañado. Ver btrfs-rescue(8)."
+      },
+      {
+        "parametro": "restore",
+        "descripcion": "Intenta restaurar archivos desde un sistema de archivos Btrfs dañado. Ver btrfs-restore(8)."
+      },
+      {
+        "parametro": "scrub",
+        "descripcion": "Realiza un scrub (verificación y reparación) del sistema de archivos Btrfs. Ver btrfs-scrub(8)."
+      },
+      {
+        "parametro": "send",
+        "descripcion": "Envía datos de un subvolumen a stdout/archivo para respaldo. Ver btrfs-send(8)."
+      },
+      {
+        "parametro": "subvolume",
+        "descripcion": "Crea, elimina, lista y administra subvolúmenes Btrfs. Ver btrfs-subvolume(8). Subcomandos: create [-i <qgroupid>] <name> [<dest>], delete [-c|--commit-after] [-C|--commit-each] [-i|--subvolid <id>] <subvolume>..., find-new <subvolume> <lastgen>, get-default <path>, list [-o -a -p -c -g -u -q -R -s -r -d -t -G [+|-]<value> -C [+|-]<value> --sort=rootid,gen,ogen,path] <path>, set-default <id>|<path> <path>, show [-r <rootid>|-u <UUID>] <path>, snapshot [-r] [-i <qgroupid>] <source> <dest>|[<name>], sync [-s <seconds>] <path> [<subvolid>...]."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install btrfs-progs -y",
+        "arch_linux": "sudo pacman -S btrfs-progs",
+        "rhel_centos": "sudo dnf install btrfs-progs -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "btrfs subvolume create /mnt/mi_subvolumen",
+        "explicacion": "Crea un nuevo subvolumen llamado 'mi_subvolumen' dentro del punto de montaje /mnt."
+      },
+      {
+        "uso": "btrfs subvolume snapshot -r /mnt/subvol /mnt/snapshots/subvol_$(date +%Y%m%d)",
+        "explicacion": "Crea una snapshot de solo lectura del subvolumen '/mnt/subvol' con una fecha en el nombre."
+      },
+      {
+        "uso": "btrfs filesystem df /mnt",
+        "explicacion": "Muestra un resumen de la asignación de espacio del sistema de archivos montado en /mnt."
+      },
+      {
+        "uso": "btrfs device add /dev/sdb /mnt",
+        "explicacion": "Añade el dispositivo /dev/sdb al sistema de archivos Btrfs montado en /mnt."
+      },
+      {
+        "uso": "btrfs balance start -dconvert=raid1 -mconvert=raid1 /mnt",
+        "explicacion": "Reequilibra el sistema de archivos convirtiendo datos y metadatos al perfil RAID1."
+      },
+      {
+        "uso": "btrfs scrub start /mnt",
+        "explicacion": "Inicia un scrub (verificación de integridad) en el sistema de archivos montado en /mnt."
+      }
+    ],
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "btrfs.json"
   },
   {
-    "comando": "wipefs",
-    "categoria_db": "storage",
-    "archivo_fuente": "wipefs.json"
+    "comando": "cfdisk",
+    "descripcion": "Herramienta interactiva basada en curses para manipular tablas de particiones en dispositivos de bloques. Permite crear, eliminar, modificar, cambiar tipos de particiones y reescribir la tabla de particiones con una interfaz visual amigable.",
+    "categoria": "almacenamiento",
+    "estructura": "cfdisk [opciones] [dispositivo]",
+    "opciones": [
+      {
+        "parametro": "-a, --arrow",
+        "descripcion": "Usa el cursor de flecha en la interfaz (obsoleto, se mantiene por compatibilidad)."
+      },
+      {
+        "parametro": "-z, --zero",
+        "descripcion": "Escribe ceros al inicio del dispositivo antes de crear una nueva tabla de particiones (elimina cualquier firma existente)."
+      },
+      {
+        "parametro": "-c, --cylinders",
+        "descripcion": "Especifica el número de cilindros del dispositivo (obsoleto, se ignora)."
+      },
+      {
+        "parametro": "-h, --heads",
+        "descripcion": "Especifica el número de cabezas del dispositivo (obsoleto, se ignora)."
+      },
+      {
+        "parametro": "-s, --sectors",
+        "descripcion": "Especifica el número de sectores por pista (obsoleto, se ignora)."
+      },
+      {
+        "parametro": "-S, --sector-size",
+        "descripcion": "Especifica el tamaño de sector en bytes (obsoleto, se usa el tamaño del dispositivo)."
+      },
+      {
+        "parametro": "-b, --bytes",
+        "descripcion": "Forza el uso del tamaño de sector físico en lugar del lógico (obsoleto)."
+      },
+      {
+        "parametro": "-C, --cylinders",
+        "descripcion": "Define el número de cilindros (deprecado, use -c en su lugar)."
+      },
+      {
+        "parametro": "-H, --heads",
+        "descripcion": "Define el número de cabezas (deprecado, use -h en su lugar)."
+      },
+      {
+        "parametro": "-S, --sectors-per-track",
+        "descripcion": "Define el número de sectores por pista (deprecado, use -s en su lugar)."
+      },
+      {
+        "parametro": "-L, --color[=when]",
+        "descripcion": "Colorea la salida. Los valores posibles son: 'auto' (predeterminado), 'never' o 'always'."
+      },
+      {
+        "parametro": "-r, --read-only",
+        "descripcion": "Abre el dispositivo en modo solo lectura (no se pueden realizar cambios)."
+      },
+      {
+        "parametro": "-V, --version",
+        "descripcion": "Muestra la versión de cfdisk y sale."
+      },
+      {
+        "parametro": "-l, --label <tipo>",
+        "descripcion": "Especifica el tipo de tabla de particiones a usar (por ejemplo: 'dos' para MBR, 'gpt' para GUID, 'sun', 'sgi', 'bsd', 'mac', etc.)."
+      },
+      {
+        "parametro": "-t, --type <tipo>",
+        "descripcion": "Alias de -l. Especifica el tipo de tabla de particiones."
+      },
+      {
+        "parametro": "-u, --units <unidad>",
+        "descripcion": "Define la unidad de visualización para los tamaños de partición. Valores: 's' (sectores), 'S' (sectores de 512 bytes), 'B' (bytes), 'C' (cilindros), 'M' (MB), 'G' (GB), etc."
+      },
+      {
+        "parametro": "-P, --print",
+        "descripcion": "Imprime la tabla de particiones actual en la salida estándar (sin interfaz interactiva) y sale inmediatamente."
+      },
+      {
+        "parametro": "-n, --no-bounds",
+        "descripcion": "No verifica los límites de las particiones (permite crear particiones que no estén alineadas correctamente)."
+      },
+      {
+        "parametro": "-f, --force",
+        "descripcion": "Fuerza la escritura de la tabla de particiones incluso si el kernel reporta que el dispositivo está en uso o si hay advertencias de seguridad."
+      },
+      {
+        "parametro": "-h, --help",
+        "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones y sale."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install util-linux -y",
+        "arch_linux": "sudo pacman -S util-linux",
+        "rhel_centos": "sudo dnf install util-linux -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "sudo cfdisk /dev/sda",
+        "explicacion": "Abre la interfaz interactiva para editar la tabla de particiones del dispositivo /dev/sda (MBR por defecto)."
+      },
+      {
+        "uso": "sudo cfdisk -l gpt /dev/sdb",
+        "explicacion": "Abre cfdisk forzando el uso de una tabla de particiones GPT en el dispositivo /dev/sdb."
+      },
+      {
+        "uso": "sudo cfdisk -P /dev/sdc",
+        "explicacion": "Muestra únicamente la tabla de particiones actual de /dev/sdc en la consola y sale (sin interfaz gráfica)."
+      },
+      {
+        "uso": "sudo cfdisk -z /dev/sdd",
+        "explicacion": "Limpia el inicio del disco /dev/sdd (escribe ceros) y luego crea una nueva tabla de particiones desde cero."
+      }
+    ],
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "cfdisk.json"
   },
   {
-    "comando": "vgs",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgs.json"
-  },
-  {
-    "comando": "lvcreate",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvcreate.json"
+    "comando": "debugfs",
+    "descripcion": "Depurador interactivo de sistemas de archivos ext2, ext3 y ext4. Permite examinar y modificar el estado del sistema de archivos a bajo nivel, incluyendo la manipulación de inodos, bloques y recuperación de datos.",
+    "categoria": "almacenamiento",
+    "estructura": "debugfs [opciones] [dispositivo]",
+    "opciones": [
+      {
+        "parametro": "-w",
+        "descripcion": "Abre el sistema de archivos en modo lectura-escritura. Sin esta opción, se abre en modo solo lectura."
+      },
+      {
+        "parametro": "-n",
+        "descripcion": "Desactiva la verificación de sumas de verificación de metadatos. Úsese solo si se está seguro de que los metadatos son correctos."
+      },
+      {
+        "parametro": "-c",
+        "descripcion": "Abre el sistema de archivos en modo catastrófico (no lee los mapas de bits de inodos y grupos). Útil para sistemas con corrupción grave, pero fuerza el modo solo lectura."
+      },
+      {
+        "parametro": "-i",
+        "descripcion": "Especifica que el dispositivo es una imagen ext2 creada con e2image. Muchos comandos no funcionarán correctamente sin especificar -d."
+      },
+      {
+        "parametro": "-d data_source_device",
+        "descripcion": "Usado con -i, especifica el dispositivo de origen de datos para leer bloques no encontrados en la imagen."
+      },
+      {
+        "parametro": "-b blocksize",
+        "descripcion": "Fuerza el uso de un tamaño de bloque específico (en bytes) en lugar de detectarlo automáticamente. Raramente necesario."
+      },
+      {
+        "parametro": "-s superblock",
+        "descripcion": "Lee el superbloque desde el número de bloque especificado en lugar del primario. Requiere -b."
+      },
+      {
+        "parametro": "-f cmd_file",
+        "descripcion": "Lee y ejecuta comandos desde el archivo especificado y luego sale."
+      },
+      {
+        "parametro": "-D",
+        "descripcion": "Abre el dispositivo usando E/S directa (Direct I/O), evitando la caché de búferes."
+      },
+      {
+        "parametro": "-R request",
+        "descripcion": "Ejecuta un único comando y luego sale."
+      },
+      {
+        "parametro": "-V",
+        "descripcion": "Muestra la versión de debugfs y sale."
+      },
+      {
+        "parametro": "-z undo_file",
+        "descripcion": "Guarda el contenido antiguo de los bloques en un archivo de deshacer antes de sobrescribirlos. Puede usarse con e2undo(8)."
+      },
+      {
+        "parametro": "-h",
+        "descripcion": "Muestra un resumen de ayuda del comando."
+      }
+    ],
+    "comandos_internos": [
+      {
+        "comando": "blocks filespec",
+        "descripcion": "Muestra los bloques utilizados por el inodo especificado."
+      },
+      {
+        "comando": "bmap [-a] filespec logical_block [physical_block]",
+        "descripcion": "Muestra o establece el número de bloque físico correspondiente a un bloque lógico."
+      },
+      {
+        "comando": "cat filespec",
+        "descripcion": "Imprime el contenido del archivo especificado en la salida estándar."
+      },
+      {
+        "comando": "cd directorio",
+        "descripcion": "Cambia el directorio de trabajo actual dentro del sistema de archivos depurado."
+      },
+      {
+        "comando": "close [-a]",
+        "descripcion": "Cierra el sistema de archivos actualmente abierto."
+      },
+      {
+        "comando": "dump [-p] filespec archivo_destino",
+        "descripcion": "Copia el contenido del inodo especificado al archivo del sistema local."
+      },
+      {
+        "comando": "find directorio nombre_archivo",
+        "descripcion": "Busca un archivo por nombre en el directorio especificado."
+      },
+      {
+        "comando": "help [comando]",
+        "descripcion": "Muestra la ayuda de los comandos disponibles."
+      },
+      {
+        "comando": "kill_file filespec",
+        "descripcion": "Elimina el archivo (desenlaza) y libera sus bloques."
+      },
+      {
+        "comando": "ls [-l] [-d] directorio",
+        "descripcion": "Lista el contenido de un directorio."
+      },
+      {
+        "comando": "mkdir directorio",
+        "descripcion": "Crea un directorio en el sistema de archivos."
+      },
+      {
+        "comando": "open [-w] dispositivo",
+        "descripcion": "Abre un sistema de archivos para depuración."
+      },
+      {
+        "comando": "quit",
+        "descripcion": "Sale de debugfs."
+      },
+      {
+        "comando": "rdump directorio archivo_destino",
+        "descripcion": "Copia recursivamente un directorio al sistema de archivos local."
+      },
+      {
+        "comando": "rm archivo",
+        "descripcion": "Elimina un archivo (no libera los bloques de datos)."
+      },
+      {
+        "comando": "rmdir directorio",
+        "descripcion": "Elimina un directorio vacío."
+      },
+      {
+        "comando": "stat filespec",
+        "descripcion": "Muestra los metadatos (estadísticas) del inodo especificado."
+      },
+      {
+        "comando": "undel <inodo> [destino]",
+        "descripcion": "Intenta recuperar un archivo eliminado a partir de su número de inodo."
+      },
+      {
+        "comando": "write archivo_origen filespec",
+        "descripcion": "Copia un archivo del sistema local al sistema de archivos depurado."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install e2fsprogs -y",
+        "arch_linux": "sudo pacman -S e2fsprogs",
+        "rhel_centos": "sudo dnf install e2fsprogs -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "sudo debugfs /dev/sda1",
+        "explicacion": "Abre el sistema de archivos de la partición /dev/sda1 en modo solo lectura para depuración interactiva."
+      },
+      {
+        "uso": "sudo debugfs -w /dev/sda1",
+        "explicacion": "Abre el sistema de archivos en modo lectura-escritura, permitiendo realizar cambios."
+      },
+      {
+        "uso": "sudo debugfs -R 'stat <8>' /dev/sda1",
+        "explicacion": "Ejecuta el comando 'stat' sobre el inodo 8 y luego sale, mostrando los metadatos de ese inodo."
+      },
+      {
+        "uso": "sudo debugfs -f comandos.txt /dev/sda1",
+        "explicacion": "Lee y ejecuta los comandos listados en el archivo comandos.txt y luego sale."
+      },
+      {
+        "uso": "echo 'ls -l' | sudo debugfs /dev/sda1",
+        "explicacion": "Ejecuta el comando 'ls -l' dentro de debugfs usando tubería (pipe) y muestra el listado del directorio raíz."
+      }
+    ],
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "debugfs.json"
   },
   {
     "comando": "df",
-    "categoria_db": "storage",
+    "descripcion": "Muestra el espacio disponible y usado en los sistemas de archivos montados. Reporta el uso de disco por partición o sistema de archivos, incluyendo total, usado, disponible, porcentaje de uso y punto de montaje.",
+    "categoria": "almacenamiento",
+    "estructura": "df [opciones] [archivo|directorio|dispositivo...]",
+    "opciones": [
+      {
+        "parametro": "-a, --all",
+        "descripcion": "Incluye sistemas de archivos con tamaño 0 (como /proc, /sys, etc.) que normalmente se omiten."
+      },
+      {
+        "parametro": "-B, --block-size=TAM",
+        "descripcion": "Especifica el tamaño de bloque para la salida (por ejemplo: 1K, 1M, 1G). También se puede usar con sufijos como K, M, G."
+      },
+      {
+        "parametro": "-h, --human-readable",
+        "descripcion": "Muestra los tamaños en formato legible por humanos (usando potencias de 1024: K, M, G, T)."
+      },
+      {
+        "parametro": "-H, --si",
+        "descripcion": "Similar a -h pero usa potencias de 1000 (SI) en lugar de 1024."
+      },
+      {
+        "parametro": "-i, --inodes",
+        "descripcion": "Muestra información de inodos en lugar de bloques (número total, usados, disponibles y porcentaje de uso)."
+      },
+      {
+        "parametro": "-k, --kilobytes",
+        "descripcion": "Muestra los tamaños en bloques de 1024 bytes (equivale a --block-size=1K)."
+      },
+      {
+        "parametro": "-l, --local",
+        "descripcion": "Limita la salida únicamente a sistemas de archivos locales (omite aquellos montados desde red como NFS)."
+      },
+      {
+        "parametro": "-m, --megabytes",
+        "descripcion": "Muestra los tamaños en bloques de 1,048,576 bytes (equivale a --block-size=1M)."
+      },
+      {
+        "parametro": "-P, --portability",
+        "descripcion": "Usa el formato POSIX de salida (ancho fijo y sin columnas de tipo de sistema de archivos)."
+      },
+      {
+        "parametro": "-T, --print-type",
+        "descripcion": "Muestra el tipo de sistema de archivos (ext4, xfs, ntfs, etc.) en una columna adicional."
+      },
+      {
+        "parametro": "-t, --type=TIPO",
+        "descripcion": "Muestra solo los sistemas de archivos del tipo especificado (p.ej., ext4). Se puede usar múltiples veces."
+      },
+      {
+        "parametro": "-x, --exclude-type=TIPO",
+        "descripcion": "Excluye los sistemas de archivos del tipo especificado (opuesto a -t)."
+      },
+      {
+        "parametro": "--sync",
+        "descripcion": "Sincroniza todos los búferes del sistema de archivos antes de consultar los datos (obtiene valores más precisos pero más lentos)."
+      },
+      {
+        "parametro": "--no-sync",
+        "descripcion": "No sincroniza antes de consultar (por defecto, si --sync no se usa)."
+      },
+      {
+        "parametro": "--total",
+        "descripcion": "Agrega una fila final que muestra los totales de todos los sistemas de archivos listados."
+      },
+      {
+        "parametro": "--output[=CAMPO_LIST]",
+        "descripcion": "Personaliza las columnas de salida. Por defecto usa 'source,fstype,size,used,avail,pcent,target'. Campos disponibles: source, fstype, itotal, iused, iavail, ipcent, size, used, avail, pcent, target, file."
+      },
+      {
+        "parametro": "--exclude=PATRÓN",
+        "descripcion": "Excluye los sistemas de archivos cuyo punto de montaje o dispositivo coincida con el patrón (wildcards)."
+      },
+      {
+        "parametro": "-v",
+        "descripcion": "Modo verbose (en algunas versiones, equivalente a --all, pero generalmente obsoleto o sin efecto)."
+      },
+      {
+        "parametro": "-h, --help",
+        "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones y sale."
+      },
+      {
+        "parametro": "--version",
+        "descripcion": "Muestra la versión de df y sale."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install coreutils -y",
+        "arch_linux": "sudo pacman -S coreutils",
+        "rhel_centos": "sudo dnf install coreutils -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "df -h",
+        "explicacion": "Muestra el uso de todos los sistemas de archivos montados en formato legible para humanos (con unidades K, M, G)."
+      },
+      {
+        "uso": "df -T /home",
+        "explicacion": "Muestra el tipo de sistema de archivos y el uso de la partición que contiene el directorio /home."
+      },
+      {
+        "uso": "df -i --total /dev/sda1 /dev/sdb1",
+        "explicacion": "Muestra información de inodos para las particiones /dev/sda1 y /dev/sdb1, agregando un total al final."
+      },
+      {
+        "uso": "df -t ext4 -x tmpfs",
+        "explicacion": "Muestra solo sistemas de archivos de tipo ext4, excluyendo aquellos de tipo tmpfs."
+      },
+      {
+        "uso": "df --output=source,size,pcent,target -B M",
+        "explicacion": "Muestra solo las columnas de dispositivo, tamaño en MB, porcentaje y punto de montaje, usando bloques de 1 MB."
+      }
+    ],
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "df.json"
   },
   {
-    "comando": "badblocks",
-    "categoria_db": "storage",
-    "archivo_fuente": "badblocks.json"
-  },
-  {
-    "comando": "mount",
-    "categoria_db": "storage",
-    "archivo_fuente": "mount.json"
-  },
-  {
-    "comando": "vgreduce",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgreduce.json"
-  },
-  {
-    "comando": "lvscan",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvscan.json"
-  },
-  {
-    "comando": "vgextend",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgextend.json"
-  },
-  {
-    "comando": "losetup",
-    "categoria_db": "storage",
-    "archivo_fuente": "losetup.json"
-  },
-  {
     "comando": "du",
-    "categoria_db": "storage",
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "du.json"
   },
   {
-    "comando": "pvdisplay",
-    "categoria_db": "storage",
-    "archivo_fuente": "pvdisplay.json"
-  },
-  {
-    "comando": "fsck",
-    "categoria_db": "storage",
-    "archivo_fuente": "fsck.json"
-  },
-  {
-    "comando": "vgcreate",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgcreate.json"
-  },
-  {
-    "comando": "xfs_info",
-    "categoria_db": "storage",
-    "archivo_fuente": "xfs_info.json"
-  },
-  {
-    "comando": "swapon",
-    "categoria_db": "storage",
-    "archivo_fuente": "swapon.json"
-  },
-  {
-    "comando": "vgremove",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgremove.json"
-  },
-  {
-    "comando": "mkfs",
-    "categoria_db": "storage",
-    "archivo_fuente": "mkfs.json"
-  },
-  {
-    "comando": "zfs",
-    "categoria_db": "storage",
-    "archivo_fuente": "zfs.json"
-  },
-  {
-    "comando": "lvresize",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvresize.json"
-  },
-  {
-    "comando": "vgchange",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgchange.json"
-  },
-  {
-    "comando": "tune2fs",
-    "categoria_db": "storage",
-    "archivo_fuente": "tune2fs.json"
-  },
-  {
-    "comando": "resize2fs",
-    "categoria_db": "storage",
-    "archivo_fuente": "resize2fs.json"
-  },
-  {
-    "comando": "mkswap",
-    "categoria_db": "storage",
-    "archivo_fuente": "mkswap.json"
-  },
-  {
-    "comando": "lvrename",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvrename.json"
-  },
-  {
-    "comando": "fatlabel",
-    "categoria_db": "storage",
-    "archivo_fuente": "fatlabel.json"
-  },
-  {
-    "comando": "lvremove",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvremove.json"
-  },
-  {
-    "comando": "vgdisplay",
-    "categoria_db": "storage",
-    "archivo_fuente": "vgdisplay.json"
-  },
-  {
-    "comando": "smartctl",
-    "categoria_db": "storage",
-    "archivo_fuente": "smartctl.json"
-  },
-  {
-    "comando": "nvme-cli",
-    "categoria_db": "storage",
-    "archivo_fuente": "nvme-cli.json"
-  },
-  {
-    "comando": "quota",
-    "categoria_db": "storage",
-    "archivo_fuente": "quota.json"
-  },
-  {
-    "comando": "lvextend",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvextend.json"
-  },
-  {
-    "comando": "parted",
-    "categoria_db": "storage",
-    "archivo_fuente": "parted.json"
-  },
-  {
     "comando": "e2fsck",
-    "categoria_db": "storage",
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "e2fsck.json"
   },
   {
-    "comando": "lvs",
-    "categoria_db": "storage",
-    "archivo_fuente": "lvs.json"
+    "comando": "fatlabel",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "fatlabel.json"
   },
   {
     "comando": "fdisk",
-    "categoria_db": "storage",
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "fdisk.json"
   },
   {
     "comando": "findmnt",
-    "categoria_db": "storage",
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "findmnt.json"
   },
   {
-    "comando": "swapoff",
-    "categoria_db": "storage",
-    "archivo_fuente": "swapoff.json"
+    "comando": "fio",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "fio.json"
   },
   {
-    "comando": "pvs",
-    "categoria_db": "storage",
-    "archivo_fuente": "pvs.json"
+    "comando": "fsck",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "fsck.json"
   },
   {
-    "comando": "pvcreate",
-    "categoria_db": "storage",
-    "archivo_fuente": "pvcreate.json"
+    "comando": "iostat",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "iostat.json"
   },
   {
-    "comando": "mdadm",
-    "categoria_db": "storage",
-    "archivo_fuente": "mdadm.json"
-  },
-  {
-    "comando": "blkid",
-    "categoria_db": "storage",
-    "archivo_fuente": "blkid.json"
-  },
-  {
-    "comando": "zpool",
-    "categoria_db": "storage",
-    "archivo_fuente": "zpool.json"
-  },
-  {
-    "comando": "umount",
-    "categoria_db": "storage",
-    "archivo_fuente": "umount.json"
-  },
-  {
-    "comando": "pvremove",
-    "categoria_db": "storage",
-    "archivo_fuente": "pvremove.json"
+    "comando": "losetup",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "losetup.json"
   },
   {
     "comando": "lsns",
-    "categoria_db": "storage",
+    "categoria_db": "almacenamiento",
     "archivo_fuente": "lsns.json"
   },
   {
-    "comando": "debugfs",
-    "categoria_db": "storage",
-    "archivo_fuente": "debugfs.json"
+    "comando": "lvcreate",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvcreate.json"
   },
   {
-    "comando": "service",
-    "categoria_db": "services",
-    "archivo_fuente": "service.json"
+    "comando": "lvdisplay",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvdisplay.json"
   },
   {
-    "comando": "systemd-analyze",
-    "categoria_db": "services",
-    "archivo_fuente": "systemd-analyze.json"
+    "comando": "lvextend",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvextend.json"
   },
   {
-    "comando": "slappasswd",
-    "categoria_db": "services",
-    "archivo_fuente": "slappasswd.json"
+    "comando": "lvreduce",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvreduce.json"
   },
   {
-    "comando": "journalctl",
-    "categoria_db": "services",
-    "archivo_fuente": "journalctl.json"
+    "comando": "lvremove",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvremove.json"
   },
   {
-    "comando": "ldapmodify",
-    "categoria_db": "services",
-    "archivo_fuente": "ldapmodify.json"
+    "comando": "lvrename",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvrename.json"
   },
   {
-    "comando": "update-rc.d",
-    "categoria_db": "services",
-    "archivo_fuente": "update-rc.d.json"
+    "comando": "lvresize",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvresize.json"
   },
   {
-    "comando": "systemctl",
-    "categoria_db": "services",
-    "archivo_fuente": "systemctl.json"
+    "comando": "lvs",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvs.json"
   },
   {
-    "comando": "chkconfig",
-    "categoria_db": "services",
-    "archivo_fuente": "chkconfig.json"
+    "comando": "lvscan",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "lvscan.json"
   },
   {
-    "comando": "initctl",
-    "categoria_db": "services",
-    "archivo_fuente": "initctl.json"
+    "comando": "mdadm",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "mdadm.json"
   },
   {
-    "comando": "ldapsearch",
-    "categoria_db": "services",
-    "archivo_fuente": "ldapsearch.json"
+    "comando": "mkfs",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "mkfs.json"
   },
   {
-    "comando": "slapcat",
-    "categoria_db": "services",
-    "archivo_fuente": "slapcat.json"
+    "comando": "mkswap",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "mkswap.json"
   },
   {
-    "comando": "ldapadd",
-    "categoria_db": "services",
-    "archivo_fuente": "ldapadd.json"
+    "comando": "mount",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "mount.json"
   },
   {
-    "comando": "snmpbulkwalk",
-    "categoria_db": "services",
-    "archivo_fuente": "snmpbulkwalk.json"
+    "comando": "nvme-cli",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "nvme-cli.json"
   },
   {
-    "comando": "rc-service",
-    "categoria_db": "services",
-    "archivo_fuente": "rc-service.json"
+    "comando": "parted",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "parted.json"
   },
   {
-    "comando": "rc-status",
-    "categoria_db": "services",
-    "archivo_fuente": "rc-status.json"
+    "comando": "partx",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "partx.json"
   },
   {
-    "comando": "snmpget",
-    "categoria_db": "services",
-    "archivo_fuente": "snmpget.json"
+    "comando": "pvcreate",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "pvcreate.json"
   },
   {
-    "comando": "snmpwalk",
-    "categoria_db": "services",
-    "archivo_fuente": "snmpwalk.json"
+    "comando": "pvdisplay",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "pvdisplay.json"
   },
   {
-    "comando": "unzip",
-    "descripcion": "Listar, probar y extraer archivos comprimidos en formato ZIP.",
+    "comando": "pvmove",
+    "descripcion": "Mueve los extents físicos (PEs) asignados de un volumen físico (PV) origen a uno o más volúmenes físicos destino. Permite la migración de datos en vivo mientras los volúmenes lógicos permanecen en línea y accesibles.[reference:3][reference:4][reference:5]",
     "categoria": [
       "commands",
-      "compression"
+      "system_administration",
+      "lvm"
     ],
-    "estructura": "unzip [opciones] archivo.zip [archivos_a_extraer] [-x archivos_excluidos] [-d directorio_destino]",
+    "estructura": "pvmove [opciones] [SourcePhysicalVolume[:PE[-PE]...] [DestinationPhysicalVolume[:PE[-PE]...]...]]",
     "opciones": [
       {
         "parametro": [
-          "-l",
-          "--list"
+          "--abort"
         ],
-        "descripcion": "Lista los archivos contenidos en el archivo ZIP en formato corto (nombre, tamaño, fecha y hora) sin extraer nada."
+        "descripcion": "Aborta cualquier operación de movimiento en progreso. Dependiendo de si se usó la opción --atomic, los volúmenes lógicos pueden permanecer en el origen o quedar parcialmente movidos.[reference:6][reference:7][reference:8]"
       },
       {
         "parametro": [
-          "-v",
-          "--verbose"
+          "--atomic"
         ],
-        "descripcion": "Modo detallado; muestra información técnica de los archivos (razón de compresión, CRC-32, etc.) o funciona como diagnóstico."
+        "descripcion": "Realiza el movimiento de forma atómica. Si se aborta, todos los volúmenes lógicos permanecen en el volumen físico origen.[reference:9][reference:10]"
       },
       {
         "parametro": [
-          "-t",
-          "--test"
+          "-b",
+          "--background"
         ],
-        "descripcion": "Verifica la integridad del archivo ZIP realizando una descompresión de prueba en memoria sin escribir en el disco."
+        "descripcion": "Ejecuta el proceso de movimiento en segundo plano.[reference:11][reference:12]"
       },
       {
         "parametro": [
-          "-d"
+          "-i",
+          "--interval",
+          "Seconds"
         ],
-        "descripcion": "Especifica el directorio de destino donde se extraerán los archivos. Si no existe, se creará automáticamente."
+        "descripcion": "Reporta el progreso del movimiento como un porcentaje en intervalos regulares de tiempo (en segundos).[reference:13][reference:14]"
       },
       {
         "parametro": [
-          "-x"
+          "-n",
+          "--name",
+          "LogicalVolume"
         ],
-        "descripcion": "Excluye los archivos o patrones especificados de la operación de extracción o listado."
+        "descripcion": "Mueve solo los extents que pertenecen al volumen lógico (LV) especificado, en lugar de todos los extents asignados del volumen físico origen.[reference:15][reference:16]"
+      },
+      {
+        "parametro": [
+          "--noudevsync"
+        ],
+        "descripcion": "Deshabilita la sincronización con udev. El proceso no esperará notificaciones de udev, útil si udev no está en ejecución.[reference:17][reference:18]"
+      },
+      {
+        "parametro": [
+          "--alloc",
+          "AllocationPolicy"
+        ],
+        "descripcion": "Define la política de asignación para los nuevos extents. Los valores posibles incluyen: contiguous, cling, cling_by_tags, normal, anywhere, inherit.[reference:19][reference:20]"
+      },
+      {
+        "parametro": [
+          "-d",
+          "--debug"
+        ],
+        "descripcion": "Activa el modo de depuración, mostrando información detallada para diagnóstico.[reference:21][reference:22]"
+      },
+      {
+        "parametro": [
+          "-h",
+          "--help"
+        ],
+        "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.[reference:23][reference:24]"
       },
       {
         "parametro": [
           "-q",
           "--quiet"
         ],
-        "descripcion": "Modo silencioso; suprime la mayoría de los mensajes informativos durante la extracción. Usar '-qq' para un silencio absoluto."
+        "descripcion": "Suprime la salida de mensajes no esenciales.[reference:25]"
+      },
+      {
+        "parametro": [
+          "-t",
+          "--test"
+        ],
+        "descripcion": "Realiza una prueba de la operación sin hacer cambios permanentes.[reference:26]"
+      },
+      {
+        "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Modo detallado; muestra información adicional sobre el progreso y las operaciones realizadas.[reference:27][reference:28]"
+      },
+      {
+        "parametro": [
+          "-y",
+          "--yes"
+        ],
+        "descripcion": "Responde 'sí' automáticamente a todas las preguntas de confirmación.[reference:29]"
+      },
+      {
+        "parametro": [
+          "--version"
+        ],
+        "descripcion": "Muestra la versión del programa y finaliza.[reference:30]"
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install lvm2 -y",
+        "arch_linux": "sudo pacman -S lvm2",
+        "rhel_centos": "sudo dnf install lvm2 -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "pvmove /dev/sdb1",
+        "explicacion": "Mueve todos los extents físicos usados en /dev/sdb1 a otros extents libres en el mismo grupo de volúmenes.[reference:31]"
+      },
+      {
+        "uso": "pvmove /dev/sdb1 /dev/sdc1",
+        "explicacion": "Mueve todos los extents físicos de /dev/sdb1 al volumen físico destino /dev/sdc1.[reference:32]"
+      },
+      {
+        "uso": "pvmove -n mi_lv /dev/sdb1 /dev/sdc1",
+        "explicacion": "Mueve solo los extents pertenecientes al volumen lógico 'mi_lv' desde /dev/sdb1 hacia /dev/sdc1.[reference:33]"
+      },
+      {
+        "uso": "pvmove --abort",
+        "explicacion": "Aborta cualquier operación de pvmove que esté en progreso.[reference:34]"
+      },
+      {
+        "uso": "pvmove -i 5 /dev/sdb1",
+        "explicacion": "Mueve los extents de /dev/sdb1 y muestra el progreso cada 5 segundos.[reference:35]"
+      }
+    ],
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "pvmove.json"
+  },
+  {
+    "comando": "pvremove",
+    "descripcion": "Elimina la etiqueta LVM de uno o más volúmenes físicos (PV), haciendo que LVM ya no los reconozca como tales. Un PV no puede ser eliminado de un VG mientras esté siendo usado por un LV activo.[reference:0] Normalmente, debe usarse vgreduce(8) en su lugar.[reference:1]",
+    "categoria": [
+      "commands",
+      "system_administration",
+      "lvm"
+    ],
+    "estructura": "pvremove [opciones] PV...",
+    "opciones": [
+      {
+        "parametro": [
+          "-f",
+          "--force"
+        ],
+        "descripcion": "Anula varias comprobaciones, confirmaciones y protecciones. Úsese con extrema precaución.[reference:2] Repetir la opción (-ff) fuerza la eliminación de un PV que pertenece a un VG existente.[reference:3]"
+      },
+      {
+        "parametro": [
+          "--reportformat",
+          "basic|json"
+        ],
+        "descripcion": "Anula el formato de salida actual para los informes. 'basic' es el formato original con columnas y filas. 'json' produce la salida en formato JSON.[reference:4]"
+      },
+      {
+        "parametro": [
+          "-d",
+          "--debug"
+        ],
+        "descripcion": "Establece el nivel de depuración. Puede repetirse de 1 a 6 veces para aumentar el detalle de los mensajes enviados al archivo de registro y/o syslog.[reference:5]"
+      },
+      {
+        "parametro": [
+          "-h",
+          "--help"
+        ],
+        "descripcion": "Muestra la ayuda y finaliza.[reference:6]"
+      },
+      {
+        "parametro": [
+          "--longhelp"
+        ],
+        "descripcion": "Muestra la ayuda larga.[reference:7]"
+      },
+      {
+        "parametro": [
+          "-q",
+          "--quiet"
+        ],
+        "descripcion": "Suprime la salida y los mensajes de registro. Anula --debug y --verbose. Repetir una vez (-qq) también suprime cualquier pregunta con respuesta 'no'.[reference:8]"
+      },
+      {
+        "parametro": [
+          "-t",
+          "--test"
+        ],
+        "descripcion": "Modo de prueba. Los comandos no actualizarán los metadatos.[reference:9]"
+      },
+      {
+        "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Establece el nivel verboso. Puede repetirse de 1 a 4 veces para aumentar el detalle de los mensajes enviados a stdout y stderr.[reference:10]"
+      },
+      {
+        "parametro": [
+          "-y",
+          "--yes"
+        ],
+        "descripcion": "No pregunta para confirmar de forma interactiva, sino que siempre asume la respuesta 'sí'. Úsese con extrema precaución.[reference:11]"
+      },
+      {
+        "parametro": [
+          "--version"
+        ],
+        "descripcion": "Muestra la información de la versión.[reference:12]"
+      },
+      {
+        "parametro": [
+          "--commandprofile",
+          "String"
+        ],
+        "descripcion": "El perfil de comando a usar para la configuración del comando.[reference:13]"
+      },
+      {
+        "parametro": [
+          "--config",
+          "String"
+        ],
+        "descripcion": "Configuración de ajustes para el comando. Estos anulan la configuración de lvm.conf(5).[reference:14]"
+      },
+      {
+        "parametro": [
+          "--devices",
+          "PV"
+        ],
+        "descripcion": "Dispositivos que el comando puede usar. Esta opción puede repetirse o acepta una lista separada por comas de dispositivos.[reference:15]"
+      },
+      {
+        "parametro": [
+          "--devicesfile",
+          "String"
+        ],
+        "descripcion": "Un archivo que enumera los dispositivos que LVM debe usar. Debe existir en /etc/lvm/devices/.[reference:16]"
+      },
+      {
+        "parametro": [
+          "--driverloaded",
+          "y|n"
+        ],
+        "descripcion": "Si se establece a 'no', el comando no intentará usar device-mapper. Para pruebas y depuración.[reference:17]"
+      },
+      {
+        "parametro": [
+          "--journal",
+          "String"
+        ],
+        "descripcion": "Registra información en el diario systemd. Los valores posibles incluyen: 'command', 'output', 'debug'.[reference:18]"
+      },
+      {
+        "parametro": [
+          "--lockopt",
+          "String"
+        ],
+        "descripcion": "Se usa para pasar opciones para casos especiales a lvmlockd.[reference:19]"
+      },
+      {
+        "parametro": [
+          "--nohints"
+        ],
+        "descripcion": "No usa el archivo de sugerencias para localizar dispositivos para PVs.[reference:20]"
+      },
+      {
+        "parametro": [
+          "--nolocking"
+        ],
+        "descripcion": "Deshabilita el bloqueo.[reference:21]"
+      },
+      {
+        "parametro": [
+          "--profile",
+          "String"
+        ],
+        "descripcion": "Un alias para --commandprofile o --metadataprofile, dependiendo del comando.[reference:22]"
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install lvm2 -y",
+        "arch_linux": "sudo pacman -S lvm2",
+        "rhel_centos": "sudo dnf install lvm2 -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "pvremove /dev/sdb1",
+        "explicacion": "Elimina la etiqueta LVM del volumen físico /dev/sdb1. El dispositivo no debe pertenecer a un grupo de volúmenes (VG) activo.[reference:23]"
+      },
+      {
+        "uso": "pvremove -ff /dev/sdb1",
+        "explicacion": "Fuerza la eliminación de la etiqueta LVM incluso si /dev/sdb1 pertenece a un VG existente.[reference:24]"
+      },
+      {
+        "uso": "pvremove -t /dev/sdb1",
+        "explicacion": "Realiza una prueba de la operación sin hacer cambios permanentes.[reference:25]"
+      },
+      {
+        "uso": "pvremove --reportformat json /dev/sdb1",
+        "explicacion": "Elimina la etiqueta LVM y muestra el resultado en formato JSON.[reference:26]"
+      }
+    ],
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "pvremove.json"
+  },
+  {
+    "comando": "pvs",
+    "descripcion": "Muestra información formateada sobre volúmenes físicos (PVs) en el sistema, incluyendo su tamaño, uso, atributos y más.",
+    "categoria": [
+      "commands",
+      "system_administration",
+      "lvm"
+    ],
+    "estructura": "pvs [opciones] [PV|Tag...]",
+    "opciones": [
+      {
+        "parametro": [
+          "-a",
+          "--all"
+        ],
+        "descripcion": "Muestra información sobre dispositivos que no han sido inicializados por LVM, es decir, que no son PVs.[reference:0][reference:1]"
+      },
+      {
+        "parametro": [
+          "-A",
+          "--allpvs"
+        ],
+        "descripcion": "Muestra información sobre PVs fuera del archivo de dispositivos. Combínalo con -a|--all para incluir dispositivos que no son PVs.[reference:2]"
       },
       {
         "parametro": [
           "-o",
-          "--overwrite"
+          "--options",
+          "String"
         ],
-        "descripcion": "Fuerza la sobrescritura de los archivos existentes en el destino sin solicitar confirmación al usuario."
+        "descripcion": "Lista ordenada y separada por comas de las columnas a mostrar. Precede la lista con '+' para añadir a la selección predeterminada. Usa -o help para ver la lista completa de columnas disponibles.[reference:3]"
       },
       {
         "parametro": [
-          "-n",
-          "--never-overwrite"
+          "-O",
+          "--sort",
+          "String"
         ],
-        "descripcion": "No sobrescribe los archivos existentes en el destino. Omite de forma silenciosa la extracción de dichos archivos."
+        "descripcion": "Lista ordenada y separada por comas de columnas por las que ordenar. Reemplaza la selección predeterminada. Precede cualquier columna con '-' para orden inverso.[reference:4]"
       },
       {
         "parametro": [
-          "-j",
-          "--junk-paths"
+          "-S",
+          "--select",
+          "String"
         ],
-        "descripcion": "Ignora la estructura de directorios interna del archivo ZIP y extrae todos los archivos directamente en el directorio de destino."
+        "descripcion": "Selecciona informes para PVs que coincidan con los criterios de selección.[reference:5]"
       },
       {
         "parametro": [
-          "-P",
-          "--password"
+          "--segments"
         ],
-        "descripcion": "Especifica la contraseña directamente en la línea de comandos para descifrar archivos ZIP protegidos (no recomendado por motivos de seguridad)."
+        "descripcion": "Produce una línea de salida para cada asignación contigua de espacio en cada Volumen Físico, mostrando el inicio (pvseg_start) y la longitud (pvseg_size) en unidades de extensiones físicas.[reference:6]"
       },
       {
         "parametro": [
-          "-P",
-          "--password"
+          "--aligned"
         ],
-        "descripcion": "Permite descifrar archivos comprimidos que están protegidos con contraseña."
+        "descripcion": "Usar con --separator para alinear las columnas de salida.[reference:7][reference:8]"
+      },
+      {
+        "parametro": [
+          "--binary"
+        ],
+        "descripcion": "Usa valores binarios '0' o '1' en lugar de valores literales descriptivos para columnas que tienen exactamente dos valores válidos.[reference:9]"
+      },
+      {
+        "parametro": [
+          "--nameprefixes"
+        ],
+        "descripcion": "Añade un prefijo 'LVM2_' más el nombre del campo a la salida. Útil con --noheadings para producir una lista de pares campo=valor.[reference:10]"
+      },
+      {
+        "parametro": [
+          "--noheadings"
+        ],
+        "descripcion": "Suprime la línea de encabezados que normalmente es la primera línea de salida. Útil si se procesa la salida con grep.[reference:11]"
+      },
+      {
+        "parametro": [
+          "--nosuffix"
+        ],
+        "descripcion": "Suprime el sufijo en los tamaños de salida. Usar con --units (excepto h y H) si se procesa la salida.[reference:12]"
+      },
+      {
+        "parametro": [
+          "--rows"
+        ],
+        "descripcion": "Muestra las columnas como filas.[reference:13]"
+      },
+      {
+        "parametro": [
+          "--separator",
+          "String"
+        ],
+        "descripcion": "Cadena a usar para separar cada columna. Útil si se procesa la salida con grep.[reference:14]"
+      },
+      {
+        "parametro": [
+          "--unbuffered"
+        ],
+        "descripcion": "Produce la salida inmediatamente sin ordenar o alinear las columnas correctamente.[reference:15]"
+      },
+      {
+        "parametro": [
+          "--units",
+          "[Number]r|R|h|H|b|B|s|S|k|K|m|M|g|G|t|T|p|P|e|E"
+        ],
+        "descripcion": "Todos los tamaños se muestran en estas unidades: (h)uman-readable, (b)ytes, (s)ectors, (k)ilobytes, (m)egabytes, (g)igabytes, (t)erabytes, (p)etabytes, (e)xabytes.[reference:16]"
+      },
+      {
+        "parametro": [
+          "--unquoted"
+        ],
+        "descripcion": "Produce valores sin comillas en el modo de informe.[reference:17]"
+      },
+      {
+        "parametro": [
+          "--foreign"
+        ],
+        "descripcion": "Reporta/muestra VGs extranjeros que de otro modo serían omitidos.[reference:18]"
+      },
+      {
+        "parametro": [
+          "--shared"
+        ],
+        "descripcion": "Reporta/muestra VGs compartidos que de otro modo serían omitidos.[reference:19]"
+      },
+      {
+        "parametro": [
+          "--readonly"
+        ],
+        "descripcion": "Ejecuta el comando en modo de solo lectura.[reference:20]"
+      },
+      {
+        "parametro": [
+          "--ignorelockingfailure"
+        ],
+        "descripcion": "Permite que un comando continúe con operaciones de metadatos de solo lectura después de fallos de bloqueo.[reference:21]"
+      },
+      {
+        "parametro": [
+          "--reportformat",
+          "basic|json"
+        ],
+        "descripcion": "Anula el formato de salida actual para los informes. 'basic' es el formato original con columnas y filas. 'json' produce la salida en formato JSON.[reference:22]"
+      },
+      {
+        "parametro": [
+          "--configreport",
+          "log|vg|lv|pv|pvseg|seg"
+        ],
+        "descripcion": "Define la configuración del informe para el tipo de informe especificado. Ver lvmreport(7).[reference:23][reference:24]"
+      },
+      {
+        "parametro": [
+          "-d",
+          "--debug"
+        ],
+        "descripcion": "Establece el nivel de depuración. Puede repetirse de 1 a 6 veces para aumentar el detalle.[reference:25]"
+      },
+      {
+        "parametro": [
+          "-h",
+          "--help"
+        ],
+        "descripcion": "Muestra la ayuda y finaliza.[reference:26]"
+      },
+      {
+        "parametro": [
+          "--longhelp"
+        ],
+        "descripcion": "Muestra la ayuda larga.[reference:27]"
+      },
+      {
+        "parametro": [
+          "-q",
+          "--quiet"
+        ],
+        "descripcion": "Suprime la salida y los mensajes de registro.[reference:28]"
+      },
+      {
+        "parametro": [
+          "-t",
+          "--test"
+        ],
+        "descripcion": "Modo de prueba. Los comandos no actualizarán los metadatos.[reference:29]"
+      },
+      {
+        "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Establece el nivel verboso. Puede repetirse para aumentar el detalle.[reference:30]"
+      },
+      {
+        "parametro": [
+          "-y",
+          "--yes"
+        ],
+        "descripcion": "No pregunta para confirmar de forma interactiva, sino que siempre asume la respuesta 'sí'.[reference:31]"
+      },
+      {
+        "parametro": [
+          "--version"
+        ],
+        "descripcion": "Muestra la información de la versión.[reference:32]"
+      },
+      {
+        "parametro": [
+          "--commandprofile",
+          "String"
+        ],
+        "descripcion": "El perfil de comando a usar para la configuración del comando.[reference:33]"
+      },
+      {
+        "parametro": [
+          "--config",
+          "String"
+        ],
+        "descripcion": "Configuración de ajustes para el comando. Estos anulan la configuración de lvm.conf(5).[reference:34]"
+      },
+      {
+        "parametro": [
+          "--devices",
+          "PV"
+        ],
+        "descripcion": "Restringe los dispositivos visibles y accesibles para el comando. Puede repetirse o acepta una lista separada por comas.[reference:35]"
+      },
+      {
+        "parametro": [
+          "--devicesfile",
+          "String"
+        ],
+        "descripcion": "Un archivo que enumera los dispositivos que LVM debe usar. Debe existir en /etc/lvm/devices/.[reference:36][reference:37]"
+      },
+      {
+        "parametro": [
+          "--driverloaded",
+          "y|n"
+        ],
+        "descripcion": "Si se establece a 'no', el comando no intentará usar device-mapper. Para pruebas y depuración.[reference:38]"
+      },
+      {
+        "parametro": [
+          "--journal",
+          "String"
+        ],
+        "descripcion": "Registra información en el diario systemd. Los valores posibles incluyen: 'command', 'output', 'debug'.[reference:39]"
+      },
+      {
+        "parametro": [
+          "--lockopt",
+          "String"
+        ],
+        "descripcion": "Se usa para pasar opciones para casos especiales a lvmlockd.[reference:40]"
+      },
+      {
+        "parametro": [
+          "--nohints"
+        ],
+        "descripcion": "No usa el archivo de sugerencias para localizar dispositivos para PVs.[reference:41]"
+      },
+      {
+        "parametro": [
+          "--nolocking"
+        ],
+        "descripcion": "Deshabilita el bloqueo.[reference:42]"
+      },
+      {
+        "parametro": [
+          "--profile",
+          "String"
+        ],
+        "descripcion": "Un alias para --commandprofile o --metadataprofile, dependiendo del comando.[reference:43]"
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install lvm2 -y",
+        "arch_linux": "sudo pacman -S lvm2",
+        "rhel_centos": "sudo dnf install lvm2 -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "pvs",
+        "explicacion": "Muestra información básica sobre todos los volúmenes físicos."
+      },
+      {
+        "uso": "pvs -a",
+        "explicacion": "Muestra información incluyendo dispositivos que no son PVs.[reference:44]"
+      },
+      {
+        "uso": "pvs -o pv_name,pv_size,pv_used",
+        "explicacion": "Muestra solo el nombre, tamaño y espacio usado de los PVs.[reference:45]"
+      },
+      {
+        "uso": "pvs --segments",
+        "explicacion": "Muestra una línea por cada segmento contiguo de espacio en cada PV.[reference:46]"
+      },
+      {
+        "uso": "pvs --noheadings --units g",
+        "explicacion": "Muestra los PVs sin encabezados y con tamaños en gigabytes.[reference:47][reference:48]"
+      },
+      {
+        "uso": "pvs --reportformat json",
+        "explicacion": "Muestra la información de los PVs en formato JSON.[reference:49]"
+      }
+    ],
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "pvs.json"
+  },
+  {
+    "comando": "quota",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "quota.json"
+  },
+  {
+    "comando": "resize2fs",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "resize2fs.json"
+  },
+  {
+    "comando": "smartctl",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "smartctl.json"
+  },
+  {
+    "comando": "swapoff",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "swapoff.json"
+  },
+  {
+    "comando": "swapon",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "swapon.json"
+  },
+  {
+    "comando": "tune2fs",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "tune2fs.json"
+  },
+  {
+    "comando": "umount",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "umount.json"
+  },
+  {
+    "comando": "vgchange",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgchange.json"
+  },
+  {
+    "comando": "vgcreate",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgcreate.json"
+  },
+  {
+    "comando": "vgdisplay",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgdisplay.json"
+  },
+  {
+    "comando": "vgextend",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgextend.json"
+  },
+  {
+    "comando": "vgreduce",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgreduce.json"
+  },
+  {
+    "comando": "vgremove",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgremove.json"
+  },
+  {
+    "comando": "vgs",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgs.json"
+  },
+  {
+    "comando": "vgscan",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "vgscan.json"
+  },
+  {
+    "comando": "wipefs",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "wipefs.json"
+  },
+  {
+    "comando": "xfs_info",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "xfs_info.json"
+  },
+  {
+    "comando": "xfs_repair",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "xfs_repair.json"
+  },
+  {
+    "comando": "zfs",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "zfs.json"
+  },
+  {
+    "comando": "zpool",
+    "categoria_db": "almacenamiento",
+    "archivo_fuente": "zpool.json"
+  },
+  {
+    "comando": "awk",
+    "categoria_db": "archivos",
+    "archivo_fuente": "awk.json"
+  },
+  {
+    "comando": "basename",
+    "categoria_db": "archivos",
+    "archivo_fuente": "basename.json"
+  },
+  {
+    "comando": "cat",
+    "categoria_db": "archivos",
+    "archivo_fuente": "cat.json"
+  },
+  {
+    "comando": "cd",
+    "categoria_db": "archivos",
+    "archivo_fuente": "cd.json"
+  },
+  {
+    "comando": "chattr",
+    "categoria_db": "archivos",
+    "archivo_fuente": "chattr.json"
+  },
+  {
+    "comando": "chgrp",
+    "categoria_db": "archivos",
+    "archivo_fuente": "chgrp.json"
+  },
+  {
+    "comando": "cmp",
+    "categoria_db": "archivos",
+    "archivo_fuente": "cmp.json"
+  },
+  {
+    "comando": "column",
+    "categoria_db": "archivos",
+    "archivo_fuente": "column.json"
+  },
+  {
+    "comando": "comm",
+    "categoria_db": "archivos",
+    "archivo_fuente": "comm.json"
+  },
+  {
+    "comando": "cp",
+    "categoria_db": "archivos",
+    "archivo_fuente": "cp.json"
+  },
+  {
+    "comando": "cut",
+    "categoria_db": "archivos",
+    "archivo_fuente": "cut.json"
+  },
+  {
+    "comando": "diff",
+    "categoria_db": "archivos",
+    "archivo_fuente": "diff.json"
+  },
+  {
+    "comando": "dirname",
+    "categoria_db": "archivos",
+    "archivo_fuente": "dirname.json"
+  },
+  {
+    "comando": "echo",
+    "categoria_db": "archivos",
+    "archivo_fuente": "echo.json"
+  },
+  {
+    "comando": "fallocate",
+    "categoria_db": "archivos",
+    "archivo_fuente": "fallocate.json"
+  },
+  {
+    "comando": "file",
+    "categoria_db": "archivos",
+    "archivo_fuente": "file.json"
+  },
+  {
+    "comando": "find",
+    "categoria_db": "archivos",
+    "archivo_fuente": "find.json"
+  },
+  {
+    "comando": "fmt",
+    "categoria_db": "archivos",
+    "archivo_fuente": "fmt.json"
+  },
+  {
+    "comando": "fold",
+    "categoria_db": "archivos",
+    "archivo_fuente": "fold.json"
+  },
+  {
+    "comando": "grep",
+    "categoria_db": "archivos",
+    "archivo_fuente": "grep.json"
+  },
+  {
+    "comando": "head",
+    "categoria_db": "archivos",
+    "archivo_fuente": "head.json"
+  },
+  {
+    "comando": "iconv",
+    "categoria_db": "archivos",
+    "archivo_fuente": "iconv.json"
+  },
+  {
+    "comando": "install",
+    "categoria_db": "archivos",
+    "archivo_fuente": "install.json"
+  },
+  {
+    "comando": "join",
+    "categoria_db": "archivos",
+    "archivo_fuente": "join.json"
+  },
+  {
+    "comando": "less",
+    "categoria_db": "archivos",
+    "archivo_fuente": "less.json"
+  },
+  {
+    "comando": "ln",
+    "categoria_db": "archivos",
+    "archivo_fuente": "ln.json"
+  },
+  {
+    "comando": "locate",
+    "categoria_db": "archivos",
+    "archivo_fuente": "locate.json"
+  },
+  {
+    "comando": "ls",
+    "categoria_db": "archivos",
+    "archivo_fuente": "ls.json"
+  },
+  {
+    "comando": "lsattr",
+    "categoria_db": "archivos",
+    "archivo_fuente": "lsattr.json"
+  },
+  {
+    "comando": "mkdir",
+    "categoria_db": "archivos",
+    "archivo_fuente": "mkdir.json"
+  },
+  {
+    "comando": "mkfifo",
+    "categoria_db": "archivos",
+    "archivo_fuente": "mkfifo.json"
+  },
+  {
+    "comando": "mktemp",
+    "categoria_db": "archivos",
+    "archivo_fuente": "mktemp.json"
+  },
+  {
+    "comando": "mmv",
+    "categoria_db": "archivos",
+    "archivo_fuente": "mmv.json"
+  },
+  {
+    "comando": "more",
+    "categoria_db": "archivos",
+    "archivo_fuente": "more.json"
+  },
+  {
+    "comando": "mv",
+    "categoria_db": "archivos",
+    "archivo_fuente": "mv.json"
+  },
+  {
+    "comando": "namereply",
+    "categoria_db": "archivos",
+    "archivo_fuente": "namereply.json"
+  },
+  {
+    "comando": "nautilus",
+    "categoria_db": "archivos",
+    "archivo_fuente": "nautilus.json"
+  },
+  {
+    "comando": "nl",
+    "categoria_db": "archivos",
+    "archivo_fuente": "nl.json"
+  },
+  {
+    "comando": "paste",
+    "categoria_db": "archivos",
+    "archivo_fuente": "paste.json"
+  },
+  {
+    "comando": "pr",
+    "categoria_db": "archivos",
+    "archivo_fuente": "pr.json"
+  },
+  {
+    "comando": "readlink",
+    "categoria_db": "archivos",
+    "archivo_fuente": "readlink.json"
+  },
+  {
+    "comando": "realpath",
+    "categoria_db": "archivos",
+    "archivo_fuente": "realpath.json"
+  },
+  {
+    "comando": "rename",
+    "categoria_db": "archivos",
+    "archivo_fuente": "rename.json"
+  },
+  {
+    "comando": "rev",
+    "categoria_db": "archivos",
+    "archivo_fuente": "rev.json"
+  },
+  {
+    "comando": "rm",
+    "categoria_db": "archivos",
+    "archivo_fuente": "rm.json"
+  },
+  {
+    "comando": "rmdir",
+    "categoria_db": "archivos",
+    "archivo_fuente": "rmdir.json"
+  },
+  {
+    "comando": "sed",
+    "categoria_db": "archivos",
+    "archivo_fuente": "sed.json"
+  },
+  {
+    "comando": "shasum",
+    "categoria_db": "archivos",
+    "archivo_fuente": "shasum.json"
+  },
+  {
+    "comando": "shred",
+    "categoria_db": "archivos",
+    "archivo_fuente": "shred.json"
+  },
+  {
+    "comando": "sort",
+    "categoria_db": "archivos",
+    "archivo_fuente": "sort.json"
+  },
+  {
+    "comando": "split",
+    "categoria_db": "archivos",
+    "archivo_fuente": "split.json"
+  },
+  {
+    "comando": "stat",
+    "categoria_db": "archivos",
+    "archivo_fuente": "stat.json"
+  },
+  {
+    "comando": "sync",
+    "categoria_db": "archivos",
+    "archivo_fuente": "sync.json"
+  },
+  {
+    "comando": "tac",
+    "categoria_db": "archivos",
+    "archivo_fuente": "tac.json"
+  },
+  {
+    "comando": "tail",
+    "categoria_db": "archivos",
+    "archivo_fuente": "tail.json"
+  },
+  {
+    "comando": "touch",
+    "categoria_db": "archivos",
+    "archivo_fuente": "touch.json"
+  },
+  {
+    "comando": "tr",
+    "categoria_db": "archivos",
+    "archivo_fuente": "tr.json"
+  },
+  {
+    "comando": "tree",
+    "categoria_db": "archivos",
+    "archivo_fuente": "tree.json"
+  },
+  {
+    "comando": "truncate",
+    "categoria_db": "archivos",
+    "archivo_fuente": "truncate.json"
+  },
+  {
+    "comando": "uniq",
+    "categoria_db": "archivos",
+    "archivo_fuente": "uniq.json"
+  },
+  {
+    "comando": "unlink",
+    "categoria_db": "archivos",
+    "archivo_fuente": "unlink.json"
+  },
+  {
+    "comando": "updatedb",
+    "categoria_db": "archivos",
+    "archivo_fuente": "updatedb.json"
+  },
+  {
+    "comando": "wc",
+    "categoria_db": "archivos",
+    "archivo_fuente": "wc.json"
+  },
+  {
+    "comando": "xargs",
+    "categoria_db": "archivos",
+    "archivo_fuente": "xargs.json"
+  },
+  {
+    "comando": "zgrep",
+    "categoria_db": "archivos",
+    "archivo_fuente": "zgrep.json"
+  },
+  {
+    "comando": "bzip2",
+    "descripcion": "Comprimir archivos usando el algoritmo 'Burrows-Wheeler' y codificación 'Huffman'.",
+    "categoria": [
+      "compresion"
+    ],
+    "estructura": "bzip2 [opciones]",
+    "opciones": [
+      {
+        "parametro": [
+          "-c",
+          "--stdout"
+        ],
+        "descripcion": "Comprimir o descomprimir el archivo hacia la salida estándar."
+      },
+      {
+        "parametro": [
+          "-d",
+          "--decompress"
+        ],
+        "descripcion": "Fuerza la descompresión del archivo, ignorando el nombre con el que se invocó el programa."
+      },
+      {
+        "parametro": [
+          "-z",
+          "--compress"
+        ],
+        "descripcion": "Fuerza la compresión del archivo, independientemente del nombre con el que se invocó el programa."
+      },
+      {
+        "parametro": [
+          "-t",
+          "--test"
+        ],
+        "descripcion": "Verifica la integridad de los archivos especificados realizando una descompresión de prueba sin guardar el resultado."
+      },
+      {
+        "parametro": [
+          "-f",
+          "--force"
+        ],
+        "descripcion": "Fuerza la sobrescritura de los archivos de salida, rompe enlaces duros existentes y permite procesar archivos sin las cabeceras mágicas correctas."
+      },
+      {
+        "parametro": [
+          "-k",
+          "--keep"
+        ],
+        "descripcion": "Conserva los archivos de entrada intactos; no los elimina después de la compresión o descompresión."
+      },
+      {
+        "parametro": [
+          "-s",
+          "--small"
+        ],
+        "descripcion": "Reduce el uso de memoria para compresión, descompresión y pruebas a cambio de reducir la velocidad a la mitad y limitar el tamaño del bloque."
+      },
+      {
+        "parametro": [
+          "-q",
+          "--quiet"
+        ],
+        "descripcion": "Suprime los mensajes de advertencia no esenciales; los errores críticos de E/S se siguen mostrando."
+      },
+      {
+        "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Modo detallado; muestra el porcentaje de compresión para cada archivo procesado. Añadir más opciones '-v' aumenta el nivel de detalle diagnóstico."
       },
       {
         "parametro": [
@@ -847,39 +2150,173 @@
       },
       {
         "parametro": [
+          "-L",
+          "--license",
+          "-V",
           "--version"
         ],
-        "descripcion": "Muestra la versión del software junto con la información del entorno de compilación."
+        "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
+      },
+      {
+        "parametro": [
+          "-1",
+          "--fast",
+          "-2",
+          "-3",
+          "-4",
+          "-5",
+          "-6",
+          "-7",
+          "-8",
+          "-9",
+          "--best"
+        ],
+        "descripcion": "Ajusta el tamaño del bloque de compresión desde 100 k hasta 900 k. No afecta el proceso de descompresión."
+      },
+      {
+        "parametro": [
+          "--"
+        ],
+        "descripcion": "Trata todos los argumentos posteriores como nombres de archivos, permitiendo gestionar archivos cuyos nombres comiencen con un guion."
+      },
+      {
+        "parametro": [
+          "--repetitive-fast",
+          "--repetitive-best"
+        ],
+        "descripcion": "Opciones redundantes u obsoletas en versiones 0.9.5 o superiores debido a mejoras en el algoritmo de ordenación."
       }
     ],
     "instalacion": {
       "es_instalable": true,
       "metodo_preferido": "gestor_paquetes",
       "pasos": {
-        "debian_ubuntu": "sudo apt update && sudo apt install unzip -y",
-        "arch_linux": "sudo pacman -S unzip",
-        "rhel_centos": "sudo dnf install unzip -y"
+        "debian_ubuntu": "sudo apt update && sudo apt install bzip2 -y",
+        "arch_linux": "sudo pacman -S bzip2",
+        "rhel_centos": "sudo dnf install bzip2 -y"
       }
     },
     "ejemplos": [
       {
-        "uso": "unzip archivo.zip -d /ruta/destino/",
-        "explicacion": "Extrae todo el contenido de 'archivo.zip' dentro de la carpeta especificada en la ruta de destino."
+        "uso": "bzip2 -k archivo.txt",
+        "explicacion": "Comprime el archivo generando 'archivo.txt.bz2' sin eliminar el archivo original."
       },
       {
-        "uso": "unzip -l archivo.zip",
-        "explicacion": "Muestra la lista completa de archivos y carpetas empaquetados dentro del archivo ZIP sin llegar a descomprimirlos."
+        "uso": "bzip2 -d archivo.txt.bz2",
+        "explicacion": "Descomprime el archivo comprimido a su estado original."
       }
     ],
-    "categoria_db": "compression",
-    "archivo_fuente": "unzip.json"
+    "categoria_db": "compresion",
+    "archivo_fuente": "bzip2.json"
+  },
+  {
+    "comando": "dd",
+    "descripcion": "Copiar un archivo, convirtiendo y formateando según las opciones suministradas.",
+    "categoria": [
+      "compresion"
+    ],
+    "estructura": "dd [operandos]",
+    "opciones": [
+      {
+        "parametro": [
+          "if=ARCHIVO"
+        ],
+        "descripcion": "Lee desde el ARCHIVO especificado en lugar de la entrada estándar."
+      },
+      {
+        "parametro": [
+          "of=ARCHIVO"
+        ],
+        "descripcion": "Escribe en el ARCHIVO especificado en lugar de la salida estándar."
+      },
+      {
+        "parametro": [
+          "bs=BYTES"
+        ],
+        "descripcion": "Lee y escribe hasta el número de BYTES especificados a la vez. Reemplaza los valores de 'ibs' y 'obs'."
+      },
+      {
+        "parametro": [
+          "ibs=BYTES"
+        ],
+        "descripcion": "Lee la cantidad de BYTES especificados a la vez. Por defecto es 512."
+      },
+      {
+        "parametro": [
+          "obs=BYTES"
+        ],
+        "descripcion": "Escribe la cantidad de BYTES especificados a la vez. Por defecto es 512."
+      },
+      {
+        "parametro": [
+          "count=N"
+        ],
+        "descripcion": "Copia únicamente N bloques de entrada."
+      },
+      {
+        "parametro": [
+          "skip=N"
+        ],
+        "descripcion": "Omite N bloques al principio de la entrada antes de iniciar la copia."
+      },
+      {
+        "parametro": [
+          "seek=N"
+        ],
+        "descripcion": "Omite N bloques al principio de la salida antes de iniciar la escritura."
+      },
+      {
+        "parametro": [
+          "conv=CONVS"
+        ],
+        "descripcion": "Convierte el archivo según la lista de símbolos separados por comas (ej. 'notrunc', 'noerror', 'sync', 'ucase', 'lcase')."
+      },
+      {
+        "parametro": [
+          "status=NIVEL"
+        ],
+        "descripcion": "Controla la cantidad de información transferida mostrada; 'progress' muestra estadísticas en tiempo real, 'none' suprime casi todo."
+      },
+      {
+        "parametro": [
+          "--help"
+        ],
+        "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      },
+      {
+        "parametro": [
+          "--version"
+        ],
+        "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "preinstalado",
+      "pasos": {
+        "debian_ubuntu": "sudo apt install coreutils",
+        "arch_linux": "sudo pacman -S coreutils",
+        "rhel_centos": "sudo dnf install coreutils"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "dd if=origen.iso of=/dev/sdX bs=4M status=progress",
+        "explicacion": "Crea un USB arrancable copiando la imagen ISO al dispositivo /dev/sdX, mostrando el progreso del proceso."
+      },
+      {
+        "uso": "dd if=/dev/sda of=respaldo_mbr.img bs=512 count=1",
+        "explicacion": "Realiza un respaldo del Registro de Arranque Principal (MBR) copiando exactamente los primeros 512 bytes del disco /dev/sda."
+      }
+    ],
+    "categoria_db": "compresion",
+    "archivo_fuente": "dd.json"
   },
   {
     "comando": "gzip",
     "descripcion": "Comprimir o descomprimir archivos utilizando la codificación LZ77 (por defecto, comprime los archivos reemplazando el original).",
     "categoria": [
-      "commands",
-      "compression"
+      "compresion"
     ],
     "estructura": "gzip [opciones] [archivo...]",
     "opciones": [
@@ -1036,483 +2473,14 @@
         "explicacion": "Descomprime el archivo '.gz' manteniendo una copia del archivo comprimido original intacta."
       }
     ],
-    "categoria_db": "compression",
+    "categoria_db": "compresion",
     "archivo_fuente": "gzip.json"
-  },
-  {
-    "comando": "zip",
-    "descripcion": "Empaquetar y comprimir (archivar) archivos en el formato estándar ZIP, compatible con múltiples plataformas.",
-    "categoria": [
-      "commands",
-      "compression"
-    ],
-    "estructura": "zip [opciones] archivo.zip [archivos_o_directorios_a_incluir]",
-    "opciones": [
-      {
-        "parametro": [
-          "-r",
-          "--recurse-paths"
-        ],
-        "descripcion": "Recorre los directorios de forma recursiva para incluir todos sus subdirectorios y archivos dentro del paquete ZIP."
-      },
-      {
-        "parametro": [
-          "-q",
-          "--quiet"
-        ],
-        "descripcion": "Modo silencioso; suprime los mensajes informativos y las líneas de progreso de los archivos que van siendo añadidos."
-      },
-      {
-        "parametro": [
-          "-v",
-          "--verbose"
-        ],
-        "descripcion": "Modo detallado o de diagnóstico; muestra información extra sobre la compresión o lista los archivos si no se pasan más argumentos."
-      },
-      {
-        "parametro": [
-          "-m",
-          "--move"
-        ],
-        "descripcion": "Mueve los archivos especificados al archivo ZIP; es decir, elimina los archivos originales del disco una vez que se han comprimido con éxito."
-      },
-      {
-        "parametro": [
-          "-u",
-          "--update"
-        ],
-        "descripcion": "Actualiza el archivo ZIP reemplazando únicamente los archivos existentes si han cambiado o agregando archivos nuevos."
-      },
-      {
-        "parametro": [
-          "-f",
-          "--freshen"
-        ],
-        "descripcion": "Sustituye en el archivo ZIP solo aquellos archivos que ya existen dentro de él y que han sido modificados recientemente en el disco. No añade archivos nuevos."
-      },
-      {
-        "parametro": [
-          "-d",
-          "--delete"
-        ],
-        "descripcion": "Elimina de forma explícita los archivos o rutas especificadas que ya se encuentran dentro del archivo ZIP."
-      },
-      {
-        "parametro": [
-          "-j",
-          "--junk-paths"
-        ],
-        "descripcion": "Descarta la estructura de rutas de directorios; guarda todos los archivos directamente en la raíz del archivo ZIP sin crear subcarpetas."
-      },
-      {
-        "parametro": [
-          "-e",
-          "--encrypt"
-        ],
-        "descripcion": "Solicita una contraseña de forma interactiva en la terminal para cifrar el contenido del archivo ZIP creado."
-      },
-      {
-        "parametro": [
-          "-P",
-          "--password"
-        ],
-        "descripcion": "Especifica la contraseña de cifrado directamente desde la línea de comandos (no recomendado por motivos de seguridad)."
-      },
-      {
-        "parametro": [
-          "-0",
-          "-1",
-          "-2",
-          "-3",
-          "-4",
-          "-5",
-          "-6",
-          "-7",
-          "-8",
-          "-9"
-        ],
-        "descripcion": "Regula la velocidad y nivel de compresión. '-0' indica almacenar sin compresión, '-1' es el método más rápido y '-9' el método más lento con óptima compresión."
-      },
-      {
-        "parametro": [
-          "-s",
-          "--split-size"
-        ],
-        "descripcion": "Divide el archivo ZIP resultante en varias partes más pequeñas del tamaño especificado (ej. '-s 10m' para partes de 10 Megabytes)."
-      },
-      {
-        "parametro": [
-          "-h",
-          "--help"
-        ],
-        "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
-      },
-      {
-        "parametro": [
-          "-v",
-          "--version"
-        ],
-        "descripcion": "Muestra la versión del software junto con información detallada de los algoritmos de compresión soportados."
-      }
-    ],
-    "instalacion": {
-      "es_instalable": true,
-      "metodo_preferido": "gestor_paquetes",
-      "pasos": {
-        "debian_ubuntu": "sudo apt update && sudo apt install zip -y",
-        "arch_linux": "sudo pacman -S zip",
-        "rhel_centos": "sudo dnf install zip -y"
-      }
-    },
-    "ejemplos": [
-      {
-        "uso": "zip -r respaldo.zip /ruta/al/directorio",
-        "explicacion": "Crea un archivo llamado 'respaldo.zip' empaquetando y comprimiendo de forma recursiva todo el contenido de la carpeta indicada."
-      },
-      {
-        "uso": "zip -e -r confidencial.zip carpeta_privada",
-        "explicacion": "Comprime la carpeta especificada de forma recursiva protegiendo el archivo con una contraseña que el usuario deberá ingresar en la terminal."
-      }
-    ],
-    "categoria_db": "compression",
-    "archivo_fuente": "zip.json"
-  },
-  {
-    "comando": "tar",
-    "descripcion": "Almacena, extrae y manipula archivos de archivo (tarballs), permitiendo empaquetar múltiples archivos y directorios en uno solo, con o sin compresión.",
-    "categoria": [
-      "commands",
-      "compression"
-    ],
-    "estructura": "tar [opciones] [archivo_tar] [archivos_o_directorios]",
-    "opciones": [
-      {
-        "parametro": [
-          "-c",
-          "--create"
-        ],
-        "descripcion": "Crea un nuevo archivo de empaquetado (.tar)."
-      },
-      {
-        "parametro": [
-          "-x",
-          "--extract",
-          "--get"
-        ],
-        "descripcion": "Extrae el contenido de un archivo empaquetado."
-      },
-      {
-        "parametro": [
-          "-t",
-          "--list"
-        ],
-        "descripcion": "Lista el contenido de un archivo empaquetado sin extraerlo."
-      },
-      {
-        "parametro": [
-          "-f",
-          "--file"
-        ],
-        "descripcion": "Especifica el nombre del archivo de archivo sobre el que se va a operar. Es obligatorio en casi todas las operaciones."
-      },
-      {
-        "parametro": [
-          "-v",
-          "--verbose"
-        ],
-        "descripcion": "Modo detallado; muestra de forma progresiva los archivos que están siendo procesados."
-      },
-      {
-        "parametro": [
-          "-z",
-          "--gzip",
-          "--gunzip",
-          "--ungzip"
-        ],
-        "descripcion": "Filtra el archivo a través del algoritmo gzip. Se usa para crear o extraer archivos '.tar.gz' o '.tgz'."
-      },
-      {
-        "parametro": [
-          "-j",
-          "--bzip2"
-        ],
-        "descripcion": "Filtra el archivo a través del algoritmo bzip2. Se usa para crear o extraer archivos '.tar.bz2' o '.tbz2'."
-      },
-      {
-        "parametro": [
-          "-J",
-          "--xz"
-        ],
-        "descripcion": "Filtra el archivo a través del algoritmo xz. Se usa para crear o extraer archivos '.tar.xz'."
-      },
-      {
-        "parametro": [
-          "-v",
-          "--verbose"
-        ],
-        "descripcion": "Modo detallado; muestra el progreso listando los archivos procesados en la terminal."
-      },
-      {
-        "parametro": [
-          "-C",
-          "--directory"
-        ],
-        "descripcion": "Cambia al directorio especificado antes de realizar la operación (ideal para extraer en una ruta específica)."
-      },
-      {
-        "parametro": [
-          "--exclude"
-        ],
-        "descripcion": "Excluye archivos o directorios que coincidan con el patrón indicado durante el empaquetado."
-      },
-      {
-        "parametro": [
-          "-r",
-          "--append"
-        ],
-        "descripcion": "Añade archivos al final de un archivo empaquetado existente (no funciona si el archivo ya está comprimido)."
-      },
-      {
-        "parametro": [
-          "-u",
-          "--update"
-        ],
-        "descripcion": "Solo añade los archivos que sean más recientes que la copia que ya existe dentro del archivo empaquetado."
-      },
-      {
-        "parametro": [
-          "-h",
-          "--help"
-        ],
-        "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
-      },
-      {
-        "parametro": [
-          "--version"
-        ],
-        "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
-      }
-    ],
-    "instalacion": {
-      "es_instalable": true,
-      "metodo_preferido": "gestor_paquetes",
-      "pasos": {
-        "debian_ubuntu": "sudo apt update && sudo apt install tar -y",
-        "arch_linux": "sudo pacman -S tar",
-        "rhel_centos": "sudo dnf install tar -y"
-      }
-    },
-    "ejemplos": [
-      {
-        "uso": "tar -cvzf archivo.tar.gz /ruta/al/directorio",
-        "explicacion": "Crea un archivo comprimido con gzip (.tar.gz) a partir del contenido del directorio especificado, mostrando los archivos procesados."
-      },
-      {
-        "uso": "tar -xvzf archivo.tar.gz -C /ruta/destino",
-        "explicacion": "Extrae el contenido de un archivo comprimido (.tar.gz) dentro del directorio de destino indicado."
-      }
-    ],
-    "categoria_db": "compression",
-    "archivo_fuente": "tar.json"
-  },
-  {
-    "comando": "zless",
-    "descripcion": "Un filtro que permite examinar archivos de texto comprimidos (mediante gzip, bzip2, xz, etc.) una pantalla a la vez en la terminal, funcionando como un visor interactivo sin necesidad de descomprimir el archivo previamente en el disco.",
-    "categoria": [
-      "commands",
-      "compression"
-    ],
-    "estructura": "zless [archivos]",
-    "opciones": [
-      {
-        "parametro": [
-          "archivos"
-        ],
-        "descripcion": "Uno o más archivos de texto comprimidos (típicamente con extensión .gz, .bz2, .xz, o .z) que se desean visualizar de forma interactiva."
-      },
-      {
-        "parametro": [
-          "-h",
-          "--help"
-        ],
-        "descripcion": "Muestra un mensaje de ayuda básico con las opciones de inicialización y finaliza."
-      },
-      {
-        "parametro": [
-          "-V",
-          "--version"
-        ],
-        "descripcion": "Muestra la versión del software de paginación subyacente junto con la licencia."
-      }
-    ],
-    "instalacion": {
-      "es_instalable": true,
-      "metodo_preferido": "gestor_paquetes",
-      "pasos": {
-        "debian_ubuntu": "sudo apt install gzip less",
-        "arch_linux": "sudo pacman -S gzip less",
-        "rhel_centos": "sudo dnf install gzip less"
-      }
-    },
-    "ejemplos": [
-      {
-        "uso": "zless /var/log/syslog.1.gz",
-        "explicacion": "Abre de forma interactiva un archivo de registro del sistema que está comprimido, permitiendo desplazarse hacia adelante y hacia atrás con las flechas o la barra espaciadora."
-      },
-      {
-        "uso": "zless archivo_extenso.txt.xz",
-        "explicacion": "Visualiza el contenido de un archivo de texto comprimido con xz de la misma manera interactiva y fluida que se haría con el comando 'less' tradicional."
-      }
-    ],
-    "categoria_db": "compression",
-    "archivo_fuente": "zless.json"
-  },
-  {
-    "comando": "xz",
-    "descripcion": "Comprimir o descomprimir archivos usando el algoritmo LZMA2, ofreciendo una tasa de compresión muy alta a costa de un mayor uso de memoria y tiempo de CPU.",
-    "categoria": [
-      "commands",
-      "compression"
-    ],
-    "estructura": "xz [opciones] [archivos]",
-    "opciones": [
-      {
-        "parametro": [
-          "-z",
-          "--compress"
-        ],
-        "descripcion": "Fuerza la compresión del archivo, independientemente del nombre con el que se invocó el programa (comportamiento por defecto)."
-      },
-      {
-        "parametro": [
-          "-d",
-          "--decompress",
-          "--uncompress"
-        ],
-        "descripcion": "Fuerza la descompresión del archivo, sustituyendo la extensión '.xz' por la original."
-      },
-      {
-        "parametro": [
-          "-t",
-          "--test"
-        ],
-        "descripcion": "Verifica la integridad de los archivos comprimidos calculando y comparando sus sumas de control sin extraer el resultado."
-      },
-      {
-        "parametro": [
-          "-l",
-          "--list"
-        ],
-        "descripcion": "Muestra información detallada sobre los archivos comprimidos (tamaño original, tamaño comprimido, ratio, tipo de verificación de integridad) sin descomprimirlos."
-      },
-      {
-        "parametro": [
-          "-k",
-          "--keep"
-        ],
-        "descripcion": "Conserva los archivos de entrada originales intactos; evita que se eliminen automáticamente después de comprimir o descomprimir."
-      },
-      {
-        "parametro": [
-          "-f",
-          "--force"
-        ],
-        "descripcion": "Fuerza la sobrescritura de los archivos de salida, permite procesar enlaces duros y reemplaza archivos symlink si es necesario."
-      },
-      {
-        "parametro": [
-          "-c",
-          "--stdout",
-          "--to-stdout"
-        ],
-        "descripcion": "Escribe los datos resultantes en la salida estándar en lugar de generar un archivo físico en el disco."
-      },
-      {
-        "parametro": [
-          "-q",
-          "--quiet"
-        ],
-        "descripcion": "Suprime los mensajes de advertencia y avisos no esenciales; si se duplica ('-qq'), también oculta los errores críticos."
-      },
-      {
-        "parametro": [
-          "-v",
-          "--verbose"
-        ],
-        "descripcion": "Modo detallado; muestra el progreso, porcentaje de compresión, velocidad y tiempo estimado en la terminal."
-      },
-      {
-        "parametro": [
-          "-0",
-          "-1",
-          "-2",
-          "-3",
-          "-4",
-          "-5",
-          "-6",
-          "-7",
-          "-8",
-          "-9"
-        ],
-        "descripcion": "Ajusta el nivel de compresión. '-0' es el más rápido con menor compresión, '-6' es el valor por defecto y '-9' ofrece la máxima compresión requiriendo mucha más memoria RAM."
-      },
-      {
-        "parametro": [
-          "-e",
-          "--extreme"
-        ],
-        "descripcion": "Utiliza una variante de optimización más lenta del nivel de compresión seleccionado para intentar rascar un porcentaje extra de reducción de tamaño."
-      },
-      {
-        "parametro": [
-          "-T",
-          "--threads=NUM"
-        ],
-        "descripcion": "Especifica el número de hilos de ejecución en paralelo que se utilizarán para acelerar la compresión o descompresión. El valor '0' usa todos los núcleos del sistema."
-      },
-      {
-        "parametro": [
-          "-h",
-          "--help"
-        ],
-        "descripcion": "Muestra un mensaje de ayuda condensado con las opciones disponibles y finaliza."
-      },
-      {
-        "parametro": [
-          "-V",
-          "--version"
-        ],
-        "descripcion": "Muestra la versión de xz y de la librería liblzma utilizada junto con la licencia del software."
-      }
-    ],
-    "instalacion": {
-      "es_instalable": true,
-      "metodo_preferido": "gestor_paquetes",
-      "pasos": {
-        "debian_ubuntu": "sudo apt update && sudo apt install xz-utils -y",
-        "arch_linux": "sudo pacman -S xz",
-        "rhel_centos": "sudo dnf install xz -y"
-      }
-    },
-    "ejemplos": [
-      {
-        "uso": "xz -k archivo.tar",
-        "explicacion": "Comprime el archivo generando 'archivo.tar.xz' manteniendo el archivo original intacto en su sitio."
-      },
-      {
-        "uso": "xz -d -T 0 archivo.tar.xz",
-        "explicacion": "Descomprime el archivo utilizando de forma paralela todos los núcleos de procesamiento (hilos) disponibles en el CPU."
-      }
-    ],
-    "categoria_db": "compression",
-    "archivo_fuente": "xz.json"
   },
   {
     "comando": "rsync",
     "descripcion": "Una herramienta rápida, versátil y remota (y local) para copiar archivos que minimiza la transferencia de datos mediante el algoritmo de delta-transferencia.",
     "categoria": [
-      "commands",
-      "compression"
+      "compresion"
     ],
     "estructura": "rsync [opciones] origen destino",
     "opciones": [
@@ -1673,184 +2641,109 @@
         "explicacion": "Sincroniza un directorio local con un servidor remoto a través de una conexión segura SSH, eliminando en el destino los archivos que ya no existan en el origen."
       }
     ],
-    "categoria_db": "compression",
+    "categoria_db": "compresion",
     "archivo_fuente": "rsync.json"
   },
   {
-    "comando": "dd",
-    "descripcion": "Copiar un archivo, convirtiendo y formateando según las opciones suministradas.",
+    "comando": "tar",
+    "descripcion": "Almacena, extrae y manipula archivos de archivo (tarballs), permitiendo empaquetar múltiples archivos y directorios en uno solo, con o sin compresión.",
     "categoria": [
-      "commands",
-      "compression"
+      "compresion"
     ],
-    "estructura": "dd [operandos]",
-    "opciones": [
-      {
-        "parametro": [
-          "if=ARCHIVO"
-        ],
-        "descripcion": "Lee desde el ARCHIVO especificado en lugar de la entrada estándar."
-      },
-      {
-        "parametro": [
-          "of=ARCHIVO"
-        ],
-        "descripcion": "Escribe en el ARCHIVO especificado en lugar de la salida estándar."
-      },
-      {
-        "parametro": [
-          "bs=BYTES"
-        ],
-        "descripcion": "Lee y escribe hasta el número de BYTES especificados a la vez. Reemplaza los valores de 'ibs' y 'obs'."
-      },
-      {
-        "parametro": [
-          "ibs=BYTES"
-        ],
-        "descripcion": "Lee la cantidad de BYTES especificados a la vez. Por defecto es 512."
-      },
-      {
-        "parametro": [
-          "obs=BYTES"
-        ],
-        "descripcion": "Escribe la cantidad de BYTES especificados a la vez. Por defecto es 512."
-      },
-      {
-        "parametro": [
-          "count=N"
-        ],
-        "descripcion": "Copia únicamente N bloques de entrada."
-      },
-      {
-        "parametro": [
-          "skip=N"
-        ],
-        "descripcion": "Omite N bloques al principio de la entrada antes de iniciar la copia."
-      },
-      {
-        "parametro": [
-          "seek=N"
-        ],
-        "descripcion": "Omite N bloques al principio de la salida antes de iniciar la escritura."
-      },
-      {
-        "parametro": [
-          "conv=CONVS"
-        ],
-        "descripcion": "Convierte el archivo según la lista de símbolos separados por comas (ej. 'notrunc', 'noerror', 'sync', 'ucase', 'lcase')."
-      },
-      {
-        "parametro": [
-          "status=NIVEL"
-        ],
-        "descripcion": "Controla la cantidad de información transferida mostrada; 'progress' muestra estadísticas en tiempo real, 'none' suprime casi todo."
-      },
-      {
-        "parametro": [
-          "--help"
-        ],
-        "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
-      },
-      {
-        "parametro": [
-          "--version"
-        ],
-        "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
-      }
-    ],
-    "instalacion": {
-      "es_instalable": true,
-      "metodo_preferido": "preinstalado",
-      "pasos": {
-        "debian_ubuntu": "sudo apt install coreutils",
-        "arch_linux": "sudo pacman -S coreutils",
-        "rhel_centos": "sudo dnf install coreutils"
-      }
-    },
-    "ejemplos": [
-      {
-        "uso": "dd if=origen.iso of=/dev/sdX bs=4M status=progress",
-        "explicacion": "Crea un USB arrancable copiando la imagen ISO al dispositivo /dev/sdX, mostrando el progreso del proceso."
-      },
-      {
-        "uso": "dd if=/dev/sda of=respaldo_mbr.img bs=512 count=1",
-        "explicacion": "Realiza un respaldo del Registro de Arranque Principal (MBR) copiando exactamente los primeros 512 bytes del disco /dev/sda."
-      }
-    ],
-    "categoria_db": "compression",
-    "archivo_fuente": "dd.json"
-  },
-  {
-    "comando": "bzip2",
-    "descripcion": "Comprimir archivos usando el algoritmo 'Burrows-Wheeler' y codificación 'Huffman'.",
-    "categoria": [
-      "commands",
-      "compression"
-    ],
-    "estructura": "bzip2 [opciones]",
+    "estructura": "tar [opciones] [archivo_tar] [archivos_o_directorios]",
     "opciones": [
       {
         "parametro": [
           "-c",
-          "--stdout"
+          "--create"
         ],
-        "descripcion": "Comprimir o descomprimir el archivo hacia la salida estándar."
+        "descripcion": "Crea un nuevo archivo de empaquetado (.tar)."
       },
       {
         "parametro": [
-          "-d",
-          "--decompress"
+          "-x",
+          "--extract",
+          "--get"
         ],
-        "descripcion": "Fuerza la descompresión del archivo, ignorando el nombre con el que se invocó el programa."
-      },
-      {
-        "parametro": [
-          "-z",
-          "--compress"
-        ],
-        "descripcion": "Fuerza la compresión del archivo, independientemente del nombre con el que se invocó el programa."
+        "descripcion": "Extrae el contenido de un archivo empaquetado."
       },
       {
         "parametro": [
           "-t",
-          "--test"
+          "--list"
         ],
-        "descripcion": "Verifica la integridad de los archivos especificados realizando una descompresión de prueba sin guardar el resultado."
+        "descripcion": "Lista el contenido de un archivo empaquetado sin extraerlo."
       },
       {
         "parametro": [
           "-f",
-          "--force"
+          "--file"
         ],
-        "descripcion": "Fuerza la sobrescritura de los archivos de salida, rompe enlaces duros existentes y permite procesar archivos sin las cabeceras mágicas correctas."
-      },
-      {
-        "parametro": [
-          "-k",
-          "--keep"
-        ],
-        "descripcion": "Conserva los archivos de entrada intactos; no los elimina después de la compresión o descompresión."
-      },
-      {
-        "parametro": [
-          "-s",
-          "--small"
-        ],
-        "descripcion": "Reduce el uso de memoria para compresión, descompresión y pruebas a cambio de reducir la velocidad a la mitad y limitar el tamaño del bloque."
-      },
-      {
-        "parametro": [
-          "-q",
-          "--quiet"
-        ],
-        "descripcion": "Suprime los mensajes de advertencia no esenciales; los errores críticos de E/S se siguen mostrando."
+        "descripcion": "Especifica el nombre del archivo de archivo sobre el que se va a operar. Es obligatorio en casi todas las operaciones."
       },
       {
         "parametro": [
           "-v",
           "--verbose"
         ],
-        "descripcion": "Modo detallado; muestra el porcentaje de compresión para cada archivo procesado. Añadir más opciones '-v' aumenta el nivel de detalle diagnóstico."
+        "descripcion": "Modo detallado; muestra de forma progresiva los archivos que están siendo procesados."
+      },
+      {
+        "parametro": [
+          "-z",
+          "--gzip",
+          "--gunzip",
+          "--ungzip"
+        ],
+        "descripcion": "Filtra el archivo a través del algoritmo gzip. Se usa para crear o extraer archivos '.tar.gz' o '.tgz'."
+      },
+      {
+        "parametro": [
+          "-j",
+          "--bzip2"
+        ],
+        "descripcion": "Filtra el archivo a través del algoritmo bzip2. Se usa para crear o extraer archivos '.tar.bz2' o '.tbz2'."
+      },
+      {
+        "parametro": [
+          "-J",
+          "--xz"
+        ],
+        "descripcion": "Filtra el archivo a través del algoritmo xz. Se usa para crear o extraer archivos '.tar.xz'."
+      },
+      {
+        "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Modo detallado; muestra el progreso listando los archivos procesados en la terminal."
+      },
+      {
+        "parametro": [
+          "-C",
+          "--directory"
+        ],
+        "descripcion": "Cambia al directorio especificado antes de realizar la operación (ideal para extraer en una ruta específica)."
+      },
+      {
+        "parametro": [
+          "--exclude"
+        ],
+        "descripcion": "Excluye archivos o directorios que coincidan con el patrón indicado durante el empaquetado."
+      },
+      {
+        "parametro": [
+          "-r",
+          "--append"
+        ],
+        "descripcion": "Añade archivos al final de un archivo empaquetado existente (no funciona si el archivo ya está comprimido)."
+      },
+      {
+        "parametro": [
+          "-u",
+          "--update"
+        ],
+        "descripcion": "Solo añade los archivos que sean más recientes que la copia que ya existe dentro del archivo empaquetado."
       },
       {
         "parametro": [
@@ -1861,17 +2754,229 @@
       },
       {
         "parametro": [
-          "-L",
-          "--license",
-          "-V",
           "--version"
         ],
         "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install tar -y",
+        "arch_linux": "sudo pacman -S tar",
+        "rhel_centos": "sudo dnf install tar -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "tar -cvzf archivo.tar.gz /ruta/al/directorio",
+        "explicacion": "Crea un archivo comprimido con gzip (.tar.gz) a partir del contenido del directorio especificado, mostrando los archivos procesados."
+      },
+      {
+        "uso": "tar -xvzf archivo.tar.gz -C /ruta/destino",
+        "explicacion": "Extrae el contenido de un archivo comprimido (.tar.gz) dentro del directorio de destino indicado."
+      }
+    ],
+    "categoria_db": "compresion",
+    "archivo_fuente": "tar.json"
+  },
+  {
+    "comando": "unzip",
+    "descripcion": "Listar, probar y extraer archivos comprimidos en formato ZIP.",
+    "categoria": [
+      "compresion"
+    ],
+    "estructura": "unzip [opciones] archivo.zip [archivos_a_extraer] [-x archivos_excluidos] [-d directorio_destino]",
+    "opciones": [
+      {
+        "parametro": [
+          "-l",
+          "--list"
+        ],
+        "descripcion": "Lista los archivos contenidos en el archivo ZIP en formato corto (nombre, tamaño, fecha y hora) sin extraer nada."
       },
       {
         "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Modo detallado; muestra información técnica de los archivos (razón de compresión, CRC-32, etc.) o funciona como diagnóstico."
+      },
+      {
+        "parametro": [
+          "-t",
+          "--test"
+        ],
+        "descripcion": "Verifica la integridad del archivo ZIP realizando una descompresión de prueba en memoria sin escribir en el disco."
+      },
+      {
+        "parametro": [
+          "-d"
+        ],
+        "descripcion": "Especifica el directorio de destino donde se extraerán los archivos. Si no existe, se creará automáticamente."
+      },
+      {
+        "parametro": [
+          "-x"
+        ],
+        "descripcion": "Excluye los archivos o patrones especificados de la operación de extracción o listado."
+      },
+      {
+        "parametro": [
+          "-q",
+          "--quiet"
+        ],
+        "descripcion": "Modo silencioso; suprime la mayoría de los mensajes informativos durante la extracción. Usar '-qq' para un silencio absoluto."
+      },
+      {
+        "parametro": [
+          "-o",
+          "--overwrite"
+        ],
+        "descripcion": "Fuerza la sobrescritura de los archivos existentes en el destino sin solicitar confirmación al usuario."
+      },
+      {
+        "parametro": [
+          "-n",
+          "--never-overwrite"
+        ],
+        "descripcion": "No sobrescribe los archivos existentes en el destino. Omite de forma silenciosa la extracción de dichos archivos."
+      },
+      {
+        "parametro": [
+          "-j",
+          "--junk-paths"
+        ],
+        "descripcion": "Ignora la estructura de directorios interna del archivo ZIP y extrae todos los archivos directamente en el directorio de destino."
+      },
+      {
+        "parametro": [
+          "-P",
+          "--password"
+        ],
+        "descripcion": "Especifica la contraseña directamente en la línea de comandos para descifrar archivos ZIP protegidos (no recomendado por motivos de seguridad)."
+      },
+      {
+        "parametro": [
+          "-P",
+          "--password"
+        ],
+        "descripcion": "Permite descifrar archivos comprimidos que están protegidos con contraseña."
+      },
+      {
+        "parametro": [
+          "-h",
+          "--help"
+        ],
+        "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      },
+      {
+        "parametro": [
+          "--version"
+        ],
+        "descripcion": "Muestra la versión del software junto con la información del entorno de compilación."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install unzip -y",
+        "arch_linux": "sudo pacman -S unzip",
+        "rhel_centos": "sudo dnf install unzip -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "unzip archivo.zip -d /ruta/destino/",
+        "explicacion": "Extrae todo el contenido de 'archivo.zip' dentro de la carpeta especificada en la ruta de destino."
+      },
+      {
+        "uso": "unzip -l archivo.zip",
+        "explicacion": "Muestra la lista completa de archivos y carpetas empaquetados dentro del archivo ZIP sin llegar a descomprimirlos."
+      }
+    ],
+    "categoria_db": "compresion",
+    "archivo_fuente": "unzip.json"
+  },
+  {
+    "comando": "xz",
+    "descripcion": "Comprimir o descomprimir archivos usando el algoritmo LZMA2, ofreciendo una tasa de compresión muy alta a costa de un mayor uso de memoria y tiempo de CPU.",
+    "categoria": [
+      "compresion"
+    ],
+    "estructura": "xz [opciones] [archivos]",
+    "opciones": [
+      {
+        "parametro": [
+          "-z",
+          "--compress"
+        ],
+        "descripcion": "Fuerza la compresión del archivo, independientemente del nombre con el que se invocó el programa (comportamiento por defecto)."
+      },
+      {
+        "parametro": [
+          "-d",
+          "--decompress",
+          "--uncompress"
+        ],
+        "descripcion": "Fuerza la descompresión del archivo, sustituyendo la extensión '.xz' por la original."
+      },
+      {
+        "parametro": [
+          "-t",
+          "--test"
+        ],
+        "descripcion": "Verifica la integridad de los archivos comprimidos calculando y comparando sus sumas de control sin extraer el resultado."
+      },
+      {
+        "parametro": [
+          "-l",
+          "--list"
+        ],
+        "descripcion": "Muestra información detallada sobre los archivos comprimidos (tamaño original, tamaño comprimido, ratio, tipo de verificación de integridad) sin descomprimirlos."
+      },
+      {
+        "parametro": [
+          "-k",
+          "--keep"
+        ],
+        "descripcion": "Conserva los archivos de entrada originales intactos; evita que se eliminen automáticamente después de comprimir o descomprimir."
+      },
+      {
+        "parametro": [
+          "-f",
+          "--force"
+        ],
+        "descripcion": "Fuerza la sobrescritura de los archivos de salida, permite procesar enlaces duros y reemplaza archivos symlink si es necesario."
+      },
+      {
+        "parametro": [
+          "-c",
+          "--stdout",
+          "--to-stdout"
+        ],
+        "descripcion": "Escribe los datos resultantes en la salida estándar en lugar de generar un archivo físico en el disco."
+      },
+      {
+        "parametro": [
+          "-q",
+          "--quiet"
+        ],
+        "descripcion": "Suprime los mensajes de advertencia y avisos no esenciales; si se duplica ('-qq'), también oculta los errores críticos."
+      },
+      {
+        "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Modo detallado; muestra el progreso, porcentaje de compresión, velocidad y tiempo estimado en la terminal."
+      },
+      {
+        "parametro": [
+          "-0",
           "-1",
-          "--fast",
           "-2",
           "-3",
           "-4",
@@ -1879,1185 +2984,1640 @@
           "-6",
           "-7",
           "-8",
-          "-9",
-          "--best"
+          "-9"
         ],
-        "descripcion": "Ajusta el tamaño del bloque de compresión desde 100 k hasta 900 k. No afecta el proceso de descompresión."
+        "descripcion": "Ajusta el nivel de compresión. '-0' es el más rápido con menor compresión, '-6' es el valor por defecto y '-9' ofrece la máxima compresión requiriendo mucha más memoria RAM."
       },
       {
         "parametro": [
-          "--"
+          "-e",
+          "--extreme"
         ],
-        "descripcion": "Trata todos los argumentos posteriores como nombres de archivos, permitiendo gestionar archivos cuyos nombres comiencen con un guion."
+        "descripcion": "Utiliza una variante de optimización más lenta del nivel de compresión seleccionado para intentar rascar un porcentaje extra de reducción de tamaño."
       },
       {
         "parametro": [
-          "--repetitive-fast",
-          "--repetitive-best"
+          "-T",
+          "--threads=NUM"
         ],
-        "descripcion": "Opciones redundantes u obsoletas en versiones 0.9.5 o superiores debido a mejoras en el algoritmo de ordenación."
+        "descripcion": "Especifica el número de hilos de ejecución en paralelo que se utilizarán para acelerar la compresión o descompresión. El valor '0' usa todos los núcleos del sistema."
+      },
+      {
+        "parametro": [
+          "-h",
+          "--help"
+        ],
+        "descripcion": "Muestra un mensaje de ayuda condensado con las opciones disponibles y finaliza."
+      },
+      {
+        "parametro": [
+          "-V",
+          "--version"
+        ],
+        "descripcion": "Muestra la versión de xz y de la librería liblzma utilizada junto con la licencia del software."
       }
     ],
     "instalacion": {
       "es_instalable": true,
       "metodo_preferido": "gestor_paquetes",
       "pasos": {
-        "debian_ubuntu": "sudo apt update && sudo apt install bzip2 -y",
-        "arch_linux": "sudo pacman -S bzip2",
-        "rhel_centos": "sudo dnf install bzip2 -y"
+        "debian_ubuntu": "sudo apt update && sudo apt install xz-utils -y",
+        "arch_linux": "sudo pacman -S xz",
+        "rhel_centos": "sudo dnf install xz -y"
       }
     },
     "ejemplos": [
       {
-        "uso": "bzip2 -k archivo.txt",
-        "explicacion": "Comprime el archivo generando 'archivo.txt.bz2' sin eliminar el archivo original."
+        "uso": "xz -k archivo.tar",
+        "explicacion": "Comprime el archivo generando 'archivo.tar.xz' manteniendo el archivo original intacto en su sitio."
       },
       {
-        "uso": "bzip2 -d archivo.txt.bz2",
-        "explicacion": "Descomprime el archivo comprimido a su estado original."
+        "uso": "xz -d -T 0 archivo.tar.xz",
+        "explicacion": "Descomprime el archivo utilizando de forma paralela todos los núcleos de procesamiento (hilos) disponibles en el CPU."
       }
     ],
-    "categoria_db": "compression",
-    "archivo_fuente": "bzip2.json"
-  },
-  {
-    "comando": "useradd",
-    "categoria_db": "users",
-    "archivo_fuente": "useradd.json"
-  },
-  {
-    "comando": "newgrp",
-    "categoria_db": "users",
-    "archivo_fuente": "newgrp.json"
-  },
-  {
-    "comando": "whoami",
-    "categoria_db": "users",
-    "archivo_fuente": "whoami.json"
-  },
-  {
-    "comando": "passwd",
-    "categoria_db": "users",
-    "archivo_fuente": "passwd.json"
-  },
-  {
-    "comando": "chsh",
-    "categoria_db": "users",
-    "archivo_fuente": "chsh.json"
-  },
-  {
-    "comando": "chfn",
-    "categoria_db": "users",
-    "archivo_fuente": "chfn.json"
-  },
-  {
-    "comando": "adduser",
-    "categoria_db": "users",
-    "archivo_fuente": "adduser.json"
-  },
-  {
-    "comando": "su",
-    "categoria_db": "users",
-    "archivo_fuente": "su.json"
-  },
-  {
-    "comando": "userdel",
-    "categoria_db": "users",
-    "archivo_fuente": "userdel.json"
-  },
-  {
-    "comando": "groupmod",
-    "categoria_db": "users",
-    "archivo_fuente": "groupmod.json"
-  },
-  {
-    "comando": "deluser",
-    "categoria_db": "users",
-    "archivo_fuente": "deluser.json"
-  },
-  {
-    "comando": "groupadd",
-    "categoria_db": "users",
-    "archivo_fuente": "groupadd.json"
-  },
-  {
-    "comando": "chage",
-    "categoria_db": "users",
-    "archivo_fuente": "chage.json"
-  },
-  {
-    "comando": "last",
-    "categoria_db": "users",
-    "archivo_fuente": "last.json"
-  },
-  {
-    "comando": "groups",
-    "categoria_db": "users",
-    "archivo_fuente": "groups.json"
-  },
-  {
-    "comando": "wall",
-    "categoria_db": "users",
-    "archivo_fuente": "wall.json"
-  },
-  {
-    "comando": "id",
-    "categoria_db": "users",
-    "archivo_fuente": "id.json"
-  },
-  {
-    "comando": "groupdel",
-    "categoria_db": "users",
-    "archivo_fuente": "groupdel.json"
-  },
-  {
-    "comando": "w",
-    "categoria_db": "users",
-    "archivo_fuente": "w.json"
-  },
-  {
-    "comando": "who",
-    "categoria_db": "users",
-    "archivo_fuente": "who.json"
-  },
-  {
-    "comando": "gpasswd",
-    "categoria_db": "users",
-    "archivo_fuente": "gpasswd.json"
-  },
-  {
-    "comando": "sha1sum",
-    "categoria_db": "security",
-    "archivo_fuente": "sha1sum.json"
-  },
-  {
-    "comando": "arptables",
-    "categoria_db": "security",
-    "archivo_fuente": "arptables.json"
-  },
-  {
-    "comando": "chmod",
-    "categoria_db": "security",
-    "archivo_fuente": "chmod.json"
-  },
-  {
-    "comando": "setsebool",
-    "categoria_db": "security",
-    "archivo_fuente": "setsebool.json"
-  },
-  {
-    "comando": "visudo",
-    "categoria_db": "security",
-    "archivo_fuente": "visudo.json"
-  },
-  {
-    "comando": "sealert",
-    "categoria_db": "security",
-    "archivo_fuente": "sealert.json"
-  },
-  {
-    "comando": "gpg",
-    "categoria_db": "security",
-    "archivo_fuente": "gpg.json"
-  },
-  {
-    "comando": "getsebool",
-    "categoria_db": "security",
-    "archivo_fuente": "getsebool.json"
-  },
-  {
-    "comando": "getfacl",
-    "categoria_db": "security",
-    "archivo_fuente": "getfacl.json"
-  },
-  {
-    "comando": "umask",
-    "categoria_db": "security",
-    "archivo_fuente": "umask.json"
-  },
-  {
-    "comando": "steghide",
-    "categoria_db": "security",
-    "archivo_fuente": "steghide.json"
-  },
-  {
-    "comando": "faillog",
-    "categoria_db": "security",
-    "archivo_fuente": "faillog.json"
-  },
-  {
-    "comando": "openssl",
-    "categoria_db": "security",
-    "archivo_fuente": "openssl.json"
-  },
-  {
-    "comando": "ip6tables",
-    "categoria_db": "security",
-    "archivo_fuente": "ip6tables.json"
-  },
-  {
-    "comando": "lynis",
-    "categoria_db": "security",
-    "archivo_fuente": "lynis.json"
-  },
-  {
-    "comando": "ufw",
-    "categoria_db": "security",
-    "archivo_fuente": "ufw.json"
-  },
-  {
-    "comando": "ausearch",
-    "categoria_db": "security",
-    "archivo_fuente": "ausearch.json"
-  },
-  {
-    "comando": "restorecon",
-    "categoria_db": "security",
-    "archivo_fuente": "restorecon.json"
-  },
-  {
-    "comando": "setenforce",
-    "categoria_db": "security",
-    "archivo_fuente": "setenforce.json"
-  },
-  {
-    "comando": "getcap",
-    "categoria_db": "security",
-    "archivo_fuente": "getcap.json"
-  },
-  {
-    "comando": "apparmor_status",
-    "categoria_db": "security",
-    "archivo_fuente": "apparmor_status.json"
-  },
-  {
-    "comando": "chown",
-    "categoria_db": "security",
-    "archivo_fuente": "chown.json"
-  },
-  {
-    "comando": "lastlog",
-    "categoria_db": "security",
-    "archivo_fuente": "lastlog.json"
-  },
-  {
-    "comando": "lime",
-    "categoria_db": "security",
-    "archivo_fuente": "lime.json"
-  },
-  {
-    "comando": "sha256sum",
-    "categoria_db": "security",
-    "archivo_fuente": "sha256sum.json"
-  },
-  {
-    "comando": "cksum",
-    "categoria_db": "security",
-    "archivo_fuente": "cksum.json"
-  },
-  {
-    "comando": "setcap",
-    "categoria_db": "security",
-    "archivo_fuente": "setcap.json"
-  },
-  {
-    "comando": "exiftool",
-    "categoria_db": "security",
-    "archivo_fuente": "exiftool.json"
-  },
-  {
-    "comando": "aureport",
-    "categoria_db": "security",
-    "archivo_fuente": "aureport.json"
-  },
-  {
-    "comando": "sudo",
-    "categoria_db": "security",
-    "archivo_fuente": "sudo.json"
-  },
-  {
-    "comando": "hashcat",
-    "categoria_db": "security",
-    "archivo_fuente": "hashcat.json"
-  },
-  {
-    "comando": "chcon",
-    "categoria_db": "security",
-    "archivo_fuente": "chcon.json"
-  },
-  {
-    "comando": "auditctl",
-    "categoria_db": "security",
-    "archivo_fuente": "auditctl.json"
-  },
-  {
-    "comando": "ebtables",
-    "categoria_db": "security",
-    "archivo_fuente": "ebtables.json"
-  },
-  {
-    "comando": "md5sum",
-    "categoria_db": "security",
-    "archivo_fuente": "md5sum.json"
-  },
-  {
-    "comando": "getenforce",
-    "categoria_db": "security",
-    "archivo_fuente": "getenforce.json"
-  },
-  {
-    "comando": "nftables",
-    "categoria_db": "security",
-    "archivo_fuente": "nftables.json"
-  },
-  {
-    "comando": "iptables",
-    "categoria_db": "security",
-    "archivo_fuente": "iptables.json"
-  },
-  {
-    "comando": "cracklib-check",
-    "categoria_db": "security",
-    "archivo_fuente": "cracklib-check.json"
-  },
-  {
-    "comando": "setfacl",
-    "categoria_db": "security",
-    "archivo_fuente": "setfacl.json"
-  },
-  {
-    "comando": "bat",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "bat.json"
-  },
-  {
-    "comando": "journalctl",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "journalctl.json"
-  },
-  {
-    "comando": "cmatrix",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "cmatrix.json"
-  },
-  {
-    "comando": "screen",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "screen.json"
-  },
-  {
-    "comando": "hollywood",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "hollywood.json"
-  },
-  {
-    "comando": "scriptreplay",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "scriptreplay.json"
-  },
-  {
-    "comando": "manpath",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "manpath.json"
-  },
-  {
-    "comando": "tldr",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "tldr.json"
-  },
-  {
-    "comando": "tmux",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "tmux.json"
-  },
-  {
-    "comando": "toilet",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "toilet.json"
-  },
-  {
-    "comando": "exa",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "exa.json"
-  },
-  {
-    "comando": "logger",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "logger.json"
-  },
-  {
-    "comando": "units",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "units.json"
-  },
-  {
-    "comando": "proxychains",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "proxychains.json"
-  },
-  {
-    "comando": "look",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "look.json"
-  },
-  {
-    "comando": "shopt",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "shopt.json"
-  },
-  {
-    "comando": "pwd",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "pwd.json"
-  },
-  {
-    "comando": "sl",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "sl.json"
-  },
-  {
-    "comando": "history",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "history.json"
-  },
-  {
-    "comando": "ncdu",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "ncdu.json"
-  },
-  {
-    "comando": "alias",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "alias.json"
-  },
-  {
-    "comando": "neofetch",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "neofetch.json"
-  },
-  {
-    "comando": "script",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "script.json"
-  },
-  {
-    "comando": "tmate",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "tmate.json"
-  },
-  {
-    "comando": "fzf",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "fzf.json"
-  },
-  {
-    "comando": "figlet",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "figlet.json"
-  },
-  {
-    "comando": "logsave",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "logsave.json"
-  },
-  {
-    "comando": "fortune",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "fortune.json"
-  },
-  {
-    "comando": "cowsay",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "cowsay.json"
-  },
-  {
-    "comando": "date",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "date.json"
-  },
-  {
-    "comando": "direnv",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "direnv.json"
-  },
-  {
-    "comando": "bc",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "bc.json"
-  },
-  {
-    "comando": "jq",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "jq.json"
-  },
-  {
-    "comando": "time",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "time.json"
-  },
-  {
-    "comando": "duf",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "duf.json"
-  },
-  {
-    "comando": "banner",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "banner.json"
-  },
-  {
-    "comando": "yes",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "yes.json"
-  },
-  {
-    "comando": "pv",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "pv.json"
-  },
-  {
-    "comando": "export",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "export.json"
-  },
-  {
-    "comando": "cal",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "cal.json"
-  },
-  {
-    "comando": "clear",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "clear.json"
-  },
-  {
-    "comando": "tee",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "tee.json"
-  },
-  {
-    "comando": "man",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "man.json"
-  },
-  {
-    "comando": "factor",
-    "categoria_db": "miscellaneous",
-    "archivo_fuente": "factor.json"
-  },
-  {
-    "comando": "lspci",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lspci.json"
-  },
-  {
-    "comando": "msr-tools",
-    "categoria_db": "system_info",
-    "archivo_fuente": "msr-tools.json"
-  },
-  {
-    "comando": "lslocks",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lslocks.json"
-  },
-  {
-    "comando": "numactl",
-    "categoria_db": "system_info",
-    "archivo_fuente": "numactl.json"
+    "categoria_db": "compresion",
+    "archivo_fuente": "xz.json"
+  },
+  {
+    "comando": "zip",
+    "descripcion": "Empaquetar y comprimir (archivar) archivos en el formato estándar ZIP, compatible con múltiples plataformas.",
+    "categoria": [
+      "compresion"
+    ],
+    "estructura": "zip [opciones] archivo.zip [archivos_o_directorios_a_incluir]",
+    "opciones": [
+      {
+        "parametro": [
+          "-r",
+          "--recurse-paths"
+        ],
+        "descripcion": "Recorre los directorios de forma recursiva para incluir todos sus subdirectorios y archivos dentro del paquete ZIP."
+      },
+      {
+        "parametro": [
+          "-q",
+          "--quiet"
+        ],
+        "descripcion": "Modo silencioso; suprime los mensajes informativos y las líneas de progreso de los archivos que van siendo añadidos."
+      },
+      {
+        "parametro": [
+          "-v",
+          "--verbose"
+        ],
+        "descripcion": "Modo detallado o de diagnóstico; muestra información extra sobre la compresión o lista los archivos si no se pasan más argumentos."
+      },
+      {
+        "parametro": [
+          "-m",
+          "--move"
+        ],
+        "descripcion": "Mueve los archivos especificados al archivo ZIP; es decir, elimina los archivos originales del disco una vez que se han comprimido con éxito."
+      },
+      {
+        "parametro": [
+          "-u",
+          "--update"
+        ],
+        "descripcion": "Actualiza el archivo ZIP reemplazando únicamente los archivos existentes si han cambiado o agregando archivos nuevos."
+      },
+      {
+        "parametro": [
+          "-f",
+          "--freshen"
+        ],
+        "descripcion": "Sustituye en el archivo ZIP solo aquellos archivos que ya existen dentro de él y que han sido modificados recientemente en el disco. No añade archivos nuevos."
+      },
+      {
+        "parametro": [
+          "-d",
+          "--delete"
+        ],
+        "descripcion": "Elimina de forma explícita los archivos o rutas especificadas que ya se encuentran dentro del archivo ZIP."
+      },
+      {
+        "parametro": [
+          "-j",
+          "--junk-paths"
+        ],
+        "descripcion": "Descarta la estructura de rutas de directorios; guarda todos los archivos directamente en la raíz del archivo ZIP sin crear subcarpetas."
+      },
+      {
+        "parametro": [
+          "-e",
+          "--encrypt"
+        ],
+        "descripcion": "Solicita una contraseña de forma interactiva en la terminal para cifrar el contenido del archivo ZIP creado."
+      },
+      {
+        "parametro": [
+          "-P",
+          "--password"
+        ],
+        "descripcion": "Especifica la contraseña de cifrado directamente desde la línea de comandos (no recomendado por motivos de seguridad)."
+      },
+      {
+        "parametro": [
+          "-0",
+          "-1",
+          "-2",
+          "-3",
+          "-4",
+          "-5",
+          "-6",
+          "-7",
+          "-8",
+          "-9"
+        ],
+        "descripcion": "Regula la velocidad y nivel de compresión. '-0' indica almacenar sin compresión, '-1' es el método más rápido y '-9' el método más lento con óptima compresión."
+      },
+      {
+        "parametro": [
+          "-s",
+          "--split-size"
+        ],
+        "descripcion": "Divide el archivo ZIP resultante en varias partes más pequeñas del tamaño especificado (ej. '-s 10m' para partes de 10 Megabytes)."
+      },
+      {
+        "parametro": [
+          "-h",
+          "--help"
+        ],
+        "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      },
+      {
+        "parametro": [
+          "-v",
+          "--version"
+        ],
+        "descripcion": "Muestra la versión del software junto con información detallada de los algoritmos de compresión soportados."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt update && sudo apt install zip -y",
+        "arch_linux": "sudo pacman -S zip",
+        "rhel_centos": "sudo dnf install zip -y"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "zip -r respaldo.zip /ruta/al/directorio",
+        "explicacion": "Crea un archivo llamado 'respaldo.zip' empaquetando y comprimiendo de forma recursiva todo el contenido de la carpeta indicada."
+      },
+      {
+        "uso": "zip -e -r confidencial.zip carpeta_privada",
+        "explicacion": "Comprime la carpeta especificada de forma recursiva protegiendo el archivo con una contraseña que el usuario deberá ingresar en la terminal."
+      }
+    ],
+    "categoria_db": "compresion",
+    "archivo_fuente": "zip.json"
+  },
+  {
+    "comando": "zless",
+    "descripcion": "Un filtro que permite examinar archivos de texto comprimidos (mediante gzip, bzip2, xz, etc.) una pantalla a la vez en la terminal, funcionando como un visor interactivo sin necesidad de descomprimir el archivo previamente en el disco.",
+    "categoria": [
+      "compresion"
+    ],
+    "estructura": "zless [archivos]",
+    "opciones": [
+      {
+        "parametro": [
+          "archivos"
+        ],
+        "descripcion": "Uno o más archivos de texto comprimidos (típicamente con extensión .gz, .bz2, .xz, o .z) que se desean visualizar de forma interactiva."
+      },
+      {
+        "parametro": [
+          "-h",
+          "--help"
+        ],
+        "descripcion": "Muestra un mensaje de ayuda básico con las opciones de inicialización y finaliza."
+      },
+      {
+        "parametro": [
+          "-V",
+          "--version"
+        ],
+        "descripcion": "Muestra la versión del software de paginación subyacente junto con la licencia."
+      }
+    ],
+    "instalacion": {
+      "es_instalable": true,
+      "metodo_preferido": "gestor_paquetes",
+      "pasos": {
+        "debian_ubuntu": "sudo apt install gzip less",
+        "arch_linux": "sudo pacman -S gzip less",
+        "rhel_centos": "sudo dnf install gzip less"
+      }
+    },
+    "ejemplos": [
+      {
+        "uso": "zless /var/log/syslog.1.gz",
+        "explicacion": "Abre de forma interactiva un archivo de registro del sistema que está comprimido, permitiendo desplazarse hacia adelante y hacia atrás con las flechas o la barra espaciadora."
+      },
+      {
+        "uso": "zless archivo_extenso.txt.xz",
+        "explicacion": "Visualiza el contenido de un archivo de texto comprimido con xz de la misma manera interactiva y fluida que se haría con el comando 'less' tradicional."
+      }
+    ],
+    "categoria_db": "compresion",
+    "archivo_fuente": "zless.json"
+  },
+  {
+    "comando": "arch",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "arch.json"
+  },
+  {
+    "comando": "cpuid",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "cpuid.json"
+  },
+  {
+    "comando": "dmidecode",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "dmidecode.json"
+  },
+  {
+    "comando": "env",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "env.json"
+  },
+  {
+    "comando": "fwupdmgr",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "fwupdmgr.json"
+  },
+  {
+    "comando": "glxinfo",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "glxinfo.json"
+  },
+  {
+    "comando": "hostname",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "hostname.json"
   },
   {
     "comando": "inxi",
-    "categoria_db": "system_info",
+    "categoria_db": "info_sistema",
     "archivo_fuente": "inxi.json"
   },
   {
-    "comando": "xdpyinfo",
-    "categoria_db": "system_info",
-    "archivo_fuente": "xdpyinfo.json"
+    "comando": "ldd",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "ldd.json"
+  },
+  {
+    "comando": "lscpu",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lscpu.json"
+  },
+  {
+    "comando": "lsdev",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lsdev.json"
+  },
+  {
+    "comando": "lshw",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lshw.json"
+  },
+  {
+    "comando": "lsinitramfs",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lsinitramfs.json"
+  },
+  {
+    "comando": "lsipc",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lsipc.json"
+  },
+  {
+    "comando": "lslocks",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lslocks.json"
+  },
+  {
+    "comando": "lsmod",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lsmod.json"
+  },
+  {
+    "comando": "lspci",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lspci.json"
+  },
+  {
+    "comando": "lsscsi",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lsscsi.json"
+  },
+  {
+    "comando": "lstopo",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lstopo.json"
+  },
+  {
+    "comando": "lsusb",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "lsusb.json"
+  },
+  {
+    "comando": "modinfo",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "modinfo.json"
+  },
+  {
+    "comando": "modprobe",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "modprobe.json"
+  },
+  {
+    "comando": "msr-tools",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "msr-tools.json"
+  },
+  {
+    "comando": "numactl",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "numactl.json"
+  },
+  {
+    "comando": "printenv",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "printenv.json"
+  },
+  {
+    "comando": "screenfetch",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "screenfetch.json"
+  },
+  {
+    "comando": "sysctl",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "sysctl.json"
+  },
+  {
+    "comando": "sysfsutils",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "sysfsutils.json"
   },
   {
     "comando": "uname",
-    "categoria_db": "system_info",
+    "categoria_db": "info_sistema",
     "archivo_fuente": "uname.json"
   },
   {
     "comando": "uptime",
-    "categoria_db": "system_info",
+    "categoria_db": "info_sistema",
     "archivo_fuente": "uptime.json"
   },
   {
     "comando": "virt-what",
-    "categoria_db": "system_info",
+    "categoria_db": "info_sistema",
     "archivo_fuente": "virt-what.json"
   },
   {
-    "comando": "xwininfo",
-    "categoria_db": "system_info",
-    "archivo_fuente": "xwininfo.json"
-  },
-  {
-    "comando": "sysctl",
-    "categoria_db": "system_info",
-    "archivo_fuente": "sysctl.json"
-  },
-  {
-    "comando": "fwupdmgr",
-    "categoria_db": "system_info",
-    "archivo_fuente": "fwupdmgr.json"
-  },
-  {
-    "comando": "lstopo",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lstopo.json"
-  },
-  {
-    "comando": "env",
-    "categoria_db": "system_info",
-    "archivo_fuente": "env.json"
-  },
-  {
-    "comando": "lsipc",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lsipc.json"
-  },
-  {
-    "comando": "lsinitramfs",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lsinitramfs.json"
-  },
-  {
-    "comando": "sysfsutils",
-    "categoria_db": "system_info",
-    "archivo_fuente": "sysfsutils.json"
-  },
-  {
-    "comando": "modinfo",
-    "categoria_db": "system_info",
-    "archivo_fuente": "modinfo.json"
-  },
-  {
-    "comando": "lsdev",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lsdev.json"
-  },
-  {
-    "comando": "lscpu",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lscpu.json"
-  },
-  {
-    "comando": "modprobe",
-    "categoria_db": "system_info",
-    "archivo_fuente": "modprobe.json"
-  },
-  {
-    "comando": "cpuid",
-    "categoria_db": "system_info",
-    "archivo_fuente": "cpuid.json"
-  },
-  {
-    "comando": "lsmod",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lsmod.json"
-  },
-  {
-    "comando": "lsscsi",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lsscsi.json"
-  },
-  {
-    "comando": "arch",
-    "categoria_db": "system_info",
-    "archivo_fuente": "arch.json"
-  },
-  {
-    "comando": "hostname",
-    "categoria_db": "system_info",
-    "archivo_fuente": "hostname.json"
-  },
-  {
-    "comando": "dmidecode",
-    "categoria_db": "system_info",
-    "archivo_fuente": "dmidecode.json"
-  },
-  {
-    "comando": "lsusb",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lsusb.json"
-  },
-  {
-    "comando": "glxinfo",
-    "categoria_db": "system_info",
-    "archivo_fuente": "glxinfo.json"
+    "comando": "xdpyinfo",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "xdpyinfo.json"
   },
   {
     "comando": "xrandr",
-    "categoria_db": "system_info",
+    "categoria_db": "info_sistema",
     "archivo_fuente": "xrandr.json"
   },
   {
-    "comando": "screenfetch",
-    "categoria_db": "system_info",
-    "archivo_fuente": "screenfetch.json"
+    "comando": "xwininfo",
+    "categoria_db": "info_sistema",
+    "archivo_fuente": "xwininfo.json"
   },
   {
-    "comando": "lshw",
-    "categoria_db": "system_info",
-    "archivo_fuente": "lshw.json"
+    "comando": "alias",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "alias.json"
   },
   {
-    "comando": "ldd",
-    "categoria_db": "system_info",
-    "archivo_fuente": "ldd.json"
+    "comando": "banner",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "banner.json"
   },
   {
-    "comando": "printenv",
-    "categoria_db": "system_info",
-    "archivo_fuente": "printenv.json"
+    "comando": "bat",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "bat.json"
   },
   {
-    "comando": "timeout",
-    "categoria_db": "process",
-    "archivo_fuente": "timeout.json"
+    "comando": "bc",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "bc.json"
   },
   {
-    "comando": "watch",
-    "categoria_db": "process",
-    "archivo_fuente": "watch.json"
+    "comando": "cal",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "cal.json"
   },
   {
-    "comando": "pidstat",
-    "categoria_db": "process",
-    "archivo_fuente": "pidstat.json"
+    "comando": "clear",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "clear.json"
   },
   {
-    "comando": "lsof",
-    "categoria_db": "process",
-    "archivo_fuente": "lsof.json"
+    "comando": "cmatrix",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "cmatrix.json"
   },
   {
-    "comando": "dstat",
-    "categoria_db": "process",
-    "archivo_fuente": "dstat.json"
+    "comando": "cowsay",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "cowsay.json"
   },
   {
-    "comando": "htop",
-    "categoria_db": "process",
-    "archivo_fuente": "htop.json"
+    "comando": "date",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "date.json"
   },
   {
-    "comando": "tload",
-    "categoria_db": "process",
-    "archivo_fuente": "tload.json"
+    "comando": "direnv",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "direnv.json"
   },
   {
-    "comando": "chrt",
-    "categoria_db": "process",
-    "archivo_fuente": "chrt.json"
+    "comando": "duf",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "duf.json"
   },
   {
-    "comando": "prlimit",
-    "categoria_db": "process",
-    "archivo_fuente": "prlimit.json"
+    "comando": "exa",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "exa.json"
   },
   {
-    "comando": "top",
-    "categoria_db": "process",
-    "archivo_fuente": "top.json"
+    "comando": "export",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "export.json"
   },
   {
-    "comando": "atop",
-    "categoria_db": "process",
-    "archivo_fuente": "atop.json"
+    "comando": "factor",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "factor.json"
   },
   {
-    "comando": "jobs",
-    "categoria_db": "process",
-    "archivo_fuente": "jobs.json"
+    "comando": "figlet",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "figlet.json"
   },
   {
-    "comando": "killall",
-    "categoria_db": "process",
-    "archivo_fuente": "killall.json"
+    "comando": "fortune",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "fortune.json"
   },
   {
-    "comando": "ps",
-    "categoria_db": "process",
-    "archivo_fuente": "ps.json"
+    "comando": "fzf",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "fzf.json"
   },
   {
-    "comando": "bg",
-    "categoria_db": "process",
-    "archivo_fuente": "bg.json"
+    "comando": "history",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "history.json"
   },
   {
-    "comando": "nsenter",
-    "categoria_db": "process",
-    "archivo_fuente": "nsenter.json"
+    "comando": "hollywood",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "hollywood.json"
   },
   {
-    "comando": "crontab",
-    "categoria_db": "process",
-    "archivo_fuente": "crontab.json"
+    "comando": "journalctl",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "journalctl.json"
   },
   {
-    "comando": "iotop",
-    "categoria_db": "process",
-    "archivo_fuente": "iotop.json"
+    "comando": "jq",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "jq.json"
   },
   {
-    "comando": "sensors",
-    "categoria_db": "process",
-    "archivo_fuente": "sensors.json"
+    "comando": "logger",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "logger.json"
   },
   {
-    "comando": "fuser",
-    "categoria_db": "process",
-    "archivo_fuente": "fuser.json"
+    "comando": "logsave",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "logsave.json"
   },
   {
-    "comando": "slabtop",
-    "categoria_db": "process",
-    "archivo_fuente": "slabtop.json"
+    "comando": "look",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "look.json"
   },
   {
-    "comando": "free",
-    "categoria_db": "process",
-    "archivo_fuente": "free.json"
+    "comando": "man",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "man.json"
   },
   {
-    "comando": "pkill",
-    "categoria_db": "process",
-    "archivo_fuente": "pkill.json"
+    "comando": "manpath",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "manpath.json"
   },
   {
-    "comando": "renice",
-    "categoria_db": "process",
-    "archivo_fuente": "renice.json"
+    "comando": "ncdu",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "ncdu.json"
   },
   {
-    "comando": "ionice",
-    "categoria_db": "process",
-    "archivo_fuente": "ionice.json"
+    "comando": "neofetch",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "neofetch.json"
   },
   {
-    "comando": "nice",
-    "categoria_db": "process",
-    "archivo_fuente": "nice.json"
+    "comando": "proxychains",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "proxychains.json"
   },
   {
-    "comando": "unshare",
-    "categoria_db": "process",
-    "archivo_fuente": "unshare.json"
+    "comando": "pv",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "pv.json"
   },
   {
-    "comando": "fg",
-    "categoria_db": "process",
-    "archivo_fuente": "fg.json"
+    "comando": "pwd",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "pwd.json"
   },
   {
-    "comando": "pidof",
-    "categoria_db": "process",
-    "archivo_fuente": "pidof.json"
+    "comando": "screen",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "screen.json"
   },
   {
-    "comando": "logrotate",
-    "categoria_db": "process",
-    "archivo_fuente": "logrotate.json"
+    "comando": "script",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "script.json"
   },
   {
-    "comando": "taskset",
-    "categoria_db": "process",
-    "archivo_fuente": "taskset.json"
+    "comando": "scriptreplay",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "scriptreplay.json"
   },
   {
-    "comando": "nohup",
-    "categoria_db": "process",
-    "archivo_fuente": "nohup.json"
+    "comando": "shopt",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "shopt.json"
   },
   {
-    "comando": "dmesg",
-    "categoria_db": "process",
-    "archivo_fuente": "dmesg.json"
+    "comando": "sl",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "sl.json"
+  },
+  {
+    "comando": "tee",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "tee.json"
+  },
+  {
+    "comando": "time",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "time.json"
+  },
+  {
+    "comando": "tldr",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "tldr.json"
+  },
+  {
+    "comando": "tmate",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "tmate.json"
+  },
+  {
+    "comando": "tmux",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "tmux.json"
+  },
+  {
+    "comando": "toilet",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "toilet.json"
+  },
+  {
+    "comando": "units",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "units.json"
+  },
+  {
+    "comando": "yes",
+    "categoria_db": "miscelaneo",
+    "archivo_fuente": "yes.json"
+  },
+  {
+    "nombre": "Comando previo",
+    "descripcion": "Ejecuta el último comando.",
+    "contenido": "!!",
+    "comando": "comando_previo",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "comando_previo.json"
+  },
+  {
+    "nombre": "Comando previo con superusuario",
+    "descripcion": "Ejecuta el último comando con privilegios de superusuario.",
+    "contenido": "sudo !!",
+    "comando": "comando_previo_con_superusuario",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "comando_previo_con_superusuario.json"
+  },
+  {
+    "nombre": "Comprobación de velocidad de disco",
+    "descripcion": "Verifica la velocidad de escritura del disco",
+    "contenido": "dd if=/dev/zero of=test bs=1G count=1 oflag=dsync",
+    "comando": "comprobacion_velocidad_disco",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "comprobacion_velocidad_disco.json"
+  },
+  {
+    "nombre": "Copia con barra de progreso",
+    "descripcion": "Realiza una copia de archivos mostrando el progreso",
+    "contenido": "rsync -ah --progress $1 $2",
+    "comando": "copia_con_barra_de_progreso",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "copia_con_barra_de_progreso.json"
+  },
+  {
+    "nombre": "Crear cien directorios",
+    "descripcion": "Crea cien directorios con nombres secuenciales",
+    "contenido": "mkdir $1{01..100}",
+    "comando": "crear_cien_directorios",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "crear_cien_directorios.json"
+  },
+  {
+    "nombre": "Descargar video de YouTube",
+    "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
+    "contenido": "yt-dlp $1",
+    "comando": "descgargar_video_youtube",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "descgargar_video_youtube.json"
+  },
+  {
+    "nombre": "Fork bomb",
+    "descripcion": "Un script que crea múltiples procesos hijo hasta agotar los recursos del sistema",
+    "contenido": ":(){ :|:& };:",
+    "comando": "forkbomb",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "forkbomb.json"
+  },
+  {
+    "nombre": "Mostrar clima",
+    "descripcion": "Muestra la información del clima para la ubicación actual",
+    "contenido": "curl wttr.in",
+    "comando": "mostrar_clima",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "mostrar_clima.json"
+  },
+  {
+    "nombre": "Recargar configuración del shell",
+    "descripcion": "Recarga la configuración del shell actual",
+    "contenido": "source ~/.bashrc",
+    "comando": "recargar_configuracion_shell",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "recargar_configuracion_shell.json"
+  },
+  {
+    "nombre": "Revisar existencia de comando",
+    "descripcion": "Verifica si un comando existe en el sistema",
+    "contenido": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\"",
+    "comando": "revisar_existencia_comando",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "revisar_existencia_comando.json"
+  },
+  {
+    "nombre": "Ver video de YouTube en terminal",
+    "descripcion": "Reproduce un video de YouTube en el terminal utilizando mpv",
+    "contenido": "mpv $1",
+    "comando": "ver_youtube_en_terminal",
+    "categoria_db": "monolínea",
+    "archivo_fuente": "ver_youtube_en_terminal.json"
+  },
+  {
+    "comando": "apk",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "apk.json"
+  },
+  {
+    "comando": "apt-cache",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "apt-cache.json"
+  },
+  {
+    "comando": "apt-get",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "apt-get.json"
+  },
+  {
+    "comando": "apt",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "apt.json"
+  },
+  {
+    "comando": "dnf",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "dnf.json"
+  },
+  {
+    "comando": "dpkg",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "dpkg.json"
+  },
+  {
+    "comando": "flatpak",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "flatpak.json"
+  },
+  {
+    "comando": "pacman",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "pacman.json"
+  },
+  {
+    "comando": "rpm",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "rpm.json"
+  },
+  {
+    "comando": "snap_snapctl",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "snap_snapctl.json"
+  },
+  {
+    "comando": "yum",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "yum.json"
+  },
+  {
+    "comando": "zypper",
+    "categoria_db": "paquetes",
+    "archivo_fuente": "zypper.json"
   },
   {
     "comando": "at",
-    "categoria_db": "process",
+    "categoria_db": "procesos",
     "archivo_fuente": "at.json"
   },
   {
-    "comando": "pgrep",
-    "categoria_db": "process",
-    "archivo_fuente": "pgrep.json"
+    "comando": "atop",
+    "categoria_db": "procesos",
+    "archivo_fuente": "atop.json"
   },
   {
-    "comando": "nmon",
-    "categoria_db": "process",
-    "archivo_fuente": "nmon.json"
+    "comando": "bg",
+    "categoria_db": "procesos",
+    "archivo_fuente": "bg.json"
   },
   {
-    "comando": "ltrace",
-    "categoria_db": "process",
-    "archivo_fuente": "ltrace.json"
+    "comando": "chrt",
+    "categoria_db": "procesos",
+    "archivo_fuente": "chrt.json"
   },
   {
-    "comando": "vmstat",
-    "categoria_db": "process",
-    "archivo_fuente": "vmstat.json"
+    "comando": "crontab",
+    "categoria_db": "procesos",
+    "archivo_fuente": "crontab.json"
   },
   {
-    "comando": "pstree",
-    "categoria_db": "process",
-    "archivo_fuente": "pstree.json"
+    "comando": "dmesg",
+    "categoria_db": "procesos",
+    "archivo_fuente": "dmesg.json"
   },
   {
-    "comando": "strace",
-    "categoria_db": "process",
-    "archivo_fuente": "strace.json"
+    "comando": "dstat",
+    "categoria_db": "procesos",
+    "archivo_fuente": "dstat.json"
+  },
+  {
+    "comando": "fg",
+    "categoria_db": "procesos",
+    "archivo_fuente": "fg.json"
+  },
+  {
+    "comando": "free",
+    "categoria_db": "procesos",
+    "archivo_fuente": "free.json"
+  },
+  {
+    "comando": "fuser",
+    "categoria_db": "procesos",
+    "archivo_fuente": "fuser.json"
+  },
+  {
+    "comando": "htop",
+    "categoria_db": "procesos",
+    "archivo_fuente": "htop.json"
+  },
+  {
+    "comando": "ionice",
+    "categoria_db": "procesos",
+    "archivo_fuente": "ionice.json"
+  },
+  {
+    "comando": "iotop",
+    "categoria_db": "procesos",
+    "archivo_fuente": "iotop.json"
+  },
+  {
+    "comando": "jobs",
+    "categoria_db": "procesos",
+    "archivo_fuente": "jobs.json"
   },
   {
     "comando": "kill",
-    "categoria_db": "process",
+    "categoria_db": "procesos",
     "archivo_fuente": "kill.json"
   },
   {
+    "comando": "killall",
+    "categoria_db": "procesos",
+    "archivo_fuente": "killall.json"
+  },
+  {
+    "comando": "logrotate",
+    "categoria_db": "procesos",
+    "archivo_fuente": "logrotate.json"
+  },
+  {
+    "comando": "lsof",
+    "categoria_db": "procesos",
+    "archivo_fuente": "lsof.json"
+  },
+  {
+    "comando": "ltrace",
+    "categoria_db": "procesos",
+    "archivo_fuente": "ltrace.json"
+  },
+  {
+    "comando": "nice",
+    "categoria_db": "procesos",
+    "archivo_fuente": "nice.json"
+  },
+  {
+    "comando": "nmon",
+    "categoria_db": "procesos",
+    "archivo_fuente": "nmon.json"
+  },
+  {
+    "comando": "nohup",
+    "categoria_db": "procesos",
+    "archivo_fuente": "nohup.json"
+  },
+  {
+    "comando": "nsenter",
+    "categoria_db": "procesos",
+    "archivo_fuente": "nsenter.json"
+  },
+  {
+    "comando": "pgrep",
+    "categoria_db": "procesos",
+    "archivo_fuente": "pgrep.json"
+  },
+  {
+    "comando": "pidof",
+    "categoria_db": "procesos",
+    "archivo_fuente": "pidof.json"
+  },
+  {
+    "comando": "pidstat",
+    "categoria_db": "procesos",
+    "archivo_fuente": "pidstat.json"
+  },
+  {
+    "comando": "pkill",
+    "categoria_db": "procesos",
+    "archivo_fuente": "pkill.json"
+  },
+  {
+    "comando": "prlimit",
+    "categoria_db": "procesos",
+    "archivo_fuente": "prlimit.json"
+  },
+  {
+    "comando": "ps",
+    "categoria_db": "procesos",
+    "archivo_fuente": "ps.json"
+  },
+  {
+    "comando": "pstree",
+    "categoria_db": "procesos",
+    "archivo_fuente": "pstree.json"
+  },
+  {
+    "comando": "renice",
+    "categoria_db": "procesos",
+    "archivo_fuente": "renice.json"
+  },
+  {
+    "comando": "sensors",
+    "categoria_db": "procesos",
+    "archivo_fuente": "sensors.json"
+  },
+  {
+    "comando": "slabtop",
+    "categoria_db": "procesos",
+    "archivo_fuente": "slabtop.json"
+  },
+  {
+    "comando": "strace",
+    "categoria_db": "procesos",
+    "archivo_fuente": "strace.json"
+  },
+  {
+    "comando": "taskset",
+    "categoria_db": "procesos",
+    "archivo_fuente": "taskset.json"
+  },
+  {
+    "comando": "timeout",
+    "categoria_db": "procesos",
+    "archivo_fuente": "timeout.json"
+  },
+  {
+    "comando": "tload",
+    "categoria_db": "procesos",
+    "archivo_fuente": "tload.json"
+  },
+  {
+    "comando": "top",
+    "categoria_db": "procesos",
+    "archivo_fuente": "top.json"
+  },
+  {
+    "comando": "unshare",
+    "categoria_db": "procesos",
+    "archivo_fuente": "unshare.json"
+  },
+  {
+    "comando": "vmstat",
+    "categoria_db": "procesos",
+    "archivo_fuente": "vmstat.json"
+  },
+  {
+    "comando": "watch",
+    "categoria_db": "procesos",
+    "archivo_fuente": "watch.json"
+  },
+  {
+    "comando": "arp",
+    "categoria_db": "red",
+    "archivo_fuente": "arp.json"
+  },
+  {
+    "comando": "arping",
+    "categoria_db": "red",
+    "archivo_fuente": "arping.json"
+  },
+  {
+    "comando": "bridge",
+    "categoria_db": "red",
+    "archivo_fuente": "bridge.json"
+  },
+  {
+    "comando": "conntrack",
+    "categoria_db": "red",
+    "archivo_fuente": "conntrack.json"
+  },
+  {
+    "comando": "curl",
+    "categoria_db": "red",
+    "archivo_fuente": "curl.json"
+  },
+  {
+    "comando": "dig",
+    "categoria_db": "red",
+    "archivo_fuente": "dig.json"
+  },
+  {
+    "comando": "driftnet",
+    "categoria_db": "red",
+    "archivo_fuente": "driftnet.json"
+  },
+  {
+    "comando": "ebtables",
+    "categoria_db": "red",
+    "archivo_fuente": "ebtables.json"
+  },
+  {
+    "comando": "ethtool",
+    "categoria_db": "red",
+    "archivo_fuente": "ethtool.json"
+  },
+  {
+    "comando": "ftp",
+    "categoria_db": "red",
+    "archivo_fuente": "ftp.json"
+  },
+  {
     "comando": "get",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "get.json"
   },
   {
     "comando": "host",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "host.json"
   },
   {
-    "comando": "put",
-    "categoria_db": "network",
-    "archivo_fuente": "put.json"
-  },
-  {
-    "comando": "ftp",
-    "categoria_db": "network",
-    "archivo_fuente": "ftp.json"
-  },
-  {
-    "comando": "scp",
-    "categoria_db": "network",
-    "archivo_fuente": "scp.json"
-  },
-  {
-    "comando": "ss",
-    "categoria_db": "network",
-    "archivo_fuente": "ss.json"
-  },
-  {
-    "comando": "route",
-    "categoria_db": "network",
-    "archivo_fuente": "route.json"
-  },
-  {
-    "comando": "mput",
-    "categoria_db": "network",
-    "archivo_fuente": "mput.json"
-  },
-  {
-    "comando": "nc",
-    "categoria_db": "network",
-    "archivo_fuente": "nc.json"
-  },
-  {
-    "comando": "ethtool",
-    "categoria_db": "network",
-    "archivo_fuente": "ethtool.json"
-  },
-  {
-    "comando": "tcpdump",
-    "categoria_db": "network",
-    "archivo_fuente": "tcpdump.json"
-  },
-  {
-    "comando": "whois",
-    "categoria_db": "network",
-    "archivo_fuente": "whois.json"
-  },
-  {
-    "comando": "nmcli",
-    "categoria_db": "network",
-    "archivo_fuente": "nmcli.json"
-  },
-  {
-    "comando": "iperf3",
-    "categoria_db": "network",
-    "archivo_fuente": "iperf3.json"
-  },
-  {
-    "comando": "mtr",
-    "categoria_db": "network",
-    "archivo_fuente": "mtr.json"
-  },
-  {
-    "comando": "ifconfig",
-    "categoria_db": "network",
-    "archivo_fuente": "ifconfig.json"
-  },
-  {
-    "comando": "driftnet",
-    "categoria_db": "network",
-    "archivo_fuente": "driftnet.json"
-  },
-  {
-    "comando": "tshark",
-    "categoria_db": "network",
-    "archivo_fuente": "tshark.json"
-  },
-  {
-    "comando": "socat",
-    "categoria_db": "network",
-    "archivo_fuente": "socat.json"
-  },
-  {
-    "comando": "netstat",
-    "categoria_db": "network",
-    "archivo_fuente": "netstat.json"
-  },
-  {
-    "comando": "nmap",
-    "categoria_db": "network",
-    "archivo_fuente": "nmap.json"
-  },
-  {
-    "comando": "mget",
-    "categoria_db": "network",
-    "archivo_fuente": "mget.json"
-  },
-  {
-    "comando": "speedtest-cli",
-    "categoria_db": "network",
-    "archivo_fuente": "speedtest-cli.json"
-  },
-  {
-    "comando": "sftp",
-    "categoria_db": "network",
-    "archivo_fuente": "sftp.json"
-  },
-  {
-    "comando": "conntrack",
-    "categoria_db": "network",
-    "archivo_fuente": "conntrack.json"
-  },
-  {
-    "comando": "iwconfig",
-    "categoria_db": "network",
-    "archivo_fuente": "iwconfig.json"
-  },
-  {
-    "comando": "teamd",
-    "categoria_db": "network",
-    "archivo_fuente": "teamd.json"
-  },
-  {
-    "comando": "arp",
-    "categoria_db": "network",
-    "archivo_fuente": "arp.json"
-  },
-  {
-    "comando": "ip",
-    "categoria_db": "network",
-    "archivo_fuente": "ip.json"
-  },
-  {
-    "comando": "ping",
-    "categoria_db": "network",
-    "archivo_fuente": "ping.json"
-  },
-  {
-    "comando": "wget",
-    "categoria_db": "network",
-    "archivo_fuente": "wget.json"
-  },
-  {
-    "comando": "network",
-    "categoria_db": "network",
-    "archivo_fuente": "network.json"
-  },
-  {
-    "comando": "nslookup",
-    "categoria_db": "network",
-    "archivo_fuente": "nslookup.json"
-  },
-  {
     "comando": "hostnamectl",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "hostnamectl.json"
   },
   {
-    "comando": "ipcalc",
-    "categoria_db": "network",
-    "archivo_fuente": "ipcalc.json"
-  },
-  {
-    "comando": "bridge",
-    "categoria_db": "network",
-    "archivo_fuente": "bridge.json"
-  },
-  {
-    "comando": "tc",
-    "categoria_db": "network",
-    "archivo_fuente": "tc.json"
-  },
-  {
-    "comando": "httrack",
-    "categoria_db": "network",
-    "archivo_fuente": "httrack.json"
-  },
-  {
     "comando": "hping3",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "hping3.json"
   },
   {
+    "comando": "httrack",
+    "categoria_db": "red",
+    "archivo_fuente": "httrack.json"
+  },
+  {
+    "comando": "ifconfig",
+    "categoria_db": "red",
+    "archivo_fuente": "ifconfig.json"
+  },
+  {
+    "comando": "ip",
+    "categoria_db": "red",
+    "archivo_fuente": "ip.json"
+  },
+  {
+    "comando": "ipcalc",
+    "categoria_db": "red",
+    "archivo_fuente": "ipcalc.json"
+  },
+  {
+    "comando": "iperf3",
+    "categoria_db": "red",
+    "archivo_fuente": "iperf3.json"
+  },
+  {
     "comando": "iw",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "iw.json"
   },
   {
+    "comando": "iwconfig",
+    "categoria_db": "red",
+    "archivo_fuente": "iwconfig.json"
+  },
+  {
+    "comando": "mget",
+    "categoria_db": "red",
+    "archivo_fuente": "mget.json"
+  },
+  {
+    "comando": "mput",
+    "categoria_db": "red",
+    "archivo_fuente": "mput.json"
+  },
+  {
+    "comando": "mtr",
+    "categoria_db": "red",
+    "archivo_fuente": "mtr.json"
+  },
+  {
+    "comando": "nc",
+    "categoria_db": "red",
+    "archivo_fuente": "nc.json"
+  },
+  {
     "comando": "netplan",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "netplan.json"
   },
   {
-    "comando": "ebtables",
-    "categoria_db": "network",
-    "archivo_fuente": "ebtables.json"
+    "comando": "netstat",
+    "categoria_db": "red",
+    "archivo_fuente": "netstat.json"
+  },
+  {
+    "comando": "network",
+    "categoria_db": "red",
+    "archivo_fuente": "network.json"
   },
   {
     "comando": "ngrep",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "ngrep.json"
   },
   {
-    "comando": "dig",
-    "categoria_db": "network",
-    "archivo_fuente": "dig.json"
+    "comando": "nmap",
+    "categoria_db": "red",
+    "archivo_fuente": "nmap.json"
   },
   {
-    "comando": "traceroute",
-    "categoria_db": "network",
-    "archivo_fuente": "traceroute.json"
-  },
-  {
-    "comando": "arping",
-    "categoria_db": "network",
-    "archivo_fuente": "arping.json"
-  },
-  {
-    "comando": "curl",
-    "categoria_db": "network",
-    "archivo_fuente": "curl.json"
+    "comando": "nmcli",
+    "categoria_db": "red",
+    "archivo_fuente": "nmcli.json"
   },
   {
     "comando": "nmtui",
-    "categoria_db": "network",
+    "categoria_db": "red",
     "archivo_fuente": "nmtui.json"
+  },
+  {
+    "comando": "nslookup",
+    "categoria_db": "red",
+    "archivo_fuente": "nslookup.json"
+  },
+  {
+    "comando": "ping",
+    "categoria_db": "red",
+    "archivo_fuente": "ping.json"
+  },
+  {
+    "comando": "put",
+    "categoria_db": "red",
+    "archivo_fuente": "put.json"
+  },
+  {
+    "comando": "route",
+    "categoria_db": "red",
+    "archivo_fuente": "route.json"
+  },
+  {
+    "comando": "scp",
+    "categoria_db": "red",
+    "archivo_fuente": "scp.json"
+  },
+  {
+    "comando": "sftp",
+    "categoria_db": "red",
+    "archivo_fuente": "sftp.json"
+  },
+  {
+    "comando": "socat",
+    "categoria_db": "red",
+    "archivo_fuente": "socat.json"
+  },
+  {
+    "comando": "speedtest-cli",
+    "categoria_db": "red",
+    "archivo_fuente": "speedtest-cli.json"
+  },
+  {
+    "comando": "ss",
+    "categoria_db": "red",
+    "archivo_fuente": "ss.json"
+  },
+  {
+    "comando": "ssh-copy-id",
+    "categoria_db": "red",
+    "archivo_fuente": "ssh-copy-id.json"
+  },
+  {
+    "comando": "ssh-keygen",
+    "categoria_db": "red",
+    "archivo_fuente": "ssh-keygen.json"
+  },
+  {
+    "comando": "ssh",
+    "categoria_db": "red",
+    "archivo_fuente": "ssh.json"
+  },
+  {
+    "comando": "sshd",
+    "categoria_db": "red",
+    "archivo_fuente": "sshd.json"
+  },
+  {
+    "comando": "tc",
+    "categoria_db": "red",
+    "archivo_fuente": "tc.json"
+  },
+  {
+    "comando": "tcpdump",
+    "categoria_db": "red",
+    "archivo_fuente": "tcpdump.json"
+  },
+  {
+    "comando": "teamd",
+    "categoria_db": "red",
+    "archivo_fuente": "teamd.json"
+  },
+  {
+    "comando": "traceroute",
+    "categoria_db": "red",
+    "archivo_fuente": "traceroute.json"
+  },
+  {
+    "comando": "tshark",
+    "categoria_db": "red",
+    "archivo_fuente": "tshark.json"
+  },
+  {
+    "comando": "wget",
+    "categoria_db": "red",
+    "archivo_fuente": "wget.json"
+  },
+  {
+    "comando": "whois",
+    "categoria_db": "red",
+    "archivo_fuente": "whois.json"
+  },
+  {
+    "comando": "apparmor_status",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "apparmor_status.json"
+  },
+  {
+    "comando": "arptables",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "arptables.json"
+  },
+  {
+    "comando": "auditctl",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "auditctl.json"
+  },
+  {
+    "comando": "aureport",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "aureport.json"
+  },
+  {
+    "comando": "ausearch",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "ausearch.json"
+  },
+  {
+    "comando": "chcon",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "chcon.json"
+  },
+  {
+    "comando": "chmod",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "chmod.json"
+  },
+  {
+    "comando": "chown",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "chown.json"
+  },
+  {
+    "comando": "cksum",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "cksum.json"
+  },
+  {
+    "comando": "cracklib-check",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "cracklib-check.json"
+  },
+  {
+    "comando": "ebtables",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "ebtables.json"
+  },
+  {
+    "comando": "exiftool",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "exiftool.json"
+  },
+  {
+    "comando": "faillog",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "faillog.json"
+  },
+  {
+    "comando": "getcap",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "getcap.json"
+  },
+  {
+    "comando": "getenforce",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "getenforce.json"
+  },
+  {
+    "comando": "getfacl",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "getfacl.json"
+  },
+  {
+    "comando": "getsebool",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "getsebool.json"
+  },
+  {
+    "comando": "gpg",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "gpg.json"
+  },
+  {
+    "comando": "hashcat",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "hashcat.json"
+  },
+  {
+    "comando": "ip6tables",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "ip6tables.json"
+  },
+  {
+    "comando": "iptables",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "iptables.json"
+  },
+  {
+    "comando": "lastlog",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "lastlog.json"
+  },
+  {
+    "comando": "lime",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "lime.json"
+  },
+  {
+    "comando": "lynis",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "lynis.json"
+  },
+  {
+    "comando": "md5sum",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "md5sum.json"
+  },
+  {
+    "comando": "nftables",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "nftables.json"
+  },
+  {
+    "comando": "openssl",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "openssl.json"
+  },
+  {
+    "comando": "restorecon",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "restorecon.json"
+  },
+  {
+    "comando": "sealert",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "sealert.json"
+  },
+  {
+    "comando": "setcap",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "setcap.json"
+  },
+  {
+    "comando": "setenforce",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "setenforce.json"
+  },
+  {
+    "comando": "setfacl",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "setfacl.json"
+  },
+  {
+    "comando": "setsebool",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "setsebool.json"
+  },
+  {
+    "comando": "sha1sum",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "sha1sum.json"
+  },
+  {
+    "comando": "sha256sum",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "sha256sum.json"
+  },
+  {
+    "comando": "steghide",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "steghide.json"
+  },
+  {
+    "comando": "sudo",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "sudo.json"
+  },
+  {
+    "comando": "ufw",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "ufw.json"
+  },
+  {
+    "comando": "umask",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "umask.json"
+  },
+  {
+    "comando": "visudo",
+    "categoria_db": "seguridad",
+    "archivo_fuente": "visudo.json"
+  },
+  {
+    "comando": "chkconfig",
+    "categoria_db": "servicios",
+    "archivo_fuente": "chkconfig.json"
+  },
+  {
+    "comando": "initctl",
+    "categoria_db": "servicios",
+    "archivo_fuente": "initctl.json"
+  },
+  {
+    "comando": "journalctl",
+    "categoria_db": "servicios",
+    "archivo_fuente": "journalctl.json"
+  },
+  {
+    "comando": "ldapadd",
+    "categoria_db": "servicios",
+    "archivo_fuente": "ldapadd.json"
+  },
+  {
+    "comando": "ldapmodify",
+    "categoria_db": "servicios",
+    "archivo_fuente": "ldapmodify.json"
+  },
+  {
+    "comando": "ldapsearch",
+    "categoria_db": "servicios",
+    "archivo_fuente": "ldapsearch.json"
+  },
+  {
+    "comando": "rc-service",
+    "categoria_db": "servicios",
+    "archivo_fuente": "rc-service.json"
+  },
+  {
+    "comando": "rc-status",
+    "categoria_db": "servicios",
+    "archivo_fuente": "rc-status.json"
+  },
+  {
+    "comando": "service",
+    "categoria_db": "servicios",
+    "archivo_fuente": "service.json"
+  },
+  {
+    "comando": "slapcat",
+    "categoria_db": "servicios",
+    "archivo_fuente": "slapcat.json"
+  },
+  {
+    "comando": "slappasswd",
+    "categoria_db": "servicios",
+    "archivo_fuente": "slappasswd.json"
+  },
+  {
+    "comando": "snmpbulkwalk",
+    "categoria_db": "servicios",
+    "archivo_fuente": "snmpbulkwalk.json"
+  },
+  {
+    "comando": "snmpget",
+    "categoria_db": "servicios",
+    "archivo_fuente": "snmpget.json"
+  },
+  {
+    "comando": "snmpwalk",
+    "categoria_db": "servicios",
+    "archivo_fuente": "snmpwalk.json"
+  },
+  {
+    "comando": "systemctl",
+    "categoria_db": "servicios",
+    "archivo_fuente": "systemctl.json"
+  },
+  {
+    "comando": "systemd-analyze",
+    "categoria_db": "servicios",
+    "archivo_fuente": "systemd-analyze.json"
+  },
+  {
+    "comando": "update-rc.d",
+    "categoria_db": "servicios",
+    "archivo_fuente": "update-rc.d.json"
+  },
+  {
+    "comando": "adduser",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "adduser.json"
+  },
+  {
+    "comando": "chage",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "chage.json"
+  },
+  {
+    "comando": "chfn",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "chfn.json"
+  },
+  {
+    "comando": "chsh",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "chsh.json"
+  },
+  {
+    "comando": "deluser",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "deluser.json"
+  },
+  {
+    "comando": "gpasswd",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "gpasswd.json"
+  },
+  {
+    "comando": "groupadd",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "groupadd.json"
+  },
+  {
+    "comando": "groupdel",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "groupdel.json"
+  },
+  {
+    "comando": "groupmod",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "groupmod.json"
+  },
+  {
+    "comando": "groups",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "groups.json"
+  },
+  {
+    "comando": "id",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "id.json"
+  },
+  {
+    "comando": "last",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "last.json"
+  },
+  {
+    "comando": "newgrp",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "newgrp.json"
+  },
+  {
+    "comando": "passwd",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "passwd.json"
+  },
+  {
+    "comando": "su",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "su.json"
+  },
+  {
+    "comando": "useradd",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "useradd.json"
+  },
+  {
+    "comando": "userdel",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "userdel.json"
+  },
+  {
+    "comando": "w",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "w.json"
+  },
+  {
+    "comando": "wall",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "wall.json"
+  },
+  {
+    "comando": "who",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "who.json"
+  },
+  {
+    "comando": "whoami",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "whoami.json"
   }
 ]

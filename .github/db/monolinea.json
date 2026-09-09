@@ -1,13 +1,8 @@
 [
   {
-    "nombre": "Crear cien directorios",
-    "descripcion": "Crea cien directorios con nombres secuenciales",
-    "contenido": "mkdir $1{01..100}"
-  },
-  {
-    "nombre": "Revisar existencia de comando",
-    "descripcion": "Verifica si un comando existe en el sistema",
-    "contenido": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\""
+    "nombre": "Comando previo",
+    "descripcion": "Ejecuta el último comando.",
+    "contenido": "!!"
   },
   {
     "nombre": "Comando previo con superusuario",
@@ -20,19 +15,19 @@
     "contenido": "dd if=/dev/zero of=test bs=1G count=1 oflag=dsync"
   },
   {
+    "nombre": "Copia con barra de progreso",
+    "descripcion": "Realiza una copia de archivos mostrando el progreso",
+    "contenido": "rsync -ah --progress $1 $2"
+  },
+  {
+    "nombre": "Crear cien directorios",
+    "descripcion": "Crea cien directorios con nombres secuenciales",
+    "contenido": "mkdir $1{01..100}"
+  },
+  {
     "nombre": "Descargar video de YouTube",
     "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
     "contenido": "yt-dlp $1"
-  },
-  {
-    "nombre": "Recargar configuración del shell",
-    "descripcion": "Recarga la configuración del shell actual",
-    "contenido": "source ~/.bashrc"
-  },
-  {
-    "nombre": "Ver video de YouTube en terminal",
-    "descripcion": "Reproduce un video de YouTube en el terminal utilizando mpv",
-    "contenido": "mpv $1"
   },
   {
     "nombre": "Fork bomb",
@@ -40,18 +35,23 @@
     "contenido": ":(){ :|:& };:"
   },
   {
-    "nombre": "Copia con barra de progreso",
-    "descripcion": "Realiza una copia de archivos mostrando el progreso",
-    "contenido": "rsync -ah --progress $1 $2"
-  },
-  {
-    "nombre": "Comando previo",
-    "descripcion": "Ejecuta el último comando.",
-    "contenido": "!!"
-  },
-  {
     "nombre": "Mostrar clima",
     "descripcion": "Muestra la información del clima para la ubicación actual",
     "contenido": "curl wttr.in"
+  },
+  {
+    "nombre": "Recargar configuración del shell",
+    "descripcion": "Recarga la configuración del shell actual",
+    "contenido": "source ~/.bashrc"
+  },
+  {
+    "nombre": "Revisar existencia de comando",
+    "descripcion": "Verifica si un comando existe en el sistema",
+    "contenido": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\""
+  },
+  {
+    "nombre": "Ver video de YouTube en terminal",
+    "descripcion": "Reproduce un video de YouTube en el terminal utilizando mpv",
+    "contenido": "mpv $1"
   }
 ]

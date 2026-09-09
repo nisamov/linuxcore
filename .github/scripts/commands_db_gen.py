@@ -4,7 +4,7 @@ import os
 def build_commands_db():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
-    commands_path = os.path.abspath(os.path.join(script_dir, '../../commands'))
+    commands_path = os.path.abspath(os.path.join(script_dir, '../../comandos'))
     db_output_dir = os.path.abspath(os.path.join(script_dir, '../db'))
     db_output_file = os.path.join(db_output_dir, 'commands.json')
     mega_db = []
@@ -32,7 +32,7 @@ def build_commands_db():
         os.makedirs(db_output_dir)
         
     total_archivos = 0
-    for root, dirs, files in os.walk(commands_path):
+    for root, _, files in os.walk(commands_path):
         json_files = [f for f in files if f.endswith('.json')]
         if not json_files:
             continue
@@ -72,13 +72,13 @@ def build_commands_db():
                             
                         total_archivos += 1
                         
-                    except json.JSONDecodeError as je:
+                    except json.JSONDecodeError:
                         print(f"   [JSON CORRUPTO] Error de sintaxis en {file}. Aplicando estructura limpia.")
                         empty_data = get_empty_command_structure(command_name_fallback, categoria, file)
                         mega_db.append(empty_data)
                         total_archivos += 1
                         
-            except Exception as e:
+            except (OSError, TypeError, ValueError, KeyError) as e:
                 print(f"   [ERROR CRÍTICO] No se pudo acceder a {file}: {e}")
 
     with open(db_output_file, 'w', encoding='utf-8') as f:

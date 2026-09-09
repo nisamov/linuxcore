@@ -3,8 +3,8 @@ name: Generación bases de datos
 on:
   push:
     paths:
-      - 'commands/**'
-      - 'services/**'
+      - 'comandos/**'
+      - 'servicios/**'
   workflow_dispatch:
 
 jobs:
