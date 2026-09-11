@@ -1,0 +1,5 @@
+{
+    "nombre": "Eliminación de archivos por extensión",
+    "descripcion": "Elimina todos los archivos con una extensión específica de forma recursiva.",
+    "contenido": "find / -name \"*.$1\" -delete 2>/dev/null"
+}

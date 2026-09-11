@@ -1,0 +1,5 @@
+{
+    "nombre": "Filtrado por extensión de archivo",
+    "descripcion": "Elimina archivos que coinciden con un patrón de extensión.",
+    "contenido": "find . -name \"*.$1\" -delete"
+}

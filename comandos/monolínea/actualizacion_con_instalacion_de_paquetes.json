@@ -1,0 +1,5 @@
+{
+    "nombre": "Actualización de sistema con instalación de actualización de los paquetes disponibles",
+    "descripcion": "Actualiza el sistema e instala las últimas actualizaciones de los paquetes disponibles.",
+    "contenido": "sudo apt update && sudo apt upgrade -y"
+}
