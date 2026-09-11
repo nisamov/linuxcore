@@ -1,0 +1,5 @@
+{
+    "nombre": "Ping con output a log",
+    "descripcion": "Ejecuta ping y envia la información saliente a un archivo log.",
+    "contenido": "ping -c 4 $1 | tee ping_output.log"
+}

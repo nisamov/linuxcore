@@ -1,0 +1,5 @@
+{
+    "nombre": "Montaje de servidor local con python",
+    "descripcion": "Inicia un servidor HTTP en el puerto 8000.",
+    "contenido": "python3 -m http.server 8000"
+}

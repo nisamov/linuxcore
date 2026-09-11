@@ -1,0 +1,5 @@
+{
+    "nombre": "Mostrar puertos abiertos en el sistema",
+    "descripcion": "Muestra los puertos abiertos y en escucha que están en uso.",
+    "contenido": "ss -tulpn"
+}

@@ -1,0 +1,5 @@
+{
+    "nombre": "Limpiar historial de terminal de sesión actual",
+    "descripcion": "Limpia el historial de comandos de la sesión actual.",
+    "contenido": "history -c && history -w"
+}

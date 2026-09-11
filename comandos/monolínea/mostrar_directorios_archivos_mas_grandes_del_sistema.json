@@ -1,0 +1,5 @@
+{
+    "nombre": "Mostrar directorios y archivos más grandes del sistema",
+    "descripcion": "Muestra los 10 directorios y archivos más grandes del sistema.",
+    "contenido": "du -a . | sort -n -r | head -n 10"
+}

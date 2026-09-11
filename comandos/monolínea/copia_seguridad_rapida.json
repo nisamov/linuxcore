@@ -1,0 +1,5 @@
+{
+    "nombre": "Copia de seguridad rápida",
+    "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
+    "contenido": "cp $1{,.bak_$(date +%F_%T)}"
+}

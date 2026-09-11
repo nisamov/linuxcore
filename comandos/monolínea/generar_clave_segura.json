@@ -1,0 +1,5 @@
+{
+    "nombre": "Generar clave segura",
+    "descripcion": "Genera una clave segura de X (inserción manual) caracteres.",
+    "contenido": "openssl rand -base64 $1"
+}

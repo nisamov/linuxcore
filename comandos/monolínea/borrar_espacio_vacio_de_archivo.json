@@ -1,0 +1,5 @@
+{
+    "nombre": "Borrar espacio vacío de archivo",
+    "descripcion": "Elimina las líneas en blanco de un archivo.",
+    "contenido": "sed -i '/^$/d' $1.txt"
+}
