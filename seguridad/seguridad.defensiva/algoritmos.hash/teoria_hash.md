@@ -16,8 +16,6 @@ Para que un algoritmo de hash sea funcional y eficiente en tareas generales de c
 * **Baja Tasa de Colisiones:** Debe minimizar la probabilidad de que dos entradas diferentes generen el mismo hash de salida.
   * *Nota:* Una colisión ocurre cuando dos archivos o cadenas distintas producen exactamente el mismo resumen. Debido a que las entradas posibles son infinitas y el tamaño del resumen es fijo, las colisiones existen técnicamente, pero deben ser muy poco frecuentes.
 
----
-
 ## Requisitos de Seguridad para Funciones Hash Criptográficas
 
 Para que una función hash sea apta en entornos de seguridad informática, autenticación y ciberseguridad, debe cumplir con el principio de **unidireccionalidad** y tres propiedades de resistencia clave:
