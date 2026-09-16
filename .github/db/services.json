@@ -1,59 +1,87 @@
 [
   {
-    "servicio": "mariadb",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "mariadb",
-    "categoria_db": "database",
-    "archivo_fuente": "servicios\\database\\mariadb.json"
-  },
-  {
-    "servicio": "postgresql",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "postgresql",
-    "categoria_db": "database",
-    "archivo_fuente": "servicios\\database\\postgresql.json"
-  },
-  {
-    "servicio": "redis",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "redis",
-    "categoria_db": "database",
-    "archivo_fuente": "servicios\\database\\redis.json"
-  },
-  {
     "servicio": "chronyd",
     "descripcion": "Sin descripción registrada.",
     "estructura": "chronyd",
     "categoria_db": "network",
-    "archivo_fuente": "servicios\\network\\chronyd.json"
+    "archivo_fuente": "servicios/network/chronyd.json"
   },
   {
     "servicio": "dhcpd",
     "descripcion": "Sin descripción registrada.",
     "estructura": "dhcpd",
     "categoria_db": "network",
-    "archivo_fuente": "servicios\\network\\dhcpd.json"
+    "archivo_fuente": "servicios/network/dhcpd.json"
   },
   {
     "servicio": "named",
     "descripcion": "Sin descripción registrada.",
     "estructura": "named",
     "categoria_db": "network",
-    "archivo_fuente": "servicios\\network\\named.json"
+    "archivo_fuente": "servicios/network/named.json"
+  },
+  {
+    "servicio": "mariadb",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "mariadb",
+    "categoria_db": "database",
+    "archivo_fuente": "servicios/database/mariadb.json"
+  },
+  {
+    "servicio": "postgresql",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "postgresql",
+    "categoria_db": "database",
+    "archivo_fuente": "servicios/database/postgresql.json"
+  },
+  {
+    "servicio": "redis",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "redis",
+    "categoria_db": "database",
+    "archivo_fuente": "servicios/database/redis.json"
+  },
+  {
+    "servicio": "crond",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "crond",
+    "categoria_db": "system",
+    "archivo_fuente": "servicios/system/crond.json"
+  },
+  {
+    "servicio": "systemd-journald",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "systemd-journald",
+    "categoria_db": "system",
+    "archivo_fuente": "servicios/system/systemd-journald.json"
+  },
+  {
+    "servicio": "apache2",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "apache2",
+    "categoria_db": "web",
+    "archivo_fuente": "servicios/web/apache2.json"
+  },
+  {
+    "servicio": "nginx",
+    "descripcion": "Sin descripción registrada.",
+    "estructura": "nginx",
+    "categoria_db": "web",
+    "archivo_fuente": "servicios/web/nginx.json"
   },
   {
     "servicio": "iptables",
     "descripcion": "Sin descripción registrada.",
     "estructura": "iptables",
     "categoria_db": "security",
-    "archivo_fuente": "servicios\\security\\iptables.json"
+    "archivo_fuente": "servicios/security/iptables.json"
   },
   {
     "servicio": "sshd",
     "descripcion": "Sin descripción registrada.",
     "estructura": "sshd",
     "categoria_db": "security",
-    "archivo_fuente": "servicios\\security\\sshd.json"
+    "archivo_fuente": "servicios/security/sshd.json"
   },
   {
     "servicio": "ufw",
@@ -96,34 +124,6 @@
       }
     ],
     "estructura": "ufw",
-    "archivo_fuente": "servicios\\security\\ufw.json"
-  },
-  {
-    "servicio": "crond",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "crond",
-    "categoria_db": "system",
-    "archivo_fuente": "servicios\\system\\crond.json"
-  },
-  {
-    "servicio": "systemd-journald",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "systemd-journald",
-    "categoria_db": "system",
-    "archivo_fuente": "servicios\\system\\systemd-journald.json"
-  },
-  {
-    "servicio": "apache2",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "apache2",
-    "categoria_db": "web",
-    "archivo_fuente": "servicios\\web\\apache2.json"
-  },
-  {
-    "servicio": "nginx",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "nginx",
-    "categoria_db": "web",
-    "archivo_fuente": "servicios\\web\\nginx.json"
+    "archivo_fuente": "servicios/security/ufw.json"
   }
 ]
