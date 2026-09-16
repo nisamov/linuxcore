@@ -1,110 +1,320 @@
 {
-  "comando": "blockdev",
-  "descripcion": "Permite llamar a funciones ioctl del kernel desde la línea de comandos para obtener y establecer parámetros de dispositivos de bloques (tamaño, solo lectura, alineación, lectura anticipada, etc.).",
-  "categoria": "almacenamiento",
-  "estructura": "blockdev [opciones] [dispositivo...]",
-  "opciones": [
+  "id": "blockdev",
+  "nombre": "blockdev",
+  "descripcion": "Permite llamar a funciones ioctl del kernel desde la linea de comandos para obtener y establecer parametros de dispositivos de bloques (tamano, solo lectura, alineacion, lectura anticipada, etc.).",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "configuracion",
+    "tags": [
+      "almacenamiento",
+      "dispositivos",
+      "bloques",
+      "ioctl",
+      "kernel",
+      "configuracion",
+      "particiones"
+    ]
+  },
+  "sintaxis": {
+    "principal": "blockdev [opciones] [dispositivo...]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": "--getro",
-      "descripcion": "Muestra el estado de solo lectura (1 si es solo lectura, 0 si es lectura/escritura) del dispositivo."
+      "flag": "--getro",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el estado de solo lectura (1 si es solo lectura, 0 si es lectura/escritura) del dispositivo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--setro",
-      "descripcion": "Establece el dispositivo como solo lectura."
+      "flag": "--setro",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Establece el dispositivo como solo lectura.",
+      "conflictos": [
+        "--setrw"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "--setrw",
-      "descripcion": "Establece el dispositivo como lectura/escritura (quita el modo solo lectura)."
+      "flag": "--setrw",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Establece el dispositivo como lectura/escritura (quita el modo solo lectura).",
+      "conflictos": [
+        "--setro"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "--getss",
-      "descripcion": "Muestra el tamaño del sector lógico del dispositivo (en bytes)."
+      "flag": "--getss",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano del sector logico del dispositivo (en bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getpbsz",
-      "descripcion": "Muestra el tamaño del bloque físico del dispositivo (en bytes)."
+      "flag": "--getpbsz",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano del bloque fisico del dispositivo (en bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getiomin",
-      "descripcion": "Muestra el tamaño mínimo de E/S del dispositivo (en bytes)."
+      "flag": "--getiomin",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano minimo de E/S del dispositivo (en bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getioopt",
-      "descripcion": "Muestra el tamaño óptimo de E/S del dispositivo (en bytes)."
+      "flag": "--getioopt",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano optimo de E/S del dispositivo (en bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getalignoff",
-      "descripcion": "Muestra el desplazamiento de alineación del dispositivo (en bytes)."
+      "flag": "--getalignoff",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el desplazamiento de alineacion del dispositivo (en bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getmaxsect",
-      "descripcion": "Muestra el número máximo de sectores por solicitud de E/S."
+      "flag": "--getmaxsect",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el numero maximo de sectores por solicitud de E/S.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getbsz",
-      "descripcion": "Muestra el tamaño de bloque del dispositivo (tamaño de búfer) en bytes."
+      "flag": "--getbsz",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano de bloque del dispositivo (tamano de bufer) en bytes.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--setbsz block_size",
-      "descripcion": "Establece el tamaño de bloque del dispositivo (en bytes) para operaciones de búfer."
+      "flag": "--setbsz",
+      "argumento": "block_size",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el tamano de bloque del dispositivo (en bytes) para operaciones de bufer.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getsz",
-      "descripcion": "Muestra el tamaño total del dispositivo en sectores de 512 bytes (tamaño de bloques de 512 bytes)."
+      "flag": "--getsz",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano total del dispositivo en sectores de 512 bytes (tamano de bloques de 512 bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getsize",
-      "descripcion": "Muestra el tamaño total del dispositivo en sectores de 512 bytes (similar a --getsz)."
+      "flag": "--getsize",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano total del dispositivo en sectores de 512 bytes (similar a --getsz).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getsize64",
-      "descripcion": "Muestra el tamaño total del dispositivo en bytes (formato de 64 bits)."
+      "flag": "--getsize64",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tamano total del dispositivo en bytes (formato de 64 bits).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getra",
-      "descripcion": "Muestra el valor de lectura anticipada (read-ahead) del dispositivo (en sectores de 512 bytes)."
+      "flag": "--getra",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el valor de lectura anticipada (read-ahead) del dispositivo (en sectores de 512 bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--setra read_ahead_value",
-      "descripcion": "Establece el valor de lectura anticipada (read-ahead) del dispositivo (en sectores de 512 bytes)."
+      "flag": "--setra",
+      "argumento": "read_ahead_value",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el valor de lectura anticipada (read-ahead) del dispositivo (en sectores de 512 bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getfra",
-      "descripcion": "Muestra el valor de lectura anticipada del sistema de archivos (filesystem read-ahead) en sectores de 512 bytes."
+      "flag": "--getfra",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el valor de lectura anticipada del sistema de archivos (filesystem read-ahead) en sectores de 512 bytes.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--flushbufs",
-      "descripcion": "Vacía todos los búferes del dispositivo (fuerza la escritura de datos en caché al disco)."
+      "flag": "--flushbufs",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Vacia todos los buferes del dispositivo (fuerza la escritura de datos en cache al disco).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--rereadpt",
-      "descripcion": "Vuelve a leer la tabla de particiones del dispositivo (sin necesidad de reiniciar)."
+      "flag": "--rereadpt",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Vuelve a leer la tabla de particiones del dispositivo (sin necesidad de reiniciar).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--getdiscardzeroes",
-      "descripcion": "Muestra si el dispositivo soporta que las operaciones de descarte (discard/TRIM) devuelvan ceros (1 si es soportado, 0 si no)."
+      "flag": "--getdiscardzeroes",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra si el dispositivo soporta que las operaciones de descarte (discard/TRIM) devuelvan ceros (1 si es soportado, 0 si no).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--report",
-      "descripcion": "Muestra un informe detallado con todas las propiedades disponibles para los dispositivos especificados (o para todos si no se especifica ninguno)."
+      "flag": "--report",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra un informe detallado con todas las propiedades disponibles para los dispositivos especificados (o para todos si no se especifica ninguno).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-v",
-      "descripcion": "Modo verbose (detallado). Muestra información adicional sobre las operaciones realizadas."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Modo verbose (detallado). Muestra informacion adicional sobre las operaciones realizadas.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-h",
-      "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-V",
-      "descripcion": "Muestra la versión del comando blockdev."
+      "flag": "-V",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la version del comando blockdev.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [
+      "root",
+      "sudo"
+    ],
+    "dependencias": [
+      "util-linux"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": true,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "Releer la tabla de particiones (--rereadpt) en un dispositivo montado puede ser rechazado por el kernel o alterar la visibilidad de las particiones activas.",
+      "Establecer un dispositivo en modo solo lectura (--setro) impedira escrituras de cualquier proceso o sistema de archivos montado."
+    ]
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install util-linux -y",
       "arch_linux": "sudo pacman -S util-linux",
       "rhel_centos": "sudo dnf install util-linux -y"
@@ -112,16 +322,37 @@
   },
   "ejemplos": [
     {
-      "uso": "sudo blockdev --getsize64 /dev/sda",
-      "explicacion": "Obtiene el tamaño total en bytes del dispositivo /dev/sda."
+      "nombre": "Obtener tamano en bytes",
+      "comando": "sudo blockdev --getsize64 /dev/sda",
+      "descripcion": "Obtiene el tamano total en bytes del dispositivo /dev/sda.",
+      "resultado_esperado": "Muestra un numero entero que representa la capacidad del dispositivo en bytes (ej. 500107862016)."
     },
     {
-      "uso": "sudo blockdev --setro /dev/sdb1 && sudo blockdev --getro /dev/sdb1",
-      "explicacion": "Establece la partición /dev/sdb1 como solo lectura y luego verifica que el cambio se haya aplicado correctamente."
+      "nombre": "Establecer y verificar modo solo lectura",
+      "comando": "sudo blockdev --setro /dev/sdb1 && sudo blockdev --getro /dev/sdb1",
+      "descripcion": "Establece la particion /dev/sdb1 como solo lectura y luego verifica que el cambio se haya aplicado correctamente.",
+      "resultado_esperado": "Devuelve '1' en la consola indicando que el dispositivo ha quedado configurado como solo lectura."
     },
     {
-      "uso": "sudo blockdev --report /dev/sda /dev/sdb",
-      "explicacion": "Genera un informe detallado con todas las propiedades (tamaño, sectores, alineación, E/S, etc.) de los dispositivos /dev/sda y /dev/sdb."
+      "nombre": "Generar informe detallado",
+      "comando": "sudo blockdev --report /dev/sda /dev/sdb",
+      "descripcion": "Genera un informe detallado con todas las propiedades (tamano, sectores, alineacion, E/S, etc.) de los dispositivos /dev/sda y /dev/sdb.",
+      "resultado_esperado": "Imprime un informe tabular en consola con las columnas RO, RA, SS, BS, StartSec, Size y Device para cada unidad especificada."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      "dispositivo",
+      "read_ahead_value",
+      "block_size"
+    ],
+    "validaciones": [
+      "Verificar privilegios de superusuario (root) antes de ejecutar.",
+      "Confirmar que la ruta del dispositivo exista en /dev antes de invocar el comando."
+    ],
+    "rollback": null
+  }
 }

@@ -1,115 +1,286 @@
 {
-  "comando": "pvremove",
-  "descripcion": "Elimina la etiqueta LVM de uno o más volúmenes físicos (PV), haciendo que LVM ya no los reconozca como tales. Un PV no puede ser eliminado de un VG mientras esté siendo usado por un LV activo.[reference:0] Normalmente, debe usarse vgreduce(8) en su lugar.[reference:1]",
-  "categoria": ["commands", "system_administration", "lvm"],
-  "estructura": "pvremove [opciones] PV...",
-  "opciones": [
+  "id": "pvremove",
+  "nombre": "pvremove",
+  "descripcion": "Elimina la etiqueta LVM de uno o mas volumenes fisicos (PV), haciendo que LVM ya no los reconozca como tales. Un PV no puede ser eliminado de un VG mientras este siendo usado por un LV activo. Normalmente, debe usarse vgreduce(8) en su lugar.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "general",
+    "tags": [
+      "almacenamiento",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "pvremove [opciones] PV...",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-f", "--force"],
-      "descripcion": "Anula varias comprobaciones, confirmaciones y protecciones. Úsese con extrema precaución.[reference:2] Repetir la opción (-ff) fuerza la eliminación de un PV que pertenece a un VG existente.[reference:3]"
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Anula varias comprobaciones, confirmaciones y protecciones. Usese con extrema precaucion. Repetir la opcion (-ff) fuerza la eliminacion de un PV que pertenece a un VG existente.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--reportformat", "basic|json"],
-      "descripcion": "Anula el formato de salida actual para los informes. 'basic' es el formato original con columnas y filas. 'json' produce la salida en formato JSON.[reference:4]"
+      "flag": "--reportformat",
+      "argumento": "basic|json",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Anula el formato de salida actual para los informes. 'basic' es el formato original con columnas y filas. 'json' produce la salida en formato JSON.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--debug"],
-      "descripcion": "Establece el nivel de depuración. Puede repetirse de 1 a 6 veces para aumentar el detalle de los mensajes enviados al archivo de registro y/o syslog.[reference:5]"
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el nivel de depuracion. Puede repetirse de 1 a 6 veces para aumentar el detalle de los mensajes enviados al archivo de registro y/o syslog.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra la ayuda y finaliza.[reference:6]"
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la ayuda y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--longhelp"],
-      "descripcion": "Muestra la ayuda larga.[reference:7]"
+      "flag": "--longhelp",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la ayuda larga.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Suprime la salida y los mensajes de registro. Anula --debug y --verbose. Repetir una vez (-qq) también suprime cualquier pregunta con respuesta 'no'.[reference:8]"
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime la salida y los mensajes de registro. Anula --debug y --verbose. Repetir una vez (-qq) tambien suprime cualquier pregunta con respuesta 'no'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--test"],
-      "descripcion": "Modo de prueba. Los comandos no actualizarán los metadatos.[reference:9]"
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo de prueba. Los comandos no actualizaran los metadatos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Establece el nivel verboso. Puede repetirse de 1 a 4 veces para aumentar el detalle de los mensajes enviados a stdout y stderr.[reference:10]"
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el nivel verboso. Puede repetirse de 1 a 4 veces para aumentar el detalle de los mensajes enviados a stdout y stderr.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-y", "--yes"],
-      "descripcion": "No pregunta para confirmar de forma interactiva, sino que siempre asume la respuesta 'sí'. Úsese con extrema precaución.[reference:11]"
+      "flag": "-y",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "No pregunta para confirmar de forma interactiva, sino que siempre asume la respuesta 'si'. Usese con extrema precaucion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--version"],
-      "descripcion": "Muestra la información de la versión.[reference:12]"
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la informacion de la version.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--commandprofile", "String"],
-      "descripcion": "El perfil de comando a usar para la configuración del comando.[reference:13]"
+      "flag": "--commandprofile",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "El perfil de comando a usar para la configuracion del comando.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--config", "String"],
-      "descripcion": "Configuración de ajustes para el comando. Estos anulan la configuración de lvm.conf(5).[reference:14]"
+      "flag": "--config",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Configuracion de ajustes para el comando. Estos anulan la configuracion de lvm.conf(5).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--devices", "PV"],
-      "descripcion": "Dispositivos que el comando puede usar. Esta opción puede repetirse o acepta una lista separada por comas de dispositivos.[reference:15]"
+      "flag": "--devices",
+      "argumento": "PV",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Dispositivos que el comando puede usar. Esta opcion puede repetirse o acepta una lista separada por comas de dispositivos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--devicesfile", "String"],
-      "descripcion": "Un archivo que enumera los dispositivos que LVM debe usar. Debe existir en /etc/lvm/devices/.[reference:16]"
+      "flag": "--devicesfile",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Un archivo que enumera los dispositivos que LVM debe usar. Debe existir en /etc/lvm/devices/.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--driverloaded", "y|n"],
-      "descripcion": "Si se establece a 'no', el comando no intentará usar device-mapper. Para pruebas y depuración.[reference:17]"
+      "flag": "--driverloaded",
+      "argumento": "y|n",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Si se establece a 'no', el comando no intentara usar device-mapper. Para pruebas y depuracion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--journal", "String"],
-      "descripcion": "Registra información en el diario systemd. Los valores posibles incluyen: 'command', 'output', 'debug'.[reference:18]"
+      "flag": "--journal",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Registra informacion en el diario systemd. Los valores posibles incluyen: 'command', 'output', 'debug'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--lockopt", "String"],
-      "descripcion": "Se usa para pasar opciones para casos especiales a lvmlockd.[reference:19]"
+      "flag": "--lockopt",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Se usa para pasar opciones para casos especiales a lvmlockd.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--nohints"],
-      "descripcion": "No usa el archivo de sugerencias para localizar dispositivos para PVs.[reference:20]"
+      "flag": "--nohints",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "No usa el archivo de sugerencias para localizar dispositivos para PVs.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--nolocking"],
-      "descripcion": "Deshabilita el bloqueo.[reference:21]"
+      "flag": "--nolocking",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Deshabilita el bloqueo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--profile", "String"],
-      "descripcion": "Un alias para --commandprofile o --metadataprofile, dependiendo del comando.[reference:22]"
+      "flag": "--profile",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Un alias para --commandprofile o --metadataprofile, dependiendo del comando.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install lvm2 -y",
-      "arch_linux": "sudo pacman -S lvm2",
-      "rhel_centos": "sudo dnf install lvm2 -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
     {
       "uso": "pvremove /dev/sdb1",
-      "explicacion": "Elimina la etiqueta LVM del volumen físico /dev/sdb1. El dispositivo no debe pertenecer a un grupo de volúmenes (VG) activo.[reference:23]"
+      "explicacion": "Elimina la etiqueta LVM del volumen fisico /dev/sdb1. El dispositivo no debe pertenecer a un grupo de volumenes (VG) activo."
     },
     {
       "uso": "pvremove -ff /dev/sdb1",
-      "explicacion": "Fuerza la eliminación de la etiqueta LVM incluso si /dev/sdb1 pertenece a un VG existente.[reference:24]"
+      "explicacion": "Fuerza la eliminacion de la etiqueta LVM incluso si /dev/sdb1 pertenece a un VG existente."
     },
     {
       "uso": "pvremove -t /dev/sdb1",
-      "explicacion": "Realiza una prueba de la operación sin hacer cambios permanentes.[reference:25]"
+      "explicacion": "Realiza una prueba de la operacion sin hacer cambios permanentes."
     },
     {
       "uso": "pvremove --reportformat json /dev/sdb1",
-      "explicacion": "Elimina la etiqueta LVM y muestra el resultado en formato JSON.[reference:26]"
+      "explicacion": "Elimina la etiqueta LVM y muestra el resultado en formato JSON."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

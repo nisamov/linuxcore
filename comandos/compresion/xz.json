@@ -1,73 +1,194 @@
 {
-  "comando": "xz",
-  "descripcion": "Comprimir o descomprimir archivos usando el algoritmo LZMA2, ofreciendo una tasa de compresión muy alta a costa de un mayor uso de memoria y tiempo de CPU.",
-  "categoria": ["compresion"],
-  "estructura": "xz [opciones] [archivos]",
-  "opciones": [
+  "id": "xz",
+  "nombre": "xz",
+  "descripcion": "Comprimir o descomprimir archivos usando el algoritmo LZMA2, ofreciendo una tasa de compresion muy alta a costa de un mayor uso de memoria y tiempo de CPU.",
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "xz [opciones] [archivos]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-z", "--compress"],
-      "descripcion": "Fuerza la compresión del archivo, independientemente del nombre con el que se invocó el programa (comportamiento por defecto)."
+      "flag": "-z",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la compresion del archivo, independientemente del nombre con el que se invoco el programa (comportamiento por defecto).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--decompress", "--uncompress"],
-      "descripcion": "Fuerza la descompresión del archivo, sustituyendo la extensión '.xz' por la original."
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la descompresion del archivo, sustituyendo la extension '.xz' por la original.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--test"],
-      "descripcion": "Verifica la integridad de los archivos comprimidos calculando y comparando sus sumas de control sin extraer el resultado."
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Verifica la integridad de los archivos comprimidos calculando y comparando sus sumas de control sin extraer el resultado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-l", "--list"],
-      "descripcion": "Muestra información detallada sobre los archivos comprimidos (tamaño original, tamaño comprimido, ratio, tipo de verificación de integridad) sin descomprimirlos."
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra informacion detallada sobre los archivos comprimidos (tamano original, tamano comprimido, ratio, tipo de verificacion de integridad) sin descomprimirlos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-k", "--keep"],
-      "descripcion": "Conserva los archivos de entrada originales intactos; evita que se eliminen automáticamente después de comprimir o descomprimir."
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Conserva los archivos de entrada originales intactos; evita que se eliminen automaticamente despues de comprimir o descomprimir.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-f", "--force"],
-      "descripcion": "Fuerza la sobrescritura de los archivos de salida, permite procesar enlaces duros y reemplaza archivos symlink si es necesario."
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la sobrescritura de los archivos de salida, permite procesar enlaces duros y reemplaza archivos symlink si es necesario.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-c", "--stdout", "--to-stdout"],
-      "descripcion": "Escribe los datos resultantes en la salida estándar en lugar de generar un archivo físico en el disco."
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe los datos resultantes en la salida estandar en lugar de generar un archivo fisico en el disco.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Suprime los mensajes de advertencia y avisos no esenciales; si se duplica ('-qq'), también oculta los errores críticos."
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime los mensajes de advertencia y avisos no esenciales; si se duplica ('-qq'), tambien oculta los errores criticos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; muestra el progreso, porcentaje de compresión, velocidad y tiempo estimado en la terminal."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado; muestra el progreso, porcentaje de compresion, velocidad y tiempo estimado en la terminal.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-0", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"],
-      "descripcion": "Ajusta el nivel de compresión. '-0' es el más rápido con menor compresión, '-6' es el valor por defecto y '-9' ofrece la máxima compresión requiriendo mucha más memoria RAM."
+      "flag": "-0",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ajusta el nivel de compresion. '-0' es el mas rapido con menor compresion, '-6' es el valor por defecto y '-9' ofrece la maxima compresion requiriendo mucha mas memoria RAM.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-e", "--extreme"],
-      "descripcion": "Utiliza una variante de optimización más lenta del nivel de compresión seleccionado para intentar rascar un porcentaje extra de reducción de tamaño."
+      "flag": "-e",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Utiliza una variante de optimizacion mas lenta del nivel de compresion seleccionado para intentar rascar un porcentaje extra de reduccion de tamano.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-T", "--threads=NUM"],
-      "descripcion": "Especifica el número de hilos de ejecución en paralelo que se utilizarán para acelerar la compresión o descompresión. El valor '0' usa todos los núcleos del sistema."
+      "flag": "-T",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica el numero de hilos de ejecucion en paralelo que se utilizaran para acelerar la compresion o descompresion. El valor '0' usa todos los nucleos del sistema.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda condensado con las opciones disponibles y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda condensado con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-V", "--version"],
-      "descripcion": "Muestra la versión de xz y de la librería liblzma utilizada junto con la licencia del software."
+      "flag": "-V",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version de xz y de la libreria liblzma utilizada junto con la licencia del software.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install xz-utils -y",
-      "arch_linux": "sudo pacman -S xz",
-      "rhel_centos": "sudo dnf install xz -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -77,7 +198,15 @@
     },
     {
       "uso": "xz -d -T 0 archivo.tar.xz",
-      "explicacion": "Descomprime el archivo utilizando de forma paralela todos los núcleos de procesamiento (hilos) disponibles en el CPU."
+      "explicacion": "Descomprime el archivo utilizando de forma paralela todos los nucleos de procesamiento (hilos) disponibles en el CPU."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

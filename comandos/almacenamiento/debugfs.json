@@ -1,144 +1,208 @@
 {
-  "comando": "debugfs",
-  "descripcion": "Depurador interactivo de sistemas de archivos ext2, ext3 y ext4. Permite examinar y modificar el estado del sistema de archivos a bajo nivel, incluyendo la manipulación de inodos, bloques y recuperación de datos.",
-  "categoria": "almacenamiento",
-  "estructura": "debugfs [opciones] [dispositivo]",
-  "opciones": [
+  "id": "debugfs",
+  "nombre": "debugfs",
+  "descripcion": "Depurador interactivo de sistemas de archivos ext2, ext3 y ext4. Permite examinar y modificar el estado del sistema de archivos a bajo nivel, incluyendo la manipulacion de inodos, bloques y recuperacion de datos.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "depuracion_y_recuperacion",
+    "tags": [
+      "almacenamiento",
+      "ext2",
+      "ext3",
+      "ext4",
+      "inodos",
+      "sistema_de_archivos",
+      "depuracion",
+      "recuperacion"
+    ]
+  },
+  "sintaxis": {
+    "principal": "debugfs [opciones] [dispositivo]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": "-w",
-      "descripcion": "Abre el sistema de archivos en modo lectura-escritura. Sin esta opción, se abre en modo solo lectura."
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Abre el sistema de archivos en modo lectura-escritura. Sin esta opcion, se abre en modo solo lectura.",
+      "conflictos": [
+        "-c"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-n",
-      "descripcion": "Desactiva la verificación de sumas de verificación de metadatos. Úsese solo si se está seguro de que los metadatos son correctos."
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Desactiva la verificacion de sumas de verificacion de metadatos. Usese solo si se esta seguro de que los metadatos son correctos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-c",
-      "descripcion": "Abre el sistema de archivos en modo catastrófico (no lee los mapas de bits de inodos y grupos). Útil para sistemas con corrupción grave, pero fuerza el modo solo lectura."
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Abre el sistema de archivos en modo catastrofico (no lee los mapas de bits de inodos y grupos). Util para sistemas con corrupcion grave, pero fuerza el modo solo lectura.",
+      "conflictos": [
+        "-w"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-i",
-      "descripcion": "Especifica que el dispositivo es una imagen ext2 creada con e2image. Muchos comandos no funcionarán correctamente sin especificar -d."
+      "flag": "-i",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Especifica que el dispositivo es una imagen ext2 creada con e2image. Muchos comandos no funcionaran correctamente sin especificar -d.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-d data_source_device",
-      "descripcion": "Usado con -i, especifica el dispositivo de origen de datos para leer bloques no encontrados en la imagen."
+      "flag": "-d",
+      "argumento": "data_source_device",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Usado con -i, especifica el dispositivo de origen de datos para leer bloques no encontrados en la imagen.",
+      "conflictos": [],
+      "requiere": [
+        "-i"
+      ]
     },
     {
-      "parametro": "-b blocksize",
-      "descripcion": "Fuerza el uso de un tamaño de bloque específico (en bytes) en lugar de detectarlo automáticamente. Raramente necesario."
+      "flag": "-b",
+      "argumento": "blocksize",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza el uso de un tamano de bloque especifico (en bytes) en lugar de detectarlo automaticamente. Raramente necesario.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-s superblock",
-      "descripcion": "Lee el superbloque desde el número de bloque especificado en lugar del primario. Requiere -b."
+      "flag": "-s",
+      "argumento": "superblock",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee el superbloque desde el numero de bloque especificado en lugar del primario. Requiere -b.",
+      "conflictos": [],
+      "requiere": [
+        "-b"
+      ]
     },
     {
-      "parametro": "-f cmd_file",
-      "descripcion": "Lee y ejecuta comandos desde el archivo especificado y luego sale."
+      "flag": "-f",
+      "argumento": "cmd_file",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee y ejecuta comandos desde el archivo especificado y luego sale.",
+      "conflictos": [
+        "-R"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-D",
-      "descripcion": "Abre el dispositivo usando E/S directa (Direct I/O), evitando la caché de búferes."
+      "flag": "-D",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Abre el dispositivo usando E/S directa (Direct I/O), evitando la cache de buferes.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-R request",
-      "descripcion": "Ejecuta un único comando y luego sale."
+      "flag": "-R",
+      "argumento": "request",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ejecuta un unico comando y luego sale.",
+      "conflictos": [
+        "-f"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-V",
-      "descripcion": "Muestra la versión de debugfs y sale."
+      "flag": "-V",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la version de debugfs y sale.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-z undo_file",
-      "descripcion": "Guarda el contenido antiguo de los bloques en un archivo de deshacer antes de sobrescribirlos. Puede usarse con e2undo(8)."
+      "flag": "-z",
+      "argumento": "undo_file",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Guarda el contenido antiguo de los bloques en un archivo de deshacer antes de sobrescribirlos. Puede usarse con e2undo(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-h",
-      "descripcion": "Muestra un resumen de ayuda del comando."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra un resumen de ayuda del comando.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
-  "comandos_internos": [
-    {
-      "comando": "blocks filespec",
-      "descripcion": "Muestra los bloques utilizados por el inodo especificado."
-    },
-    {
-      "comando": "bmap [-a] filespec logical_block [physical_block]",
-      "descripcion": "Muestra o establece el número de bloque físico correspondiente a un bloque lógico."
-    },
-    {
-      "comando": "cat filespec",
-      "descripcion": "Imprime el contenido del archivo especificado en la salida estándar."
-    },
-    {
-      "comando": "cd directorio",
-      "descripcion": "Cambia el directorio de trabajo actual dentro del sistema de archivos depurado."
-    },
-    {
-      "comando": "close [-a]",
-      "descripcion": "Cierra el sistema de archivos actualmente abierto."
-    },
-    {
-      "comando": "dump [-p] filespec archivo_destino",
-      "descripcion": "Copia el contenido del inodo especificado al archivo del sistema local."
-    },
-    {
-      "comando": "find directorio nombre_archivo",
-      "descripcion": "Busca un archivo por nombre en el directorio especificado."
-    },
-    {
-      "comando": "help [comando]",
-      "descripcion": "Muestra la ayuda de los comandos disponibles."
-    },
-    {
-      "comando": "kill_file filespec",
-      "descripcion": "Elimina el archivo (desenlaza) y libera sus bloques."
-    },
-    {
-      "comando": "ls [-l] [-d] directorio",
-      "descripcion": "Lista el contenido de un directorio."
-    },
-    {
-      "comando": "mkdir directorio",
-      "descripcion": "Crea un directorio en el sistema de archivos."
-    },
-    {
-      "comando": "open [-w] dispositivo",
-      "descripcion": "Abre un sistema de archivos para depuración."
-    },
-    {
-      "comando": "quit",
-      "descripcion": "Sale de debugfs."
-    },
-    {
-      "comando": "rdump directorio archivo_destino",
-      "descripcion": "Copia recursivamente un directorio al sistema de archivos local."
-    },
-    {
-      "comando": "rm archivo",
-      "descripcion": "Elimina un archivo (no libera los bloques de datos)."
-    },
-    {
-      "comando": "rmdir directorio",
-      "descripcion": "Elimina un directorio vacío."
-    },
-    {
-      "comando": "stat filespec",
-      "descripcion": "Muestra los metadatos (estadísticas) del inodo especificado."
-    },
-    {
-      "comando": "undel <inodo> [destino]",
-      "descripcion": "Intenta recuperar un archivo eliminado a partir de su número de inodo."
-    },
-    {
-      "comando": "write archivo_origen filespec",
-      "descripcion": "Copia un archivo del sistema local al sistema de archivos depurado."
-    }
-  ],
+  "requisitos": {
+    "permisos": [
+      "root",
+      "sudo"
+    ],
+    "dependencias": [
+      "e2fsprogs"
+    ],
+    "paquetes": [
+      "e2fsprogs"
+    ]
+  },
+  "seguridad": {
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "Abrir una particion en modo lectura-escritura (-w) permite modificar directamente inodos y estructuras del sistema de archivos, lo que puede causar danos o corrupcion irreparables.",
+      "Modificar un sistema de archivos que esta actualmente montado en modo lectura-escritura provocara severa corrupcion de datos."
+    ]
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install e2fsprogs -y",
       "arch_linux": "sudo pacman -S e2fsprogs",
       "rhel_centos": "sudo dnf install e2fsprogs -y"
@@ -146,24 +210,49 @@
   },
   "ejemplos": [
     {
-      "uso": "sudo debugfs /dev/sda1",
-      "explicacion": "Abre el sistema de archivos de la partición /dev/sda1 en modo solo lectura para depuración interactiva."
+      "nombre": "Abrir en modo solo lectura",
+      "comando": "sudo debugfs /dev/sda1",
+      "descripcion": "Abre el sistema de archivos de la particion /dev/sda1 en modo solo lectura para depuracion interactiva.",
+      "resultado_esperado": "Inicia la consola interactiva 'debugfs:' permitiendo la ejecucion de comandos internos en modo solo lectura."
     },
     {
-      "uso": "sudo debugfs -w /dev/sda1",
-      "explicacion": "Abre el sistema de archivos en modo lectura-escritura, permitiendo realizar cambios."
+      "nombre": "Abrir en modo lectura y escritura",
+      "comando": "sudo debugfs -w /dev/sda1",
+      "descripcion": "Abre el sistema de archivos en modo lectura-escritura, permitiendo realizar cambios.",
+      "resultado_esperado": "Inicia la consola interactiva 'debugfs:' habilitando la modificacion de bloques e inodos del dispositivo."
     },
     {
-      "uso": "sudo debugfs -R 'stat <8>' /dev/sda1",
-      "explicacion": "Ejecuta el comando 'stat' sobre el inodo 8 y luego sale, mostrando los metadatos de ese inodo."
+      "nombre": "Consultar metadatos de inodo",
+      "comando": "sudo debugfs -R 'stat <8>' /dev/sda1",
+      "descripcion": "Ejecuta el comando 'stat' sobre el inodo 8 y luego sale, mostrando los metadatos de ese inodo.",
+      "resultado_esperado": "Muestra la informacion del inodo 8 (propietario, permisos, tamano, bloques asignados) y finaliza la ejecucion."
     },
     {
-      "uso": "sudo debugfs -f comandos.txt /dev/sda1",
-      "explicacion": "Lee y ejecuta los comandos listados en el archivo comandos.txt y luego sale."
+      "nombre": "Ejecutar comandos desde archivo batch",
+      "comando": "sudo debugfs -f comandos.txt /dev/sda1",
+      "descripcion": "Lee y ejecuta los comandos listados en el archivo comandos.txt y luego sale.",
+      "resultado_esperado": "Ejecuta de forma secuencial cada instruccion del archivo y finaliza el proceso."
     },
     {
-      "uso": "echo 'ls -l' | sudo debugfs /dev/sda1",
-      "explicacion": "Ejecuta el comando 'ls -l' dentro de debugfs usando tubería (pipe) y muestra el listado del directorio raíz."
+      "nombre": "Ejecutar comando via tuberia",
+      "comando": "echo 'ls -l' | sudo debugfs /dev/sda1",
+      "descripcion": "Ejecuta el comando 'ls -l' dentro de debugfs usando tuberia (pipe) y muestra el listado del directorio raiz.",
+      "resultado_esperado": "Muestra el listado de archivos y directorios en la raiz del sistema de archivos indicado."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "dispositivo",
+      "archivo_comandos",
+      "comando_unico"
+    ],
+    "validaciones": [
+      "Verificar que el dispositivo este completamente desmontado antes de abrirlo en modo lectura-escritura (-w).",
+      "Verificar privilegios de superusuario (root)."
+    ],
+    "rollback": "e2undo"
+  }
 }

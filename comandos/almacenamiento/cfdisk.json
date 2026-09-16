@@ -1,94 +1,286 @@
 {
-  "comando": "cfdisk",
+  "id": "cfdisk",
+  "nombre": "cfdisk",
   "descripcion": "Herramienta interactiva basada en curses para manipular tablas de particiones en dispositivos de bloques. Permite crear, eliminar, modificar, cambiar tipos de particiones y reescribir la tabla de particiones con una interfaz visual amigable.",
-  "categoria": "almacenamiento",
-  "estructura": "cfdisk [opciones] [dispositivo]",
-  "opciones": [
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "particionamiento",
+    "tags": [
+      "almacenamiento",
+      "particiones",
+      "disco",
+      "mbr",
+      "gpt",
+      "curses",
+      "interactivo"
+    ]
+  },
+  "sintaxis": {
+    "principal": "cfdisk [opciones] [dispositivo]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": "-a, --arrow",
-      "descripcion": "Usa el cursor de flecha en la interfaz (obsoleto, se mantiene por compatibilidad)."
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa el cursor de flecha en la interfaz (obsoleto, se mantiene por compatibilidad) (alias: --arrow).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-z, --zero",
-      "descripcion": "Escribe ceros al inicio del dispositivo antes de crear una nueva tabla de particiones (elimina cualquier firma existente)."
+      "flag": "-z",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Escribe ceros al inicio del dispositivo antes de crear una nueva tabla de particiones (elimina cualquier firma existente) (alias: --zero).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-c, --cylinders",
-      "descripcion": "Especifica el número de cilindros del dispositivo (obsoleto, se ignora)."
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Especifica el numero de cilindros del dispositivo (obsoleto, se ignora) (alias: --cylinders).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-h, --heads",
-      "descripcion": "Especifica el número de cabezas del dispositivo (obsoleto, se ignora)."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Especifica el numero de cabezas del dispositivo (obsoleto, se ignora) (alias: --heads). Nota: cuando no lleva argumento muestra la ayuda.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-s, --sectors",
-      "descripcion": "Especifica el número de sectores por pista (obsoleto, se ignora)."
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Especifica el numero de sectores por pista (obsoleto, se ignora) (alias: --sectors).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-S, --sector-size",
-      "descripcion": "Especifica el tamaño de sector en bytes (obsoleto, se usa el tamaño del dispositivo)."
+      "flag": "-S",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Especifica el tamano de sector en bytes (obsoleto, se usa el tamano del dispositivo) (alias: --sector-size, --sectors-per-track).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-b, --bytes",
-      "descripcion": "Forza el uso del tamaño de sector físico en lugar del lógico (obsoleto)."
+      "flag": "-b",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Forza el uso del tamano de sector fisico en lugar del logico (obsoleto) (alias: --bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-C, --cylinders",
-      "descripcion": "Define el número de cilindros (deprecado, use -c en su lugar)."
+      "flag": "-C",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Define el numero de cilindros (deprecado, use -c en su lugar) (alias: --cylinders).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-H, --heads",
-      "descripcion": "Define el número de cabezas (deprecado, use -h en su lugar)."
+      "flag": "-H",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Define el numero de cabezas (deprecado, use -h en su lugar) (alias: --heads).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-S, --sectors-per-track",
-      "descripcion": "Define el número de sectores por pista (deprecado, use -s en su lugar)."
+      "flag": "-L",
+      "argumento": "when",
+      "tipo": "string",
+      "requerido": false,
+      "default": "auto",
+      "valores": [
+        "auto",
+        "never",
+        "always"
+      ],
+      "descripcion": "Colorea la salida. Los valores posibles son: 'auto' (predeterminado), 'never' o 'always' (alias: --color).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-L, --color[=when]",
-      "descripcion": "Colorea la salida. Los valores posibles son: 'auto' (predeterminado), 'never' o 'always'."
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Abre el dispositivo en modo solo lectura (no se pueden realizar cambios) (alias: --read-only).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-r, --read-only",
-      "descripcion": "Abre el dispositivo en modo solo lectura (no se pueden realizar cambios)."
+      "flag": "-V",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la version de cfdisk y sale (alias: --version).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-V, --version",
-      "descripcion": "Muestra la versión de cfdisk y sale."
+      "flag": "-l",
+      "argumento": "tipo",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "dos",
+        "gpt",
+        "sun",
+        "sgi",
+        "bsd",
+        "mac"
+      ],
+      "descripcion": "Especifica el tipo de tabla de particiones a usar (por ejemplo: 'dos' para MBR, 'gpt' para GUID, 'sun', 'sgi', 'bsd', 'mac', etc.) (alias: --label, -t, --type).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-l, --label <tipo>",
-      "descripcion": "Especifica el tipo de tabla de particiones a usar (por ejemplo: 'dos' para MBR, 'gpt' para GUID, 'sun', 'sgi', 'bsd', 'mac', etc.)."
+      "flag": "-t",
+      "argumento": "tipo",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "dos",
+        "gpt",
+        "sun",
+        "sgi",
+        "bsd",
+        "mac"
+      ],
+      "descripcion": "Alias de -l. Especifica el tipo de tabla de particiones (alias: --type).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-t, --type <tipo>",
-      "descripcion": "Alias de -l. Especifica el tipo de tabla de particiones."
+      "flag": "-u",
+      "argumento": "unidad",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "s",
+        "S",
+        "B",
+        "C",
+        "M",
+        "G"
+      ],
+      "descripcion": "Define la unidad de visualizacion para los tamanos de particion. Valores: 's' (sectores), 'S' (sectores de 512 bytes), 'B' (bytes), 'C' (cilindros), 'M' (MB), 'G' (GB), etc. (alias: --units).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-u, --units <unidad>",
-      "descripcion": "Define la unidad de visualización para los tamaños de partición. Valores: 's' (sectores), 'S' (sectores de 512 bytes), 'B' (bytes), 'C' (cilindros), 'M' (MB), 'G' (GB), etc."
+      "flag": "-P",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Imprime la tabla de particiones actual en la salida estandar (sin interfaz interactiva) y sale inmediatamente (alias: --print).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-P, --print",
-      "descripcion": "Imprime la tabla de particiones actual en la salida estándar (sin interfaz interactiva) y sale inmediatamente."
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "No verifica los limites de las particiones (permite crear particiones que no esten alineadas correctamente) (alias: --no-bounds).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-n, --no-bounds",
-      "descripcion": "No verifica los límites de las particiones (permite crear particiones que no estén alineadas correctamente)."
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Fuerza la escritura de la tabla de particiones incluso si el kernel reporta que el dispositivo esta en uso o si hay advertencias de seguridad (alias: --force).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-f, --force",
-      "descripcion": "Fuerza la escritura de la tabla de particiones incluso si el kernel reporta que el dispositivo está en uso o si hay advertencias de seguridad."
-    },
-    {
-      "parametro": "-h, --help",
-      "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones y sale."
+      "flag": "--help",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones y sale.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [
+      "root",
+      "sudo"
+    ],
+    "dependencias": [
+      "util-linux"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
+  },
+  "seguridad": {
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
+    "advertencias": [
+      "Modificar o eliminar particiones sobrescribira la tabla de particiones del disco, pudiendo provocar la perdida total de los datos.",
+      "La opcion -z (--zero) destruira cualquier firma o tabla de particiones preexistente de forma inmediata."
+    ]
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install util-linux -y",
       "arch_linux": "sudo pacman -S util-linux",
       "rhel_centos": "sudo dnf install util-linux -y"
@@ -96,20 +288,42 @@
   },
   "ejemplos": [
     {
-      "uso": "sudo cfdisk /dev/sda",
-      "explicacion": "Abre la interfaz interactiva para editar la tabla de particiones del dispositivo /dev/sda (MBR por defecto)."
+      "nombre": "Editar particiones de un disco",
+      "comando": "sudo cfdisk /dev/sda",
+      "descripcion": "Abre la interfaz interactiva para editar la tabla de particiones del dispositivo /dev/sda (MBR por defecto).",
+      "resultado_esperado": "Abre la interfaz visual en terminal basada en ncurses con el mapa de particiones de /dev/sda."
     },
     {
-      "uso": "sudo cfdisk -l gpt /dev/sdb",
-      "explicacion": "Abre cfdisk forzando el uso de una tabla de particiones GPT en el dispositivo /dev/sdb."
+      "nombre": "Forzar tabla de particiones GPT",
+      "comando": "sudo cfdisk -l gpt /dev/sdb",
+      "descripcion": "Abre cfdisk forzando el uso de una tabla de particiones GPT en el dispositivo /dev/sdb.",
+      "resultado_esperado": "Abre la interfaz visual configurando el esquema del dispositivo como GPT."
     },
     {
-      "uso": "sudo cfdisk -P /dev/sdc",
-      "explicacion": "Muestra únicamente la tabla de particiones actual de /dev/sdc en la consola y sale (sin interfaz gráfica)."
+      "nombre": "Imprimir tabla de particiones sin interfaz",
+      "comando": "sudo cfdisk -P /dev/sdc",
+      "descripcion": "Muestra unicamente la tabla de particiones actual de /dev/sdc en la consola y sale (sin interfaz grafica).",
+      "resultado_esperado": "Imprime la estructura de datos de las particiones directamente en stdout."
     },
     {
-      "uso": "sudo cfdisk -z /dev/sdd",
-      "explicacion": "Limpia el inicio del disco /dev/sdd (escribe ceros) y luego crea una nueva tabla de particiones desde cero."
+      "nombre": "Limpiar firmas e iniciar desde cero",
+      "comando": "sudo cfdisk -z /dev/sdd",
+      "descripcion": "Limpia el inicio del disco /dev/sdd (escribe ceros) y luego crea una nueva tabla de particiones desde cero.",
+      "resultado_esperado": "Inicia la interfaz grafica habiendo borrado previamente cualquier tabla existente en la unidad."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": true,
+    "apto_script": false,
+    "variables": [
+      "dispositivo",
+      "tipo_tabla"
+    ],
+    "validaciones": [
+      "Verificar privilegios de superusuario (root) antes de ejecutar.",
+      "Asegurarse de que las particiones a modificar esten completamente desmontadas."
+    ],
+    "rollback": null
+  }
 }

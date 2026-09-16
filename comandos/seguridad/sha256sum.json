@@ -1,1 +1,49 @@
-{}
+{
+  "id": "sha256sum",
+  "nombre": "sha256sum",
+  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "clasificacion": {
+    "categoria": "seguridad",
+    "subcategoria": "general",
+    "tags": [
+      "seguridad"
+    ]
+  },
+  "sintaxis": {
+    "principal": "sha256sum",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+    ]
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": false,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
+}

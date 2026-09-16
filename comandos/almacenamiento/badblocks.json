@@ -1,74 +1,222 @@
 {
-  "comando": "badblocks",
-  "descripcion": "Busca bloques defectuosos en un dispositivo (generalmente una partición de disco) mediante pruebas de lectura, escritura o lectura-escritura no destructiva.",
-  "categoria": "almacenamiento",
-  "estructura": "badblocks [opciones] dispositivo [último_bloque] [primer_bloque]",
-  "opciones": [
+  "id": "badblocks",
+  "nombre": "badblocks",
+  "descripcion": "Busca bloques defectuosos en un dispositivo (generalmente una particion de disco) mediante pruebas de lectura, escritura o lectura-escritura no destructiva.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "diagnostico",
+    "tags": [
+      "almacenamiento",
+      "diagnostico",
+      "disco",
+      "bloques",
+      "hardware",
+      "mantenimiento"
+    ]
+  },
+  "sintaxis": {
+    "principal": "badblocks [opciones] dispositivo [ultimo_bloque] [primer_bloque]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": "-b block_size",
-      "descripcion": "Especifica el tamaño de los bloques en bytes. El valor predeterminado es 1024."
+      "flag": "-b",
+      "argumento": "block_size",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 1024,
+      "valores": [],
+      "descripcion": "Especifica el tamano de los bloques en bytes. El valor predeterminado es 1024.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-c blocks_at_once",
-      "descripcion": "Número de bloques que se prueban a la vez. El valor predeterminado es 64."
+      "flag": "-c",
+      "argumento": "blocks_at_once",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 64,
+      "valores": [],
+      "descripcion": "Numero de bloques que se prueban a la vez. El valor predeterminado es 64.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-d read_delay_factor",
-      "descripcion": "Si se pasa y es distinto de cero, provoca una pausa entre lecturas si no hubo errores; el retraso se calcula como un porcentaje del tiempo que tomó la operación de lectura anterior."
+      "flag": "-d",
+      "argumento": "read_delay_factor",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 0,
+      "valores": [],
+      "descripcion": "Si se pasa y es distinto de cero, provoca una pausa entre lecturas si no hubo errores; el retraso se calcula como un porcentaje del tiempo que tomo la operacion de lectura anterior.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-e max_bad_blocks",
-      "descripcion": "Especifica un número máximo de bloques defectuosos antes de abortar la prueba. El valor predeterminado es 0 (continuar hasta el final)."
+      "flag": "-e",
+      "argumento": "max_bad_blocks",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 0,
+      "valores": [],
+      "descripcion": "Especifica un numero maximo de bloques defectuosos antes de abortar la prueba. El valor predeterminado es 0 (continuar hasta el final).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-f",
-      "descripcion": "Fuerza la prueba incluso si el dispositivo está montado (peligroso, puede dañar el sistema de archivos)."
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Fuerza la prueba incluso si el dispositivo esta montado (peligroso, puede danar el sistema de archivos).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-i input_file",
-      "descripcion": "Lee una lista de bloques defectuosos conocidos desde un archivo y omite su prueba. Si se especifica '-' como archivo, lee desde la entrada estándar."
+      "flag": "-i",
+      "argumento": "input_file",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee una lista de bloques defectuosos conocidos desde un archivo y omite su prueba. Si se especifica '-' como archivo, lee desde la entrada estandar.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-n",
-      "descripcion": "Usa el modo de lectura-escritura no destructiva (no combinar con -w)."
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa el modo de lectura-escritura no destructiva (no combinar con -w).",
+      "conflictos": [
+        "-w"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-o output_file",
-      "descripcion": "Escribe la lista de bloques defectuosos en el archivo especificado. Si no se usa, la lista se muestra en la salida estándar."
+      "flag": "-o",
+      "argumento": "output_file",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe la lista de bloques defectuosos en el archivo especificado. Si no se usa, la lista se muestra en la salida estandar.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-p num_passes",
-      "descripcion": "Repite el escaneo hasta que no se descubran nuevos bloques en num_passes pasadas consecutivas. El valor predeterminado es 0 (una sola pasada)."
+      "flag": "-p",
+      "argumento": "num_passes",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 0,
+      "valores": [],
+      "descripcion": "Repite el escaneo hasta que no se descubran nuevos bloques en num_passes pasadas consecutivas. El valor predeterminado es 0 (una sola pasada).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-s",
-      "descripcion": "Muestra el progreso del escaneo indicando el porcentaje aproximado completado de la pasada actual."
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el progreso del escaneo indicando el porcentaje aproximado completado de la pasada actual.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-t test_pattern",
-      "descripcion": "Especifica un patrón de prueba (valor numérico o la palabra 'random') para leer y escribir en los bloques. Se puede usar múltiples veces para varios patrones."
+      "flag": "-t",
+      "argumento": "test_pattern",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "random"
+      ],
+      "descripcion": "Especifica un patron de prueba (valor numerico o la palabra 'random') para leer y escribir en los bloques. Se puede usar multiples veces para varios patrones.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-v",
-      "descripcion": "Modo verbose (detallado). Muestra el número de errores de lectura, escritura y corrupción de datos en stderr."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Modo verbose (detallado). Muestra el numero de errores de lectura, escritura y corrupcion de datos en stderr.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-w",
-      "descripcion": "Usa el modo de prueba de escritura (escribe patrones 0xaa, 0x55, 0xff, 0x00 en cada bloque y los verifica). ¡Elimina datos! No combinar con -n."
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa el modo de prueba de escritura (escribe patrones 0xaa, 0x55, 0xff, 0x00 en cada bloque y los verifica). Elimina datos! No combinar con -n.",
+      "conflictos": [
+        "-n"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-B",
-      "descripcion": "Usa E/S con búfer y no usa E/S directa, incluso si está disponible."
+      "flag": "-B",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa E/S con bufer y no usa E/S directa, incluso si esta disponible.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-X",
-      "descripcion": "Bandera interna usada solo por e2fsck y mke2fs. Omite la verificación de seguridad de dispositivo en uso."
+      "flag": "-X",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Bandera interna usada solo por e2fsck y mke2fs. Omite la verificacion de seguridad de dispositivo en uso.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [
+      "root",
+      "sudo"
+    ],
+    "dependencias": [
+      "e2fsprogs"
+    ],
+    "paquetes": [
+      "e2fsprogs"
+    ]
+  },
+  "seguridad": {
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "El modo de prueba de escritura (-w) sobrescribe y destruye permanentemente los datos existentes en el dispositivo.",
+      "Forzar la prueba (-f) en un dispositivo o particion montada puede provocar corrupcion en el sistema de archivos."
+    ]
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install e2fsprogs -y",
       "arch_linux": "sudo pacman -S e2fsprogs",
       "rhel_centos": "sudo dnf install e2fsprogs -y"
@@ -76,16 +224,36 @@
   },
   "ejemplos": [
     {
-      "uso": "sudo badblocks -s -v /dev/sda",
-      "explicacion": "Realiza una prueba de solo lectura en el dispositivo /dev/sda, mostrando el progreso y detalles en modo verbose."
+      "nombre": "Prueba de solo lectura con progreso",
+      "comando": "sudo badblocks -s -v /dev/sda",
+      "descripcion": "Realiza una prueba de solo lectura en el dispositivo /dev/sda, mostrando el progreso y detalles en modo verbose.",
+      "resultado_esperado": "Muestra en tiempo real el porcentaje completado y lista al final en pantalla los bloques defectuosos detectados."
     },
     {
-      "uso": "sudo badblocks -n -o bloques_defectuosos.txt /dev/sdb1",
-      "explicacion": "Realiza una prueba no destructiva en la partición /dev/sdb1 y guarda la lista de bloques defectuosos en el archivo bloques_defectuosos.txt."
+      "nombre": "Prueba no destructiva guardando reporte",
+      "comando": "sudo badblocks -n -o bloques_defectuosos.txt /dev/sdb1",
+      "descripcion": "Realiza una prueba no destructiva en la particion /dev/sdb1 y guarda la lista de bloques defectuosos en el archivo bloques_defectuosos.txt.",
+      "resultado_esperado": "Crea el archivo bloques_defectuosos.txt con los bloques danados sin alterar la informacion previa del disco."
     },
     {
-      "uso": "sudo badblocks -w -p 2 /dev/sdc",
-      "explicacion": "Realiza una prueba destructiva de escritura en /dev/sdc, repitiendo el escaneo hasta que no haya nuevos bloques en 2 pasadas consecutivas."
+      "nombre": "Prueba destructiva de escritura",
+      "comando": "sudo badblocks -w -p 2 /dev/sdc",
+      "descripcion": "Realiza una prueba destructiva de escritura en /dev/sdc, repitiendo el escaneo hasta que no haya nuevos bloques en 2 pasadas consecutivas.",
+      "resultado_esperado": "Sobrescribe la unidad eliminando sus datos y emite una confirmacion de la integridad del almacenamiento tras las pasadas solicitadas."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      "dispositivo",
+      "archivo_salida"
+    ],
+    "validaciones": [
+      "Verificar que el dispositivo este desmontado antes de ejecutar si no se usa la bandera -n de solo lectura.",
+      "Verificar privilegios de superusuario (root)."
+    ],
+    "rollback": null
+  }
 }

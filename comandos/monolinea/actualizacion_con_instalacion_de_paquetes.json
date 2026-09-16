@@ -1,5 +1,57 @@
 {
-    "nombre": "Actualización de sistema con instalación de actualización de los paquetes disponibles",
-    "descripcion": "Actualiza el sistema e instala las últimas actualizaciones de los paquetes disponibles.",
-    "contenido": "sudo apt update && sudo apt upgrade -y"
+  "id": "actualizacion_con_instalacion_de_paquetes",
+  "nombre": "Actualizacion de sistema con instalacion de actualizacion de los paquetes disponibles",
+  "descripcion": "Actualiza el sistema e instala las ultimas actualizaciones de los paquetes disponibles.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "sudo apt update && sudo apt upgrade -y",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Actualizacion de sistema con instalacion de actualizacion de los paquetes disponibles",
+      "comando": "sudo apt update && sudo apt upgrade -y",
+      "descripcion": "Actualiza el sistema e instala las ultimas actualizaciones de los paquetes disponibles.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

@@ -1,73 +1,194 @@
 {
-  "comando": "zip",
-  "descripcion": "Empaquetar y comprimir (archivar) archivos en el formato estándar ZIP, compatible con múltiples plataformas.",
-  "categoria": ["compresion"],
-  "estructura": "zip [opciones] archivo.zip [archivos_o_directorios_a_incluir]",
-  "opciones": [
+  "id": "zip",
+  "nombre": "zip",
+  "descripcion": "Empaquetar y comprimir (archivar) archivos en el formato estandar ZIP, compatible con multiples plataformas.",
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "zip [opciones] archivo.zip [archivos_o_directorios_a_incluir]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-r", "--recurse-paths"],
-      "descripcion": "Recorre los directorios de forma recursiva para incluir todos sus subdirectorios y archivos dentro del paquete ZIP."
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Recorre los directorios de forma recursiva para incluir todos sus subdirectorios y archivos dentro del paquete ZIP.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Modo silencioso; suprime los mensajes informativos y las líneas de progreso de los archivos que van siendo añadidos."
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo silencioso; suprime los mensajes informativos y las lineas de progreso de los archivos que van siendo anadidos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado o de diagnóstico; muestra información extra sobre la compresión o lista los archivos si no se pasan más argumentos."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado o de diagnostico; muestra informacion extra sobre la compresion o lista los archivos si no se pasan mas argumentos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-m", "--move"],
-      "descripcion": "Mueve los archivos especificados al archivo ZIP; es decir, elimina los archivos originales del disco una vez que se han comprimido con éxito."
+      "flag": "-m",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Mueve los archivos especificados al archivo ZIP; es decir, elimina los archivos originales del disco una vez que se han comprimido con exito.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-u", "--update"],
-      "descripcion": "Actualiza el archivo ZIP reemplazando únicamente los archivos existentes si han cambiado o agregando archivos nuevos."
+      "flag": "-u",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Actualiza el archivo ZIP reemplazando unicamente los archivos existentes si han cambiado o agregando archivos nuevos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-f", "--freshen"],
-      "descripcion": "Sustituye en el archivo ZIP solo aquellos archivos que ya existen dentro de él y que han sido modificados recientemente en el disco. No añade archivos nuevos."
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Sustituye en el archivo ZIP solo aquellos archivos que ya existen dentro de el y que han sido modificados recientemente en el disco. No anade archivos nuevos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--delete"],
-      "descripcion": "Elimina de forma explícita los archivos o rutas especificadas que ya se encuentran dentro del archivo ZIP."
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Elimina de forma explicita los archivos o rutas especificadas que ya se encuentran dentro del archivo ZIP.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-j", "--junk-paths"],
-      "descripcion": "Descarta la estructura de rutas de directorios; guarda todos los archivos directamente en la raíz del archivo ZIP sin crear subcarpetas."
+      "flag": "-j",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Descarta la estructura de rutas de directorios; guarda todos los archivos directamente en la raiz del archivo ZIP sin crear subcarpetas.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-e", "--encrypt"],
-      "descripcion": "Solicita una contraseña de forma interactiva en la terminal para cifrar el contenido del archivo ZIP creado."
+      "flag": "-e",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Solicita una contrasena de forma interactiva en la terminal para cifrar el contenido del archivo ZIP creado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-P", "--password"],
-      "descripcion": "Especifica la contraseña de cifrado directamente desde la línea de comandos (no recomendado por motivos de seguridad)."
+      "flag": "-P",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica la contrasena de cifrado directamente desde la linea de comandos (no recomendado por motivos de seguridad).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-0", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"],
-      "descripcion": "Regula la velocidad y nivel de compresión. '-0' indica almacenar sin compresión, '-1' es el método más rápido y '-9' el método más lento con óptima compresión."
+      "flag": "-0",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Regula la velocidad y nivel de compresion. '-0' indica almacenar sin compresion, '-1' es el metodo mas rapido y '-9' el metodo mas lento con optima compresion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-s", "--split-size"],
-      "descripcion": "Divide el archivo ZIP resultante en varias partes más pequeñas del tamaño especificado (ej. '-s 10m' para partes de 10 Megabytes)."
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Divide el archivo ZIP resultante en varias partes mas pequenas del tamano especificado (ej. '-s 10m' para partes de 10 Megabytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--version"],
-      "descripcion": "Muestra la versión del software junto con información detallada de los algoritmos de compresión soportados."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version del software junto con informacion detallada de los algoritmos de compresion soportados.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install zip -y",
-      "arch_linux": "sudo pacman -S zip",
-      "rhel_centos": "sudo dnf install zip -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -77,7 +198,15 @@
     },
     {
       "uso": "zip -e -r confidencial.zip carpeta_privada",
-      "explicacion": "Comprime la carpeta especificada de forma recursiva protegiendo el archivo con una contraseña que el usuario deberá ingresar en la terminal."
+      "explicacion": "Comprime la carpeta especificada de forma recursiva protegiendo el archivo con una contrasena que el usuario debera ingresar en la terminal."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

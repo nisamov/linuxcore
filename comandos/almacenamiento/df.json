@@ -1,94 +1,286 @@
 {
-  "comando": "df",
-  "descripcion": "Muestra el espacio disponible y usado en los sistemas de archivos montados. Reporta el uso de disco por partición o sistema de archivos, incluyendo total, usado, disponible, porcentaje de uso y punto de montaje.",
-  "categoria": "almacenamiento",
-  "estructura": "df [opciones] [archivo|directorio|dispositivo...]",
-  "opciones": [
+  "id": "df",
+  "nombre": "df",
+  "descripcion": "Muestra el espacio disponible y usado en los sistemas de archivos montados. Reporta el uso de disco por particion o sistema de archivos, incluyendo total, usado, disponible, porcentaje de uso y punto de montaje.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "monitoreo_y_analisis",
+    "tags": [
+      "almacenamiento",
+      "espacio_disco",
+      "monitoreo",
+      "sistema_de_archivos",
+      "df",
+      "posix"
+    ]
+  },
+  "sintaxis": {
+    "principal": "df [opciones] [archivo|directorio|dispositivo...]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": "-a, --all",
-      "descripcion": "Incluye sistemas de archivos con tamaño 0 (como /proc, /sys, etc.) que normalmente se omiten."
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Incluye sistemas de archivos con tamano 0 (como /proc, /sys, etc.) que normalmente se omiten (alias: --all).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-B, --block-size=TAM",
-      "descripcion": "Especifica el tamaño de bloque para la salida (por ejemplo: 1K, 1M, 1G). También se puede usar con sufijos como K, M, G."
+      "flag": "-B",
+      "argumento": "TAM",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica el tamano de bloque para la salida (por ejemplo: 1K, 1M, 1G). Tambien se puede usar con sufijos como K, M, G (alias: --block-size).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-h, --human-readable",
-      "descripcion": "Muestra los tamaños en formato legible por humanos (usando potencias de 1024: K, M, G, T)."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra los tamanos en formato legible por humanos usando potencias de 1024: K, M, G, T (alias: --human-readable).",
+      "conflictos": [
+        "-H"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-H, --si",
-      "descripcion": "Similar a -h pero usa potencias de 1000 (SI) en lugar de 1024."
+      "flag": "-H",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Similar a -h pero usa potencias de 1000 (SI) en lugar de 1024 (alias: --si).",
+      "conflictos": [
+        "-h"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-i, --inodes",
-      "descripcion": "Muestra información de inodos en lugar de bloques (número total, usados, disponibles y porcentaje de uso)."
+      "flag": "-i",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra informacion de inodos en lugar de bloques (numero total, usados, disponibles y porcentaje de uso) (alias: --inodes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-k, --kilobytes",
-      "descripcion": "Muestra los tamaños en bloques de 1024 bytes (equivale a --block-size=1K)."
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra los tamanos en bloques de 1024 bytes (equivale a --block-size=1K) (alias: --kilobytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-l, --local",
-      "descripcion": "Limita la salida únicamente a sistemas de archivos locales (omite aquellos montados desde red como NFS)."
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Limita la salida unicamente a sistemas de archivos locales, omitiendo aquellos montados desde red como NFS (alias: --local).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-m, --megabytes",
-      "descripcion": "Muestra los tamaños en bloques de 1,048,576 bytes (equivale a --block-size=1M)."
+      "flag": "-m",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra los tamanos en bloques de 1,048,576 bytes (equivale a --block-size=1M) (alias: --megabytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-P, --portability",
-      "descripcion": "Usa el formato POSIX de salida (ancho fijo y sin columnas de tipo de sistema de archivos)."
+      "flag": "-P",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa el formato POSIX de salida (ancho fijo y sin columnas de tipo de sistema de archivos) (alias: --portability).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-T, --print-type",
-      "descripcion": "Muestra el tipo de sistema de archivos (ext4, xfs, ntfs, etc.) en una columna adicional."
+      "flag": "-T",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el tipo de sistema de archivos (ext4, xfs, ntfs, etc.) en una columna adicional (alias: --print-type).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-t, --type=TIPO",
-      "descripcion": "Muestra solo los sistemas de archivos del tipo especificado (p.ej., ext4). Se puede usar múltiples veces."
+      "flag": "-t",
+      "argumento": "TIPO",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra solo los sistemas de archivos del tipo especificado (p.ej., ext4). Se puede usar multiples veces (alias: --type).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-x, --exclude-type=TIPO",
-      "descripcion": "Excluye los sistemas de archivos del tipo especificado (opuesto a -t)."
+      "flag": "-x",
+      "argumento": "TIPO",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Excluye los sistemas de archivos del tipo especificado (opuesto a -t) (alias: --exclude-type).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--sync",
-      "descripcion": "Sincroniza todos los búferes del sistema de archivos antes de consultar los datos (obtiene valores más precisos pero más lentos)."
+      "flag": "--sync",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Sincroniza todos los buferes del sistema de archivos antes de consultar los datos para obtener valores mas precisos.",
+      "conflictos": [
+        "--no-sync"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "--no-sync",
-      "descripcion": "No sincroniza antes de consultar (por defecto, si --sync no se usa)."
+      "flag": "--no-sync",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": true,
+      "valores": [],
+      "descripcion": "No sincroniza buferes antes de consultar (comportamiento por defecto).",
+      "conflictos": [
+        "--sync"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "--total",
-      "descripcion": "Agrega una fila final que muestra los totales de todos los sistemas de archivos listados."
+      "flag": "--total",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Agrega una fila final que muestra los totales de todos los sistemas de archivos listados.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--output[=CAMPO_LIST]",
-      "descripcion": "Personaliza las columnas de salida. Por defecto usa 'source,fstype,size,used,avail,pcent,target'. Campos disponibles: source, fstype, itotal, iused, iavail, ipcent, size, used, avail, pcent, target, file."
+      "flag": "--output",
+      "argumento": "CAMPO_LIST",
+      "tipo": "string",
+      "requerido": false,
+      "default": "source,fstype,size,used,avail,pcent,target",
+      "valores": [
+        "source",
+        "fstype",
+        "itotal",
+        "iused",
+        "iavail",
+        "ipcent",
+        "size",
+        "used",
+        "avail",
+        "pcent",
+        "target",
+        "file"
+      ],
+      "descripcion": "Personaliza las columnas de salida mediante una lista separada por comas de campos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--exclude=PATRÓN",
-      "descripcion": "Excluye los sistemas de archivos cuyo punto de montaje o dispositivo coincida con el patrón (wildcards)."
+      "flag": "--exclude",
+      "argumento": "PATRON",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Excluye los sistemas de archivos cuyo punto de montaje o dispositivo coincida con el patron de comodines especificados.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-v",
-      "descripcion": "Modo verbose (en algunas versiones, equivalente a --all, pero generalmente obsoleto o sin efecto)."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Modo verbose (obsoleto o sin efecto en la mayoria de implementaciones de GNU Coreutils).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-h, --help",
-      "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones y sale."
+      "flag": "--help",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la ayuda del comando con un resumen de todas las opciones y sale.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--version",
-      "descripcion": "Muestra la versión de df y sale."
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la version de df y sale.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "coreutils"
+    ],
+    "paquetes": [
+      "coreutils"
+    ]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install coreutils -y",
       "arch_linux": "sudo pacman -S coreutils",
       "rhel_centos": "sudo dnf install coreutils -y"
@@ -96,24 +288,48 @@
   },
   "ejemplos": [
     {
-      "uso": "df -h",
-      "explicacion": "Muestra el uso de todos los sistemas de archivos montados en formato legible para humanos (con unidades K, M, G)."
+      "nombre": "Consultar espacio en formato legible",
+      "comando": "df -h",
+      "descripcion": "Muestra el uso de todos los sistemas de archivos montados en formato legible para humanos (con unidades K, M, G).",
+      "resultado_esperado": "Lista de unidades montadas indicando tamano total, usado, disponible, % de uso y punto de montaje en MB/GB."
     },
     {
-      "uso": "df -T /home",
-      "explicacion": "Muestra el tipo de sistema de archivos y el uso de la partición que contiene el directorio /home."
+      "nombre": "Consultar tipo de sistema de archivos en una ruta",
+      "comando": "df -T /home",
+      "descripcion": "Muestra el tipo de sistema de archivos y el uso de la particion que contiene el directorio /home.",
+      "resultado_esperado": "Muestra una columna adicional Type (ej. ext4, xfs) correspondiente al directorio especificado."
     },
     {
-      "uso": "df -i --total /dev/sda1 /dev/sdb1",
-      "explicacion": "Muestra información de inodos para las particiones /dev/sda1 y /dev/sdb1, agregando un total al final."
+      "nombre": "Verificar inodos con resumen total",
+      "comando": "df -i --total /dev/sda1 /dev/sdb1",
+      "descripcion": "Muestra informacion de inodos para las particiones /dev/sda1 y /dev/sdb1, agregando un total al final.",
+      "resultado_esperado": "Reporte de inodos totales, usados y libres con una fila 'total' al final."
     },
     {
-      "uso": "df -t ext4 -x tmpfs",
-      "explicacion": "Muestra solo sistemas de archivos de tipo ext4, excluyendo aquellos de tipo tmpfs."
+      "nombre": "Filtrar por tipo de sistema de archivos",
+      "comando": "df -t ext4 -x tmpfs",
+      "descripcion": "Muestra solo sistemas de archivos de tipo ext4, excluyendo aquellos de tipo tmpfs.",
+      "resultado_esperado": "Lista filtrada mostrando unicamente particiones ext4."
     },
     {
-      "uso": "df --output=source,size,pcent,target -B M",
-      "explicacion": "Muestra solo las columnas de dispositivo, tamaño en MB, porcentaje y punto de montaje, usando bloques de 1 MB."
+      "nombre": "Personalizar columnas y unidades de medida",
+      "comando": "df --output=source,size,pcent,target -B M",
+      "descripcion": "Muestra solo las columnas de dispositivo, tamano en MB, porcentaje y punto de montaje, usando bloques de 1 MB.",
+      "resultado_esperado": "Tabla limpia con unicamente las columnas solicitadas expresadas en MB."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      "ruta",
+      "tipo_fs",
+      "bloque"
+    ],
+    "validaciones": [
+      "Verificar la existencia del archivo, directorio o dispositivo si se proporciona como argumento."
+    ],
+    "rollback": null
+  }
 }

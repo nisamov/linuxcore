@@ -1,73 +1,194 @@
 {
-  "comando": "bzip2",
-  "descripcion": "Comprimir archivos usando el algoritmo 'Burrows-Wheeler' y codificación 'Huffman'.",
-  "categoria": ["compresion"],
-  "estructura": "bzip2 [opciones]",
-  "opciones": [
+  "id": "bzip2",
+  "nombre": "bzip2",
+  "descripcion": "Comprimir archivos usando el algoritmo 'Burrows-Wheeler' y codificacion 'Huffman'.",
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "bzip2 [opciones]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-c", "--stdout"],
-      "descripcion": "Comprimir o descomprimir el archivo hacia la salida estándar."
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Comprimir o descomprimir el archivo hacia la salida estandar.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--decompress"],
-      "descripcion": "Fuerza la descompresión del archivo, ignorando el nombre con el que se invocó el programa."
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la descompresion del archivo, ignorando el nombre con el que se invoco el programa.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-z", "--compress"],
-      "descripcion": "Fuerza la compresión del archivo, independientemente del nombre con el que se invocó el programa."
+      "flag": "-z",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la compresion del archivo, independientemente del nombre con el que se invoco el programa.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--test"],
-      "descripcion": "Verifica la integridad de los archivos especificados realizando una descompresión de prueba sin guardar el resultado."
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Verifica la integridad de los archivos especificados realizando una descompresion de prueba sin guardar el resultado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-f", "--force"],
-      "descripcion": "Fuerza la sobrescritura de los archivos de salida, rompe enlaces duros existentes y permite procesar archivos sin las cabeceras mágicas correctas."
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la sobrescritura de los archivos de salida, rompe enlaces duros existentes y permite procesar archivos sin las cabeceras magicas correctas.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-k", "--keep"],
-      "descripcion": "Conserva los archivos de entrada intactos; no los elimina después de la compresión o descompresión."
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Conserva los archivos de entrada intactos; no los elimina despues de la compresion o descompresion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-s", "--small"],
-      "descripcion": "Reduce el uso de memoria para compresión, descompresión y pruebas a cambio de reducir la velocidad a la mitad y limitar el tamaño del bloque."
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Reduce el uso de memoria para compresion, descompresion y pruebas a cambio de reducir la velocidad a la mitad y limitar el tamano del bloque.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Suprime los mensajes de advertencia no esenciales; los errores críticos de E/S se siguen mostrando."
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime los mensajes de advertencia no esenciales; los errores criticos de E/S se siguen mostrando.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; muestra el porcentaje de compresión para cada archivo procesado. Añadir más opciones '-v' aumenta el nivel de detalle diagnóstico."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado; muestra el porcentaje de compresion para cada archivo procesado. Anadir mas opciones '-v' aumenta el nivel de detalle diagnostico.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-L", "--license", "-V", "--version"],
-      "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
+      "flag": "-L",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version del software junto con los terminos y condiciones de la licencia.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-1", "--fast", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9", "--best"],
-      "descripcion": "Ajusta el tamaño del bloque de compresión desde 100 k hasta 900 k. No afecta el proceso de descompresión."
+      "flag": "-1",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ajusta el tamano del bloque de compresion desde 100 k hasta 900 k. No afecta el proceso de descompresion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--"],
-      "descripcion": "Trata todos los argumentos posteriores como nombres de archivos, permitiendo gestionar archivos cuyos nombres comiencen con un guion."
+      "flag": "--",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Trata todos los argumentos posteriores como nombres de archivos, permitiendo gestionar archivos cuyos nombres comiencen con un guion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--repetitive-fast", "--repetitive-best"],
-      "descripcion": "Opciones redundantes u obsoletas en versiones 0.9.5 o superiores debido a mejoras en el algoritmo de ordenación."
+      "flag": "--repetitive-fast",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Opciones redundantes u obsoletas en versiones 0.9.5 o superiores debido a mejoras en el algoritmo de ordenacion.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install bzip2 -y",
-      "arch_linux": "sudo pacman -S bzip2",
-      "rhel_centos": "sudo dnf install bzip2 -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -79,5 +200,13 @@
       "uso": "bzip2 -d archivo.txt.bz2",
       "explicacion": "Descomprime el archivo comprimido a su estado original."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

@@ -1,5 +1,57 @@
 {
-    "nombre": "Ping con output a log",
-    "descripcion": "Ejecuta ping y envia la información saliente a un archivo log.",
-    "contenido": "ping -c 4 $1 | tee ping_output.log"
+  "id": "ping_con_salida_informacion",
+  "nombre": "Ping con output a log",
+  "descripcion": "Ejecuta ping y envia la informacion saliente a un archivo log.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "ping -c 4 $1 | tee ping_output.log",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Ping con output a log",
+      "comando": "ping -c 4 $1 | tee ping_output.log",
+      "descripcion": "Ejecuta ping y envia la informacion saliente a un archivo log.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

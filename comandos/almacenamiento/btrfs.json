@@ -1,102 +1,307 @@
 {
-  "comando": "btrfs",
-  "descripcion": "Conjunto de herramientas para administrar sistemas de archivos Btrfs. Permite crear y eliminar snapshots y subvolúmenes, desfragmentar archivos, vaciar datos al disco, redimensionar el sistema de archivos, escanear dispositivos y más.",
-  "categoria": "almacenamiento",
-  "estructura": "btrfs [opciones_globales] <grupo> <comando> [opciones] [<args>]",
-  "opciones": [
+  "id": "btrfs",
+  "nombre": "btrfs",
+  "descripcion": "Conjunto de herramientas para administrar sistemas de archivos Btrfs. Permite crear y eliminar snapshots y subvolumenes, desfragmentar archivos, vaciar datos al disco, redimensionar el sistema de archivos, escanear dispositivos y mas.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "gestion_sistema_archivos",
+    "tags": [
+      "almacenamiento",
+      "btrfs",
+      "sistema_de_archivos",
+      "subvolumenes",
+      "snapshots",
+      "raid",
+      "mantenimiento"
+    ]
+  },
+  "sintaxis": {
+    "principal": "btrfs [opciones_globales] <grupo> <comando> [opciones] [<args>]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": "--help",
-      "descripcion": "Muestra ayuda resumida para todos los subcomandos."
+      "flag": "--help",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra ayuda resumida para todos los subcomandos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--version",
-      "descripcion": "Muestra la versión de btrfs-progs."
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la version de btrfs-progs.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-v|--verbose",
-      "descripcion": "Aumenta la verbosidad del subcomando."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Aumenta la verbosidad del subcomando (alias: --verbose).",
+      "conflictos": [
+        "-q"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "-q|--quiet",
-      "descripcion": "Muestra solo errores."
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra solo errores (alias: --quiet).",
+      "conflictos": [
+        "-v"
+      ],
+      "requiere": []
     },
     {
-      "parametro": "--log <level>",
-      "descripcion": "Establece el nivel de registro (default, info, verbose, debug, quiet)."
+      "flag": "--log",
+      "argumento": "level",
+      "tipo": "string",
+      "requerido": false,
+      "default": "default",
+      "valores": [
+        "default",
+        "info",
+        "verbose",
+        "debug",
+        "quiet"
+      ],
+      "descripcion": "Establece el nivel de registro (default, info, verbose, debug, quiet).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--format <formato>",
-      "descripcion": "Formato de salida (text, json) si el subcomando lo soporta."
+      "flag": "--format",
+      "argumento": "formato",
+      "tipo": "string",
+      "requerido": false,
+      "default": "text",
+      "valores": [
+        "text",
+        "json"
+      ],
+      "descripcion": "Formato de salida (text, json) si el subcomando lo soporta.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "--dry-run",
-      "descripcion": "Simula la operación sin realizar cambios."
+      "flag": "--dry-run",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Simula la operacion sin realizar cambios.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "balance",
-      "descripcion": "Reequilibra los chunks del sistema de archivos Btrfs entre uno o varios dispositivos. Ver btrfs-balance(8)."
+      "flag": "balance",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Reequilibra los chunks del sistema de archivos Btrfs entre uno o varios dispositivos. Ver btrfs-balance(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "check",
-      "descripcion": "Realiza una verificación fuera de línea del sistema de archivos Btrfs. Ver btrfs-check(8)."
+      "flag": "check",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Realiza una verificacion fuera de linea del sistema de archivos Btrfs. Ver btrfs-check(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "device",
-      "descripcion": "Administra los dispositivos del sistema de archivos Btrfs (añadir, eliminar, escanear, etc.). Ver btrfs-device(8). Subcomandos: add [-Kf] <dev>... <path>, remove <dev>... <path>, delete (alias de remove), ready <path>, scan [-du] [dev]..., stats [-zc] <path>|<dev>, usage [-bhmHk...] <path> [<path>...]."
+      "flag": "device",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Administra los dispositivos del sistema de archivos Btrfs (anadir, eliminar, escanear, etc.). Ver btrfs-device(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "filesystem",
-      "descripcion": "Gestiona el sistema de archivos Btrfs a nivel global (etiquetas, redimensionado, estadísticas, desfragmentación). Ver btrfs-filesystem(8). Subcomandos: df [-bhH...] <path>, defragment [-c[algo] -r -f -s offset -l len -t size] <file>|<dir>, du [-s --raw --human-readable...] <file>..., label [<dev>] [<newlabel>], resize [--enqueue] [<devid>:][+/-]<size>|<devid>:max <path>, show [-md --raw --human-readable...] [<path>|<uuid>|<device>|<label>], sync <path>, usage [-bhH...] <path> [<path>...]."
+      "flag": "filesystem",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Gestiona el sistema de archivos Btrfs a nivel global (etiquetas, redimensionado, estadisticas, desfragmentacion). Ver btrfs-filesystem(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "inspect-internal",
-      "descripcion": "Herramientas de depuración para desarrolladores. Ver btrfs-inspect-internal(8)."
+      "flag": "inspect-internal",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Herramientas de depuracion para desarrolladores. Ver btrfs-inspect-internal(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "property",
-      "descripcion": "Obtiene o establece una propiedad de un objeto Btrfs. Ver btrfs-property(8)."
+      "flag": "property",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Obtiene o establece una propiedad de un objeto Btrfs. Ver btrfs-property(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "qgroup",
-      "descripcion": "Administra grupos de cuota (qgroup) del sistema de archivos Btrfs. Ver btrfs-qgroup(8)."
+      "flag": "qgroup",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Administra grupos de cuota (qgroup) del sistema de archivos Btrfs. Ver btrfs-qgroup(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "quota",
-      "descripcion": "Administra las cuotas del sistema de archivos Btrfs (habilitar, reescanear, etc.). Ver btrfs-quota(8)."
+      "flag": "quota",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Administra las cuotas del sistema de archivos Btrfs (habilitar, reescanear, etc.). Ver btrfs-quota(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "receive",
-      "descripcion": "Recibe datos de un subvolumen desde stdin/archivo para restaurar. Ver btrfs-receive(8)."
+      "flag": "receive",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Recibe datos de un subvolumen desde stdin/archivo para restaurar. Ver btrfs-receive(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "replace",
-      "descripcion": "Reemplaza dispositivos Btrfs. Ver btrfs-replace(8)."
+      "flag": "replace",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Reemplaza dispositivos Btrfs. Ver btrfs-replace(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "rescue",
-      "descripcion": "Intenta rescatar un sistema de archivos Btrfs dañado. Ver btrfs-rescue(8)."
+      "flag": "rescue",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Intenta rescatar un sistema de archivos Btrfs danado. Ver btrfs-rescue(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "restore",
-      "descripcion": "Intenta restaurar archivos desde un sistema de archivos Btrfs dañado. Ver btrfs-restore(8)."
+      "flag": "restore",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Intenta restaurar archivos desde un sistema de archivos Btrfs danado. Ver btrfs-restore(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "scrub",
-      "descripcion": "Realiza un scrub (verificación y reparación) del sistema de archivos Btrfs. Ver btrfs-scrub(8)."
+      "flag": "scrub",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Realiza un scrub (verificacion y reparacion) del sistema de archivos Btrfs. Ver btrfs-scrub(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "send",
-      "descripcion": "Envía datos de un subvolumen a stdout/archivo para respaldo. Ver btrfs-send(8)."
+      "flag": "send",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Envia datos de un subvolumen a stdout/archivo para respaldo. Ver btrfs-send(8).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "subvolume",
-      "descripcion": "Crea, elimina, lista y administra subvolúmenes Btrfs. Ver btrfs-subvolume(8). Subcomandos: create [-i <qgroupid>] <name> [<dest>], delete [-c|--commit-after] [-C|--commit-each] [-i|--subvolid <id>] <subvolume>..., find-new <subvolume> <lastgen>, get-default <path>, list [-o -a -p -c -g -u -q -R -s -r -d -t -G [+|-]<value> -C [+|-]<value> --sort=rootid,gen,ogen,path] <path>, set-default <id>|<path> <path>, show [-r <rootid>|-u <UUID>] <path>, snapshot [-r] [-i <qgroupid>] <source> <dest>|[<name>], sync [-s <seconds>] <path> [<subvolid>...]."
+      "flag": "subvolume",
+      "argumento": null,
+      "tipo": "subcomando",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Crea, elimina, lista y administra subvolumenes Btrfs. Ver btrfs-subvolume(8).",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [
+      "root",
+      "sudo"
+    ],
+    "dependencias": [
+      "btrfs-progs"
+    ],
+    "paquetes": [
+      "btrfs-progs"
+    ]
+  },
+  "seguridad": {
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "Operaciones avanzadas como 'check --repair' o remover dispositivos sin redundancia adecuada pueden provocar perdida irrecoverable de datos.",
+      "El subcomando balance genera una carga elevada de lectura/escritura en el disco."
+    ]
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install btrfs-progs -y",
       "arch_linux": "sudo pacman -S btrfs-progs",
       "rhel_centos": "sudo dnf install btrfs-progs -y"
@@ -104,28 +309,55 @@
   },
   "ejemplos": [
     {
-      "uso": "btrfs subvolume create /mnt/mi_subvolumen",
-      "explicacion": "Crea un nuevo subvolumen llamado 'mi_subvolumen' dentro del punto de montaje /mnt."
+      "nombre": "Crear un subvolumen",
+      "comando": "sudo btrfs subvolume create /mnt/mi_subvolumen",
+      "descripcion": "Crea un nuevo subvolumen llamado 'mi_subvolumen' dentro del punto de montaje /mnt.",
+      "resultado_esperado": "Create subvolume '/mnt/mi_subvolumen'"
     },
     {
-      "uso": "btrfs subvolume snapshot -r /mnt/subvol /mnt/snapshots/subvol_$(date +%Y%m%d)",
-      "explicacion": "Crea una snapshot de solo lectura del subvolumen '/mnt/subvol' con una fecha en el nombre."
+      "nombre": "Crear snapshot de solo lectura",
+      "comando": "sudo btrfs subvolume snapshot -r /mnt/subvol /mnt/snapshots/subvol_$(date +%Y%m%d)",
+      "descripcion": "Crea una snapshot de solo lectura del subvolumen '/mnt/subvol' con una fecha en el nombre.",
+      "resultado_esperado": "Create a readonly snapshot of '/mnt/subvol' in '/mnt/snapshots/subvol_YYYYMMDD'"
     },
     {
-      "uso": "btrfs filesystem df /mnt",
-      "explicacion": "Muestra un resumen de la asignación de espacio del sistema de archivos montado en /mnt."
+      "nombre": "Consultar uso de espacio",
+      "comando": "sudo btrfs filesystem df /mnt",
+      "descripcion": "Muestra un resumen de la asignacion de espacio del sistema de archivos montado en /mnt.",
+      "resultado_esperado": "Muestra desglose de uso para Data, System y Metadata con perfiles indicados (ej. Single, RAID1)."
     },
     {
-      "uso": "btrfs device add /dev/sdb /mnt",
-      "explicacion": "Añade el dispositivo /dev/sdb al sistema de archivos Btrfs montado en /mnt."
+      "nombre": "Anadir dispositivo al pool",
+      "comando": "sudo btrfs device add /dev/sdb /mnt",
+      "descripcion": "Anade el dispositivo /dev/sdb al sistema de archivos Btrfs montado en /mnt.",
+      "resultado_esperado": "Incorpora la capacidad de /dev/sdb al espacio total del volumen montado en /mnt."
     },
     {
-      "uso": "btrfs balance start -dconvert=raid1 -mconvert=raid1 /mnt",
-      "explicacion": "Reequilibra el sistema de archivos convirtiendo datos y metadatos al perfil RAID1."
+      "nombre": "Reequilibrar a perfil RAID1",
+      "comando": "sudo btrfs balance start -dconvert=raid1 -mconvert=raid1 /mnt",
+      "descripcion": "Reequilibra el sistema de archivos convirtiendo datos y metadatos al perfil RAID1.",
+      "resultado_esperado": "Muestra el progreso del balanceo y reestructura la distribucion de datos en los discos asignados."
     },
     {
-      "uso": "btrfs scrub start /mnt",
-      "explicacion": "Inicia un scrub (verificación de integridad) en el sistema de archivos montado en /mnt."
+      "nombre": "Iniciar verificacion de integridad (Scrub)",
+      "comando": "sudo btrfs scrub start /mnt",
+      "descripcion": "Inicia un scrub (verificacion de integridad) en el sistema de archivos montado en /mnt.",
+      "resultado_esperado": "scrub started on /mnt, fsid ..."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      "punto_montaje",
+      "subvolumen",
+      "dispositivo"
+    ],
+    "validaciones": [
+      "Verificar que la ruta especificada corresponda a un sistema de archivos Btrfs activo.",
+      "Verificar privilegios de superusuario (root)."
+    ],
+    "rollback": null
+  }
 }

@@ -15,6 +15,7 @@ El repositorio sigue un estándar fijo de documentación para mantener el orden 
 ## Automatización del Proyecto
 
 La automatización que se lleva a cabo en el servidor permite que los comandos, servicios y documentos se muestren en la [página web](https://linuxcore.site) tras haber sigo complementados al repositorio principal.
+
 ```sh
 ...
 SUB_DIR="$DEST_DIR/repo"
@@ -34,46 +35,127 @@ rsync -av --delete "$REPO_DIR/.github/db/" "$DEST_DIR/db/"
 chown -R www-data:www-data "$DEST_DIR"
 ...
 ```
+
 El dominio se actualiza de forma automática **cada 15 minutos**
 
 Ejemplo de estructura `.json` de los comandos:
+
 ```json
 {
-  "comando": "commando", // "ls"
-  "descripcion": "Descripcion técnica", // "Lista los archivos de la ruta especificada"
-  "categoria": "categoria interna", // "almacenamiento" / "compresion" / "servicios"...
-  "estructura": "comando [opciones]", // "ls [opciones]"
-  "opciones": [
+  "id": "badblocks",
+  "nombre": "badblocks",
+  "descripcion": "Busca bloques defectuosos en un dispositivo mediante pruebas de lectura, escritura o lectura-escritura no destructiva.",
+
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "discos",
+    "tags": [
+      "disco",
+      "diagnostico",
+      "filesystem"
+    ]
+  },
+
+  "sintaxis": {
+    "principal": "badblocks [opciones] dispositivo [ultimo_bloque] [primer_bloque]",
+    "alternativas": []
+  },
+
+  "parametros": [
     {
-      "parametro": "-h", // "-l", "--list"
-      "descripcion": "Muestra la ayuda del comando." // "Lista todos los elementos de forma ordenada"
+      "flag": "-b",
+      "argumento": "block_size",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 1024,
+      "valores": [],
+      "descripcion": "Especifica el espacio de los bloques en bytes.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-r", // "-a", "--all"
-      "descripcion": "Eliminacion de sector." // "Muestra todo sin ignorar las entradas '.' y '..'"
+      "flag": "-c",
+      "argumento": "blocks_at_once",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 64,
+      "valores": [],
+      "descripcion": "Especifica el numero de bloques que se prueban a la vez.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+
+  "requisitos": {
+    "permisos": [
+      "root"
+    ],
+    "dependencias": [],
+    "paquetes": [
+      "e2fsprogs"
+    ]
+  },
+
+  "seguridad": {
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
+    "advertencias": [
+      "El modo -w destruye los datos del dispositivo.",
+      "El uso de -f sobre un dispositivo montado puede provocar destruccion."
+    ]
+  },
+
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install comando -y",
-      "arch_linux": "sudo pacman -S comando",
-      "rhel_centos": "sudo dnf install comando -y"
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
+      "debian_ubuntu": "sudo apt install e2fsprogs -y",
+      "arch_linux": "sudo pacman -S e2fsprogs",
+      "rhel_centos": "sudo dnf install e2fsprogs -y"
     }
   },
+
   "ejemplos": [
     {
-      "uso": "sudo comando -h",
-      "explicacion": "Muestra por consola la ayuda del comando."
+      "nombre": "prueba_lectura",
+      "comando": "sudo badblocks -s -v /dev/sda",
+      "descripcion": "Realiza una prueba de lectura mostrando el progreso y la informacion detallada.",
+      "resultado_esperado": "Lista de bloques defectuosos y mensajes de progreso."
+    },
+    {
+      "nombre": "prueba_no_destructiva",
+      "comando": "sudo badblocks -n -o bloques_defectuosos.txt /dev/sdb1",
+      "descripcion": "Realiza una prueba no destructiva y guarda la lista de bloques defectuosos.",
+      "resultado_esperado": "Archivo con los bloques defectuosos encontrados."
     }
-  ]
+  ],
+
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      {
+        "nombre": "DISPOSITIVO",
+        "tipo": "device",
+        "requerido": true
+      }
+    ],
+    "validaciones": [
+      "El dispositivo existe.",
+      "El dispositivo no esta montado cuando se utiliza un modo destructivo."
+    ],
+    "rollback": null
+  }
 }
 ```
-Esta estructura está adaptada únicamente a archivos `.json` en la ruta `comandos/`.
 
 ## Recomendaciones de Extensiones
+
 Para una documentación más cómoda se recomiendan las siguientes extensiones:
+
 - [Data Preview](https://marketplace.visualstudio.com/items?itemName=RandomFractalsInc.vscode-data-preview)
 - [Indent Rainbow](https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow)
 - [Markdown Preview Enchanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
@@ -89,7 +171,9 @@ Para una documentación más cómoda se recomiendan las siguientes extensiones:
 - Se recomienda revisar cuidadosamente los cambios para asegurar la correcta documentación del contenido.
 
 ## Colaboradores
+
 Gracias por contribuir al proyecto, si tu pull request es aceptado, aparecerás en la siguiente lista:
+
 <div align="center">
   <a href="https://github.com/nisamov/linuxcore/graphs/contributors">
     <img src="https://contrib.rocks/image?repo=nisamov/linuxcore" alt="Contribuyentes de LinuxCore" />

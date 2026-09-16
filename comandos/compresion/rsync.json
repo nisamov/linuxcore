@@ -1,97 +1,260 @@
 {
-  "comando": "rsync",
-  "descripcion": "Una herramienta rápida, versátil y remota (y local) para copiar archivos que minimiza la transferencia de datos mediante el algoritmo de delta-transferencia.",
-  "categoria": ["compresion"],
-  "estructura": "rsync [opciones] origen destino",
-  "opciones": [
+  "id": "rsync",
+  "nombre": "rsync",
+  "descripcion": "Una herramienta rapida, versatil y remota (y local) para copiar archivos que minimiza la transferencia de datos mediante el algoritmo de delta-transferencia.",
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "rsync [opciones] origen destino",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; incrementa la cantidad de información que se muestra durante la transferencia."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado; incrementa la cantidad de informacion que se muestra durante la transferencia.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Suprime los mensajes que no sean de error, ideal para scripts en segundo plano."
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime los mensajes que no sean de error, ideal para scripts en segundo plano.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-c", "--checksum"],
-      "descripcion": "Fuerza la verificación de archivos mediante sumas de control (hash) en lugar de usar la hora de modificación y el tamaño."
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la verificacion de archivos mediante sumas de control (hash) en lugar de usar la hora de modificacion y el tamano.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-a", "--archive"],
-      "descripcion": "Modo archivo; equivale a usar '-rlptgoD'. Activa la recursividad y preserva enlaces simbólicos, permisos, tiempos, grupos y usuarios."
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo archivo; equivale a usar '-rlptgoD'. Activa la recursividad y preserva enlaces simbolicos, permisos, tiempos, grupos y usuarios.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-r", "--recursive"],
-      "descripcion": "Copia directorios de forma recursiva (entra en las subcarpetas)."
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Copia directorios de forma recursiva (entra en las subcarpetas).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-b", "--backup"],
-      "descripcion": "Realiza respaldos de los archivos de destino que ya existen agregando un sufijo (por defecto '~') al sobreescribirlos."
+      "flag": "-b",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Realiza respaldos de los archivos de destino que ya existen agregando un sufijo (por defecto '~') al sobreescribirlos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-u", "--update"],
-      "descripcion": "Omite los archivos que ya están en el destino si son más recientes o tienen el mismo tiempo de modificación."
+      "flag": "-u",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Omite los archivos que ya estan en el destino si son mas recientes o tienen el mismo tiempo de modificacion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--dirs"],
-      "descripcion": "Transfiere los directorios sin contenido recursivo, es decir, solo la estructura del directorio especificado."
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Transfiere los directorios sin contenido recursivo, es decir, solo la estructura del directorio especificado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-g", "--group"],
-      "descripcion": "Preserva el grupo del archivo original en el archivo de destino."
+      "flag": "-g",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Preserva el grupo del archivo original en el archivo de destino.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-o", "--owner"],
-      "descripcion": "Preserva el propietario del archivo original en el archivo de destino (requiere privilegios de superusuario)."
+      "flag": "-o",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Preserva el propietario del archivo original en el archivo de destino (requiere privilegios de superusuario).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--times"],
-      "descripcion": "Preserva los tiempos de modificación de los archivos transferidos."
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Preserva los tiempos de modificacion de los archivos transferidos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-n", "--dry-run"],
-      "descripcion": "Realiza una prueba de ejecución simulación de la transferencia sin realizar ningún cambio real en el disco."
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Realiza una prueba de ejecucion simulacion de la transferencia sin realizar ningun cambio real en el disco.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-H", "--hard-links"],
-      "descripcion": "Preserva los enlaces duros existentes en el origen dentro del destino."
+      "flag": "-H",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Preserva los enlaces duros existentes en el origen dentro del destino.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-S", "--sparse"],
-      "descripcion": "Optimiza el manejo de archivos dispersos (sparse files) para que consuman menos espacio en el destino."
+      "flag": "-S",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Optimiza el manejo de archivos dispersos (sparse files) para que consuman menos espacio en el destino.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-W", "--whole-file"],
-      "descripcion": "Desactiva el algoritmo de delta-transferencia y copia los archivos completos. Es el comportamiento por defecto en copias locales."
+      "flag": "-W",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Desactiva el algoritmo de delta-transferencia y copia los archivos completos. Es el comportamiento por defecto en copias locales.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-z", "--compress"],
-      "descripcion": "Comprime los datos de los archivos durante la transferencia para reducir el uso de red."
+      "flag": "-z",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Comprime los datos de los archivos durante la transferencia para reducir el uso de red.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--delete"],
-      "descripcion": "Elimina los archivos en el destino que ya no existen en el origen, manteniendo ambos directorios idénticos."
+      "flag": "--delete",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Elimina los archivos en el destino que ya no existen en el origen, manteniendo ambos directorios identicos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--progress"],
-      "descripcion": "Muestra una barra de progreso, la velocidad de transferencia y el tiempo restante para cada archivo."
+      "flag": "--progress",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra una barra de progreso, la velocidad de transferencia y el tiempo restante para cada archivo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--version"],
-      "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version del software junto con los terminos y condiciones de la licencia.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install rsync -y",
-      "arch_linux": "sudo pacman -S rsync",
-      "rhel_centos": "sudo dnf install rsync -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -101,7 +264,15 @@
     },
     {
       "uso": "rsync -avz --delete -e ssh /local/ usuario@remoto:/remoto/",
-      "explicacion": "Sincroniza un directorio local con un servidor remoto a través de una conexión segura SSH, eliminando en el destino los archivos que ya no existan en el origen."
+      "explicacion": "Sincroniza un directorio local con un servidor remoto a traves de una conexion segura SSH, eliminando en el destino los archivos que ya no existan en el origen."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

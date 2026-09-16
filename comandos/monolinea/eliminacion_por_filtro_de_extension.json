@@ -1,5 +1,57 @@
 {
-    "nombre": "Filtrado por extensión de archivo",
-    "descripcion": "Elimina archivos que coinciden con un patrón de extensión.",
-    "contenido": "find . -name \"*.$1\" -delete"
+  "id": "eliminacion_por_filtro_de_extension",
+  "nombre": "Filtrado por extension de archivo",
+  "descripcion": "Elimina archivos que coinciden con un patron de extension.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "find . -name \"*.$1\" -delete",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Filtrado por extension de archivo",
+      "comando": "find . -name \"*.$1\" -delete",
+      "descripcion": "Elimina archivos que coinciden con un patron de extension.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

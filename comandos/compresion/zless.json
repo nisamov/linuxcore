@@ -1,40 +1,91 @@
 {
-  "comando": "zless",
+  "id": "zless",
+  "nombre": "zless",
   "descripcion": "Un filtro que permite examinar archivos de texto comprimidos (mediante gzip, bzip2, xz, etc.) una pantalla a la vez en la terminal, funcionando como un visor interactivo sin necesidad de descomprimir el archivo previamente en el disco.",
-  "categoria": ["compresion"],
-  "estructura": "zless [archivos]",
-  "opciones": [
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "zless [archivos]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["archivos"],
-      "descripcion": "Uno o más archivos de texto comprimidos (típicamente con extensión .gz, .bz2, .xz, o .z) que se desean visualizar de forma interactiva."
+      "flag": "",
+      "argumento": "archivos",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Uno o mas archivos de texto comprimidos (tipicamente con extension .gz, .bz2, .xz, o .z) que se desean visualizar de forma interactiva.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda básico con las opciones de inicialización y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda basico con las opciones de inicializacion y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-V", "--version"],
-      "descripcion": "Muestra la versión del software de paginación subyacente junto con la licencia."
+      "flag": "-V",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version del software de paginacion subyacente junto con la licencia.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt install gzip less",
-      "arch_linux": "sudo pacman -S gzip less",
-      "rhel_centos": "sudo dnf install gzip less"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
-
   "ejemplos": [
     {
       "uso": "zless /var/log/syslog.1.gz",
-      "explicacion": "Abre de forma interactiva un archivo de registro del sistema que está comprimido, permitiendo desplazarse hacia adelante y hacia atrás con las flechas o la barra espaciadora."
+      "explicacion": "Abre de forma interactiva un archivo de registro del sistema que esta comprimido, permitiendo desplazarse hacia adelante y hacia atras con las flechas o la barra espaciadora."
     },
     {
       "uso": "zless archivo_extenso.txt.xz",
-      "explicacion": "Visualiza el contenido de un archivo de texto comprimido con xz de la misma manera interactiva y fluida que se haría con el comando 'less' tradicional."
+      "explicacion": "Visualiza el contenido de un archivo de texto comprimido con xz de la misma manera interactiva y fluida que se haria con el comando 'less' tradicional."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

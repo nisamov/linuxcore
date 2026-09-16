@@ -1,89 +1,238 @@
 {
-  "comando": "gzip",
-  "descripcion": "Comprimir o descomprimir archivos utilizando la codificación LZ77 (por defecto, comprime los archivos reemplazando el original).",
-  "categoria": ["compresion"],
-  "estructura": "gzip [opciones] [archivo...]",
-  "opciones": [
+  "id": "gzip",
+  "nombre": "gzip",
+  "descripcion": "Comprimir o descomprimir archivos utilizando la codificacion LZ77 (por defecto, comprime los archivos reemplazando el original).",
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "gzip [opciones] [archivo...]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-c", "--stdout"],
-      "descripcion": "Escribe el resultado en la salida estándar, manteniendo intactos los archivos originales."
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe el resultado en la salida estandar, manteniendo intactos los archivos originales.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--decompress"],
-      "descripcion": "Descomprime el archivo (equivale a usar el comando gunzip)."
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Descomprime el archivo (equivale a usar el comando gunzip).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-f", "--force"],
-      "descripcion": "Fuerza la sobrescritura de los archivos de salida y permite la compresión de enlaces duros."
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la sobrescritura de los archivos de salida y permite la compresion de enlaces duros.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra la pantalla de ayuda con las opciones disponibles y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la pantalla de ayuda con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-k", "--keep"],
-      "descripcion": "Conserva los archivos de entrada intactos; no los elimina después de la compresión o descompresión."
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Conserva los archivos de entrada intactos; no los elimina despues de la compresion o descompresion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-l", "--list"],
-      "descripcion": "Muestra información detallada sobre el contenido del archivo comprimido (tamaño original, comprimido, ratio, etc.)."
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra informacion detallada sobre el contenido del archivo comprimido (tamano original, comprimido, ratio, etc.).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-L", "--license"],
-      "descripcion": "Muestra la licencia de software del programa."
+      "flag": "-L",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la licencia de software del programa.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-n", "--no-name"],
-      "descripcion": "No guarda ni restaura el nombre original del archivo ni su marca de tiempo al comprimir o descomprimir."
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "No guarda ni restaura el nombre original del archivo ni su marca de tiempo al comprimir o descomprimir.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-N", "--name"],
-      "descripcion": "Guarda o restaura el nombre original del archivo y su marca de tiempo (comportamiento por defecto al descomprimir)."
+      "flag": "-N",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Guarda o restaura el nombre original del archivo y su marca de tiempo (comportamiento por defecto al descomprimir).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Suprime todos los mensajes de advertencia del sistema."
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime todos los mensajes de advertencia del sistema.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-r", "--recursive"],
-      "descripcion": "Recorre las estructuras de directorios de forma recursiva, comprimiendo o descomprimiendo todos los archivos internos."
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Recorre las estructuras de directorios de forma recursiva, comprimiendo o descomprimiendo todos los archivos internos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--rsyncable"],
-      "descripcion": "Optimiza el archivo comprimido para que sea amigable con rsync, facilitando sincronizaciones eficientes."
+      "flag": "--rsyncable",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Optimiza el archivo comprimido para que sea amigable con rsync, facilitando sincronizaciones eficientes.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-S [SUF]", "--suffix=[SUF]"],
-      "descripcion": "Utiliza el sufijo personalizado SUF en lugar del formato estándar '.gz' para los archivos comprimidos."
+      "flag": "-S [SUF]",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Utiliza el sufijo personalizado SUF en lugar del formato estandar '.gz' para los archivos comprimidos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--synchronous"],
-      "descripcion": "Fuerza la salida síncrona en el disco, lo cual es más seguro ante caídas del sistema pero reduce la velocidad."
+      "flag": "--synchronous",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la salida sincrona en el disco, lo cual es mas seguro ante caidas del sistema pero reduce la velocidad.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--test"],
-      "descripcion": "Verifica la integridad estructural del archivo comprimido sin llegar a extraerlo."
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Verifica la integridad estructural del archivo comprimido sin llegar a extraerlo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; muestra el nombre y el porcentaje de reducción de tamaño para cada archivo procesado."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado; muestra el nombre y el porcentaje de reduccion de tamano para cada archivo procesado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-V", "--version"],
-      "descripcion": "Muestra el número de versión del software instalado."
+      "flag": "-V",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra el numero de version del software instalado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-1", "--fast", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9", "--best"],
-      "descripcion": "Regula el nivel de compresión. '-1' (u '--fast') es la velocidad más rápida con menor compresión, y '-9' (u '--best') ofrece la máxima compresión a menor velocidad."
+      "flag": "-1",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Regula el nivel de compresion. '-1' (u '--fast') es la velocidad mas rapida con menor compresion, y '-9' (u '--best') ofrece la maxima compresion a menor velocidad.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install gzip -y",
-      "arch_linux": "sudo pacman -S gzip",
-      "rhel_centos": "sudo dnf install gzip -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -95,5 +244,13 @@
       "uso": "gzip -dk archivo.txt.gz",
       "explicacion": "Descomprime el archivo '.gz' manteniendo una copia del archivo comprimido original intacta."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

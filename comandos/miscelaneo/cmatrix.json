@@ -1,1 +1,49 @@
-{}
+{
+  "id": "cmatrix",
+  "nombre": "cmatrix",
+  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "clasificacion": {
+    "categoria": "miscelaneo",
+    "subcategoria": "general",
+    "tags": [
+      "miscelaneo"
+    ]
+  },
+  "sintaxis": {
+    "principal": "cmatrix",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+    ]
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": false,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
+}

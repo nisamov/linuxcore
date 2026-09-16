@@ -1,70 +1,212 @@
 {
-  "comando": "pvmove",
-  "descripcion": "Mueve los extents físicos (PEs) asignados de un volumen físico (PV) origen a uno o más volúmenes físicos destino. Permite la migración de datos en vivo mientras los volúmenes lógicos permanecen en línea y accesibles.[reference:3][reference:4][reference:5]",
-  "categoria": ["commands", "system_administration", "lvm"],
-  "estructura": "pvmove [opciones] [SourcePhysicalVolume[:PE[-PE]...] [DestinationPhysicalVolume[:PE[-PE]...]...]]",
-  "opciones": [
+  "id": "pvmove",
+  "nombre": "pvmove",
+  "descripcion": "Mueve los extents fisicos (PEs) asignados de un volumen fisico (PV) origen a uno o mas volumenes fisicos destino. Permite la migracion de datos en vivo mientras los volumenes logicos permanecen en linea y accesibles.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "gestion_lvm",
+    "tags": [
+      "almacenamiento",
+      "lvm",
+      "pvmove",
+      "migracion",
+      "volumenes_fisicos",
+      "extents"
+    ]
+  },
+  "sintaxis": {
+    "principal": "pvmove [opciones] [OrigenPV[:PE[-PE]...] [DestinoPV[:PE[-PE]...]...]]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["--abort"],
-      "descripcion": "Aborta cualquier operación de movimiento en progreso. Dependiendo de si se usó la opción --atomic, los volúmenes lógicos pueden permanecer en el origen o quedar parcialmente movidos.[reference:6][reference:7][reference:8]"
+      "flag": "--abort",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Aborta cualquier operacion de movimiento en progreso. Dependiendo de si se uso la opcion --atomic, los volumenes logicos pueden permanecer en el origen o quedar parcialmente movidos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--atomic"],
-      "descripcion": "Realiza el movimiento de forma atómica. Si se aborta, todos los volúmenes lógicos permanecen en el volumen físico origen.[reference:9][reference:10]"
+      "flag": "--atomic",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Realiza el movimiento de forma atomica. Si se aborta, todos los volumenes logicos permanecen en el volumen fisico origen.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-b", "--background"],
-      "descripcion": "Ejecuta el proceso de movimiento en segundo plano.[reference:11][reference:12]"
+      "flag": "-b",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Ejecuta el proceso de movimiento en segundo plano (alias: --background).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-i", "--interval", "Seconds"],
-      "descripcion": "Reporta el progreso del movimiento como un porcentaje en intervalos regulares de tiempo (en segundos).[reference:13][reference:14]"
+      "flag": "-i",
+      "argumento": "Seconds",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Reporta el progreso del movimiento como un porcentaje en intervalos regulares de tiempo (en segundos) (alias: --interval).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-n", "--name", "LogicalVolume"],
-      "descripcion": "Mueve solo los extents que pertenecen al volumen lógico (LV) especificado, en lugar de todos los extents asignados del volumen físico origen.[reference:15][reference:16]"
+      "flag": "-n",
+      "argumento": "LogicalVolume",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Mueve solo los extents que pertenecen al volumen logico (LV) especificado, en lugar de todos los extents asignados del volumen fisico origen (alias: --name).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--noudevsync"],
-      "descripcion": "Deshabilita la sincronización con udev. El proceso no esperará notificaciones de udev, útil si udev no está en ejecución.[reference:17][reference:18]"
+      "flag": "--noudevsync",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Deshabilita la sincronizacion con udev. El proceso no esperara notificaciones de udev, util si udev no esta en ejecucion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--alloc", "AllocationPolicy"],
-      "descripcion": "Define la política de asignación para los nuevos extents. Los valores posibles incluyen: contiguous, cling, cling_by_tags, normal, anywhere, inherit.[reference:19][reference:20]"
+      "flag": "--alloc",
+      "argumento": "AllocationPolicy",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "contiguous",
+        "cling",
+        "cling_by_tags",
+        "normal",
+        "anywhere",
+        "inherit"
+      ],
+      "descripcion": "Define la politica de asignacion para los nuevos extents. Los valores posibles incluyen: contiguous, cling, cling_by_tags, normal, anywhere, inherit.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--debug"],
-      "descripcion": "Activa el modo de depuración, mostrando información detallada para diagnóstico.[reference:21][reference:22]"
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Activa el modo de depuracion, mostrando informacion detallada para diagnostico (alias: --debug).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.[reference:23][reference:24]"
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza (alias: --help).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Suprime la salida de mensajes no esenciales.[reference:25]"
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Suprime la salida de mensajes no esenciales (alias: --quiet).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--test"],
-      "descripcion": "Realiza una prueba de la operación sin hacer cambios permanentes.[reference:26]"
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Realiza una prueba de la operacion sin hacer cambios permanentes (alias: --test).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; muestra información adicional sobre el progreso y las operaciones realizadas.[reference:27][reference:28]"
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Modo detallado; muestra informacion adicional sobre el progreso y las operaciones realizadas (alias: --verbose).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-y", "--yes"],
-      "descripcion": "Responde 'sí' automáticamente a todas las preguntas de confirmación.[reference:29]"
+      "flag": "-y",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Responde 'si' automaticamente a todas las preguntas de confirmacion (alias: --yes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--version"],
-      "descripcion": "Muestra la versión del programa y finaliza.[reference:30]"
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la version del programa y finaliza.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [
+      "root",
+      "sudo"
+    ],
+    "dependencias": [
+      "lvm2"
+    ],
+    "paquetes": [
+      "lvm2"
+    ]
+  },
+  "seguridad": {
+    "nivel": "alto",
+    "destructivo": false,
+    "requiere_root": true,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "Genera un uso intensivo de E/S de disco durante la migracion.",
+      "Si la migracion se interrumpe abruptamente sin la opcion --atomic, los extents pueden quedar divididos entre los dispositivos de origen y destino."
+    ]
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install lvm2 -y",
       "arch_linux": "sudo pacman -S lvm2",
       "rhel_centos": "sudo dnf install lvm2 -y"
@@ -72,24 +214,49 @@
   },
   "ejemplos": [
     {
-      "uso": "pvmove /dev/sdb1",
-      "explicacion": "Mueve todos los extents físicos usados en /dev/sdb1 a otros extents libres en el mismo grupo de volúmenes.[reference:31]"
+      "nombre": "Mover extents de un PV a cualquier espacio libre del VG",
+      "comando": "sudo pvmove /dev/sdb1",
+      "descripcion": "Mueve todos los extents fisicos usados en /dev/sdb1 a otros extents libres dentro del mismo grupo de volumenes.",
+      "resultado_esperado": "/dev/sdb1: Moved: 100.00%"
     },
     {
-      "uso": "pvmove /dev/sdb1 /dev/sdc1",
-      "explicacion": "Mueve todos los extents físicos de /dev/sdb1 al volumen físico destino /dev/sdc1.[reference:32]"
+      "nombre": "Mover extents a un PV destino especifico",
+      "comando": "sudo pvmove /dev/sdb1 /dev/sdc1",
+      "descripcion": "Mueve todos los extents fisicos de /dev/sdb1 al volumen fisico destino /dev/sdc1.",
+      "resultado_esperado": "Transfiere los bloques asignados de /dev/sdb1 hacia /dev/sdc1 y muestra el porcentaje de avance hasta completar el 100%."
     },
     {
-      "uso": "pvmove -n mi_lv /dev/sdb1 /dev/sdc1",
-      "explicacion": "Mueve solo los extents pertenecientes al volumen lógico 'mi_lv' desde /dev/sdb1 hacia /dev/sdc1.[reference:33]"
+      "nombre": "Mover extents de un volumen logico especifico",
+      "comando": "sudo pvmove -n mi_lv /dev/sdb1 /dev/sdc1",
+      "descripcion": "Mueve solo los extents pertenecientes al volumen logico 'mi_lv' desde /dev/sdb1 hacia /dev/sdc1.",
+      "resultado_esperado": "Migra unicamente los datos de 'mi_lv' liberando el espacio correspondiente en /dev/sdb1."
     },
     {
-      "uso": "pvmove --abort",
-      "explicacion": "Aborta cualquier operación de pvmove que esté en progreso.[reference:34]"
+      "nombre": "Cancelar un movimiento en curso",
+      "comando": "sudo pvmove --abort",
+      "descripcion": "Aborta cualquier operacion de pvmove que este en progreso.",
+      "resultado_esperado": "Detiene el proceso de espejo/migracion en curso y consolida la tabla de mapeo de LVM."
     },
     {
-      "uso": "pvmove -i 5 /dev/sdb1",
-      "explicacion": "Mueve los extents de /dev/sdb1 y muestra el progreso cada 5 segundos.[reference:35]"
+      "nombre": "Mover extents monitoreando el progreso",
+      "comando": "sudo pvmove -i 5 /dev/sdb1",
+      "descripcion": "Mueve los extents de /dev/sdb1 y muestra el progreso cada 5 segundos.",
+      "resultado_esperado": "Imprime en consola la actualizacion del porcentaje completado cada 5 segundos."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      "pv_origen",
+      "pv_destino",
+      "nombre_lv"
+    ],
+    "validaciones": [
+      "Verificar que el volumen fisico de destino pertenezca al mismo Volume Group (VG) y tenga suficientes extents libres (PEs).",
+      "Verificar privilegios de superusuario (root)."
+    ],
+    "rollback": "pvmove <pv_destino> <pv_origen>"
+  }
 }

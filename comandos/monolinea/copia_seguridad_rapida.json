@@ -1,5 +1,57 @@
 {
-    "nombre": "Copia de seguridad rápida",
-    "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
-    "contenido": "cp $1{,.bak_$(date +%F_%T)}"
+  "id": "copia_seguridad_rapida",
+  "nombre": "Copia de seguridad rapida",
+  "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "cp $1{,.bak_$(date +%F_%T)}",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Copia de seguridad rapida",
+      "comando": "cp $1{,.bak_$(date +%F_%T)}",
+      "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

@@ -1,5 +1,57 @@
 {
-    "nombre": "Generar clave segura",
-    "descripcion": "Genera una clave segura de X (inserción manual) caracteres.",
-    "contenido": "openssl rand -base64 $1"
+  "id": "generar_clave_segura",
+  "nombre": "Generar clave segura",
+  "descripcion": "Genera una clave segura de X (insercion manual) caracteres.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "openssl rand -base64 $1",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Generar clave segura",
+      "comando": "openssl rand -base64 $1",
+      "descripcion": "Genera una clave segura de X (insercion manual) caracteres.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

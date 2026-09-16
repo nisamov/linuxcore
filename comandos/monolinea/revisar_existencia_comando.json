@@ -1,5 +1,57 @@
 {
-    "nombre": "Revisar existencia de comando",
-    "descripcion": "Verifica si un comando existe en el sistema",
-    "contenido": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\""
+  "id": "revisar_existencia_comando",
+  "nombre": "Revisar existencia de comando",
+  "descripcion": "Verifica si un comando existe en el sistema",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\"",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Revisar existencia de comando",
+      "comando": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\"",
+      "descripcion": "Verifica si un comando existe en el sistema",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

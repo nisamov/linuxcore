@@ -1,90 +1,277 @@
 {
-  "comando": "blkid",
-  "descripcion": "Localiza e imprime información de atributos de dispositivos de bloques (UUID, TYPE, LABEL, PARTUUID, etc.) mediante el sondeo de superbloques o el uso de una caché.",
-  "categoria": "almacenamiento",
-  "estructura": "blkid [opciones] [dispositivo...]",
-  "opciones": [
+  "id": "blkid",
+  "nombre": "blkid",
+  "descripcion": "Localiza e imprime informacion de atributos de dispositivos de bloques (UUID, TYPE, LABEL, PARTUUID, etc.) mediante el sondeo de superbloques o el uso de una cache.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "identificacion",
+    "tags": [
+      "almacenamiento",
+      "dispositivos",
+      "bloques",
+      "uuid",
+      "sistema_de_archivos",
+      "particiones"
+    ]
+  },
+  "sintaxis": {
+    "principal": "blkid [opciones] [dispositivo...]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": "-c cache_file",
-      "descripcion": "Especifica un archivo de caché alternativo (por defecto /etc/blkid.tab o /etc/blkid/blkid.tab)."
+      "flag": "-c",
+      "argumento": "cache_file",
+      "tipo": "string",
+      "requerido": false,
+      "default": "/etc/blkid.tab",
+      "valores": [],
+      "descripcion": "Especifica un archivo de cache alternativo (por defecto /etc/blkid.tab o /etc/blkid/blkid.tab).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-d",
-      "descripcion": "No codifica caracteres no imprimibles en la salida (modo sin codificación)."
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "No codifica caracteres no imprimibles en la salida (modo sin codificacion).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-D",
-      "descripcion": "Muestra todos los dispositivos, incluidos aquellos que no tienen etiqueta (LABEL) o UUID."
+      "flag": "-D",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra todos los dispositivos, incluidos aquellos que no tienen etiqueta (LABEL) o UUID.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-g",
-      "descripcion": "Realiza una recolección de basura en el archivo de caché, eliminando entradas de dispositivos inexistentes."
+      "flag": "-g",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Realiza una recoleccion de basura en el archivo de cache, eliminando entradas de dispositivos inexistentes.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-h",
-      "descripcion": "Muestra la ayuda del comando con un resumen de opciones."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la ayuda del comando con un resumen de opciones.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-i",
-      "descripcion": "Muestra los límites de E/S (I/O limits) del dispositivo, generalmente usado junto con el sondeo en modo bajo nivel."
+      "flag": "-i",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra los limites de E/S (I/O limits) del dispositivo, generalmente usado junto con el sondeo en modo bajo nivel.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-k",
-      "descripcion": "Mantiene el archivo de caché sin actualizar (no escribe cambios en el disco)."
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Mantiene el archivo de cache sin actualizar (no escribe cambios en el disco).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-l",
-      "descripcion": "Busca y muestra un solo dispositivo que coincida con el token especificado (usado con -t). Útil para evitar salidas múltiples."
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Busca y muestra un solo dispositivo que coincida con el token especificado (usado con -t). Util para evitar salidas multiples.",
+      "conflictos": [],
+      "requiere": [
+        "-t"
+      ]
     },
     {
-      "parametro": "-L label",
-      "descripcion": "Busca y muestra el dispositivo que tenga la etiqueta (LABEL) exacta especificada."
+      "flag": "-L",
+      "argumento": "label",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Busca y muestra el dispositivo que tenga la etiqueta (LABEL) exacta especificada.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-o formato",
-      "descripcion": "Define el formato de salida. Valores posibles: value (solo valores), device (solo dispositivo), udev (formato clave=valor para udev), export (formato exportable), full (todos los atributos), list (formato de lista)."
+      "flag": "-o",
+      "argumento": "formato",
+      "tipo": "string",
+      "requerido": false,
+      "default": "full",
+      "valores": [
+        "value",
+        "device",
+        "udev",
+        "export",
+        "full",
+        "list"
+      ],
+      "descripcion": "Define el formato de salida. Valores posibles: value (solo valores), device (solo dispositivo), udev (formato clave=valor para udev), export (formato exportable), full (todos los atributos), list (formato de lista).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-O offset",
-      "descripcion": "Realiza el sondeo en un desplazamiento (offset) específico desde el inicio del dispositivo (en bytes)."
+      "flag": "-O",
+      "argumento": "offset",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Realiza el sondeo en un desplazamiento (offset) especifico desde el inicio del dispositivo (en bytes).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-p",
-      "descripcion": "Activa el sondeo de superbloque en modo bajo nivel, ignorando por completo la caché y probando directamente el dispositivo."
+      "flag": "-p",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Activa el sondeo de superbloque en modo bajo nivel, ignorando por completo la cache y probando directamente el dispositivo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-s tag",
-      "descripcion": "Muestra solo la etiqueta (tag) especificada, por ejemplo: UUID, TYPE, LABEL, PARTUUID, PARTLABEL. Se puede usar múltiples veces."
+      "flag": "-s",
+      "argumento": "tag",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "UUID",
+        "TYPE",
+        "LABEL",
+        "PARTUUID",
+        "PARTLABEL"
+      ],
+      "descripcion": "Muestra solo la etiqueta (tag) especificada, por ejemplo: UUID, TYPE, LABEL, PARTUUID, PARTLABEL. Se puede usar multiples veces.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-S size",
-      "descripcion": "Especifica el tamaño (en bytes) para el sondeo, útil para particiones o imágenes con tamaño fijo."
+      "flag": "-S",
+      "argumento": "size",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica el tamano (en bytes) para el sondeo, util para particiones o imagenes con tamano fijo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-t token",
-      "descripcion": "Busca el dispositivo que coincida con el token dado (p.ej., UUID=xxx, LABEL=yyy, PARTUUID=zzz)."
+      "flag": "-t",
+      "argumento": "token",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Busca el dispositivo que coincida con el token dado (p.ej., UUID=xxx, LABEL=yyy, PARTUUID=zzz).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-u list",
-      "descripcion": "Filtra los dispositivos por tipo de uso. Lista separada por comas de: filesystem, raid, crypto, etc. (por defecto 'filesystem,raid')."
+      "flag": "-u",
+      "argumento": "list",
+      "tipo": "string",
+      "requerido": false,
+      "default": "filesystem,raid",
+      "valores": [
+        "filesystem",
+        "raid",
+        "crypto"
+      ],
+      "descripcion": "Filtra los dispositivos por tipo de uso. Lista separada por comas de: filesystem, raid, crypto, etc. (por defecto 'filesystem,raid').",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-v",
-      "descripcion": "Muestra la versión del comando blkid."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra la version del comando blkid.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-w wipe_file",
-      "descripcion": "Escribe el contenido de la caché en el archivo especificado (en lugar del predeterminado)."
+      "flag": "-w",
+      "argumento": "wipe_file",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe el contenido de la cache en el archivo especificado (en lugar del predeterminado).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": "-x",
-      "descripcion": "Muestra todas las etiquetas disponibles para el dispositivo, incluidas las internas (extiende la salida de -o full)."
+      "flag": "-x",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra todas las etiquetas disponibles para el dispositivo, incluidas las internas (extiende la salida de -o full).",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [
+      "lectura"
+    ],
+    "dependencias": [
+      "util-linux"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": [
+      "Ejecutar el comando sin privilegios elevados (root o sudo) puede devolver informacion incompleta o desactualizada proveniente de la cache."
+    ]
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
       "debian_ubuntu": "sudo apt update && sudo apt install util-linux -y",
       "arch_linux": "sudo pacman -S util-linux",
       "rhel_centos": "sudo dnf install util-linux -y"
@@ -92,16 +279,36 @@
   },
   "ejemplos": [
     {
-      "uso": "sudo blkid /dev/sda1",
-      "explicacion": "Muestra todos los atributos (UUID, TYPE, LABEL, etc.) de la partición /dev/sda1."
+      "nombre": "Consulta de atributos de un dispositivo",
+      "comando": "sudo blkid /dev/sda1",
+      "descripcion": "Muestra todos los atributos (UUID, TYPE, LABEL, etc.) de la particion /dev/sda1.",
+      "resultado_esperado": "/dev/sda1: UUID=\"a1b2c3d4-e5f6-7890-abcd-1234567890ab\" BLOCK_SIZE=\"4096\" TYPE=\"ext4\" PARTUUID=\"12345678-01\""
     },
     {
-      "uso": "sudo blkid -s UUID -o value /dev/sdb1",
-      "explicacion": "Obtiene únicamente el valor del UUID de /dev/sdb1 y lo imprime en formato simple (sin etiquetas)."
+      "nombre": "Obtener unicamente el UUID",
+      "comando": "sudo blkid -s UUID -o value /dev/sdb1",
+      "descripcion": "Obtiene unicamente el valor del UUID de /dev/sdb1 y lo imprime en formato simple (sin etiquetas).",
+      "resultado_esperado": "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
     },
     {
-      "uso": "sudo blkid -t LABEL='datos' -l",
-      "explicacion": "Busca el dispositivo que tenga la etiqueta 'datos' y muestra su información, limitando la salida a un solo resultado."
+      "nombre": "Buscar por etiqueta",
+      "comando": "sudo blkid -t LABEL='datos' -l",
+      "descripcion": "Busca el dispositivo que tenga la etiqueta 'datos' y muestra su informacion, limitando la salida a un solo resultado.",
+      "resultado_esperado": "/dev/sdc1: LABEL=\"datos\" UUID=\"f9e8d7c6-b5a4-3210-9876-543210fedcba\" TYPE=\"ntfs\""
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      "dispositivo",
+      "formato",
+      "etiqueta"
+    ],
+    "validaciones": [
+      "Verificar que el usuario tenga privilegios de superusuario si se requiere sondeo directo (-p) o lectura actualizada del hardware."
+    ],
+    "rollback": null
+  }
 }

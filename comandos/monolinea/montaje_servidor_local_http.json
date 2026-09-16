@@ -1,5 +1,57 @@
 {
-    "nombre": "Montaje de servidor local con python",
-    "descripcion": "Inicia un servidor HTTP en el puerto 8000.",
-    "contenido": "python3 -m http.server 8000"
+  "id": "montaje_servidor_local_http",
+  "nombre": "Montaje de servidor local con python",
+  "descripcion": "Inicia un servidor HTTP en el puerto 8000.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "python3 -m http.server 8000",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Montaje de servidor local con python",
+      "comando": "python3 -m http.server 8000",
+      "descripcion": "Inicia un servidor HTTP en el puerto 8000.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

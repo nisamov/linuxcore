@@ -21,6 +21,9 @@ El objetivo es proporcionar el contexto necesario para comprender por qué exist
 
 El contenido se desarrolla principalmente en español y está orientado tanto al aprendizaje como a la consulta técnica.
 
+> [!IMPORTANT]
+> Este repositorio está en desarrollo, es posible que mucha de la información y estructura del mismo, sea alterado en cualquier momento con el fin de mejorar la consistencia y formato del mismo.
+
 ### **fundamentos/**
 
 Contiene los conceptos fundamentales necesarios para comprender los sistemas informáticos y, especialmente, los sistemas GNU/Linux.
@@ -97,8 +100,6 @@ Incluye fundamentos de redes, topologías y documentación específica de protoc
 * Análisis forense: auditoría, análisis y herramientas relacionadas con la investigación de sistemas.
 * Teoría general: fundamentos y conceptos generales de seguridad informática.
 
-El objetivo es abordar la seguridad desde una perspectiva técnica y comprender tanto los mecanismos de protección como las técnicas utilizadas para evaluar sistemas.
-
 ### **programacion/**
 
 Material relacionado con programación y automatización aplicada a sistemas.
@@ -106,8 +107,6 @@ Material relacionado con programación y automatización aplicada a sistemas.
 * Bash.
 * Conceptos generales de programación.
 * MariaDB y SQL.
-
-Esta sección está orientada especialmente a la automatización, administración y comprensión del funcionamiento interno de las herramientas utilizadas en el resto del proyecto.
 
 ### **bases.datos/**
 
@@ -140,8 +139,6 @@ Actualmente se encuentra centrado en la contenerización, con documentación sob
     <img src="https://contrib.rocks/image?repo=nisamov/linuxcore" alt="Contribuyentes de LinuxCore" />
   </a>
 </div>
-
----
 
 Este es un proyecto de carácter personal desarrollado con fines de aprendizaje. Cualquier contribución, sugerencia o difusión es sumamente valorada y bienvenida.
 <div align="center">

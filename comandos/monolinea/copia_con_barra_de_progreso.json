@@ -1,5 +1,57 @@
 {
-    "nombre": "Copia con barra de progreso",
-    "descripcion": "Realiza una copia de archivos mostrando el progreso",
-    "contenido": "rsync -ah --progress $1 $2"
+  "id": "copia_con_barra_de_progreso",
+  "nombre": "Copia con barra de progreso",
+  "descripcion": "Realiza una copia de archivos mostrando el progreso",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "rsync -ah --progress $1 $2",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Copia con barra de progreso",
+      "comando": "rsync -ah --progress $1 $2",
+      "descripcion": "Realiza una copia de archivos mostrando el progreso",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

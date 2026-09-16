@@ -1,5 +1,57 @@
 {
-    "nombre": "Comando previo con superusuario",
-    "descripcion": "Ejecuta el último comando con privilegios de superusuario.",
-    "contenido": "sudo !!"
+  "id": "comando_previo_con_superusuario",
+  "nombre": "Comando previo con superusuario",
+  "descripcion": "Ejecuta el ultimo comando con privilegios de superusuario.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "sudo !!",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Comando previo con superusuario",
+      "comando": "sudo !!",
+      "descripcion": "Ejecuta el ultimo comando con privilegios de superusuario.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

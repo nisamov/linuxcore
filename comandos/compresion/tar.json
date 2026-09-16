@@ -1,77 +1,205 @@
 {
-  "comando": "tar",
-  "descripcion": "Almacena, extrae y manipula archivos de archivo (tarballs), permitiendo empaquetar múltiples archivos y directorios en uno solo, con o sin compresión.",
-  "categoria": ["compresion"],
-  "estructura": "tar [opciones] [archivo_tar] [archivos_o_directorios]",
-  "opciones": [
+  "id": "tar",
+  "nombre": "tar",
+  "descripcion": "Almacena, extrae y manipula archivos de archivo (tarballs), permitiendo empaquetar multiples archivos y directorios en uno solo, con o sin compresion.",
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "tar [opciones] [archivo_tar] [archivos_o_directorios]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-c", "--create"],
-      "descripcion": "Crea un nuevo archivo de empaquetado (.tar)."
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Crea un nuevo archivo de empaquetado (.tar).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-x", "--extract", "--get"],
-      "descripcion": "Extrae el contenido de un archivo empaquetado."
+      "flag": "-x",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Extrae el contenido de un archivo empaquetado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--list"],
-      "descripcion": "Lista el contenido de un archivo empaquetado sin extraerlo."
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lista el contenido de un archivo empaquetado sin extraerlo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-f", "--file"],
-      "descripcion": "Especifica el nombre del archivo de archivo sobre el que se va a operar. Es obligatorio en casi todas las operaciones."
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica el nombre del archivo de archivo sobre el que se va a operar. Es obligatorio en casi todas las operaciones.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; muestra de forma progresiva los archivos que están siendo procesados."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado; muestra de forma progresiva los archivos que estan siendo procesados.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-z", "--gzip", "--gunzip", "--ungzip"],
-      "descripcion": "Filtra el archivo a través del algoritmo gzip. Se usa para crear o extraer archivos '.tar.gz' o '.tgz'."
+      "flag": "-z",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Filtra el archivo a traves del algoritmo gzip. Se usa para crear o extraer archivos '.tar.gz' o '.tgz'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-j", "--bzip2"],
-      "descripcion": "Filtra el archivo a través del algoritmo bzip2. Se usa para crear o extraer archivos '.tar.bz2' o '.tbz2'."
+      "flag": "-j",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Filtra el archivo a traves del algoritmo bzip2. Se usa para crear o extraer archivos '.tar.bz2' o '.tbz2'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-J", "--xz"],
-      "descripcion": "Filtra el archivo a través del algoritmo xz. Se usa para crear o extraer archivos '.tar.xz'."
+      "flag": "-J",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Filtra el archivo a traves del algoritmo xz. Se usa para crear o extraer archivos '.tar.xz'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; muestra el progreso listando los archivos procesados en la terminal."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado; muestra el progreso listando los archivos procesados en la terminal.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-C", "--directory"],
-      "descripcion": "Cambia al directorio especificado antes de realizar la operación (ideal para extraer en una ruta específica)."
+      "flag": "-C",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Cambia al directorio especificado antes de realizar la operacion (ideal para extraer en una ruta especifica).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--exclude"],
-      "descripcion": "Excluye archivos o directorios que coincidan con el patrón indicado durante el empaquetado."
+      "flag": "--exclude",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Excluye archivos o directorios que coincidan con el patron indicado durante el empaquetado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-r", "--append"],
-      "descripcion": "Añade archivos al final de un archivo empaquetado existente (no funciona si el archivo ya está comprimido)."
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Anade archivos al final de un archivo empaquetado existente (no funciona si el archivo ya esta comprimido).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-u", "--update"],
-      "descripcion": "Solo añade los archivos que sean más recientes que la copia que ya existe dentro del archivo empaquetado."
+      "flag": "-u",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Solo anade los archivos que sean mas recientes que la copia que ya existe dentro del archivo empaquetado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--version"],
-      "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version del software junto con los terminos y condiciones de la licencia.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install tar -y",
-      "arch_linux": "sudo pacman -S tar",
-      "rhel_centos": "sudo dnf install tar -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -83,5 +211,13 @@
       "uso": "tar -xvzf archivo.tar.gz -C /ruta/destino",
       "explicacion": "Extrae el contenido de un archivo comprimido (.tar.gz) dentro del directorio de destino indicado."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

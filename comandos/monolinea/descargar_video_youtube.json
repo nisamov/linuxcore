@@ -1,5 +1,57 @@
 {
-    "nombre": "Descargar video de YouTube",
-    "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
-    "contenido": "yt-dlp $1"
+  "id": "descargar_video_youtube",
+  "nombre": "Descargar video de YouTube",
+  "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "yt-dlp $1",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Descargar video de YouTube",
+      "comando": "yt-dlp $1",
+      "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

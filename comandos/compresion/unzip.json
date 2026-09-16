@@ -1,69 +1,183 @@
 {
-  "comando": "unzip",
+  "id": "unzip",
+  "nombre": "unzip",
   "descripcion": "Listar, probar y extraer archivos comprimidos en formato ZIP.",
-  "categoria": ["compresion"],
-  "estructura": "unzip [opciones] archivo.zip [archivos_a_extraer] [-x archivos_excluidos] [-d directorio_destino]",
-  "opciones": [
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "unzip [opciones] archivo.zip [archivos_a_extraer] [-x archivos_excluidos] [-d directorio_destino]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-l", "--list"],
-      "descripcion": "Lista los archivos contenidos en el archivo ZIP en formato corto (nombre, tamaño, fecha y hora) sin extraer nada."
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lista los archivos contenidos en el archivo ZIP en formato corto (nombre, tamano, fecha y hora) sin extraer nada.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Modo detallado; muestra información técnica de los archivos (razón de compresión, CRC-32, etc.) o funciona como diagnóstico."
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo detallado; muestra informacion tecnica de los archivos (razon de compresion, CRC-32, etc.) o funciona como diagnostico.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--test"],
-      "descripcion": "Verifica la integridad del archivo ZIP realizando una descompresión de prueba en memoria sin escribir en el disco."
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Verifica la integridad del archivo ZIP realizando una descompresion de prueba en memoria sin escribir en el disco.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d"],
-      "descripcion": "Especifica el directorio de destino donde se extraerán los archivos. Si no existe, se creará automáticamente."
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica el directorio de destino donde se extraeran los archivos. Si no existe, se creara automaticamente.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-x"],
-      "descripcion": "Excluye los archivos o patrones especificados de la operación de extracción o listado."
+      "flag": "-x",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Excluye los archivos o patrones especificados de la operacion de extraccion o listado.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Modo silencioso; suprime la mayoría de los mensajes informativos durante la extracción. Usar '-qq' para un silencio absoluto."
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo silencioso; suprime la mayoria de los mensajes informativos durante la extraccion. Usar '-qq' para un silencio absoluto.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-o", "--overwrite"],
-      "descripcion": "Fuerza la sobrescritura de los archivos existentes en el destino sin solicitar confirmación al usuario."
+      "flag": "-o",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Fuerza la sobrescritura de los archivos existentes en el destino sin solicitar confirmacion al usuario.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-n", "--never-overwrite"],
-      "descripcion": "No sobrescribe los archivos existentes en el destino. Omite de forma silenciosa la extracción de dichos archivos."
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "No sobrescribe los archivos existentes en el destino. Omite de forma silenciosa la extraccion de dichos archivos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-j", "--junk-paths"],
-      "descripcion": "Ignora la estructura de directorios interna del archivo ZIP y extrae todos los archivos directamente en el directorio de destino."
+      "flag": "-j",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ignora la estructura de directorios interna del archivo ZIP y extrae todos los archivos directamente en el directorio de destino.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-P", "--password"],
-      "descripcion": "Especifica la contraseña directamente en la línea de comandos para descifrar archivos ZIP protegidos (no recomendado por motivos de seguridad)."
+      "flag": "-P",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica la contrasena directamente en la linea de comandos para descifrar archivos ZIP protegidos (no recomendado por motivos de seguridad).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-P", "--password"],
-      "descripcion": "Permite descifrar archivos comprimidos que están protegidos con contraseña."
+      "flag": "-P",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Permite descifrar archivos comprimidos que estan protegidos con contrasena.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--version"],
-      "descripcion": "Muestra la versión del software junto con la información del entorno de compilación."
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version del software junto con la informacion del entorno de compilacion.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install unzip -y",
-      "arch_linux": "sudo pacman -S unzip",
-      "rhel_centos": "sudo dnf install unzip -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -75,5 +189,13 @@
       "uso": "unzip -l archivo.zip",
       "explicacion": "Muestra la lista completa de archivos y carpetas empaquetados dentro del archivo ZIP sin llegar a descomprimirlos."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

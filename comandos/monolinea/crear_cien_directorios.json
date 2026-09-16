@@ -1,5 +1,57 @@
 {
-    "nombre": "Crear cien directorios",
-    "descripcion": "Crea cien directorios con nombres secuenciales",
-    "contenido": "mkdir $1{01..100}"
+  "id": "crear_cien_directorios",
+  "nombre": "Crear cien directorios",
+  "descripcion": "Crea cien directorios con nombres secuenciales",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "mkdir $1{01..100}",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Crear cien directorios",
+      "comando": "mkdir $1{01..100}",
+      "descripcion": "Crea cien directorios con nombres secuenciales",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

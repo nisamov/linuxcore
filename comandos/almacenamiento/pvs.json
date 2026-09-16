@@ -1,203 +1,514 @@
 {
-  "comando": "pvs",
-  "descripcion": "Muestra información formateada sobre volúmenes físicos (PVs) en el sistema, incluyendo su tamaño, uso, atributos y más.",
-  "categoria": ["commands", "system_administration", "lvm"],
-  "estructura": "pvs [opciones] [PV|Tag...]",
-  "opciones": [
+  "id": "pvs",
+  "nombre": "pvs",
+  "descripcion": "Muestra informacion formateada sobre volumenes fisicos (PVs) en el sistema, incluyendo su tamano, uso, atributos y mas.",
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "general",
+    "tags": [
+      "almacenamiento",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "pvs [opciones] [PV|Tag...]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["-a", "--all"],
-      "descripcion": "Muestra información sobre dispositivos que no han sido inicializados por LVM, es decir, que no son PVs.[reference:0][reference:1]"
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra informacion sobre dispositivos que no han sido inicializados por LVM, es decir, que no son PVs.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-A", "--allpvs"],
-      "descripcion": "Muestra información sobre PVs fuera del archivo de dispositivos. Combínalo con -a|--all para incluir dispositivos que no son PVs.[reference:2]"
+      "flag": "-A",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra informacion sobre PVs fuera del archivo de dispositivos. Combinalo con -a|--all para incluir dispositivos que no son PVs.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-o", "--options", "String"],
-      "descripcion": "Lista ordenada y separada por comas de las columnas a mostrar. Precede la lista con '+' para añadir a la selección predeterminada. Usa -o help para ver la lista completa de columnas disponibles.[reference:3]"
+      "flag": "-o",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lista ordenada y separada por comas de las columnas a mostrar. Precede la lista con '+' para anadir a la seleccion predeterminada. Usa -o help para ver la lista completa de columnas disponibles.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-O", "--sort", "String"],
-      "descripcion": "Lista ordenada y separada por comas de columnas por las que ordenar. Reemplaza la selección predeterminada. Precede cualquier columna con '-' para orden inverso.[reference:4]"
+      "flag": "-O",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lista ordenada y separada por comas de columnas por las que ordenar. Reemplaza la seleccion predeterminada. Precede cualquier columna con '-' para orden inverso.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-S", "--select", "String"],
-      "descripcion": "Selecciona informes para PVs que coincidan con los criterios de selección.[reference:5]"
+      "flag": "-S",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona informes para PVs que coincidan con los criterios de seleccion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--segments"],
-      "descripcion": "Produce una línea de salida para cada asignación contigua de espacio en cada Volumen Físico, mostrando el inicio (pvseg_start) y la longitud (pvseg_size) en unidades de extensiones físicas.[reference:6]"
+      "flag": "--segments",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Produce una linea de salida para cada asignacion contigua de espacio en cada Volumen Fisico, mostrando el inicio (pvseg_start) y la longitud (pvseg_size) en unidades de extensiones fisicas.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--aligned"],
-      "descripcion": "Usar con --separator para alinear las columnas de salida.[reference:7][reference:8]"
+      "flag": "--aligned",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Usar con --separator para alinear las columnas de salida.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--binary"],
-      "descripcion": "Usa valores binarios '0' o '1' en lugar de valores literales descriptivos para columnas que tienen exactamente dos valores válidos.[reference:9]"
+      "flag": "--binary",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Usa valores binarios '0' o '1' en lugar de valores literales descriptivos para columnas que tienen exactamente dos valores validos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--nameprefixes"],
-      "descripcion": "Añade un prefijo 'LVM2_' más el nombre del campo a la salida. Útil con --noheadings para producir una lista de pares campo=valor.[reference:10]"
+      "flag": "--nameprefixes",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Anade un prefijo 'LVM2_' mas el nombre del campo a la salida. Util con --noheadings para producir una lista de pares campo=valor.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--noheadings"],
-      "descripcion": "Suprime la línea de encabezados que normalmente es la primera línea de salida. Útil si se procesa la salida con grep.[reference:11]"
+      "flag": "--noheadings",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime la linea de encabezados que normalmente es la primera linea de salida. Util si se procesa la salida con grep.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--nosuffix"],
-      "descripcion": "Suprime el sufijo en los tamaños de salida. Usar con --units (excepto h y H) si se procesa la salida.[reference:12]"
+      "flag": "--nosuffix",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime el sufijo en los tamanos de salida. Usar con --units (excepto h y H) si se procesa la salida.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--rows"],
-      "descripcion": "Muestra las columnas como filas.[reference:13]"
+      "flag": "--rows",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra las columnas como filas.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--separator", "String"],
-      "descripcion": "Cadena a usar para separar cada columna. Útil si se procesa la salida con grep.[reference:14]"
+      "flag": "--separator",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Cadena a usar para separar cada columna. Util si se procesa la salida con grep.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--unbuffered"],
-      "descripcion": "Produce la salida inmediatamente sin ordenar o alinear las columnas correctamente.[reference:15]"
+      "flag": "--unbuffered",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Produce la salida inmediatamente sin ordenar o alinear las columnas correctamente.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--units", "[Number]r|R|h|H|b|B|s|S|k|K|m|M|g|G|t|T|p|P|e|E"],
-      "descripcion": "Todos los tamaños se muestran en estas unidades: (h)uman-readable, (b)ytes, (s)ectors, (k)ilobytes, (m)egabytes, (g)igabytes, (t)erabytes, (p)etabytes, (e)xabytes.[reference:16]"
+      "flag": "--units",
+      "argumento": "Number]r|R|h|H|b|B|s|S|k|K|m|M|g|G|t|T|p|P|e|E",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Todos los tamanos se muestran en estas unidades: (h)uman-readable, (b)ytes, (s)ectors, (k)ilobytes, (m)egabytes, (g)igabytes, (t)erabytes, (p)etabytes, (e)xabytes.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--unquoted"],
-      "descripcion": "Produce valores sin comillas en el modo de informe.[reference:17]"
+      "flag": "--unquoted",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Produce valores sin comillas en el modo de informe.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--foreign"],
-      "descripcion": "Reporta/muestra VGs extranjeros que de otro modo serían omitidos.[reference:18]"
+      "flag": "--foreign",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Reporta/muestra VGs extranjeros que de otro modo serian omitidos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--shared"],
-      "descripcion": "Reporta/muestra VGs compartidos que de otro modo serían omitidos.[reference:19]"
+      "flag": "--shared",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Reporta/muestra VGs compartidos que de otro modo serian omitidos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--readonly"],
-      "descripcion": "Ejecuta el comando en modo de solo lectura.[reference:20]"
+      "flag": "--readonly",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ejecuta el comando en modo de solo lectura.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--ignorelockingfailure"],
-      "descripcion": "Permite que un comando continúe con operaciones de metadatos de solo lectura después de fallos de bloqueo.[reference:21]"
+      "flag": "--ignorelockingfailure",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Permite que un comando continue con operaciones de metadatos de solo lectura despues de fallos de bloqueo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--reportformat", "basic|json"],
-      "descripcion": "Anula el formato de salida actual para los informes. 'basic' es el formato original con columnas y filas. 'json' produce la salida en formato JSON.[reference:22]"
+      "flag": "--reportformat",
+      "argumento": "basic|json",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Anula el formato de salida actual para los informes. 'basic' es el formato original con columnas y filas. 'json' produce la salida en formato JSON.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--configreport", "log|vg|lv|pv|pvseg|seg"],
-      "descripcion": "Define la configuración del informe para el tipo de informe especificado. Ver lvmreport(7).[reference:23][reference:24]"
+      "flag": "--configreport",
+      "argumento": "log|vg|lv|pv|pvseg|seg",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Define la configuracion del informe para el tipo de informe especificado. Ver lvmreport(7).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-d", "--debug"],
-      "descripcion": "Establece el nivel de depuración. Puede repetirse de 1 a 6 veces para aumentar el detalle.[reference:25]"
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el nivel de depuracion. Puede repetirse de 1 a 6 veces para aumentar el detalle.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-h", "--help"],
-      "descripcion": "Muestra la ayuda y finaliza.[reference:26]"
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la ayuda y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--longhelp"],
-      "descripcion": "Muestra la ayuda larga.[reference:27]"
+      "flag": "--longhelp",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la ayuda larga.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-q", "--quiet"],
-      "descripcion": "Suprime la salida y los mensajes de registro.[reference:28]"
+      "flag": "-q",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Suprime la salida y los mensajes de registro.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-t", "--test"],
-      "descripcion": "Modo de prueba. Los comandos no actualizarán los metadatos.[reference:29]"
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Modo de prueba. Los comandos no actualizaran los metadatos.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-v", "--verbose"],
-      "descripcion": "Establece el nivel verboso. Puede repetirse para aumentar el detalle.[reference:30]"
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el nivel verboso. Puede repetirse para aumentar el detalle.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["-y", "--yes"],
-      "descripcion": "No pregunta para confirmar de forma interactiva, sino que siempre asume la respuesta 'sí'.[reference:31]"
+      "flag": "-y",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "No pregunta para confirmar de forma interactiva, sino que siempre asume la respuesta 'si'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--version"],
-      "descripcion": "Muestra la información de la versión.[reference:32]"
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la informacion de la version.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--commandprofile", "String"],
-      "descripcion": "El perfil de comando a usar para la configuración del comando.[reference:33]"
+      "flag": "--commandprofile",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "El perfil de comando a usar para la configuracion del comando.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--config", "String"],
-      "descripcion": "Configuración de ajustes para el comando. Estos anulan la configuración de lvm.conf(5).[reference:34]"
+      "flag": "--config",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Configuracion de ajustes para el comando. Estos anulan la configuracion de lvm.conf(5).",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--devices", "PV"],
-      "descripcion": "Restringe los dispositivos visibles y accesibles para el comando. Puede repetirse o acepta una lista separada por comas.[reference:35]"
+      "flag": "--devices",
+      "argumento": "PV",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Restringe los dispositivos visibles y accesibles para el comando. Puede repetirse o acepta una lista separada por comas.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--devicesfile", "String"],
-      "descripcion": "Un archivo que enumera los dispositivos que LVM debe usar. Debe existir en /etc/lvm/devices/.[reference:36][reference:37]"
+      "flag": "--devicesfile",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Un archivo que enumera los dispositivos que LVM debe usar. Debe existir en /etc/lvm/devices/.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--driverloaded", "y|n"],
-      "descripcion": "Si se establece a 'no', el comando no intentará usar device-mapper. Para pruebas y depuración.[reference:38]"
+      "flag": "--driverloaded",
+      "argumento": "y|n",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Si se establece a 'no', el comando no intentara usar device-mapper. Para pruebas y depuracion.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--journal", "String"],
-      "descripcion": "Registra información en el diario systemd. Los valores posibles incluyen: 'command', 'output', 'debug'.[reference:39]"
+      "flag": "--journal",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Registra informacion en el diario systemd. Los valores posibles incluyen: 'command', 'output', 'debug'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--lockopt", "String"],
-      "descripcion": "Se usa para pasar opciones para casos especiales a lvmlockd.[reference:40]"
+      "flag": "--lockopt",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Se usa para pasar opciones para casos especiales a lvmlockd.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--nohints"],
-      "descripcion": "No usa el archivo de sugerencias para localizar dispositivos para PVs.[reference:41]"
+      "flag": "--nohints",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "No usa el archivo de sugerencias para localizar dispositivos para PVs.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--nolocking"],
-      "descripcion": "Deshabilita el bloqueo.[reference:42]"
+      "flag": "--nolocking",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Deshabilita el bloqueo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--profile", "String"],
-      "descripcion": "Un alias para --commandprofile o --metadataprofile, dependiendo del comando.[reference:43]"
+      "flag": "--profile",
+      "argumento": "String",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Un alias para --commandprofile o --metadataprofile, dependiendo del comando.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "gestor_paquetes",
-    "pasos": {
-      "debian_ubuntu": "sudo apt update && sudo apt install lvm2 -y",
-      "arch_linux": "sudo pacman -S lvm2",
-      "rhel_centos": "sudo dnf install lvm2 -y"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
     {
       "uso": "pvs",
-      "explicacion": "Muestra información básica sobre todos los volúmenes físicos."
+      "explicacion": "Muestra informacion basica sobre todos los volumenes fisicos."
     },
     {
       "uso": "pvs -a",
-      "explicacion": "Muestra información incluyendo dispositivos que no son PVs.[reference:44]"
+      "explicacion": "Muestra informacion incluyendo dispositivos que no son PVs."
     },
     {
       "uso": "pvs -o pv_name,pv_size,pv_used",
-      "explicacion": "Muestra solo el nombre, tamaño y espacio usado de los PVs.[reference:45]"
+      "explicacion": "Muestra solo el nombre, tamano y espacio usado de los PVs."
     },
     {
       "uso": "pvs --segments",
-      "explicacion": "Muestra una línea por cada segmento contiguo de espacio en cada PV.[reference:46]"
+      "explicacion": "Muestra una linea por cada segmento contiguo de espacio en cada PV."
     },
     {
       "uso": "pvs --noheadings --units g",
-      "explicacion": "Muestra los PVs sin encabezados y con tamaños en gigabytes.[reference:47][reference:48]"
+      "explicacion": "Muestra los PVs sin encabezados y con tamanos en gigabytes."
     },
     {
       "uso": "pvs --reportformat json",
-      "explicacion": "Muestra la información de los PVs en formato JSON.[reference:49]"
+      "explicacion": "Muestra la informacion de los PVs en formato JSON."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

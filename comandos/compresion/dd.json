@@ -1,65 +1,172 @@
 {
-  "comando": "dd",
-  "descripcion": "Copiar un archivo, convirtiendo y formateando según las opciones suministradas.",
-  "categoria": ["compresion"],
-  "estructura": "dd [operandos]",
-  "opciones": [
+  "id": "dd",
+  "nombre": "dd",
+  "descripcion": "Copiar un archivo, convirtiendo y formateando segun las opciones suministradas.",
+  "clasificacion": {
+    "categoria": "compresion",
+    "subcategoria": "general",
+    "tags": [
+      "compresion",
+      "linea_de_comandos"
+    ]
+  },
+  "sintaxis": {
+    "principal": "dd [operandos]",
+    "alternativas": []
+  },
+  "parametros": [
     {
-      "parametro": ["if=ARCHIVO"],
-      "descripcion": "Lee desde el ARCHIVO especificado en lugar de la entrada estándar."
+      "flag": "",
+      "argumento": "if=ARCHIVO",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee desde el ARCHIVO especificado en lugar de la entrada estandar.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["of=ARCHIVO"],
-      "descripcion": "Escribe en el ARCHIVO especificado en lugar de la salida estándar."
+      "flag": "",
+      "argumento": "of=ARCHIVO",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe en el ARCHIVO especificado en lugar de la salida estandar.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["bs=BYTES"],
-      "descripcion": "Lee y escribe hasta el número de BYTES especificados a la vez. Reemplaza los valores de 'ibs' y 'obs'."
+      "flag": "",
+      "argumento": "bs=BYTES",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee y escribe hasta el numero de BYTES especificados a la vez. Reemplaza los valores de 'ibs' y 'obs'.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["ibs=BYTES"],
-      "descripcion": "Lee la cantidad de BYTES especificados a la vez. Por defecto es 512."
+      "flag": "",
+      "argumento": "ibs=BYTES",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee la cantidad de BYTES especificados a la vez. Por defecto es 512.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["obs=BYTES"],
-      "descripcion": "Escribe la cantidad de BYTES especificados a la vez. Por defecto es 512."
+      "flag": "",
+      "argumento": "obs=BYTES",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe la cantidad de BYTES especificados a la vez. Por defecto es 512.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["count=N"],
-      "descripcion": "Copia únicamente N bloques de entrada."
+      "flag": "",
+      "argumento": "count=N",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Copia unicamente N bloques de entrada.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["skip=N"],
-      "descripcion": "Omite N bloques al principio de la entrada antes de iniciar la copia."
+      "flag": "",
+      "argumento": "skip=N",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Omite N bloques al principio de la entrada antes de iniciar la copia.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["seek=N"],
-      "descripcion": "Omite N bloques al principio de la salida antes de iniciar la escritura."
+      "flag": "",
+      "argumento": "seek=N",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Omite N bloques al principio de la salida antes de iniciar la escritura.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["conv=CONVS"],
-      "descripcion": "Convierte el archivo según la lista de símbolos separados por comas (ej. 'notrunc', 'noerror', 'sync', 'ucase', 'lcase')."
+      "flag": "",
+      "argumento": "conv=CONVS",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Convierte el archivo segun la lista de simbolos separados por comas (ej. 'notrunc', 'noerror', 'sync', 'ucase', 'lcase').",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["status=NIVEL"],
-      "descripcion": "Controla la cantidad de información transferida mostrada; 'progress' muestra estadísticas en tiempo real, 'none' suprime casi todo."
+      "flag": "",
+      "argumento": "status=NIVEL",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Controla la cantidad de informacion transferida mostrada; 'progress' muestra estadisticas en tiempo real, 'none' suprime casi todo.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--help"],
-      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza."
+      "flag": "--help",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra un mensaje de ayuda con las opciones disponibles y finaliza.",
+      "conflictos": [],
+      "requiere": []
     },
     {
-      "parametro": ["--version"],
-      "descripcion": "Muestra la versión del software junto con los términos y condiciones de la licencia."
+      "flag": "--version",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra la version del software junto con los terminos y condiciones de la licencia.",
+      "conflictos": [],
+      "requiere": []
     }
   ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
   "instalacion": {
-    "es_instalable": true,
-    "metodo_preferido": "preinstalado",
-    "pasos": {
-      "debian_ubuntu": "sudo apt install coreutils",
-      "arch_linux": "sudo pacman -S coreutils",
-      "rhel_centos": "sudo dnf install coreutils"
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
     }
   },
   "ejemplos": [
@@ -71,5 +178,13 @@
       "uso": "dd if=/dev/sda of=respaldo_mbr.img bs=512 count=1",
       "explicacion": "Realiza un respaldo del Registro de Arranque Principal (MBR) copiando exactamente los primeros 512 bytes del disco /dev/sda."
     }
-  ]
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

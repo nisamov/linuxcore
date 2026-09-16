@@ -1,5 +1,57 @@
 {
-    "nombre": "Eliminación de archivos por extensión",
-    "descripcion": "Elimina todos los archivos con una extensión específica de forma recursiva.",
-    "contenido": "find / -name \"*.$1\" -delete 2>/dev/null"
+  "id": "eliminar_todo_archivo_recursivamente_con_cierta_extension",
+  "nombre": "Eliminacion de archivos por extension",
+  "descripcion": "Elimina todos los archivos con una extension especifica de forma recursiva.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "find / -name \"*.$1\" -delete 2>/dev/null",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Eliminacion de archivos por extension",
+      "comando": "find / -name \"*.$1\" -delete 2>/dev/null",
+      "descripcion": "Elimina todos los archivos con una extension especifica de forma recursiva.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

@@ -1,5 +1,57 @@
 {
-    "nombre": "Comprobación de velocidad de disco",
-    "descripcion": "Verifica la velocidad de escritura del disco",
-    "contenido": "dd if=/dev/zero of=test bs=1G count=1 oflag=dsync"
+  "id": "comprobacion_velocidad_disco",
+  "nombre": "Comprobacion de velocidad de disco",
+  "descripcion": "Verifica la velocidad de escritura del disco",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "dd if=/dev/zero of=test bs=1G count=1 oflag=dsync",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Comprobacion de velocidad de disco",
+      "comando": "dd if=/dev/zero of=test bs=1G count=1 oflag=dsync",
+      "descripcion": "Verifica la velocidad de escritura del disco",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }

@@ -1,5 +1,57 @@
 {
-    "nombre": "Localizar enlaces simbólicos huérfanos",
-    "descripcion": "Busca enlaces simbólicos que apuntan a archivos que no existen.",
-    "contenido": "sudo find /var/ -xtype l"
+  "id": "localizar_enlaces_simbolicos_huerfanos",
+  "nombre": "Localizar enlaces simbolicos huerfanos",
+  "descripcion": "Busca enlaces simbolicos que apuntan a archivos que no existen.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "sudo find /var/ -xtype l",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Localizar enlaces simbolicos huerfanos",
+      "comando": "sudo find /var/ -xtype l",
+      "descripcion": "Busca enlaces simbolicos que apuntan a archivos que no existen.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
 }
