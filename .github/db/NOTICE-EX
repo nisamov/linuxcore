@@ -1,0 +1,174 @@
+{
+  "id": "badblocks",
+  "nombre": "badblocks",
+  "descripcion": "Busca bloques defectuosos en un dispositivo mediante pruebas de lectura, escritura o lectura-escritura no destructiva.",
+
+  "clasificacion": {
+    "categoria": "almacenamiento",
+    "subcategoria": "discos",
+    "tags": [
+      "disco",
+      "diagnostico",
+      "filesystem"
+    ]
+  },
+
+  "sintaxis": {
+    "principal": "badblocks [opciones] dispositivo [ultimo_bloque] [primer_bloque]",
+    "alternativas": []
+  },
+
+  "parametros": [
+    {
+      "flag": "-b",
+      "argumento": "block_size",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 1024,
+      "valores": [],
+      "descripcion": "Especifica el tamano de los bloques en bytes.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-c",
+      "argumento": "blocks_at_once",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 64,
+      "valores": [],
+      "descripcion": "Especifica el numero de bloques que se prueban a la vez.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Fuerza la prueba incluso si el dispositivo esta montado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa el modo de lectura-escritura no destructiva.",
+      "conflictos": [
+        "-w"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el progreso del escaneo.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra informacion detallada.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa una prueba destructiva de escritura.",
+      "conflictos": [
+        "-n"
+      ],
+      "requiere": []
+    }
+  ],
+
+  "requisitos": {
+    "permisos": [
+      "root"
+    ],
+    "dependencias": [],
+    "paquetes": [
+      "e2fsprogs"
+    ]
+  },
+
+  "seguridad": {
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
+    "advertencias": [
+      "El modo -w destruye los datos del dispositivo.",
+      "El uso de -f sobre un dispositivo montado puede provocar danos."
+    ]
+  },
+
+  "instalacion": {
+    "instalable": true,
+    "metodo": "gestor_paquetes",
+    "paquetes": {
+      "debian_ubuntu": "sudo apt install e2fsprogs -y",
+      "arch_linux": "sudo pacman -S e2fsprogs",
+      "rhel_centos": "sudo dnf install e2fsprogs -y"
+    }
+  },
+
+  "ejemplos": [
+    {
+      "nombre": "prueba_lectura",
+      "comando": "sudo badblocks -s -v /dev/sda",
+      "descripcion": "Realiza una prueba de lectura mostrando el progreso y la informacion detallada.",
+      "resultado_esperado": "Lista de bloques defectuosos y mensajes de progreso."
+    },
+    {
+      "nombre": "prueba_no_destructiva",
+      "comando": "sudo badblocks -n -o bloques_defectuosos.txt /dev/sdb1",
+      "descripcion": "Realiza una prueba no destructiva y guarda la lista de bloques defectuosos.",
+      "resultado_esperado": "Archivo con los bloques defectuosos encontrados."
+    },
+    {
+      "nombre": "prueba_destructiva",
+      "comando": "sudo badblocks -w /dev/sdc",
+      "descripcion": "Realiza una prueba destructiva de escritura.",
+      "resultado_esperado": "Resultado de la prueba de escritura."
+    }
+  ],
+
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [
+      {
+        "nombre": "DISPOSITIVO",
+        "tipo": "device",
+        "requerido": true
+      }
+    ],
+    "validaciones": [
+      "El dispositivo existe.",
+      "El dispositivo no esta montado cuando se utiliza un modo destructivo."
+    ],
+    "rollback": null
+  }
+}

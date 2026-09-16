@@ -9,6 +9,8 @@ sudo apt update
 ## Instalación del servidor y cliente
 ```sh
 sudo apt install mariadb-server mariadb-client -y
+
+sudo mariadb-secure-installarion # Instalacion segura
 ```
 ## Gestión del servicio
 Ver estado del servicio:

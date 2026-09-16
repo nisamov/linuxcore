@@ -1,0 +1,5 @@
+{
+    "nombre": "Localizar enlaces simbólicos huérfanos",
+    "descripcion": "Busca enlaces simbólicos que apuntan a archivos que no existen.",
+    "contenido": "sudo find /var/ -xtype l"
+}

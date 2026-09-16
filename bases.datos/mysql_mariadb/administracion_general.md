@@ -225,3 +225,13 @@ SELECT pais, COUNT(*) FROM pelicula GROUP BY pais;
 /*Mostrar peliculas por pais, que sean posteriores al año 2000 de forma ascendente*/
 SELECT pais, COUNT(*) FROM pelicula WHERE anyo>"2000" GROUP BY pais order by pais DESC;
 ```
+## Revisar datos
+```sql
+/*Mostrar usuario, versión y tiempo actual de conexion del usuario actual*/
+SELECT USER(), VERSION(), NOW();
+```
+## Contraseña
+```sql
+/*Cambiar clave de usuario*/
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'NuevaContraseña';
+```

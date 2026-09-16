@@ -1,0 +1,72 @@
+{
+  "id": "",
+  "nombre": "",
+  "descripcion": "",
+
+  "clasificacion": {
+    "categoria": "",
+    "subcategoria": "",
+    "tags": []
+  },
+
+  "sintaxis": {
+    "principal": "",
+    "alternativas": []
+  },
+
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "",
+      "tipo": "",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [],
+    "paquetes": []
+  },
+
+  "seguridad": {
+    "nivel": "",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+
+  "ejemplos": [
+    {
+      "nombre": "",
+      "comando": "",
+      "descripcion": "",
+      "resultado_esperado": ""
+    }
+  ],
+
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": false,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
+}
