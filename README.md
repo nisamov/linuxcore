@@ -22,7 +22,7 @@ El objetivo es proporcionar el contexto necesario para comprender por qué exist
 El contenido se desarrolla principalmente en español y está orientado tanto al aprendizaje como a la consulta técnica.
 
 > [!IMPORTANT]
-> Este repositorio está en desarrollo, es posible que mucha de la información y estructura del mismo, sea alterado en cualquier momento con el fin de mejorar la consistencia y formato del mismo.
+> Este repositorio está en desarrollo, es posible que la información y estructura del mismo, sea alterada en cualquier momento con el fin de mejorar la consistencia y formato de la misma.
 
 ### **fundamentos/**
 

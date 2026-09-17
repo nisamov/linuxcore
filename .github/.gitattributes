@@ -1,0 +1,18 @@
+# Markdown
+*.md linguist-detectable=true
+*.md linguist-documentation=true
+
+# JSON
+*.json linguist-detectable=true
+
+# YAML
+*.yaml linguist-detectable=true
+*.yml linguist-detectable=true
+
+# Archivos de configuración
+*.conf linguist-detectable=true
+*.conf linguist-language=INI
+
+# Scripts de Shell
+*.sh linguist-detectable=true
+*.sh linguist-language=Shell
