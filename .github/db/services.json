@@ -1,26 +1,5 @@
 [
   {
-    "servicio": "chronyd",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "chronyd",
-    "categoria_db": "network",
-    "archivo_fuente": "servicios/network/chronyd.json"
-  },
-  {
-    "servicio": "dhcpd",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "dhcpd",
-    "categoria_db": "network",
-    "archivo_fuente": "servicios/network/dhcpd.json"
-  },
-  {
-    "servicio": "named",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "named",
-    "categoria_db": "network",
-    "archivo_fuente": "servicios/network/named.json"
-  },
-  {
     "servicio": "mariadb",
     "descripcion": "Sin descripción registrada.",
     "estructura": "mariadb",
@@ -40,90 +19,5 @@
     "estructura": "redis",
     "categoria_db": "database",
     "archivo_fuente": "servicios/database/redis.json"
-  },
-  {
-    "servicio": "crond",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "crond",
-    "categoria_db": "system",
-    "archivo_fuente": "servicios/system/crond.json"
-  },
-  {
-    "servicio": "systemd-journald",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "systemd-journald",
-    "categoria_db": "system",
-    "archivo_fuente": "servicios/system/systemd-journald.json"
-  },
-  {
-    "servicio": "apache2",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "apache2",
-    "categoria_db": "web",
-    "archivo_fuente": "servicios/web/apache2.json"
-  },
-  {
-    "servicio": "nginx",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "nginx",
-    "categoria_db": "web",
-    "archivo_fuente": "servicios/web/nginx.json"
-  },
-  {
-    "servicio": "iptables",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "iptables",
-    "categoria_db": "security",
-    "archivo_fuente": "servicios/security/iptables.json"
-  },
-  {
-    "servicio": "sshd",
-    "descripcion": "Sin descripción registrada.",
-    "estructura": "sshd",
-    "categoria_db": "security",
-    "archivo_fuente": "servicios/security/sshd.json"
-  },
-  {
-    "servicio": "ufw",
-    "descripcion": "Uncomplicated Firewall. Interfaz de gestión de filtrado de paquetes para netfilter/iptables diseñada para ser intuitiva y fácil de configurar en entornos LinuxCore.",
-    "comando_servicio": "systemctl enable --now ufw",
-    "categoria_db": "security",
-    "configuraciones": [
-      {
-        "directiva": "DEFAULT_INPUT_POLICY=\"DROP\"",
-        "efecto": "Establece la política por defecto para el tráfico entrante. Bloquea de forma estricta cualquier conexión que no esté explícitamente autorizada."
-      },
-      {
-        "directiva": "DEFAULT_OUTPUT_POLICY=\"ACCEPT\"",
-        "efecto": "Permite que el servidor realice cualquier tipo de conexión saliente hacia redes externas de forma nativa."
-      },
-      {
-        "directiva": "IPV6=yes",
-        "efecto": "Habilita el soporte para que las reglas de firewall se apliquen de igual forma a las pilas de red IPv6."
-      }
-    ],
-    "instalacion": {
-      "es_instalable": true,
-      "pasos": {
-        "ubuntu_debian": "sudo apt update && sudo apt install ufw -y",
-        "centos_rhel": "sudo dnf install epel-release -y && sudo dnf install ufw -y"
-      }
-    },
-    "ejemplos": [
-      {
-        "comando_ejemplo": "ufw status numbered",
-        "explicacion": "Muestra el estado actual del firewall junto con un índice numérico por regla, ideal para eliminarlas de forma precisa."
-      },
-      {
-        "comando_ejemplo": "ufw allow 22/tcp",
-        "explicacion": "Abre el puerto 22 bajo el protocolo TCP para garantizar que los accesos remotos por SSH no queden bloqueados."
-      },
-      {
-        "comando_ejemplo": "ufw reject from 192.168.1.50",
-        "explicacion": "Deniega el tráfico proveniente de una dirección IP específica de la red local, notificando activamente al emisor el rechazo."
-      }
-    ],
-    "estructura": "ufw",
-    "archivo_fuente": "servicios/security/ufw.json"
   }
 ]
