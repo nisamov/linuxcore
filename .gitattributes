@@ -1,11 +1,9 @@
-# Markdown
+# Markdown (si quieres que cuenten en las estadísticas del repo)
 *.md linguist-detectable=true
-*.md linguist-documentation=true
+*.md linguist-documentation=false
 
-# JSON
+# JSON y YAML
 *.json linguist-detectable=true
-
-# YAML
 *.yaml linguist-detectable=true
 *.yml linguist-detectable=true
 
