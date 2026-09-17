@@ -2,6 +2,14 @@
 
 Docker es una plataforma de código abierto que automatiza el despliegue de aplicaciones dentro de **contenedores software**. A diferencia de las máquinas virtuales tradicionales, Docker utiliza el kernel del sistema operativo host para aislar procesos, lo que lo hace extremadamente ligero y rápido.
 
+* Imagen: Es un paquete estático e inmutable (de solo lectura) que contiene todo lo necesario para ejecutar una aplicación: código, dependencias, librerías y configuración del sistema. Es el "plano de construcción" o molde.
+* Contenedor: Es una instancia aislada en ejecución creada a partir de una imagen. Añade una capa ligera de lectura y escritura sobre la imagen para procesar datos en tiempo de ejecución.
+
+**Mecanismos de almacenamiento en Docker:**
+* Volúmenes (Docker Volumes): Se almacenan en una zona del disco administrada exclusivamente por Docker (/var/lib/docker/volumes/ en Linux). Son la opción oficial recomendada por ser independientes del sistema operativo anfitrión, seguros y fáciles de respaldar.
+* Montajes de enlace (Bind Mounts): Vinculan directamente una carpeta o archivo concreto del equipo anfitrión con una ruta dentro del contenedor. Dependen de la estructura de archivos del host, lo que los hace ideales para compartir código en tiempo real durante el desarrollo.
+* Montajes en memoria (tmpfs Mounts): Almacenan los datos únicamente en la memoria RAM del anfitrión (no en el disco). No persisten tras apagar el equipo, pero ofrecen la máxima velocidad y seguridad para manejar información sensible o archivos temporales.
+
 ---
 
 ## Arquitectura y Conceptos Clave

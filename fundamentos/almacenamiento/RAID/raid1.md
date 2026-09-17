@@ -1,8 +1,8 @@
 ## Bloque A: Creación y Preparación de los Discos Virtuales
 
 ### Paso 1: Crear los archivos que simularán los discos duros
-Creamos dos archivos de 1 GB rellenos de ceros en tu carpeta personal.
 
+Creamos dos archivos de 1 GB rellenos de ceros en tu carpeta personal.
 
 ```bash
 dd if=/dev/zero of=~/disco1.img bs=1M count=1024

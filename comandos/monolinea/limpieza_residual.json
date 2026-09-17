@@ -1,0 +1,57 @@
+{
+  "id": "limpieza_residual_linea_produccion",
+  "nombre": "Limpieza residual de la línea de producción",
+  "descripcion": "Este comando permite actualizar el sistema e instalar las últimas actualizaciones de los paquetes disponibles en un sistema basado en Debian o Ubuntu. Es útil para mantener el sistema seguro y con las últimas mejoras.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": [
+      "monolinea",
+      "shell"
+    ]
+  },
+  "sintaxis": {
+    "principal": "sudo apt autoremove --purge -y && dpkg -l | awk '/^rc/ {print $2}' | xargs -r sudo apt purge -y && sudo apt clean && history -c && > ~/.bash_history && unset HISTFILE",
+    "alternativas": []
+  },
+  "parametros": [],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": [
+      "shell"
+    ],
+    "paquetes": []
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": []
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Limpieza residual de la línea de producción",
+      "comando": "sudo apt autoremove --purge -y && dpkg -l | awk '/^rc/ {print $2}' | xargs -r sudo apt purge -y && sudo apt clean && history -c && > ~/.bash_history && unset HISTFILE",
+      "descripcion": "Limpia los paquetes residuales y archivos de historial del sistema.",
+      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": [],
+    "validaciones": [],
+    "rollback": null
+  }
+}
