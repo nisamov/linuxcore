@@ -18178,6 +18178,58 @@
     "archivo_fuente": "su.json"
   },
   {
+    "id": "pwconv",
+    "nombre": "pwconv",
+    "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+    "clasificacion": {
+      "categoria": "usuarios",
+      "subcategoria": "general",
+      "tags": [
+        "usuarios"
+      ]
+    },
+    "sintaxis": {
+      "principal": "pwconv",
+      "alternativas": []
+    },
+    "parametros": [],
+    "requisitos": {
+      "permisos": [],
+      "dependencias": [],
+      "paquetes": []
+    },
+    "seguridad": {
+      "nivel": "medio",
+      "destructivo": false,
+      "requiere_root": false,
+      "requiere_confirmacion": false,
+      "advertencias": [
+        "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      ]
+    },
+    "instalacion": {
+      "instalable": false,
+      "metodo": "",
+      "paquetes": {
+        "debian_ubuntu": "",
+        "arch_linux": "",
+        "rhel_centos": ""
+      }
+    },
+    "ejemplos": [],
+    "automatizacion": {
+      "idempotente": false,
+      "interactivo": false,
+      "apto_script": false,
+      "variables": [],
+      "validaciones": [],
+      "rollback": null
+    },
+    "comando": "pwconv",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "pwconv.json"
+  },
+  {
     "id": "chage",
     "nombre": "chage",
     "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
@@ -18280,6 +18332,58 @@
     "comando": "groupdel",
     "categoria_db": "usuarios",
     "archivo_fuente": "groupdel.json"
+  },
+  {
+    "id": "pwuconv",
+    "nombre": "pwuconv",
+    "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+    "clasificacion": {
+      "categoria": "usuarios",
+      "subcategoria": "general",
+      "tags": [
+        "usuarios"
+      ]
+    },
+    "sintaxis": {
+      "principal": "pwuconv",
+      "alternativas": []
+    },
+    "parametros": [],
+    "requisitos": {
+      "permisos": [],
+      "dependencias": [],
+      "paquetes": []
+    },
+    "seguridad": {
+      "nivel": "medio",
+      "destructivo": false,
+      "requiere_root": false,
+      "requiere_confirmacion": false,
+      "advertencias": [
+        "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      ]
+    },
+    "instalacion": {
+      "instalable": false,
+      "metodo": "",
+      "paquetes": {
+        "debian_ubuntu": "",
+        "arch_linux": "",
+        "rhel_centos": ""
+      }
+    },
+    "ejemplos": [],
+    "automatizacion": {
+      "idempotente": false,
+      "interactivo": false,
+      "apto_script": false,
+      "variables": [],
+      "validaciones": [],
+      "rollback": null
+    },
+    "comando": "pwuconv",
+    "categoria_db": "usuarios",
+    "archivo_fuente": "pwuconv.json"
   },
   {
     "id": "groups",
@@ -24840,7 +24944,7 @@
   {
     "id": "generar_clave_segura",
     "nombre": "Generar clave segura",
-    "descripcion": "Genera una clave segura de X (insercion manual) caracteres.",
+    "descripcion": "Genera una clave segura de 32 caracteres.",
     "clasificacion": {
       "categoria": "monolinea",
       "subcategoria": "utilidad_monolinea",
@@ -24850,7 +24954,7 @@
       ]
     },
     "sintaxis": {
-      "principal": "openssl rand -base64 $1",
+      "principal": "openssl rand -base64 32",
       "alternativas": []
     },
     "parametros": [],
@@ -24880,8 +24984,8 @@
     "ejemplos": [
       {
         "nombre": "Generar clave segura",
-        "comando": "openssl rand -base64 $1",
-        "descripcion": "Genera una clave segura de X (insercion manual) caracteres.",
+        "comando": "openssl rand -base64 32",
+        "descripcion": "Genera una clave segura de 32 caracteres.",
         "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
       }
     ],
@@ -25080,7 +25184,7 @@
   {
     "id": "copia_seguridad_rapida",
     "nombre": "Copia de seguridad rapida",
-    "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
+    "descripcion": "Crea una copia de seguridad de un archivo con una marca de tiempo.",
     "clasificacion": {
       "categoria": "monolinea",
       "subcategoria": "utilidad_monolinea",
@@ -25090,7 +25194,7 @@
       ]
     },
     "sintaxis": {
-      "principal": "cp $1{,.bak_$(date +%F_%T)}",
+      "principal": "cp ejemplo.txt{,.bak_$(date +%F_%T)}",
       "alternativas": []
     },
     "parametros": [],
@@ -25120,7 +25224,7 @@
     "ejemplos": [
       {
         "nombre": "Copia de seguridad rapida",
-        "comando": "cp $1{,.bak_$(date +%F_%T)}",
+        "comando": "cp ejemplo.txt{,.bak_$(date +%F_%T)}",
         "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
         "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
       }
@@ -25150,7 +25254,7 @@
       ]
     },
     "sintaxis": {
-      "principal": "find / -name \"*.$1\" -delete 2>/dev/null",
+      "principal": "find / -name \"*.txt\" -delete 2>/dev/null",
       "alternativas": []
     },
     "parametros": [],
@@ -25180,7 +25284,7 @@
     "ejemplos": [
       {
         "nombre": "Eliminacion de archivos por extension",
-        "comando": "find / -name \"*.$1\" -delete 2>/dev/null",
+        "comando": "find / -name \"*.txt\" -delete 2>/dev/null",
         "descripcion": "Elimina todos los archivos con una extension especifica de forma recursiva.",
         "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
       }
@@ -25210,7 +25314,7 @@
       ]
     },
     "sintaxis": {
-      "principal": "sed -i '/^$/d' $1.txt",
+      "principal": "sed -i '/^$/d' mi_archivo.txt",
       "alternativas": []
     },
     "parametros": [],
@@ -25240,7 +25344,7 @@
     "ejemplos": [
       {
         "nombre": "Borrar espacio vacio de archivo",
-        "comando": "sed -i '/^$/d' $1.txt",
+        "comando": "sed -i '/^$/d' mi_archivo.txt",
         "descripcion": "Elimina las lineas en blanco de un archivo.",
         "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
       }
@@ -25750,7 +25854,7 @@
       ]
     },
     "sintaxis": {
-      "principal": "yt-dlp $1",
+      "principal": "yt-dlp https://...",
       "alternativas": []
     },
     "parametros": [],
@@ -25780,7 +25884,7 @@
     "ejemplos": [
       {
         "nombre": "Descargar video de YouTube",
-        "comando": "yt-dlp $1",
+        "comando": "yt-dlp https://...",
         "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
         "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
       }
