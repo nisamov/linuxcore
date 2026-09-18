@@ -11,7 +11,7 @@
     ]
   },
   "sintaxis": {
-    "principal": "yt-dlp $1",
+    "principal": "yt-dlp https://...",
     "alternativas": []
   },
   "parametros": [],
@@ -41,7 +41,7 @@
   "ejemplos": [
     {
       "nombre": "Descargar video de YouTube",
-      "comando": "yt-dlp $1",
+      "comando": "yt-dlp https://...",
       "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
     }

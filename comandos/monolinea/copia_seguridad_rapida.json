@@ -1,7 +1,7 @@
 {
   "id": "copia_seguridad_rapida",
   "nombre": "Copia de seguridad rapida",
-  "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
+  "descripcion": "Crea una copia de seguridad de un archivo con una marca de tiempo.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -11,7 +11,7 @@
     ]
   },
   "sintaxis": {
-    "principal": "cp $1{,.bak_$(date +%F_%T)}",
+    "principal": "cp ejemplo.txt{,.bak_$(date +%F_%T)}",
     "alternativas": []
   },
   "parametros": [],
@@ -41,7 +41,7 @@
   "ejemplos": [
     {
       "nombre": "Copia de seguridad rapida",
-      "comando": "cp $1{,.bak_$(date +%F_%T)}",
+      "comando": "cp ejemplo.txt{,.bak_$(date +%F_%T)}",
       "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
     }

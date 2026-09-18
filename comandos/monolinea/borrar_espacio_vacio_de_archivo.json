@@ -11,7 +11,7 @@
     ]
   },
   "sintaxis": {
-    "principal": "sed -i '/^$/d' $1.txt",
+    "principal": "sed -i '/^$/d' mi_archivo.txt",
     "alternativas": []
   },
   "parametros": [],
@@ -41,7 +41,7 @@
   "ejemplos": [
     {
       "nombre": "Borrar espacio vacio de archivo",
-      "comando": "sed -i '/^$/d' $1.txt",
+      "comando": "sed -i '/^$/d' mi_archivo.txt",
       "descripcion": "Elimina las lineas en blanco de un archivo.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
     }

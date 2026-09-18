@@ -1,16 +1,38 @@
-# Markdown (si quieres que cuenten en las estadísticas del repo)
 *.md linguist-detectable=true
 *.md linguist-documentation=false
 
-# JSON y YAML
 *.json linguist-detectable=true
 *.yaml linguist-detectable=true
 *.yml linguist-detectable=true
+*.xml linguist-detectable=true
+*.toml linguist-detectable=true
 
-# Archivos de configuración
 *.conf linguist-detectable=true
 *.conf linguist-language=INI
 
-# Scripts de Shell
+*.cnf linguist-detectable=true
+*.cnf linguist-language=INI
+
+*.config linguist-detectable=true
+*.config linguist-language=XML
+
+*.cfg linguist-detectable=true
+*.cfg linguist-language=INI
+
+*.ini linguist-detectable=true
+*.ini linguist-language=INI
+
+*.env linguist-detectable=true
+*.env linguist-language=Bash
+
+*.properties linguist-detectable=true
+*.properties linguist-language=Java-Properties
+
 *.sh linguist-detectable=true
 *.sh linguist-language=Shell
+
+*.bash linguist-detectable=true
+*.bash linguist-language=Shell
+
+*.zsh linguist-detectable=true
+*.zsh linguist-language=Shell

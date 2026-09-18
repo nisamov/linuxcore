@@ -11,7 +11,7 @@
     ]
   },
   "sintaxis": {
-    "principal": "find / -name \"*.$1\" -delete 2>/dev/null",
+    "principal": "find / -name \"*.txt\" -delete 2>/dev/null",
     "alternativas": []
   },
   "parametros": [],
@@ -41,7 +41,7 @@
   "ejemplos": [
     {
       "nombre": "Eliminacion de archivos por extension",
-      "comando": "find / -name \"*.$1\" -delete 2>/dev/null",
+      "comando": "find / -name \"*.txt\" -delete 2>/dev/null",
       "descripcion": "Elimina todos los archivos con una extension especifica de forma recursiva.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
     }

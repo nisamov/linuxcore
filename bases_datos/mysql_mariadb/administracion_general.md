@@ -234,4 +234,31 @@ SELECT USER(), VERSION(), NOW();
 ```sql
 /*Cambiar clave de usuario*/
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'NuevaContraseña';
+/*Segunda opcion - reestablece la configuracion inicial, (entras como root sin contraseña)*/
+ALTER USER 'root'@'localhost' IDENTIFIED BY unix_socket;
+/*Tras estos comandos, debe ir lo siguiente*/
+FLUSH PRIVILEGES;
+```
+## Datos Cifrados
+```sql
+/*Mostrar parametros cifrados de un usuario*/
+SELECT User, Host, Priv FROM mysql.global_priv WHERE User='root';
+```
+## Extraccion General
+```sql
+/*Extraer nombre y tipo de tabla para nombre tabla user y tabla achema*/
+SELECT TABLE_NAME, TABLE_TYPE FROM TABLES WHERE TABLE_NAME='user' AND TABLE_SCHEMA='mysql';
+/*Extraer nombre y tipo de las columnas de todas las tablas de todas las bases de datos que empiecen por 'TIME_'*/
+SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE FROM COLUMNS WHERE COLUMN_NAME LIKE 'TIME\_%'; -- el "\" indica que el siguiente caracter debe estar obligatoriamente dentras de ello
+```
+## Variables
+```sql
+/*Cambiar y mostrar parámetros de variables (dentro de information_schema)*/
+SET GLOBAL max_connections = 250;
+SHOW GLOBAL STATUS LIKE 'Threads_connected';
+SHOW GLOBAL STATUS LIKE 'Com_select';
+SHOW GLOBAL STATUS LIKE 'Uptime'; -- mostrar tiempo de actividad del servidor
+SHOW GLOBAL VARIABLES LIKE 'bind_address'; -- mostrar direccion de acceso
+SHOW GLOBAL VARIABLES LIKE 'port'; -- Puerto de escucha de MariaDB = 3306+
+SELECT table_schema AS base_de_datos, COUNT(*) AS numero_de_tablas FROM information_schema.tables GROUP BY table_schema; -- Mostrar numero de tablas de cada base de datos dentro de information_chema
 ```

@@ -1,7 +1,7 @@
 {
   "id": "generar_clave_segura",
   "nombre": "Generar clave segura",
-  "descripcion": "Genera una clave segura de X (insercion manual) caracteres.",
+  "descripcion": "Genera una clave segura de 32 caracteres.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -11,7 +11,7 @@
     ]
   },
   "sintaxis": {
-    "principal": "openssl rand -base64 $1",
+    "principal": "openssl rand -base64 32",
     "alternativas": []
   },
   "parametros": [],
@@ -41,8 +41,8 @@
   "ejemplos": [
     {
       "nombre": "Generar clave segura",
-      "comando": "openssl rand -base64 $1",
-      "descripcion": "Genera una clave segura de X (insercion manual) caracteres.",
+      "comando": "openssl rand -base64 32",
+      "descripcion": "Genera una clave segura de 32 caracteres.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
     }
   ],
