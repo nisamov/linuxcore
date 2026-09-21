@@ -76,3 +76,45 @@ sha256sum -c checksums.txt
 # Modo silencioso (muestra solo errores o fallos de verificación)
 sha256sum -c --quiet checksums.txt
 ```
+
+### Key (Clave)
+
+* Función: Actúa como la "llave de casa". Sin la clave correcta, el algoritmo matemático no puede revertir el proceso para leer los datos originales.
+* Origen: Puede ser una clave generada aleatoriamente (como en AES-256) o derivarse de una contraseña de usuario humana mediante una función de hash.
+
+### Salt (Sal)
+
+* Es una cadena de datos aleatorios que se añade a una contraseña antes de aplicarle un algoritmo de hashing (como SHA-512, bcrypt o Argon2).
+* Función: Evita que dos contraseñas idénticas produzcan el mismo hash y protege contra ataques de Tablas Rainbow (tablas precalculadas de contraseñas).
+* Propiedad: No es secreta. Se almacena en texto plano junto al hash de la contraseña.
+
+### IV (Initialization Vector / Vector de Inicialización)
+
+* Es un bloque de datos aleatorios o impredecibles que se combina con el primer bloque de datos al usar algoritmos de cifrado simétrico por bloques (como AES en modo CBC).
+* Función: Garantiza que si cifras dos veces el mismo archivo o mensaje con la misma clave, los resultados cifrados sean completamente diferentes.
+* Propiedad: No es secreto, pero debe ser único para cada sesión de cifrado o mensaje.
+
+## Cifrado simétrico con algoritmo AES-256 usando OpenSSL
+
+**Cifrado:**
+```sh
+openssl enc -aes256 -e -pass pass:1234 -in message.txt -out message.aes
+```
+Con este comando la clave de 256 bits de larga se deriva del password suministrado. Si se quiere visualizar la clave derivada, añade -P al final del comando (AVISO: en ese caso no se cifra nada).
+
+**Descifrado:**
+```sh
+openssl enc -aes256 -d -pass pass:1234 -out message2.txt -in message.aes
+```
+Con los dos comandos anteriores no se requiere excesivo conocimiento de como funciona el cifrado AES. Este algoritmo de cifrado utiliza una clave y además un IV (initialization vector). Estos valores se pueden proporcionar explícitamente al comando openssl enc para que los utilice para encriptar o desencriptar.
+
+**Ejemplo de comando openssl para cifrado:**
+```sh
+openssl enc -aes256 -e -K 0816A69B874E196B97B0816A69B874E196B97BAAF7897789123DD97789123DD0  -iv 5B58290BFA954B894405CB4F104BB398 -in message.txt -out message.aes
+```
+En el ejemplo de arriba, la clave simétrica de 256 bits se suministra después de -K, el IV se proporciona después del modificador -iv. A la hora de desencriptar no es necesario proporcionarlo porque queda escrito en el propio fichero encriptado.
+
+**Ejemplo de comando openssl para descifrado:**
+```sh
+openssl enc -aes256 -d -K 0816A69B874E196B97B0816A69B874E196B97BAAF7897789123DD97789123DD0 -iv 5B58290BFA954B894405CB4F104BB398 -in message.aes -out message2.txt
+```

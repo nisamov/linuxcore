@@ -1,0 +1,111 @@
+# Teoría General Sobre Linux
+
+Linux es un sistema operativo libre y de código abierto, perteneciente a la familia de sistemas tipo Unix. Su desarrollo comenzó en 1991, cuando [Linus Torvalds](linus_torvalds.md) creó el núcleo (kernel) como un proyecto personal, con el objetivo de disponer de un sistema operativo funcional para ordenadores personales. Con el tiempo, este núcleo se combinó con herramientas y componentes del proyecto GNU, dando lugar a sistemas completos comúnmente conocidos como sistemas Linux.
+
+Desde un punto de vista conceptual, Linux se estructura en torno a un núcleo monolítico modular. El kernel es el componente central del sistema operativo y se encarga de la gestión de los recursos del hardware, tales como el procesador, la memoria, los dispositivos de almacenamiento y los periféricos de entrada y salida. Además, proporciona servicios fundamentales como la planificación de procesos, la gestión de la memoria, el control de dispositivos y la comunicación entre procesos.
+
+Linux destaca por su modelo de desarrollo abierto, basado en la colaboración de una amplia comunidad internacional de desarrolladores. El código fuente está disponible públicamente, lo que permite su estudio, modificación y redistribución bajo los términos de la Licencia Pública General de GNU (GPL). Este modelo ha favorecido la transparencia, la mejora continua del sistema y su rápida adaptación a nuevas tecnologías.
+
+Otra característica esencial de Linux es su portabilidad. El sistema ha sido adaptado para funcionar en una gran variedad de arquitecturas de hardware, incluyendo ordenadores personales, servidores, sistemas embebidos, dispositivos móviles y superordenadores. Esta versatilidad ha contribuido a su adopción en múltiples ámbitos, tanto académicos como industriales.
+
+Linux se distribuye mediante diferentes distribuciones, cada una de las cuales integra el kernel junto con bibliotecas, utilidades del sistema y aplicaciones. Estas distribuciones pueden estar orientadas a distintos usos, como estaciones de trabajo, servidores, entornos educativos o sistemas de misión crítica. A pesar de sus diferencias, todas comparten los mismos principios fundamentales y la misma base tecnológica.
+
+En el ámbito teórico, Linux es un ejemplo representativo de los principios de diseño de los sistemas operativos modernos, tales como la separación entre espacio de usuario y espacio de núcleo, la multitarea, el soporte multiusuario y el control de permisos y seguridad. Estas características lo convierten en una plataforma de referencia para el estudio de la informática y la ingeniería de sistemas.
+
+## Estructura de Directorios en Linux
+
+* `/`:: Directorio raíz del sistema de archivos. Contiene todos los demás directorios.
+* `/bin`:: Comandos esenciales para todos los usuarios.
+* `/boot`:: Archivos necesarios para el arranque del sistema (kernel, initrd, grub).
+* `/dev`:: Archivos especiales que representan dispositivos.
+  * `/dev/null`:: Dispositivo de descarte.
+  * `/dev/zero`:: Dispositivo de bytes nulos.
+  * `/dev/random`:: Generador de números aleatorios.
+* `/etc`:: Archivos de configuración del sistema y aplicaciones.
+  * `/etc/cron.*`:: Directorios que ejecutan scripts automáticamente (hourly, daily, weekly, monthly).
+  * `/etc/profile`:: Variables de entorno para todos los usuarios.
+  * `/etc/fstab`:: Información sobre sistemas de archivos y puntos de montaje.
+  * `/etc/hostname`:: Nombre del host.
+  * `/etc/hosts`:: Hosts y direcciones IP conocidas.
+  * `/etc/resolv.conf`:: Servidores DNS.
+  * `/etc/modules`:: Módulos del kernel cargados al inicio.
+  * `/etc/rc.d/rc.local`:: Script ejecutado al final del arranque.
+  * `/etc/apache2/`:: Configuración del servidor Apache2.
+  * `/etc/nginx/`:: Configuración del servidor Nginx.
+  * `/etc/skel/`:: Plantilla para nuevos usuarios.
+  * `/etc/ssh/`:: Configuración del protocolo SSH.
+  * `/etc/samba/`:: Configuración de SAMBA.
+  * `/etc/default/`:: Configuraciones por defecto del sistema.
+  * `/etc/init.d/`:: Scripts de inicio de servicios.
+  * `/etc/systemd/`:: Unidades y configuraciones de systemd.
+  * `/etc/passwd` :: usuario:clave:UID:GID:comentario:directorio_home:shell
+  * `/etc/shadow` :: usuario:password:último_cambio:mín_días:máx_días:aviso:inactividad:caducidad:reservado
+* `/home`:: Directorios personales de los usuarios.
+  * `/home/user1`, `/home/user2`:: Directorios de usuario.
+* `/root`:: Directorio personal del superusuario.
+* `/lib`:: Bibliotecas compartidas esenciales.
+* `/lib64`:: Bibliotecas de 64 bits.
+* `/mnt`:: Montaje temporal de sistemas de archivos externos.
+  * `/mnt/backup`:: Copias de seguridad.
+  * `/mnt/data`:: Datos adicionales.
+* `/media`:: Montaje de dispositivos extraíbles.
+  * `/media/cdrom`:: CD/DVD.
+  * `/media/usb`:: Memorias USB.
+* `/opt`:: Software adicional y opcional.
+* `/proc`:: Sistema de archivos virtual que refleja procesos y kernel.
+  * `/proc/cpuinfo`:: Información sobre la CPU.
+  * `/proc/meminfo`:: Información sobre la memoria.
+  * `/proc/uptime`:: Tiempo de actividad del sistema.
+  * `/proc/version`:: Versión del kernel.
+  * `/proc/net`:: Información de red.
+  * `/proc/sys`:: Configuraciones del kernel.
+  * `/proc/self`:: Información del proceso actual.
+  * `/proc/1`:: Información del proceso init.
+  * `/proc/loadavg`:: Promedio de carga del sistema.
+* `/run`:: Archivos de ejecución del sistema.
+* `/sbin`:: Binarios esenciales para administración.
+* `/srv`:: Datos servidos por el sistema.
+  * `/srv/www`:: Contenido web.
+  * `/srv/ftp`:: Contenido FTP.
+* `/sys`:: Interfaz virtual del kernel.
+* `/tmp`:: Archivos temporales accesibles por todos los usuarios.
+* `/usr`:: Programas, librerías y documentación del sistema.
+  * `/usr/bin`:: Binarios de aplicaciones para usuarios.
+  * `/usr/sbin`:: Binarios de administración.
+  * `/usr/lib`:: Librerías compartidas.
+  * `/usr/local`:: Software instalado localmente.
+  * `/usr/share`:: Datos compartidos, documentación y recursos.
+  * `/usr/src`:: Código fuente, generalmente del kernel.
+* `/var`:: Archivos variables (logs, spool, cache, tmp).
+  * `/var/cache`:: Cachés de aplicaciones y sistema.
+  * `/var/log`:: Archivos de registro del sistema y aplicaciones.
+  * `/var/mail`:: Buzones de correo.
+  * `/var/run`:: Archivos de ejecución de servicios.
+  * `/var/spool`:: Directorios de cola para correo, impresión y otros servicios.
+  * `/var/tmp`:: Archivos temporales persistentes.
+  * `/var/lib`:: Datos internos de aplicaciones y servicios.
+  * `/var/www`:: Directorios de contenido web.
+    * `/var/www/html`:: Contenido HTML.
+    * `/var/www/logs`:: Logs de servidor web.
+* `/lost+found`:: Archivos recuperados después de errores de disco.
+* `/snap`:: Paquetes snap y sus datos.
+* `/boot/grub`:: Configuración de GRUB.
+* `/srv`:: Datos servidos por servicios (FTP, WWW, etc.).
+* `/run/lock`:: Bloqueos de recursos.
+* `/run/user`:: Archivos de ejecución por usuario.
+* `/root`:: Directorio home del superusuario.
+* `/etc/`:: Configuraciones del sistema.
+  * `/etc/X11/`:: Configuraciones del sistema gráfico.
+  * `/etc/init/`:: Scripts de inicio Upstart.
+  * `/etc/systemd/system/`:: Unidades de systemd personalizadas.
+* `/var`:: Archivos variables del sistema.
+  * `/var/lib`:: Datos de aplicaciones y servicios.
+    * `/var/lib/dpkg`:: Base de datos de paquetes Debian.
+    * `/var/lib/rpm`:: Base de datos de paquetes RPM.
+    * `/var/lib/apt`:: Información de APT.
+  * `/var/log`:: Logs del sistema y aplicaciones.
+    * `/var/log/apache2`:: Logs de Apache2.
+    * `/var/log/nginx`:: Logs de Nginx.
+* `/media/floppy`:: Montaje de disquetes (si existe).
+* `.`:: Directorio actual.
+* `..`:: Directorio padre.
