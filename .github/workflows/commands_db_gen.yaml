@@ -40,7 +40,7 @@ jobs:
             NEW_VER="V${MAJOR}.${NEW_MINOR}"
           fi
 
-          FECHA_HORA=$(date +'%d-%m-%Y/%H:%M')
+          FECHA_HORA=$(date +'%d-%m-%Y')
           TITULO_RELEASE="BDD JSON ${NEW_VER}/${FECHA_HORA}"
 
           gh release delete latest --cleanup-tag -y || true
