@@ -28,8 +28,27 @@ jobs:
       - name: Base de datos de servicios
         run: python .github/scripts/services_db_gen.py
 
-      - name: Commit y publicar
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs: actualización automática de bases de datos"
-          file_pattern: '.github/db/*.json'
+      - name: Publicar Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OLD_TITLE=$(gh release view latest --json title -q .title 2>/dev/null || echo "")
+          OLD_VER=$(echo "$OLD_TITLE" | sed -n 's/.*V\([0-9]*\.[0-9]*\).*/\1/p')
+
+          if [ -z "$OLD_VER" ]; then
+            NEW_VER="V0.1"
+          else
+            MAJOR=$(echo "$OLD_VER" | cut -d'.' -f1)
+            MINOR=$(echo "$OLD_VER" | cut -d'.' -f2)
+            NEW_MINOR=$((MINOR + 1))
+            NEW_VER="V${MAJOR}.${NEW_MINOR}"
+          fi
+
+          FECHA_HORA=$(date +'%d-%m-%Y/%H:%M')
+          TITULO_RELEASE="BDD JSON ${NEW_VER}/${FECHA_HORA}"
+
+          gh release delete latest --cleanup-tag -y || true
+
+          gh release create latest .github/db/*.json \
+            --title "$TITULO_RELEASE" \
+            --notes "Archivos JSON compilados automáticamente."
