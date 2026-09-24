@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'comandos/**'
-      - 'servicios/**'
   workflow_dispatch:
 
 jobs:
@@ -24,9 +23,6 @@ jobs:
 
       - name: Base de datos de comandos
         run: python .github/scripts/commands_db_gen.py
-
-      - name: Base de datos de servicios
-        run: python .github/scripts/services_db_gen.py
 
       - name: Publicar Release
         env:
