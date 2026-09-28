@@ -1,89 +1,84 @@
+```python
 import json
 import os
 
-def build_services_db():
+
+def build_commands_db():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    
-    services_path = os.path.abspath(os.path.join(script_dir, '../../servicios'))
-    db_output_dir = os.path.abspath(os.path.join(script_dir, '../db'))
-    db_output_file = os.path.join(db_output_dir, 'services.json')
-    mega_db = []
-    
-    def get_empty_service_structure(service_name, category_name, source_file):
-        return {
-            "servicio": service_name,
-            "descripcion": "Sin descripción registrada.",
-            "categoria_db": category_name,
-            "archivo_fuente": source_file,
-            "opciones": [],
-            "instalacion": {
-                "es_instalable": False,
-                "pasos": {}
-            },
-            "ejemplos": []
-        }
+    repo_root = os.path.abspath(os.path.join(script_dir, "../.."))
+    commands_path = os.path.join(repo_root, "comandos")
+    output_path = os.path.join(repo_root, ".github", "db", "commands.json")
 
-    print(f"--> Buscando servicios en: {services_path}")
-    if not os.path.exists(services_path):
-        print(f"[ERROR] La carpeta '{services_path}' no existe. Revisa la ubicación desde donde ejecutas el script.")
-        return
-    if not os.path.exists(db_output_dir):
-        os.makedirs(db_output_dir)
-        
-    total_archivos = 0
-    for root, _, files in os.walk(services_path):
-        json_files = [f for f in files if f.endswith('.json')]
-        if not json_files:
-            continue
-        categoria = os.path.basename(root)
-        print(f"Procesando categoría [{categoria}] - Encontrados {len(json_files)} archivos")
+    if not os.path.isdir(commands_path):
+        print(f"[ERROR] No existe el directorio: {commands_path}")
+        raise SystemExit(1)
 
-        for file in json_files:
-            full_path = os.path.join(root, file)
-            service_name_fallback = os.path.splitext(file)[0]
-            
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    commands = []
+    total_files = 0
+    invalid_files = 0
+
+    for root, _, files in os.walk(commands_path):
+        for filename in sorted(files):
+            if not filename.lower().endswith(".json"):
+                continue
+
+            total_files += 1
+            file_path = os.path.join(root, filename)
+
             try:
-                if os.path.getsize(full_path) == 0:
-                    print(f"   [AVISO] {file} está vacío. Aplicando estructura por defecto.")
-                    empty_data = get_empty_service_structure(service_name_fallback, categoria, file)
-                    mega_db.append(empty_data)
-                    total_archivos += 1
-                    continue
+                with open(file_path, "r", encoding="utf-8") as file:
+                    data = json.load(file)
+            except (OSError, json.JSONDecodeError) as error:
+                print(f"[ERROR] {file_path}: {error}")
+                invalid_files += 1
+                continue
 
-                with open(full_path, 'r', encoding='utf-8') as f:
-                    try:
-                        data = json.load(f)
-                        
-                        if isinstance(data, dict):
-                            if "servicio" not in data or not data["servicio"]:
-                                data["servicio"] = service_name_fallback
-                            data['categoria_db'] = categoria
-                            data['archivo_fuente'] = file
-                            mega_db.append(data)
-                        elif isinstance(data, list):
-                            for item in data:
-                                if isinstance(item, dict):
-                                    if "servicio" not in item or not item["servicio"]:
-                                        item["servicio"] = service_name_fallback
-                                    item['categoria_db'] = categoria
-                                    item['archivo_fuente'] = file
-                            mega_db.extend(data)
-                            
-                        total_archivos += 1
-                        
-                    except json.JSONDecodeError:
-                        print(f"   [JSON CORRUPTO] Error de sintaxis en {file}. Aplicando estructura limpia.")
-                        empty_data = get_empty_service_structure(service_name_fallback, categoria, file)
-                        mega_db.append(empty_data)
-                        total_archivos += 1
-                        
-            except (OSError, TypeError, ValueError, KeyError) as e:
-                print(f"   [ERROR CRÍTICO] No se pudo acceder a {file}: {e}")
+            if isinstance(data, dict):
+                commands.append(data)
 
-    with open(db_output_file, 'w', encoding='utf-8') as f:
-        json.dump(mega_db, f, indent=2, ensure_ascii=False)
-    print(f"\n[ÉXITO] Base de datos de servicios generada en: {db_output_file}")
-    print(f" Total de servicios indexados: {total_archivos}")
+            elif isinstance(data, list):
+                for command in data:
+                    if isinstance(command, dict):
+                        commands.append(command)
+                    else:
+                        print(f"[AVISO] Elemento inválido en: {file_path}")
+
+            else:
+                print(f"[AVISO] Formato JSON no válido en: {file_path}")
+                invalid_files += 1
+
+    commands.sort(
+        key=lambda command: (
+            command.get("clasificacion", {}).get("categoria", ""),
+            command.get("id", ""),
+            command.get("nombre", "")
+        )
+    )
+
+    database = {
+        "comandos": commands
+    }
+
+    try:
+        with open(output_path, "w", encoding="utf-8") as file:
+            json.dump(
+                database,
+                file,
+                indent=2,
+                ensure_ascii=False
+            )
+            file.write("\n")
+    except OSError as error:
+        print(f"[ERROR] No se pudo generar la base de datos: {error}")
+        raise SystemExit(1)
+
+    print(f"[OK] Archivos procesados: {total_files}")
+    print(f"[OK] Comandos recopilados: {len(commands)}")
+    print(f"[OK] Archivos inválidos: {invalid_files}")
+    print(f"[OK] Base de datos: {output_path}")
+
 
 if __name__ == "__main__":
-    build_services_db()
+    build_commands_db()
