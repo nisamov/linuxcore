@@ -1,0 +1,31 @@
+# Configuración de servicio
+# Ruta: /deb/systemd/system/nombre.service
+
+[Unit]
+Description=LinuxService
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/sbin/nisamov/service.py
+WorkingDirectory=/usr/sbin/nisamov
+User=root
+ProtectSystem=full
+ReadWritePaths=/var/log/nisa
+ProtectHome=read-only
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictRealtime=yes
+CapabilityBoundingSet=CAP_SYS_ADMIN CAP_NET_ADMIN CAP_SYS_RESOURCE CAP_KILL
+AmbientCapabilities=CAP_SYS_ADMIN CAP_NET_ADMIN CAP_SYS_RESOURCE CAP_KILL
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=99
+StandardOutput=append:/var/log/nisamov/service.log
+StandardError=append:/var/log/nisamov/service_error.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

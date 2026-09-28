@@ -1,0 +1,13 @@
+// named.conf.options
+// Configuracion para forward name, si el local no lo sabe resolver, pregunta fuera
+options {
+    directory "/var/cache/bind";
+    forwarders {
+        1.1.1.1; //cloudfare
+        8.8.8.8; //google
+    };
+    dnssec-validation auto;
+    listen-on-v6 { any; };
+};
+// Reiniciar servicio una vez configurado
+// sudo service bind9 restart

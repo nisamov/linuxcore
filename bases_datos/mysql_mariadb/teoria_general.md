@@ -208,3 +208,48 @@ SHOW GLOBAL VARIABLES LIKE 'datadir';
 `slow_squery_log` (on/off): variable que indica si se guardan o no las variables, por defecto en __off__
 `slow_query_log_file` (/var/log/mysqñ): Almacenamiento de rutas delta
 `long_query_time` (10s): tiempo de duracion de una consulta hasta que se introduce en rutas delta (todo lo que tarde mas de 10 segundos, va a `slow_query_log_file`)
+
+### Motores de Almacenamiento (Storage Engines)
+
+* InnoDB (Por defecto): Motor estándar actual. Soporta transacciones (ACID), claves foráneas (Foreign Keys) y bloqueo a nivel de fila.
+* MyISAM: Motor antiguo/legacy. No admite claves foráneas ni transacciones. Utiliza bloqueo a nivel de tabla (históricamente más rápido para lecturas masivas, pero hoy en día desfasado).
+* MEMORY (Heap): Almacena las tablas directamente en la memoria RAM. Proporciona accesos ultra rápidos, pero los datos son volátiles (se borran si se reinicia el servidor).
+
+```sql
+CREATE TABLE nombre (
+    id INT, 
+    nombre VARCHAR(5)
+) ENGINE = MEMORY;
+
+ALTER TABLE nombre ENGINE = MyISAM;
+```
+
+### Juegos de Caracteres (Character Sets)
+
+Determinan cómo se codifica y almacena el texto en binario dentro del disco.
+
+* utf8mb4: Estándar actual recomendado (Unicode completo). Utiliza hasta 4 bytes por carácter, lo que permite almacenar la totalidad del mapa Unicode (incluye emojis, símbolos matemáticos y alfabetos complejos como chino o japonés). (Nota: en MySQL/MariaDB el nombre técnico exacto es utf8mb4, no UTF8-b4).
+* latin1: Codificación básica de 1 byte. Soporta los idiomas de Europa occidental (incluye ñ y tildes), pero no admite emojis ni caracteres de otros alfabetos.
+
+### Cotejo (Collation)
+*Define el conjunto de reglas para comparar, buscar y ordenar cadenas de texto en la base de datos (afecta a consultas con WHERE, ORDER BY, GROUP BY, etc.).
+
+Se identifica mediante los siguientes sufijos
+* CI (Case Insensitive): No distingue entre mayúsculas y minúsculas (A = a).
+* CS (Case Sensitive): Distingue entre mayúsculas y minúsculas (A $\neq$ a).
+* AI (Accent Insensitive): No distingue acentos ni tildes (á = a). (Corrección: en tus notas ponía "Access").
+* AS (Accent Sensitive): Distingue acentos y tildes (á $\neq$ a). (Corrección: en tus notas ponía "Access").
+
+### Orden Maestro (Jerarquía de Configuración)
+El juego de caracteres y el collation se pueden aplicar a varios niveles.
+
+El principio que rige esta estructura es:
+
+```
+Columna > Tabla > Base de Datos > Servidor
+
+```
+
+* Sobreescritura: El nivel más específico siempre invalida al general.
+Una configuración establecida a nivel de columna sobrescribe la de la tabla, la de la tabla sobrescribe la de la base de datos, y la de la base de datos la del servidor.
+* Herencia: Si un nivel inferior no define explícitamente su juego de caracteres o collation, heredará automáticamente los valores definidos en el nivel superior.

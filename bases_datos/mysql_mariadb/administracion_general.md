@@ -262,3 +262,9 @@ SHOW GLOBAL VARIABLES LIKE 'bind_address'; -- mostrar direccion de acceso
 SHOW GLOBAL VARIABLES LIKE 'port'; -- Puerto de escucha de MariaDB = 3306+
 SELECT table_schema AS base_de_datos, COUNT(*) AS numero_de_tablas FROM information_schema.tables GROUP BY table_schema; -- Mostrar numero de tablas de cada base de datos dentro de information_chema
 ```
+## Cuentas y Permisos
+```sql
+CREATE USER 'nisamov'@'%' IDENTIFIED BY 'clave_de_acceso';
+GRANT ALL PRIVILEGES ON *.* TO 'nisamov'@'%' WITH GRANT OPTION; 
+FLUSH PRIVILEGES;
+```
