@@ -1,0 +1,16 @@
+;
+; BIND data file local loopback interface
+; /etc/bind/db.directa
+$TTL    604800
+@½  inSOA   servidor1.asir.com. root.asir.com. (
+                2       ; Serial
+                604800  ; Refresh
+                86400   ; Retry
+                2419200 ; Expire
+                604800 ); Negative Cache TTL
+;
+@   IN  NS  servidor1.asir.com.
+@   IN  A   192.168.1.2
+servidor1.asir.com. IN  A   192.168.1.2
+servidor2.asir.com. IN  A   192.168.1.3
+cliente IN  A   192.168.1.11
