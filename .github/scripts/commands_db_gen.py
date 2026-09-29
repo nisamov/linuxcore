@@ -19,12 +19,16 @@ def build_commands_db():
     invalid_files = 0
 
     for root, _, files in os.walk(commands_path):
+        rel_dir = os.path.relpath(root, commands_path)
+        categoria_db = "" if rel_dir == "." else rel_dir.replace(os.sep, "/")
+
         for filename in sorted(files):
             if not filename.lower().endswith(".json"):
                 continue
 
             total_files += 1
             file_path = os.path.join(root, filename)
+            rel_file = os.path.relpath(file_path, repo_root).replace(os.sep, "/")
 
             try:
                 with open(file_path, "r", encoding="utf-8") as file:
@@ -34,13 +38,19 @@ def build_commands_db():
                 invalid_files += 1
                 continue
 
+            def enrich(command):
+                if categoria_db:
+                    command.setdefault("categoria_db", categoria_db)
+                command.setdefault("archivo_fuente", rel_file)
+                return command
+
             if isinstance(data, dict):
-                commands.append(data)
+                commands.append(enrich(data))
 
             elif isinstance(data, list):
                 for command in data:
                     if isinstance(command, dict):
-                        commands.append(command)
+                        commands.append(enrich(command))
                     else:
                         print(f"[AVISO] Elemento inválido en: {file_path}")
 
@@ -50,13 +60,14 @@ def build_commands_db():
 
     commands.sort(
         key=lambda command: (
-            command.get("clasificacion", {}).get("categoria", ""),
+            command.get("categoria_db", ""),
             command.get("id", ""),
             command.get("nombre", "")
         )
     )
 
     database = {
+        "_meta": {"total_registros": len(commands)},
         "comandos": commands
     }
 
