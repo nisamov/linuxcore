@@ -29,22 +29,29 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           OLD_TITLE=$(gh release view latest --json title -q .title 2>/dev/null || echo "")
-          OLD_VER=$(echo "$OLD_TITLE" | sed -n 's/.*V\([0-9]*\.[0-9]*\).*/\1/p')
-
+          OLD_VER=$(echo "$OLD_TITLE" | grep -oP 'V-[A-Z]\.[0-9]+\.[0-9]+' || echo "")
           if [ -z "$OLD_VER" ]; then
-            NEW_VER="V0.1"
+            NEW_VER="V-A.0.1"
           else
-            MAJOR=$(echo "$OLD_VER" | cut -d'.' -f1)
+            LETRA=$(echo "$OLD_VER" | cut -d'-' -f2 | cut -d'.' -f1)
             MINOR=$(echo "$OLD_VER" | cut -d'.' -f2)
-            NEW_MINOR=$((MINOR + 1))
-            NEW_VER="V${MAJOR}.${NEW_MINOR}"
+            PATCH=$(echo "$OLD_VER" | cut -d'.' -f3)
+            PATCH=$((PATCH + 1))
+            if [ $PATCH -gt 9 ]; then
+              PATCH=0
+              MINOR=$((MINOR + 1))
+              if [ $MINOR -gt 9 ]; then
+                MINOR=0
+                ASCII_VAL=$(printf '%d' "'$LETRA")
+                ASCII_VAL=$((ASCII_VAL + 1))
+                LETRA=$(printf "\\$(printf '%03o' "$ASCII_VAL")")
+              fi
+            fi
+            NEW_VER="V-${LETRA}.${MINOR}.${PATCH}"
           fi
-
           FECHA_HORA=$(date +'%d-%m-%Y')
           TITULO_RELEASE="BDD JSON ${NEW_VER}/${FECHA_HORA}"
-
           gh release delete latest --cleanup-tag -y || true
-
           gh release create latest .github/db/*.json \
             --title "$TITULO_RELEASE" \
             --notes "Archivos JSON compilados automáticamente."
