@@ -1,0 +1,22 @@
+// Clave para actualizaciones dinámicas
+include "/etc/bind/ddns.key";
+
+// Zona Directa
+zone "asir.com" {
+    type master;
+    file "/var/lib/bind/db.directa";
+    allow-query { any; };
+    allow-transfer { 192.168.1.3; };
+    also-notify { 192.168.1.3; };
+    allow-update { key "ddns-key"; };
+};
+
+// Zona Inversa
+zone "1.168.192.in-addr.arpa" {
+    type master;
+    file "/var/lib/bind/db.inversa";
+    allow-query { any; };
+    allow-transfer { 192.168.1.3; };
+    also-notify { 192.168.1.3; };
+    allow-update { key "ddns-key"; };
+};

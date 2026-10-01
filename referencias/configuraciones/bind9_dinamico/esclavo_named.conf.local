@@ -1,0 +1,15 @@
+// Zona Directa
+zone "asir.com" {
+    type slave;
+    file "/var/lib/bind/db.directa";
+    masters { 192.168.1.2; };
+    allow-query { any; };
+};
+
+// Zona Inversa
+zone "1.168.192.in-addr.arpa" {
+    type slave;
+    file "/var/lib/bind/db.inversa";
+    masters { 192.168.1.2; };
+    allow-query { any; };
+};

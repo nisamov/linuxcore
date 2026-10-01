@@ -1,5 +1,5 @@
 ;
-; Archivo de zona de resolución directa: /etc/bind/db.directa
+; Archivo de zona de resolución inversa: /etc/bind/db.inversa
 ;
 $TTL    604800
 @   IN  SOA servidor1.asir.com. root.asir.com. (
@@ -13,8 +13,7 @@ $TTL    604800
 @   IN  NS  servidor1.asir.com.
 @   IN  NS  servidor2.asir.com.
 
-; Registros A (Nombre -> IP)
-@           IN  A   192.168.1.2
-servidor1   IN  A   192.168.1.2
-servidor2   IN  A   192.168.1.3
-cliente     IN  A   192.168.1.11
+; Registros PTR (IP -> Nombre)
+2   IN  PTR servidor1.asir.com.
+3   IN  PTR servidor2.asir.com.
+11  IN  PTR cliente.asir.com.

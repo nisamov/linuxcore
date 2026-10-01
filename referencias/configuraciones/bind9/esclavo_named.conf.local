@@ -1,0 +1,16 @@
+// Configuración de zonas en el servidor esclavo (servidor2)
+// /etc/bind/named.conf.local
+
+zone "asir.com" {
+    type slave;
+    file "/var/lib/bind/db.directa";
+    masters { 192.168.1.2; };
+    allow-query { any; };
+};
+
+zone "1.168.192.in-addr.arpa" {
+    type slave;
+    file "/var/lib/bind/db.inversa";
+    masters { 192.168.1.2; };
+    allow-query { any; };
+};
