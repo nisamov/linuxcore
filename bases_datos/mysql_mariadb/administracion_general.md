@@ -268,3 +268,23 @@ CREATE USER 'nisamov'@'%' IDENTIFIED BY 'clave_de_acceso';
 GRANT ALL PRIVILEGES ON *.* TO 'nisamov'@'%' WITH GRANT OPTION; 
 FLUSH PRIVILEGES;
 ```
+## Forzar SSL
+```sh
+mariadb -h 192.168.1.3 -u usuario -p --ssl
+#para forzar todos los usuarios con ssl
+#/etc/mysql/mariadb.conf.d/50-server.cnf - descomentar ssl
+# tambien es posible aplicar otra capa, (ssl+ssh)
+# cambiar bind-address, para evitar que escuche todo
+```
+---
+```
+## ejemplo
+CREATE USER 'remotessl'@'127.0.0.1' IDENTIFIED BY 'clave123';
+GRANT ALL PRIVILEGES ON *.* TO 'remotessl'@'127.0.0.1';
+FLUSH PRIVILEGES;
+## Creacion de tunel
+ssh -N -L 3307:127.0.0.1:3306 -u ejemplousuario@192.168.1.3
+## Conexion segura
+mariadb -h 127.0.0.1 -P 3307 -u remotessl -p --ssl
+## sudo a2enmod ssl && sudo a2ensite default-ssl
+```
