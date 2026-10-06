@@ -12,7 +12,8 @@
 
 </div>
 
----
+> [!IMPORTANT]
+> Este repositorio está en **desarrollo activo**. Su estructura y contenido pueden cambiar en cualquier momento para mejorar el formato y la consistencia.
 
 ## Descripción del Proyecto
 
@@ -22,66 +23,24 @@ El objetivo es proporcionar el contexto técnico necesario para comprender no so
 
 El contenido se desarrolla en español y está orientado tanto al aprendizaje estructurado como a la consulta técnica rápida.
 
-> [!IMPORTANT]
-> Este repositorio está en **desarrollo activo**. Su estructura y contenido pueden cambiar en cualquier momento para mejorar la formato y la consistencia.
-
-Incluye una base de datos en formato JSON disponible en [`releases/`](https://github.com/nisamov/linuxcore/releases), optimizada para el sitio web [linuxcore.site](https://linuxcore.site).
-
-[![Latest Release](https://img.shields.io/github/v/release/nisamov/linuxcore?display_name=release&style=flat-square&color=0969da&label=release)](https://github.com/nisamov/linuxcore/releases/latest)
-
----
+> [!NOTE]
+> **Base de datos exportable**
+> El proyecto distribuye la referencia de comandos en formato **JSON**, optimizada para alimentar el sitio web **[linuxcore.site](https://linuxcore.site)** o para tus propias automatizaciones. 
+>
+> __Descargar la última versión compilada:__ [![Latest Release](https://img.shields.io/github/v/release/nisamov/linuxcore?display_name=release&style=flat-square&color=0969da&label=release)](https://github.com/nisamov/linuxcore/releases/latest)
 
 ## Estructura de Contenidos
 
-### `fundamentos/`
-Conceptos teóricos esenciales para comprender los sistemas informáticos y la arquitectura GNU/Linux.
-* Arquitectura de sistemas y fundamentos de hardware.
-* Procesos, planificación, estados y ciclo de vida.
-* Almacenamiento, RAID, sistemas de archivos y permisos (ACL).
-* Documentación detallada sobre distribuciones Linux.
-
-### `comandos/`
-Referencia estructurada de herramientas y utilidades del sistema.
-* Clasificación por categorías (`almacenamiento`, `archivos`, `compresion`, `info_sistema`, `paquetes`, `procesos`, `red`, `seguridad`, `servicios`, `usuarios`).
-* Comandos de propósito general y utilidades en una sola línea (*one-liners*).
-* Entradas almacenadas en formato **JSON** para facilitar su procesamiento por herramientas externas.
-
-### `procedimientos/`
-Documentación orientada a tareas concretas de administración, diagnóstico y resolución de problemas (*troubleshooting*).
-* **Almacenamiento:** Ampliación de particiones, sustitución de discos y recuperación de sistemas de archivos.
-* **Diagnóstico:** Detección de procesos zombie, consumo excesivo de CPU y rendimiento.
-* **Red y Servicios:** Diagnóstico de conectividad, resolución DNS, rutas, SSH y `systemd`.
-
-### `servicios/` y `protocolos/`
-Documentación sobre demonios, infraestructuras y comunicación en red.
-* **Servicios:** Bases de datos (MariaDB, PostgreSQL, Redis), servidores web (Apache, Nginx) y demonios del sistema.
-* **Redes y Protocolos:** Análisis en profundidad de protocolos como DHCP, KEA y topologías de red.
-
-### `seguridad/`
-Estudio de la seguridad informática desde múltiples perspectivas.
-* **Seguridad defensiva:** Mecanismos de protección, control de acceso, criptografía, algoritmos de hash, firmas digitales y canales seguros.
-* **Seguridad ofensiva y forense:** Auditoría con `auditd`, análisis de logs y evaluación de sistemas.
-
-### `programacion/` y `bases_datos/`
-Material aplicado a la automatización y gestión de datos.
-* Shell Scripting (Bash) y PHP.
-* Teoría general de bases de datos relacionales, SQL, Joins y administración de MySQL/MariaDB.
-
-### `infraestructura/` y `hardware/`
-Tecnologías de despliegue y componentes físicos.
-* Contenerización con Docker y bases teóricas de Kubernetes e hipervisores.
-* Documentación sobre componentes de hardware (memoria RAM, almacenamiento físico).
-
-### `referencias/`
-Plantillas y archivos de configuración reales listos para producción.
-* Configuraciones para BIND9 (DNS dinámico), `nftables.conf`, `smb.conf` y archivos de unidad de `systemd`.
-
----
-
-> [!NOTE]
-> El proyecto dispone de una plataforma web oficial accesible en [linuxcore.site](https://linuxcore.site/). Dicha plataforma sincroniza su base de datos directamente con este repositorio, aplicando las actualizaciones de forma automática tras cada contribución.
-
----
+| Directorio | Propósito | Contenido Destacado |
+| :--- | :--- | :--- |
+| `fundamentos/` | Base teórica de sistemas informáticos. | Hardware, procesos, RAID, distros Linux. |
+| `comandos/` | Referencia de utilidades (formato JSON). | Categorías (red, procesos, seguridad), *one-liners*. |
+| `procedimientos/` | *Troubleshooting* y administración práctica. | Recuperación de FS, diagnóstico de CPU/Red, systemd. |
+| `servicios/` | Demonios, infraestructura y bases de datos. | MariaDB, Redis, Nginx, DHCP, topologías. |
+| `seguridad/` | Seguridad defensiva, ofensiva y forense. | Criptografía, `auditd`, análisis de logs, control de acceso. |
+| `programacion/` | Scripting y gestión de datos. | Bash, PHP, SQL, Joins. |
+| `infraestructura/` | Componentes físicos y despliegue. | Docker, Kubernetes, hipervisores. |
+| `referencias/` | Archivos listos para producción. | Plantillas BIND9, `nftables`, `smb.conf`. |
 
 ## Colaboradores
 
@@ -92,8 +51,6 @@ Plantillas y archivos de configuración reales listos para producción.
 </div>
 
 Este es un proyecto desarrollado con fines de aprendizaje y consulta. Cualquier contribución, sugerencia o corrección es bienvenida.
-
-<br>
 
 <div align="center">
   <p><b>Linux Core - Nisamov | MIT License - 2026</b></p>

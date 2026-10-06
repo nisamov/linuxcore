@@ -1,0 +1,22 @@
+SET GLOBAL default_storage_engine='MyISAM'; 
+
+SET SESSION default_storage_engine='InnoDB'; 
+
+SET SESSION character_set_server='latin1'; 
+
+SET SESSION collation_server='latin1_spanish_ci'; 
+
+CREATE DATABASE blog; USE blog; 
+
+ CREATE TABLE entradas ( id INT PRIMARY KEY, titulo VARCHAR(200) COLLATE utf8mb4_spanish_ci, cuerpo TEXT ) CHARACTER SET utf8mb4; 
+
+ ALTER TABLE entradas ADD COLUMN autor VARCHAR(50);
+
+¿Qué motor de almacenamiento tendrá la tabla entradas y por qué?
+- InnoDB
+
+¿Qué juego de caracteres y collation tendrá asignada la base de datos blog?
+- latin1
+
+¿Qué juego de caracteres y collation tendrán las columnas título, cuerpo, autor?
+- utf8mb4_spanish_ci

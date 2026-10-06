@@ -1,0 +1,15 @@
+SET SESSION default_storage_engine='Memory';
+SET SESSION character_set_server='utf8mb4';
+SET SESSION collation_server='utf8mb4_spanish_ci';
+CREATE DATABASE fs ENGINE=MYISAM CHARACTER SET latin1 COLLATE latin1_general_ci;
+USE fs;
+CREATE TABLE ficheros (nombre CHAR(8), contenido VARCHAR(1024)) CHARACTER SET latin1 COLLATE latin1_german1_ci;
+
+¿Qué motor de almacenamiento tendrá la tabla ficheros?
+- Memory
+
+¿Cómo haríamos que la table ficheros tuviera otro tipo de motor? 
+-ALTER TABLE nombre engine=MyIsam
+
+¿Qué juego de caracteres y collation tendrá cada una de las tres columnas?
+-Case insensitive

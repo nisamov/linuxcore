@@ -235,7 +235,7 @@ SELECT USER(), VERSION(), NOW();
 /*Cambiar clave de usuario*/
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'NuevaContraseña';
 /*Segunda opcion - reestablece la configuracion inicial, (entras como root sin contraseña)*/
-ALTER USER 'root'@'localhost' IDENTIFIED BY unix_socket;
+ALTER USER 'root'@'localhost' IDENTIFIED VIA unix_socket;
 /*Tras estos comandos, debe ir lo siguiente*/
 FLUSH PRIVILEGES;
 ```
@@ -277,7 +277,7 @@ mariadb -h 192.168.1.3 -u usuario -p --ssl
 # cambiar bind-address, para evitar que escuche todo
 ```
 ---
-```
+```sql
 ## ejemplo
 CREATE USER 'remotessl'@'127.0.0.1' IDENTIFIED BY 'clave123';
 GRANT ALL PRIVILEGES ON *.* TO 'remotessl'@'127.0.0.1';
@@ -287,4 +287,12 @@ ssh -N -L 3307:127.0.0.1:3306 -u ejemplousuario@192.168.1.3
 ## Conexion segura
 mariadb -h 127.0.0.1 -P 3307 -u remotessl -p --ssl
 ## sudo a2enmod ssl && sudo a2ensite default-ssl
+```
+
+```sql
+# cambiar lapso de tiempo
+SET SESSION wait_timeout = 600;
+
+# Sacar bases de datos
+SELECT TABLE_SCHEMA, COUNT(*) FROM information_schema TABLES GROUP BY TABLE_SCHEMA SELECT SCHEMA_NAMES FROM information_schema.SCHEMAS;
 ```

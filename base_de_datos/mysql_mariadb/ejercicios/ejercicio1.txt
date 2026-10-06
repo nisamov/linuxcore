@@ -1,0 +1,23 @@
+SET SESSION default_storage_engine='Aria'; 
+
+SET SESSION character_set_server='utf8mb4'; 
+
+SET SESSION collation_server='utf8mb4_unicode_ci'; 
+
+ CREATE DATABASE tienda CHARACTER SET latin1 COLLATE latin1_spanish_ci; 
+
+USE tienda; 
+
+ CREATE TABLE productos ( codigo VARCHAR(10) CHARACTER SET latin1, nombre VARCHAR(100), precio DECIMAL(10,2) ) ENGINE=InnoDB; 
+
+ ALTER TABLE productos ADD COLUMN descripcion TEXT COLLATE latin1_bin;
+
+¿Qué motor de almacenamiento tendrá la tabla productos?
+-InnoDB
+
+¿Qué juego de caracteres y collation tendrá cada una de las columnas de la tabla productos?
+- latin1
+- utf8mb4_unicode_ci
+
+¿Qué sucederá con el motor de almacenamiento de la tabla si ejecutamos ALTER TABLE productos ENGINE=Aria;
+- se quedará Aria, pues manda la tabla en el orden jerarquico
