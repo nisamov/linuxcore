@@ -10,7 +10,7 @@ Configuración servidor primario `/etc/bind/named.conf.options`:
 ```conf
 options {
         directory "/var/cache/bind";
-        listen-on port 53 { 127.0.0.1; 192.168.1.10; };
+        listen-on port 53 { 127.0.0.1; 192.168.1.2; };
         allow-query { any; };
         forwarders {
                 8.8.8.8;
@@ -25,15 +25,15 @@ Declarar zonas `/etc/bind/named.conf.local`
 zone "ejemplo.es" {
     type master;
     file "/etc/bind/db.ejemplo.es";
-    allow-transfer { 192.168.1.20; };
-    also-notify { 192.168.1.20; };
+    allow-transfer { 192.168.1.3; };
+    also-notify { 192.168.1.3; };
 };
 // Zona Inversa
 zone "1.168.192.in-addr.arpa" {
     type master;
     file "/etc/bind/db.192.168.1";
-    allow-transfer { 192.168.1.20; };
-    also-notify { 192.168.1.20; };
+    allow-transfer { 192.168.1.3; };
+    also-notify { 192.168.1.3; };
 };
 ```
 Crear archivo en zona directa `/etc/bind/db.ejemplo.es`
@@ -49,9 +49,9 @@ $TTL    604800
 @       IN      NS      ns1.ejemplo.es.
 @       IN      NS      ns2.ejemplo.es.
 
-ns1     IN      A       192.168.1.10
-ns2     IN      A       192.168.1.20
-cliente IN      A       192.168.1.100
+ns1     IN      A       192.168.1.2
+ns2     IN      A       192.168.1.3
+cliente IN      A       192.168.1.20
 ```
 
 Crear zona inversa `/etc/bind/db.192.168.1`
@@ -85,7 +85,7 @@ Modificar `/etc/bind/named.conf.options`
 ```
 options {
         directory "/var/cache/bind";
-        listen-on port 53 { 127.0.0.1; 192.168.1.20; };
+        listen-on port 53 { 127.0.0.1; 192.168.1.3; };
         allow-query { any; };
         forwarders {
                 8.8.8.8;
@@ -99,14 +99,14 @@ Declarar zonas `/etc/bind/named.conf.local`
 zone "ejemplo.es" {
     type slave;
     file "/var/cache/bind/db.ejemplo.es";
-    masters { 192.168.1.10; };
+    masters { 192.168.1.2; };
 };
 
 // Zona Inversa Secundaria
 zone "1.168.192.in-addr.arpa" {
     type slave;
     file "/var/cache/bind/db.192.168.1";
-    masters { 192.168.1.10; };
+    masters { 192.168.1.2; };
 };
 ```
 Verificar servicio

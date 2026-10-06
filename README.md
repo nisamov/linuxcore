@@ -13,7 +13,7 @@
 </div>
 
 > [!IMPORTANT]
-> Este repositorio está en **desarrollo activo**. Su estructura y contenido pueden cambiar en cualquier momento para mejorar el formato y la consistencia.
+> **Repositorio en desarrollo activo:** La estructura de carpetas y la documentación están sujetas a cambios.
 
 ## Descripción del Proyecto
 
@@ -33,14 +33,14 @@ El contenido se desarrolla en español y está orientado tanto al aprendizaje es
 
 | Directorio | Propósito | Contenido Destacado |
 | :--- | :--- | :--- |
-| `fundamentos/` | Base teórica de sistemas informáticos. | Hardware, procesos, RAID, distros Linux. |
-| `comandos/` | Referencia de utilidades (formato JSON). | Categorías (red, procesos, seguridad), *one-liners*. |
-| `procedimientos/` | *Troubleshooting* y administración práctica. | Recuperación de FS, diagnóstico de CPU/Red, systemd. |
-| `servicios/` | Demonios, infraestructura y bases de datos. | MariaDB, Redis, Nginx, DHCP, topologías. |
-| `seguridad/` | Seguridad defensiva, ofensiva y forense. | Criptografía, `auditd`, análisis de logs, control de acceso. |
-| `programacion/` | Scripting y gestión de datos. | Bash, PHP, SQL, Joins. |
-| `infraestructura/` | Componentes físicos y despliegue. | Docker, Kubernetes, hipervisores. |
-| `referencias/` | Archivos listos para producción. | Plantillas BIND9, `nftables`, `smb.conf`. |
+| **fundamentos/** | Base teórica de sistemas informáticos. | Hardware, procesos, RAID, distros Linux. |
+| **comandos/** | Referencia de utilidades (formato JSON). | Categorías (red, procesos, seguridad), *one-liners*. |
+| **procedimientos/** | *Troubleshooting* y administración práctica. | Recuperación de FS, diagnóstico de CPU/Red, systemd. |
+| **servicios/** | Demonios, infraestructura y bases de datos. | MariaDB, Redis, Nginx, DHCP, topologías. |
+| **seguridad/** | Seguridad defensiva, ofensiva y forense. | Criptografía, `auditd`, análisis de logs, control de acceso. |
+| **programacion/** | Scripting y gestión de datos. | Bash, PHP, SQL, Joins. |
+| **infraestructura/** | Componentes físicos y despliegue. | Docker, Kubernetes, hipervisores. |
+| **referencias/** | Archivos listos para producción. | Plantillas BIND9, `nftables`, `smb.conf`. |
 
 ## Colaboradores
 
@@ -50,7 +50,10 @@ El contenido se desarrolla en español y está orientado tanto al aprendizaje es
   </a>
 </div>
 
-Este es un proyecto desarrollado con fines de aprendizaje y consulta. Cualquier contribución, sugerencia o corrección es bienvenida.
+**¿Deseas contribuir?**  
+Este proyecto nace con fines de aprendizaje y referencia técnica. Si encuentras alguna errata, quieres corregir un procedimiento o añadir nuevo contenido, ¡las contribuciones son más que bienvenidas! Abre un [Issue](https://github.com/nisamov/linuxcore/issues) o envía un [Pull Request](https://github.com/nisamov/linuxcore/pulls).
+
+---
 
 <div align="center">
   <p><b>Linux Core - Nisamov | MIT License - 2026</b></p>
