@@ -169,6 +169,7 @@ Para una documentación más cómoda se recomiendan las siguientes extensiones:
 - Es necesario respetar la estructura de directorios y ficheros, así como sus extensiones.
 - Se ha verificado que no hay errores tipográficos o de sintaxis.
 - Se recomienda revisar cuidadosamente los cambios para asegurar la correcta documentación del contenido.
+- Antes de abrir un Pull Request, se debe ejecutar la validación de Markdown y enlaces: `python .github/scripts/validate_markdown.py`.
 
 ## Colaboradores
 

@@ -4,7 +4,7 @@
 
 Arquitectura criptográfica basada en el uso de una **única clave compartida** (*symmetric key*) tanto para la fase de cifrado como para la de descifrado.
 
-Cifrado simétrico con algoritmo AES-256 usando OpenSSL con referencia a [teoria_hash.md](/seguridad/defensiva/algoritmos_hash/teoria_hash.md).
+Cifrado simétrico con algoritmo AES-256 usando OpenSSL con referencia a [teoria_hash.md](../algoritmos_hash/teoria_hash.md).
 ```sh
 # Cifrado de message.txt
 openssl enc -aes256 -e -pass pass:1234 -in message.txt -out message.aes

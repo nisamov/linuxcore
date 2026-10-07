@@ -1,0 +1,49 @@
+name: Publicar actualización en discusión
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-discussion:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      discussions: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publicar nueva actualización en la discusión
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%s)
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+          COMMIT_DATE=$(git log -1 --pretty=%cd --date='iso-strict')
+          REPO_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+
+          BODY=$(cat <<EOF
+          ## Nueva actualización publicada
+
+          - Autor: ${COMMIT_AUTHOR}
+          - Commit: ${COMMIT_SHA}
+          - Mensaje: ${COMMIT_MSG}
+          - Fecha: ${COMMIT_DATE}
+
+          [Ver commit](${REPO_URL})
+
+          > Publicado automáticamente desde GitHub Actions.
+          EOF
+          )
+
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/discussions/2/comments \
+            -f body="$BODY"

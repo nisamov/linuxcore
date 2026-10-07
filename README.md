@@ -47,6 +47,7 @@ El contenido se desarrolla en español y está orientado tanto al aprendizaje es
 | **`seguridad/`** | Análisis defensivo, ofensivo, criptografía y análisis forense. | Algoritmos de hash, cifrado SSL/SSH, auditoría con `auditd` y herramientas forenses (`foremost`). |
 | **`servicios/`** | Configuración y gestión de demonios, servidores y bases de datos. | Servidores web (Nginx, Apache), BDD (Redis, PostgreSQL), Cron y Journald. |
 
+<!--
 ## Colaboradores
 
 <div align="center">
@@ -54,11 +55,10 @@ El contenido se desarrolla en español y está orientado tanto al aprendizaje es
     <img src="https://contrib.rocks/image?repo=nisamov/linuxcore" alt="Contribuyentes de LinuxCore" />
   </a>
 </div>
+-->
 
 **¿Deseas contribuir?**  
 Este proyecto nace con fines de aprendizaje y referencia técnica. Si encuentras alguna errata, quieres corregir un procedimiento o añadir nuevo contenido, ¡las contribuciones son más que bienvenidas! Abre un [Issue](https://github.com/nisamov/linuxcore/issues) o envía un [Pull Request](https://github.com/nisamov/linuxcore/pulls).
-
----
 
 <div align="center">
   <p><b>Linux Core - Nisamov | MIT License - 2026</b></p>

@@ -1,0 +1,30 @@
+name: Validación de documentación
+
+on:
+  push:
+    paths:
+      - '**/*.md'
+      - '.github/scripts/validate_markdown.py'
+      - '.github/workflows/markdown-validation.yml'
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '.github/scripts/validate_markdown.py'
+      - '.github/workflows/markdown-validation.yml'
+  workflow_dispatch:
+
+jobs:
+  validate-markdown:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validar Markdown y enlaces internos
+        run: python .github/scripts/validate_markdown.py
