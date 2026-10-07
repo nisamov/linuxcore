@@ -32,15 +32,20 @@ El contenido se desarrolla en español y está orientado tanto al aprendizaje es
 ## Estructura de Contenidos
 
 | Directorio | Propósito | Contenido Destacado |
-| :--- | :--- | :--- |
-| **fundamentos/** | Base teórica de sistemas informáticos. | Hardware, procesos, RAID, distros Linux. |
-| **comandos/** | Referencia de utilidades (formato JSON). | Categorías (red, procesos, seguridad), *one-liners*. |
-| **procedimientos/** | *Troubleshooting* y administración práctica. | Recuperación de FS, diagnóstico de CPU/Red, systemd. |
-| **servicios/** | Demonios, infraestructura y bases de datos. | MariaDB, Redis, Nginx, DHCP, topologías. |
-| **seguridad/** | Seguridad defensiva, ofensiva y forense. | Criptografía, `auditd`, análisis de logs, control de acceso. |
-| **programacion/** | Scripting y gestión de datos. | Bash, PHP, SQL, Joins. |
-| **infraestructura/** | Componentes físicos y despliegue. | Docker, Kubernetes, hipervisores. |
-| **referencias/** | Archivos listos para producción. | Plantillas BIND9, `nftables`, `smb.conf`. |
+| --- | --- | --- |
+| **`base_de_datos/`** | Conceptos y administración de sistemas de bases de datos relacionales. | Teoría de BDD, MySQL/MariaDB (ejercicios, administración, copias de seguridad, *joins*). |
+| **`comandos/`** | Diccionario técnico estructurado en JSON de utilidades de terminal Linux. | Categorías (red, seguridad, almacenamiento, usuarios) y comandos rápidos (*one-liners*). |
+| **`conceptos/`** | Fundamentos sobre virtualización y entornos de ejecución. | Hipervisores, máquinas virtuales, Proxmox, VirtualBox y Hyper-V. |
+| **`fundamentos/`** | Bases conceptuales del sistema operativo Linux y almacenamiento. | Permisos (ACLs), estados de procesos, distros Linux, niveles de RAID. |
+| **`hardware/`** | Especificaciones y teoría sobre componentes físicos del sistema. | Memorias RAM y arquitectura física de almacenamiento. |
+| **`infraestructura/`** | Despliegue de aplicaciones y tecnologías de virtualización ligera. | Docker (teoría e instalación) y Kubernetes. |
+| **`procedimientos/`** | Guías prácticas paso a paso para *troubleshooting* y administración. | Recuperación de FS, generación de certificados RSA/SSL, diagnóstico de SSH, red y CPU. |
+| **`programacion/`** | Desarrollo de scripts, lenguajes web y lógica de base de datos. | Scripts en Bash, fundamentos de PHP y sintaxis SQL en MariaDB. |
+| **`protocolos/`** | Especificaciones teóricas y configuraciones de red multinivel. | Funcionamiento y alta disponibilidad (*failover*) de DHCP y Kea DHCP. |
+| **`redes/`** | Principios de conectividad y diseño de infraestructura de red. | Mapeo de puertos y topologías de red. |
+| **`referencias/`** | Plantillas de configuración reales listas para entorno de producción. | Archivos de zona BIND9 (DDNS), `smb.conf`, reglas `nftables` y servicios `systemd`. |
+| **`seguridad/`** | Análisis defensivo, ofensivo, criptografía y análisis forense. | Algoritmos de hash, cifrado SSL/SSH, auditoría con `auditd` y herramientas forenses (`foremost`). |
+| **`servicios/`** | Configuración y gestión de demonios, servidores y bases de datos. | Servidores web (Nginx, Apache), BDD (Redis, PostgreSQL), Cron y Journald. |
 
 ## Colaboradores
 

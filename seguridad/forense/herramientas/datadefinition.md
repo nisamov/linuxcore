@@ -1,6 +1,6 @@
 # Comando `dd` - Copia y Conversión a Bajo Nivel
 
-El comando dd (data dump) es una utilidad de flujo de datos que opera directamente con descriptores de archivo a un nivel cercano al hardware. A diferencia de las herramientas de copia convencionales que gestionan archivos y directorios, dd trata la información como un flujo de bytes puros, lo que lo hace indispensable para la gestión de dispositivos de almacenamiento y forense digital.
+El comando dd (data definition) es una utilidad de flujo de datos que opera directamente con descriptores de archivo a un nivel cercano al hardware. A diferencia de las herramientas de copia convencionales que gestionan archivos y directorios, dd trata la información como un flujo de bytes puros, lo que lo hace indispensable para la gestión de dispositivos de almacenamiento y forense digital.
 
 ## Arquitectura de Copia de Bloques
 
@@ -30,8 +30,13 @@ Debido a su naturaleza de "copia bit a bit", es la herramienta estándar para:
 
 ### Volcado de Informacion
 
-Creacion de imagen a partir de un disco
-`sudo dd if=/dev/sd1 of=/home/volcado1G.img bs=4M`
+Creacion de imagen a partir de un disco e instalacion de herramienta `foremost`.
+```
+sudo dd if=/dev/sd1 of=/home/volcado1G.img bs=4M
+apt-cache search foremost
+sudo apt install foremost
+```
+[Documentación de herramienta foremost](foremost.md)
 
 ## Sincronización de E/S y Rendimiento
 
