@@ -18,17 +18,59 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Publicar nueva actualización en la discusión
+      - name: Crear o reutilizar la discusión de actualizaciones
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -e
+
+          REPO="${{ github.repository }}"
+          TITLE="Actualizaciones"
+          BODY="Este hilo se usa para publicar actualizaciones automatizadas del repositorio."
+
+          DISCUSSION_ID=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            "repos/${REPO}/discussions" \
+            --jq ".[] | select(.title == \"${TITLE}\") | .number" \
+            2>/dev/null | head -n 1 || true)
+
+          if [ -z "${DISCUSSION_ID}" ]; then
+            CATEGORY_ID=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "repos/${REPO}/discussions/categories" \
+              --jq '.[] | select(.name == "Announcements") | .id' \
+              | head -n 1 || true)
+
+            if [ -z "${CATEGORY_ID}" ]; then
+              CATEGORY_ID=$(gh api \
+                -H "Accept: application/vnd.github+json" \
+                "repos/${REPO}/discussions/categories" \
+                --jq '.[0].id' \
+                | head -n 1 || true)
+            fi
+
+            if [ -z "${CATEGORY_ID}" ]; then
+              echo "No hay categorías de Discussion disponibles en este repositorio."
+              exit 1
+            fi
+
+            DISCUSSION_ID=$(gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              "repos/${REPO}/discussions" \
+              -F title="${TITLE}" \
+              -F body="${BODY}" \
+              -F category_id="${CATEGORY_ID}" \
+              --jq '.number')
+          fi
+
           COMMIT_MSG=$(git log -1 --pretty=%s)
           COMMIT_SHA=$(git rev-parse --short HEAD)
           COMMIT_AUTHOR=$(git log -1 --pretty=%an)
           COMMIT_DATE=$(git log -1 --pretty=%cd --date='iso-strict')
-          REPO_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          REPO_URL="https://github.com/${REPO}/commit/${{ github.sha }}"
 
-          BODY=$(cat <<EOF
+          COMMENT_BODY=$(cat <<EOF
           ## Nueva actualización publicada
 
           - Autor: ${COMMIT_AUTHOR}
@@ -45,5 +87,5 @@ jobs:
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
-            /repos/${{ github.repository }}/discussions/2/comments \
-            -f body="$BODY"
+            "repos/${REPO}/discussions/${DISCUSSION_ID}/comments" \
+            -F body="${COMMENT_BODY}"
