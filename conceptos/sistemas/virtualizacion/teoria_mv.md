@@ -25,3 +25,4 @@ Para ser rápida, no duplica todo el disco. En su lugar:
 | **Dependencia** | Depende del disco original. Si el disco base se daña, el snapshot no sirve. | Es independiente. Se puede mover a otro servidor o almacenamiento externo. |
 | **Uso principal** | Entornos de pruebas, aplicación de parches o cambios temporales. | Recuperación ante desastres o fallos físicos del hardware. |
 | **Retención** | Corto plazo. Mantenerla mucho tiempo degrada el rendimiento del disco. | Largo plazo. |
+
