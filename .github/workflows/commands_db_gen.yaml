@@ -1,5 +1,9 @@
 name: Generación bases de datos
 
+concurrency:
+  group: commands-db-release-${{ github.ref }}
+  cancel-in-progress: false
+
 on:
   push:
     paths:
@@ -37,27 +41,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          OLD_TITLE=$(gh release view latest --json title -q .title 2>/dev/null || echo "")
-          OLD_VER=$(echo "$OLD_TITLE" | grep -oP 'V-[A-Z]\.[0-9]+\.[0-9]+' || echo "")
-          if [ -z "$OLD_VER" ]; then
+          RELEASES_JSON=$(gh release list --limit 100 --json tagName,name)
+          OLD_TITLE=$(printf '%s' "$RELEASES_JSON" | jq -r '[.[] | select(.tagName == "latest")][0].name // empty')
+
+          if [ -z "$OLD_TITLE" ]; then
             NEW_VER="V-A.0.1"
-          else
-            LETRA=$(echo "$OLD_VER" | cut -d'-' -f2 | cut -d'.' -f1)
-            MINOR=$(echo "$OLD_VER" | cut -d'.' -f2)
-            PATCH=$(echo "$OLD_VER" | cut -d'.' -f3)
-            PATCH=$((PATCH + 1))
-            if [ $PATCH -gt 9 ]; then
-              PATCH=0
-              MINOR=$((MINOR + 1))
-              if [ $MINOR -gt 9 ]; then
-                MINOR=0
-                ASCII_VAL=$(printf '%d' "'$LETRA")
-                ASCII_VAL=$((ASCII_VAL + 1))
-                LETRA=$(printf "\\$(printf '%03o' "$ASCII_VAL")")
-              fi
-            fi
+          elif [[ "$OLD_TITLE" =~ V-([A-Z])\.([0-9]+)\.([0-9]+) ]]; then
+            LETRA="${BASH_REMATCH[1]}"
+            MINOR="${BASH_REMATCH[2]}"
+            PATCH=$((10#${BASH_REMATCH[3]} + 1))
             NEW_VER="V-${LETRA}.${MINOR}.${PATCH}"
+          else
+            echo "[ERROR] No se pudo extraer la versión del release anterior: $OLD_TITLE" >&2
+            exit 1
           fi
+
           FECHA_HORA=$(date +'%d-%m-%Y')
           TITULO_RELEASE="BDD JSON ${NEW_VER}/${FECHA_HORA}"
           gh release delete latest --cleanup-tag -y || true

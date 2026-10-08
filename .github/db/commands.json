@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "total_registros": 420
+    "total_registros": 428
   },
   "comandos": [
     {
@@ -28817,6 +28817,109 @@
       "archivo_fuente": "comandos/monolinea/borrar_espacio_vacio_de_archivo.json"
     },
     {
+      "id": "buscar_archivos_modificados_recientemente",
+      "nombre": "Buscar archivos modificados recientemente",
+      "descripcion": "Lista archivos regulares modificados durante las últimas 24 horas dentro de una ruta. Usa -mmin de GNU find y no modifica los resultados.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "archivos",
+          "diagnostico"
+        ]
+      },
+      "sintaxis": {
+        "principal": "find \"${1:-.}\" -type f -mmin -1440 -print",
+        "alternativas": [
+          "find /var/log -type f -mmin -60 -print"
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "directorio_inicial",
+          "tipo": "string",
+          "requerido": false,
+          "default": ".",
+          "valores": [],
+          "descripcion": "Directorio desde el que se busca; si se omite se usa el directorio actual.",
+          "conflictos": [],
+          "requiere": []
+        },
+        {
+          "flag": "",
+          "argumento": "ventana_minutos",
+          "tipo": "integer",
+          "requerido": false,
+          "default": 1440,
+          "valores": [],
+          "descripcion": "Ventana temporal en minutos; 1440 equivale aproximadamente a 24 horas.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [
+          "Permiso de lectura y recorrido en los directorios que se inspeccionan"
+        ],
+        "dependencias": [
+          "GNU findutils"
+        ],
+        "paquetes": [
+          "findutils"
+        ]
+      },
+      "seguridad": {
+        "nivel": "bajo",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "La visibilidad depende de los permisos; no use sudo salvo que necesite inspeccionar deliberadamente rutas protegidas."
+        ]
+      },
+      "instalacion": {
+        "instalable": true,
+        "metodo": "findutils suele estar instalado; si falta, instale findutils desde el gestor de paquetes de la distribución.",
+        "paquetes": {
+          "debian_ubuntu": "sudo apt install findutils",
+          "arch_linux": "sudo pacman -S findutils",
+          "rhel_centos": "sudo dnf install findutils"
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Cambios recientes en el directorio actual",
+          "comando": "find . -type f -mmin -1440 -print",
+          "descripcion": "Lista archivos regulares modificados en el último día dentro del árbol actual.",
+          "resultado_esperado": "Se muestran las rutas coincidentes sin alterar archivos."
+        },
+        {
+          "nombre": "Registros modificados durante la última hora",
+          "comando": "find /var/log -type f -mmin -60 -print",
+          "descripcion": "Busca archivos modificados en la última hora bajo /var/log.",
+          "resultado_esperado": "Se listan los archivos accesibles que cumplen la ventana de tiempo."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": true,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "directorio_inicial",
+          "ventana_minutos"
+        ],
+        "validaciones": [
+          "Confirme que la ruta existe y que el usuario puede recorrerla.",
+          "Ajuste la ventana temporal y revise la salida antes de usarla en acciones posteriores."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/buscar_archivos_modificados_recientemente.json"
+    },
+    {
       "id": "comando_previo",
       "nombre": "Comando previo",
       "descripcion": "Repite el último comando de la lista de historial de la shell interactiva actual. La expansión !! suele ser una función de Bash y otras shells interactivas, no un comando independiente para scripts.",
@@ -29062,6 +29165,389 @@
       },
       "categoria_db": "monolinea",
       "archivo_fuente": "comandos/monolinea/comprobacion_velocidad_disco.json"
+    },
+    {
+      "id": "comprobar_cabeceras_http",
+      "nombre": "Comprobar respuesta HTTP de una URL",
+      "descripcion": "Envía una solicitud HEAD con curl y muestra el código HTTP y la URL final sin descargar el cuerpo de la respuesta. Sigue redirecciones para consultar el destino final.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "red",
+          "diagnostico",
+          "http"
+        ]
+      },
+      "sintaxis": {
+        "principal": "curl --head --location --silent --show-error --output /dev/null --write-out '%{http_code} %{url_effective}\\n' \"$1\"",
+        "alternativas": [
+          "curl --head --fail --location --show-error \"$1\""
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "url",
+          "tipo": "string",
+          "requerido": true,
+          "default": null,
+          "valores": [],
+          "descripcion": "URL HTTP o HTTPS autorizada a la que curl envía la solicitud HEAD.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [],
+        "dependencias": [
+          "curl",
+          "conectividad de red"
+        ],
+        "paquetes": [
+          "curl"
+        ]
+      },
+      "seguridad": {
+        "nivel": "medio",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "La petición contacta el host indicado y sigue redirecciones; el servidor remoto recibe la conexión. Algunos sitios no implementan HEAD correctamente o responden distinto a GET."
+        ]
+      },
+      "instalacion": {
+        "instalable": true,
+        "metodo": "Instalar curl desde el gestor de paquetes si no está disponible.",
+        "paquetes": {
+          "debian_ubuntu": "sudo apt install curl",
+          "arch_linux": "sudo pacman -S curl",
+          "rhel_centos": "sudo dnf install curl"
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Consultar cabeceras de un sitio público",
+          "comando": "curl --head --location --silent --show-error --output /dev/null --write-out '%{http_code} %{url_effective}\\n' https://example.com",
+          "descripcion": "Muestra el código HTTP y la URL efectiva sin imprimir el cuerpo de la respuesta.",
+          "resultado_esperado": "Se imprime el código de estado recibido y la URL final tras las redirecciones."
+        },
+        {
+          "nombre": "Mostrar cabeceras para inspección",
+          "comando": "curl --head --fail --location --show-error https://example.com",
+          "descripcion": "Imprime cabeceras HTTP y falla con estado distinto de cero ante respuestas de error HTTP.",
+          "resultado_esperado": "Se muestran las cabeceras devueltas por el servidor o un mensaje de error de curl."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": true,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "url"
+        ],
+        "validaciones": [
+          "Acepte únicamente URLs HTTP/HTTPS previstas y verifique el host antes de realizar la solicitud.",
+          "Use el código de salida y el estado HTTP por separado; un código HTTP no garantiza que el contenido de la aplicación sea correcto.",
+          "Considere proxy, redirecciones y certificados TLS según la política de seguridad local."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/comprobar_cabeceras_http.json"
+    },
+    {
+      "id": "comprobar_espacio_y_inodos",
+      "nombre": "Comprobar espacio e inodos",
+      "descripcion": "Muestra el uso de espacio por sistema de archivos en formato legible y, por separado, el consumo de inodos. Ayuda a distinguir falta de capacidad de falta de inodos.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "almacenamiento",
+          "diagnostico"
+        ]
+      },
+      "sintaxis": {
+        "principal": "df -hT; df -i",
+        "alternativas": [
+          "df -hT /ruta"
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "sistema_de_archivos_o_ruta",
+          "tipo": "string",
+          "requerido": false,
+          "default": "todos los sistemas de archivos montados",
+          "valores": [],
+          "descripcion": "Al indicar una ruta, df informa del sistema de archivos que la contiene; la receta base consulta todos los montajes visibles.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [],
+        "dependencias": [
+          "GNU coreutils"
+        ],
+        "paquetes": [
+          "coreutils"
+        ]
+      },
+      "seguridad": {
+        "nivel": "bajo",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "Los valores dependen de los montajes visibles en el espacio de nombres actual; cuotas y reservas del sistema pueden afectar el espacio realmente disponible."
+        ]
+      },
+      "instalacion": {
+        "instalable": true,
+        "metodo": "df forma parte normalmente de coreutils y suele estar preinstalado.",
+        "paquetes": {
+          "debian_ubuntu": "sudo apt install coreutils",
+          "arch_linux": "sudo pacman -S coreutils",
+          "rhel_centos": "sudo dnf install coreutils"
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Consultar todos los montajes",
+          "comando": "df -hT; df -i",
+          "descripcion": "Muestra tipo, espacio y uso de inodos para los sistemas de archivos montados.",
+          "resultado_esperado": "Se imprimen dos tablas: capacidad en unidades legibles e información de inodos."
+        },
+        {
+          "nombre": "Consultar el sistema de archivos de una ruta",
+          "comando": "df -hT /var/log; df -i /var/log",
+          "descripcion": "Consulta capacidad y disponibilidad de inodos del sistema de archivos que contiene /var/log.",
+          "resultado_esperado": "Se muestran los datos del montaje correspondiente a la ruta especificada."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": true,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "sistema_de_archivos_o_ruta"
+        ],
+        "validaciones": [
+          "Compruebe que la ruta indicada existe si se consulta un sistema de archivos concreto.",
+          "Interprete por separado bloques disponibles e inodos disponibles; no automatice borrados basándose únicamente en este informe."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/comprobar_espacio_y_inodos.json"
+    },
+    {
+      "id": "consultar_errores_kernel_recientes",
+      "nombre": "Consultar errores recientes del kernel",
+      "descripcion": "Consulta mensajes del kernel con prioridad error o superior desde el inicio del día y desactiva el paginador. El comando no cambia la configuración ni el estado del sistema.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "procesos",
+          "diagnostico",
+          "logs"
+        ]
+      },
+      "sintaxis": {
+        "principal": "sudo journalctl -k -p err --since today --no-pager",
+        "alternativas": [
+          "journalctl -k -p warning --since \"1 hour ago\" --no-pager"
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "periodo",
+          "tipo": "string",
+          "requerido": false,
+          "default": "today",
+          "valores": [
+            "today",
+            "1 hour ago",
+            "yesterday"
+          ],
+          "descripcion": "Expresión temporal aceptada por journalctl que se pasa a --since para acotar los registros consultados.",
+          "conflictos": [],
+          "requiere": []
+        },
+        {
+          "flag": "",
+          "argumento": "prioridad",
+          "tipo": "string",
+          "requerido": false,
+          "default": "err",
+          "valores": [
+            "err",
+            "warning",
+            "notice"
+          ],
+          "descripcion": "Nivel mínimo de prioridad del registro; err limita la salida a errores y prioridades más graves.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [
+          "Acceso de lectura al journal; puede requerirse sudo para registros del sistema"
+        ],
+        "dependencias": [
+          "systemd-journald"
+        ],
+        "paquetes": [
+          "systemd"
+        ]
+      },
+      "seguridad": {
+        "nivel": "bajo",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "Los registros pueden incluir nombres de usuario, rutas, direcciones u otros datos sensibles; revise la salida antes de compartirla."
+        ]
+      },
+      "instalacion": {
+        "instalable": false,
+        "metodo": "No requiere instalación adicional en sistemas con systemd-journald; journalctl forma parte de systemd.",
+        "paquetes": {
+          "debian_ubuntu": "",
+          "arch_linux": "",
+          "rhel_centos": ""
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Errores del kernel desde hoy",
+          "comando": "sudo journalctl -k -p err --since today --no-pager",
+          "descripcion": "Muestra los mensajes del kernel de prioridad error o más grave desde el inicio del día.",
+          "resultado_esperado": "Se imprimen las entradas coincidentes; la ausencia de salida significa que no hay entradas visibles para ese filtro."
+        },
+        {
+          "nombre": "Advertencias del kernel de la última hora",
+          "comando": "sudo journalctl -k -p warning --since \"1 hour ago\" --no-pager",
+          "descripcion": "Amplía la consulta para incluir advertencias y errores recientes del kernel.",
+          "resultado_esperado": "Se muestran registros desde la última hora con prioridad warning o más grave."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": true,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "periodo",
+          "prioridad"
+        ],
+        "validaciones": [
+          "Confirme que el sistema utiliza systemd-journald y que el usuario tiene permiso de lectura suficiente.",
+          "Trate el journal como información potencialmente sensible y limite el periodo para evitar exponer datos innecesarios."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/consultar_errores_kernel_recientes.json"
+    },
+    {
+      "id": "consultar_resolucion_dns",
+      "nombre": "Consultar resolución DNS del sistema",
+      "descripcion": "Solicita a la biblioteca de resolución del sistema las direcciones asociadas a un nombre. A diferencia de consultar un servidor DNS directamente, respeta la configuración local de NSS y /etc/resolv.conf.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "red",
+          "diagnostico",
+          "dns"
+        ]
+      },
+      "sintaxis": {
+        "principal": "getent ahosts \"$1\"",
+        "alternativas": [
+          "getent hosts example.com"
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "nombre_host",
+          "tipo": "string",
+          "requerido": true,
+          "default": null,
+          "valores": [],
+          "descripcion": "Nombre DNS o nombre de host cuya resolución se solicita mediante la configuración local del sistema.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [],
+        "dependencias": [
+          "glibc o implementación NSS equivalente"
+        ],
+        "paquetes": [
+          "libc-bin"
+        ]
+      },
+      "seguridad": {
+        "nivel": "bajo",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "La consulta usa la configuración de resolución de la máquina y puede revelar el nombre consultado a servidores o servicios de red configurados."
+        ]
+      },
+      "instalacion": {
+        "instalable": false,
+        "metodo": "getent suele estar incluido con la biblioteca C del sistema; no suele requerir instalación independiente.",
+        "paquetes": {
+          "debian_ubuntu": "",
+          "arch_linux": "",
+          "rhel_centos": ""
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Consultar direcciones de un dominio",
+          "comando": "getent ahosts example.com",
+          "descripcion": "Muestra las direcciones que el resolvedor local devuelve para example.com.",
+          "resultado_esperado": "Se imprimen una o varias direcciones; una salida vacía o error indica que no hubo resolución visible."
+        },
+        {
+          "nombre": "Consultar un host interno configurado localmente",
+          "comando": "getent hosts servidor.local",
+          "descripcion": "Comprueba si el nombre se resuelve mediante NSS, que puede incluir DNS, /etc/hosts u otras fuentes configuradas.",
+          "resultado_esperado": "Se muestra la dirección y el nombre asociado si existe una entrada resoluble."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": true,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "nombre_host"
+        ],
+        "validaciones": [
+          "Valide que el nombre sea un hostname esperado y no una dirección o dato sensible accidental.",
+          "Interprete el resultado según NSS y la configuración local; una consulta correcta no garantiza conectividad con el servicio remoto."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/consultar_resolucion_dns.json"
     },
     {
       "id": "copia_con_barra_de_progreso",
@@ -29321,6 +29807,104 @@
       },
       "categoria_db": "monolinea",
       "archivo_fuente": "comandos/monolinea/crear_cien_directorios.json"
+    },
+    {
+      "id": "crear_respaldo_comprimido_con_fecha",
+      "nombre": "Crear respaldo comprimido con fecha",
+      "descripcion": "Crea un archivo tar.gz de un archivo o directorio y añade una marca de tiempo al nombre del respaldo. No elimina ni modifica el origen; el archivo de salida se crea en el directorio actual.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "archivos",
+          "respaldo",
+          "compresion"
+        ]
+      },
+      "sintaxis": {
+        "principal": "tar -czf \"respaldo_$(basename \"$1\")_$(date +%F_%H%M%S).tar.gz\" -C \"$(dirname \"$1\")\" \"$(basename \"$1\")\"",
+        "alternativas": [
+          "tar -czf \"respaldo_$(date +%F_%H%M%S).tar.gz\" -C /ruta/al/directorio ."
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "ruta_origen",
+          "tipo": "string",
+          "requerido": true,
+          "default": null,
+          "valores": [],
+          "descripcion": "Ruta existente del archivo o directorio que se incluirá; se recomienda pasarla sin barra final para conservar claramente su nombre base.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [
+          "Lectura del origen y escritura en el directorio actual"
+        ],
+        "dependencias": [
+          "GNU tar",
+          "date",
+          "basename",
+          "dirname"
+        ],
+        "paquetes": [
+          "tar",
+          "coreutils"
+        ]
+      },
+      "seguridad": {
+        "nivel": "medio",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "El archivo puede contener datos confidenciales del origen; protéjalo según la sensibilidad de los datos.",
+          "Una colisión de nombre puede hacer que tar sobrescriba un archivo de respaldo existente; revise el destino y el espacio disponible."
+        ]
+      },
+      "instalacion": {
+        "instalable": true,
+        "metodo": "tar, date, basename y dirname suelen estar disponibles; si faltan, instale tar y coreutils desde el gestor de paquetes.",
+        "paquetes": {
+          "debian_ubuntu": "sudo apt install tar coreutils",
+          "arch_linux": "sudo pacman -S tar coreutils",
+          "rhel_centos": "sudo dnf install tar coreutils"
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Respaldar un directorio de configuración",
+          "comando": "tar -czf \"respaldo_$(basename \"$HOME/.config\")_$(date +%F_%H%M%S).tar.gz\" -C \"$HOME\" .config",
+          "descripcion": "Crea en el directorio actual un archivo comprimido con el contenido de .config y una marca de tiempo.",
+          "resultado_esperado": "Se crea un archivo tar.gz sin modificar el directorio de origen."
+        },
+        {
+          "nombre": "Respaldar un archivo individual",
+          "comando": "tar -czf \"respaldo_hosts_$(date +%F_%H%M%S).tar.gz\" -C /etc hosts",
+          "descripcion": "Empaqueta /etc/hosts conservando su nombre relativo dentro del archivo.",
+          "resultado_esperado": "Se crea un archivo tar.gz que contiene la entrada hosts."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": false,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "ruta_origen"
+        ],
+        "validaciones": [
+          "Compruebe que el origen existe, es el objetivo correcto y el usuario puede leerlo.",
+          "Verifique espacio libre y que el nombre de salida no colisione con un respaldo que deba conservarse.",
+          "Restrinja permisos del archivo generado si el origen contiene información sensible."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/crear_respaldo_comprimido_con_fecha.json"
     },
     {
       "id": "descargar_video_youtube",
@@ -29911,6 +30495,103 @@
       },
       "categoria_db": "monolinea",
       "archivo_fuente": "comandos/monolinea/limpieza_residual.json"
+    },
+    {
+      "id": "listar_unidades_systemd_fallidas",
+      "nombre": "Listar unidades systemd fallidas",
+      "descripcion": "Consulta a systemd las unidades que actualmente figuran en estado fallido y muestra el resultado sin paginador. Es una operación de solo lectura.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "servicios",
+          "diagnostico",
+          "systemd"
+        ]
+      },
+      "sintaxis": {
+        "principal": "systemctl --failed --no-legend --no-pager",
+        "alternativas": [
+          "systemctl --failed --type=service --no-pager"
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "tipo_de_unidad",
+          "tipo": "string",
+          "requerido": false,
+          "default": "todos los tipos de unidad",
+          "valores": [
+            "service",
+            "mount",
+            "timer",
+            "socket"
+          ],
+          "descripcion": "Filtro opcional que puede añadirse con --type para limitar la consulta a un tipo de unidad.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [
+          "Acceso al gestor systemd del sistema o del usuario"
+        ],
+        "dependencias": [
+          "systemd"
+        ],
+        "paquetes": [
+          "systemd"
+        ]
+      },
+      "seguridad": {
+        "nivel": "bajo",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "La salida depende del gestor systemd al que se conecte y de las unidades visibles para el usuario."
+        ]
+      },
+      "instalacion": {
+        "instalable": false,
+        "metodo": "No requiere instalación adicional en distribuciones que utilizan systemd.",
+        "paquetes": {
+          "debian_ubuntu": "",
+          "arch_linux": "",
+          "rhel_centos": ""
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Mostrar todas las unidades fallidas",
+          "comando": "systemctl --failed --no-legend --no-pager",
+          "descripcion": "Lista unidades fallidas sin cabecera ni interfaz de paginación.",
+          "resultado_esperado": "Se muestran las unidades fallidas y su estado; si no hay ninguna, la lista aparece vacía."
+        },
+        {
+          "nombre": "Mostrar únicamente servicios fallidos",
+          "comando": "systemctl --failed --type=service --no-pager",
+          "descripcion": "Filtra el informe para incluir solamente unidades de tipo servicio.",
+          "resultado_esperado": "Se enumeran los servicios en estado fallido visibles para systemd."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": true,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "tipo_de_unidad"
+        ],
+        "validaciones": [
+          "Compruebe que el host utiliza systemd y que systemctl puede consultar el gestor esperado.",
+          "Trate la salida vacía como ausencia de unidades fallidas visibles, no como prueba de que todas las aplicaciones estén sanas."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/listar_unidades_systemd_fallidas.json"
     },
     {
       "id": "localizar_enlaces_simbolicos_huerfanos",
@@ -30679,6 +31360,98 @@
       },
       "categoria_db": "monolinea",
       "archivo_fuente": "comandos/monolinea/ver_youtube_en_terminal.json"
+    },
+    {
+      "id": "verificar_manifest_sha256",
+      "nombre": "Verificar manifiesto SHA-256",
+      "descripcion": "Comprueba los archivos listados en un manifiesto con sha256sum --check y comunica si cada suma coincide. La verificación solo es confiable si el manifiesto se obtuvo por un canal de confianza.",
+      "clasificacion": {
+        "categoria": "monolinea",
+        "subcategoria": "utilidad_monolinea",
+        "tags": [
+          "monolinea",
+          "seguridad",
+          "integridad",
+          "archivos"
+        ]
+      },
+      "sintaxis": {
+        "principal": "sha256sum --check SHA256SUMS",
+        "alternativas": [
+          "sha256sum --check --status SHA256SUMS"
+        ]
+      },
+      "parametros": [
+        {
+          "flag": "",
+          "argumento": "archivo_manifiesto",
+          "tipo": "string",
+          "requerido": true,
+          "default": null,
+          "valores": [],
+          "descripcion": "Manifiesto sha256sum con una suma hexadecimal y la ruta relativa o absoluta de cada archivo.",
+          "conflictos": [],
+          "requiere": []
+        }
+      ],
+      "requisitos": {
+        "permisos": [
+          "Lectura del manifiesto y de los archivos que contiene"
+        ],
+        "dependencias": [
+          "GNU coreutils"
+        ],
+        "paquetes": [
+          "coreutils"
+        ]
+      },
+      "seguridad": {
+        "nivel": "bajo",
+        "destructivo": false,
+        "requiere_root": false,
+        "requiere_confirmacion": false,
+        "advertencias": [
+          "Una suma coincidente acredita igualdad con el manifiesto, pero no su autenticidad; obtenga el manifiesto de una fuente confiable y verifique firmas cuando estén disponibles."
+        ]
+      },
+      "instalacion": {
+        "instalable": true,
+        "metodo": "sha256sum forma parte normalmente de coreutils y suele estar preinstalado.",
+        "paquetes": {
+          "debian_ubuntu": "sudo apt install coreutils",
+          "arch_linux": "sudo pacman -S coreutils",
+          "rhel_centos": "sudo dnf install coreutils"
+        }
+      },
+      "ejemplos": [
+        {
+          "nombre": "Comprobar sumas de un manifiesto",
+          "comando": "sha256sum --check SHA256SUMS",
+          "descripcion": "Verifica todas las rutas y sumas registradas en SHA256SUMS.",
+          "resultado_esperado": "Cada archivo se informa como correcto o fallido; archivos ausentes o modificados producen errores."
+        },
+        {
+          "nombre": "Verificar sin imprimir resultados correctos",
+          "comando": "sha256sum --check --status SHA256SUMS",
+          "descripcion": "Realiza la verificación en modo silencioso y deja que el código de salida indique el resultado global.",
+          "resultado_esperado": "Devuelve estado cero si todas las sumas son correctas y distinto de cero si alguna comprobación falla."
+        }
+      ],
+      "automatizacion": {
+        "idempotente": true,
+        "interactivo": false,
+        "apto_script": true,
+        "variables": [
+          "archivo_manifiesto"
+        ],
+        "validaciones": [
+          "Compruebe que el manifiesto proviene de una fuente de confianza y que está firmado o autenticado por separado cuando corresponda.",
+          "Ejecute desde el directorio esperado si las rutas del manifiesto son relativas y revise el código de salida del proceso."
+        ],
+        "rollback": null
+      },
+      "categoria_db": "monolinea",
+      "archivo_fuente": "comandos/monolinea/verificar_manifest_sha256.json"
     },
     {
       "id": "apk",

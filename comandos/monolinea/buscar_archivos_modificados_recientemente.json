@@ -1,0 +1,81 @@
+{
+  "id": "buscar_archivos_modificados_recientemente",
+  "nombre": "Buscar archivos modificados recientemente",
+  "descripcion": "Lista archivos regulares modificados durante las últimas 24 horas dentro de una ruta. Usa -mmin de GNU find y no modifica los resultados.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "archivos", "diagnostico"]
+  },
+  "sintaxis": {
+    "principal": "find \"${1:-.}\" -type f -mmin -1440 -print",
+    "alternativas": ["find /var/log -type f -mmin -60 -print"]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "directorio_inicial",
+      "tipo": "string",
+      "requerido": false,
+      "default": ".",
+      "valores": [],
+      "descripcion": "Directorio desde el que se busca; si se omite se usa el directorio actual.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "",
+      "argumento": "ventana_minutos",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 1440,
+      "valores": [],
+      "descripcion": "Ventana temporal en minutos; 1440 equivale aproximadamente a 24 horas.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": ["Permiso de lectura y recorrido en los directorios que se inspeccionan"],
+    "dependencias": ["GNU findutils"],
+    "paquetes": ["findutils"]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["La visibilidad depende de los permisos; no use sudo salvo que necesite inspeccionar deliberadamente rutas protegidas."]
+  },
+  "instalacion": {
+    "instalable": true,
+    "metodo": "findutils suele estar instalado; si falta, instale findutils desde el gestor de paquetes de la distribución.",
+    "paquetes": {
+      "debian_ubuntu": "sudo apt install findutils",
+      "arch_linux": "sudo pacman -S findutils",
+      "rhel_centos": "sudo dnf install findutils"
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Cambios recientes en el directorio actual",
+      "comando": "find . -type f -mmin -1440 -print",
+      "descripcion": "Lista archivos regulares modificados en el último día dentro del árbol actual.",
+      "resultado_esperado": "Se muestran las rutas coincidentes sin alterar archivos."
+    },
+    {
+      "nombre": "Registros modificados durante la última hora",
+      "comando": "find /var/log -type f -mmin -60 -print",
+      "descripcion": "Busca archivos modificados en la última hora bajo /var/log.",
+      "resultado_esperado": "Se listan los archivos accesibles que cumplen la ventana de tiempo."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["directorio_inicial", "ventana_minutos"],
+    "validaciones": ["Confirme que la ruta existe y que el usuario puede recorrerla.", "Ajuste la ventana temporal y revise la salida antes de usarla en acciones posteriores."],
+    "rollback": null
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "crear_respaldo_comprimido_con_fecha",
+  "nombre": "Crear respaldo comprimido con fecha",
+  "descripcion": "Crea un archivo tar.gz de un archivo o directorio y añade una marca de tiempo al nombre del respaldo. No elimina ni modifica el origen; el archivo de salida se crea en el directorio actual.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "archivos", "respaldo", "compresion"]
+  },
+  "sintaxis": {
+    "principal": "tar -czf \"respaldo_$(basename \"$1\")_$(date +%F_%H%M%S).tar.gz\" -C \"$(dirname \"$1\")\" \"$(basename \"$1\")\"",
+    "alternativas": ["tar -czf \"respaldo_$(date +%F_%H%M%S).tar.gz\" -C /ruta/al/directorio ."]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "ruta_origen",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ruta existente del archivo o directorio que se incluirá; se recomienda pasarla sin barra final para conservar claramente su nombre base.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": ["Lectura del origen y escritura en el directorio actual"],
+    "dependencias": ["GNU tar", "date", "basename", "dirname"],
+    "paquetes": ["tar", "coreutils"]
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["El archivo puede contener datos confidenciales del origen; protéjalo según la sensibilidad de los datos.", "Una colisión de nombre puede hacer que tar sobrescriba un archivo de respaldo existente; revise el destino y el espacio disponible."]
+  },
+  "instalacion": {
+    "instalable": true,
+    "metodo": "tar, date, basename y dirname suelen estar disponibles; si faltan, instale tar y coreutils desde el gestor de paquetes.",
+    "paquetes": {
+      "debian_ubuntu": "sudo apt install tar coreutils",
+      "arch_linux": "sudo pacman -S tar coreutils",
+      "rhel_centos": "sudo dnf install tar coreutils"
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Respaldar un directorio de configuración",
+      "comando": "tar -czf \"respaldo_$(basename \"$HOME/.config\")_$(date +%F_%H%M%S).tar.gz\" -C \"$HOME\" .config",
+      "descripcion": "Crea en el directorio actual un archivo comprimido con el contenido de .config y una marca de tiempo.",
+      "resultado_esperado": "Se crea un archivo tar.gz sin modificar el directorio de origen."
+    },
+    {
+      "nombre": "Respaldar un archivo individual",
+      "comando": "tar -czf \"respaldo_hosts_$(date +%F_%H%M%S).tar.gz\" -C /etc hosts",
+      "descripcion": "Empaqueta /etc/hosts conservando su nombre relativo dentro del archivo.",
+      "resultado_esperado": "Se crea un archivo tar.gz que contiene la entrada hosts."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": false,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["ruta_origen"],
+    "validaciones": ["Compruebe que el origen existe, es el objetivo correcto y el usuario puede leerlo.", "Verifique espacio libre y que el nombre de salida no colisione con un respaldo que deba conservarse.", "Restrinja permisos del archivo generado si el origen contiene información sensible."],
+    "rollback": null
+  }
+}

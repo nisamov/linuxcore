@@ -1,0 +1,70 @@
+{
+  "id": "listar_unidades_systemd_fallidas",
+  "nombre": "Listar unidades systemd fallidas",
+  "descripcion": "Consulta a systemd las unidades que actualmente figuran en estado fallido y muestra el resultado sin paginador. Es una operación de solo lectura.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "servicios", "diagnostico", "systemd"]
+  },
+  "sintaxis": {
+    "principal": "systemctl --failed --no-legend --no-pager",
+    "alternativas": ["systemctl --failed --type=service --no-pager"]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "tipo_de_unidad",
+      "tipo": "string",
+      "requerido": false,
+      "default": "todos los tipos de unidad",
+      "valores": ["service", "mount", "timer", "socket"],
+      "descripcion": "Filtro opcional que puede añadirse con --type para limitar la consulta a un tipo de unidad.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": ["Acceso al gestor systemd del sistema o del usuario"],
+    "dependencias": ["systemd"],
+    "paquetes": ["systemd"]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["La salida depende del gestor systemd al que se conecte y de las unidades visibles para el usuario."]
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "No requiere instalación adicional en distribuciones que utilizan systemd.",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Mostrar todas las unidades fallidas",
+      "comando": "systemctl --failed --no-legend --no-pager",
+      "descripcion": "Lista unidades fallidas sin cabecera ni interfaz de paginación.",
+      "resultado_esperado": "Se muestran las unidades fallidas y su estado; si no hay ninguna, la lista aparece vacía."
+    },
+    {
+      "nombre": "Mostrar únicamente servicios fallidos",
+      "comando": "systemctl --failed --type=service --no-pager",
+      "descripcion": "Filtra el informe para incluir solamente unidades de tipo servicio.",
+      "resultado_esperado": "Se enumeran los servicios en estado fallido visibles para systemd."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["tipo_de_unidad"],
+    "validaciones": ["Compruebe que el host utiliza systemd y que systemctl puede consultar el gestor esperado.", "Trate la salida vacía como ausencia de unidades fallidas visibles, no como prueba de que todas las aplicaciones estén sanas."],
+    "rollback": null
+  }
+}

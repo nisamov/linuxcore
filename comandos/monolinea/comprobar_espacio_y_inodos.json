@@ -1,0 +1,70 @@
+{
+  "id": "comprobar_espacio_y_inodos",
+  "nombre": "Comprobar espacio e inodos",
+  "descripcion": "Muestra el uso de espacio por sistema de archivos en formato legible y, por separado, el consumo de inodos. Ayuda a distinguir falta de capacidad de falta de inodos.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "almacenamiento", "diagnostico"]
+  },
+  "sintaxis": {
+    "principal": "df -hT; df -i",
+    "alternativas": ["df -hT /ruta"]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "sistema_de_archivos_o_ruta",
+      "tipo": "string",
+      "requerido": false,
+      "default": "todos los sistemas de archivos montados",
+      "valores": [],
+      "descripcion": "Al indicar una ruta, df informa del sistema de archivos que la contiene; la receta base consulta todos los montajes visibles.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": ["GNU coreutils"],
+    "paquetes": ["coreutils"]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["Los valores dependen de los montajes visibles en el espacio de nombres actual; cuotas y reservas del sistema pueden afectar el espacio realmente disponible."]
+  },
+  "instalacion": {
+    "instalable": true,
+    "metodo": "df forma parte normalmente de coreutils y suele estar preinstalado.",
+    "paquetes": {
+      "debian_ubuntu": "sudo apt install coreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install coreutils"
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Consultar todos los montajes",
+      "comando": "df -hT; df -i",
+      "descripcion": "Muestra tipo, espacio y uso de inodos para los sistemas de archivos montados.",
+      "resultado_esperado": "Se imprimen dos tablas: capacidad en unidades legibles e información de inodos."
+    },
+    {
+      "nombre": "Consultar el sistema de archivos de una ruta",
+      "comando": "df -hT /var/log; df -i /var/log",
+      "descripcion": "Consulta capacidad y disponibilidad de inodos del sistema de archivos que contiene /var/log.",
+      "resultado_esperado": "Se muestran los datos del montaje correspondiente a la ruta especificada."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["sistema_de_archivos_o_ruta"],
+    "validaciones": ["Compruebe que la ruta indicada existe si se consulta un sistema de archivos concreto.", "Interprete por separado bloques disponibles e inodos disponibles; no automatice borrados basándose únicamente en este informe."],
+    "rollback": null
+  }
+}

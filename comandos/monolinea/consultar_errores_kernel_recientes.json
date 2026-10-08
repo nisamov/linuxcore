@@ -1,0 +1,81 @@
+{
+  "id": "consultar_errores_kernel_recientes",
+  "nombre": "Consultar errores recientes del kernel",
+  "descripcion": "Consulta mensajes del kernel con prioridad error o superior desde el inicio del día y desactiva el paginador. El comando no cambia la configuración ni el estado del sistema.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "procesos", "diagnostico", "logs"]
+  },
+  "sintaxis": {
+    "principal": "sudo journalctl -k -p err --since today --no-pager",
+    "alternativas": ["journalctl -k -p warning --since \"1 hour ago\" --no-pager"]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "periodo",
+      "tipo": "string",
+      "requerido": false,
+      "default": "today",
+      "valores": ["today", "1 hour ago", "yesterday"],
+      "descripcion": "Expresión temporal aceptada por journalctl que se pasa a --since para acotar los registros consultados.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "",
+      "argumento": "prioridad",
+      "tipo": "string",
+      "requerido": false,
+      "default": "err",
+      "valores": ["err", "warning", "notice"],
+      "descripcion": "Nivel mínimo de prioridad del registro; err limita la salida a errores y prioridades más graves.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": ["Acceso de lectura al journal; puede requerirse sudo para registros del sistema"],
+    "dependencias": ["systemd-journald"],
+    "paquetes": ["systemd"]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["Los registros pueden incluir nombres de usuario, rutas, direcciones u otros datos sensibles; revise la salida antes de compartirla."]
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "No requiere instalación adicional en sistemas con systemd-journald; journalctl forma parte de systemd.",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Errores del kernel desde hoy",
+      "comando": "sudo journalctl -k -p err --since today --no-pager",
+      "descripcion": "Muestra los mensajes del kernel de prioridad error o más grave desde el inicio del día.",
+      "resultado_esperado": "Se imprimen las entradas coincidentes; la ausencia de salida significa que no hay entradas visibles para ese filtro."
+    },
+    {
+      "nombre": "Advertencias del kernel de la última hora",
+      "comando": "sudo journalctl -k -p warning --since \"1 hour ago\" --no-pager",
+      "descripcion": "Amplía la consulta para incluir advertencias y errores recientes del kernel.",
+      "resultado_esperado": "Se muestran registros desde la última hora con prioridad warning o más grave."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["periodo", "prioridad"],
+    "validaciones": ["Confirme que el sistema utiliza systemd-journald y que el usuario tiene permiso de lectura suficiente.", "Trate el journal como información potencialmente sensible y limite el periodo para evitar exponer datos innecesarios."],
+    "rollback": null
+  }
+}

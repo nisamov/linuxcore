@@ -1,0 +1,70 @@
+{
+  "id": "comprobar_cabeceras_http",
+  "nombre": "Comprobar respuesta HTTP de una URL",
+  "descripcion": "Envía una solicitud HEAD con curl y muestra el código HTTP y la URL final sin descargar el cuerpo de la respuesta. Sigue redirecciones para consultar el destino final.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "red", "diagnostico", "http"]
+  },
+  "sintaxis": {
+    "principal": "curl --head --location --silent --show-error --output /dev/null --write-out '%{http_code} %{url_effective}\\n' \"$1\"",
+    "alternativas": ["curl --head --fail --location --show-error \"$1\""]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "url",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "URL HTTP o HTTPS autorizada a la que curl envía la solicitud HEAD.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": ["curl", "conectividad de red"],
+    "paquetes": ["curl"]
+  },
+  "seguridad": {
+    "nivel": "medio",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["La petición contacta el host indicado y sigue redirecciones; el servidor remoto recibe la conexión. Algunos sitios no implementan HEAD correctamente o responden distinto a GET."]
+  },
+  "instalacion": {
+    "instalable": true,
+    "metodo": "Instalar curl desde el gestor de paquetes si no está disponible.",
+    "paquetes": {
+      "debian_ubuntu": "sudo apt install curl",
+      "arch_linux": "sudo pacman -S curl",
+      "rhel_centos": "sudo dnf install curl"
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Consultar cabeceras de un sitio público",
+      "comando": "curl --head --location --silent --show-error --output /dev/null --write-out '%{http_code} %{url_effective}\\n' https://example.com",
+      "descripcion": "Muestra el código HTTP y la URL efectiva sin imprimir el cuerpo de la respuesta.",
+      "resultado_esperado": "Se imprime el código de estado recibido y la URL final tras las redirecciones."
+    },
+    {
+      "nombre": "Mostrar cabeceras para inspección",
+      "comando": "curl --head --fail --location --show-error https://example.com",
+      "descripcion": "Imprime cabeceras HTTP y falla con estado distinto de cero ante respuestas de error HTTP.",
+      "resultado_esperado": "Se muestran las cabeceras devueltas por el servidor o un mensaje de error de curl."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["url"],
+    "validaciones": ["Acepte únicamente URLs HTTP/HTTPS previstas y verifique el host antes de realizar la solicitud.", "Use el código de salida y el estado HTTP por separado; un código HTTP no garantiza que el contenido de la aplicación sea correcto.", "Considere proxy, redirecciones y certificados TLS según la política de seguridad local."],
+    "rollback": null
+  }
+}

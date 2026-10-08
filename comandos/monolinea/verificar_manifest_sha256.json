@@ -1,0 +1,70 @@
+{
+  "id": "verificar_manifest_sha256",
+  "nombre": "Verificar manifiesto SHA-256",
+  "descripcion": "Comprueba los archivos listados en un manifiesto con sha256sum --check y comunica si cada suma coincide. La verificación solo es confiable si el manifiesto se obtuvo por un canal de confianza.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "seguridad", "integridad", "archivos"]
+  },
+  "sintaxis": {
+    "principal": "sha256sum --check SHA256SUMS",
+    "alternativas": ["sha256sum --check --status SHA256SUMS"]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "archivo_manifiesto",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Manifiesto sha256sum con una suma hexadecimal y la ruta relativa o absoluta de cada archivo.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": ["Lectura del manifiesto y de los archivos que contiene"],
+    "dependencias": ["GNU coreutils"],
+    "paquetes": ["coreutils"]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["Una suma coincidente acredita igualdad con el manifiesto, pero no su autenticidad; obtenga el manifiesto de una fuente confiable y verifique firmas cuando estén disponibles."]
+  },
+  "instalacion": {
+    "instalable": true,
+    "metodo": "sha256sum forma parte normalmente de coreutils y suele estar preinstalado.",
+    "paquetes": {
+      "debian_ubuntu": "sudo apt install coreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install coreutils"
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Comprobar sumas de un manifiesto",
+      "comando": "sha256sum --check SHA256SUMS",
+      "descripcion": "Verifica todas las rutas y sumas registradas en SHA256SUMS.",
+      "resultado_esperado": "Cada archivo se informa como correcto o fallido; archivos ausentes o modificados producen errores."
+    },
+    {
+      "nombre": "Verificar sin imprimir resultados correctos",
+      "comando": "sha256sum --check --status SHA256SUMS",
+      "descripcion": "Realiza la verificación en modo silencioso y deja que el código de salida indique el resultado global.",
+      "resultado_esperado": "Devuelve estado cero si todas las sumas son correctas y distinto de cero si alguna comprobación falla."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["archivo_manifiesto"],
+    "validaciones": ["Compruebe que el manifiesto proviene de una fuente de confianza y que está firmado o autenticado por separado cuando corresponda.", "Ejecute desde el directorio esperado si las rutas del manifiesto son relativas y revise el código de salida del proceso."],
+    "rollback": null
+  }
+}

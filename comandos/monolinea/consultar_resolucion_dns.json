@@ -1,0 +1,70 @@
+{
+  "id": "consultar_resolucion_dns",
+  "nombre": "Consultar resolución DNS del sistema",
+  "descripcion": "Solicita a la biblioteca de resolución del sistema las direcciones asociadas a un nombre. A diferencia de consultar un servidor DNS directamente, respeta la configuración local de NSS y /etc/resolv.conf.",
+  "clasificacion": {
+    "categoria": "monolinea",
+    "subcategoria": "utilidad_monolinea",
+    "tags": ["monolinea", "red", "diagnostico", "dns"]
+  },
+  "sintaxis": {
+    "principal": "getent ahosts \"$1\"",
+    "alternativas": ["getent hosts example.com"]
+  },
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "nombre_host",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Nombre DNS o nombre de host cuya resolución se solicita mediante la configuración local del sistema.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
+  "requisitos": {
+    "permisos": [],
+    "dependencias": ["glibc o implementación NSS equivalente"],
+    "paquetes": ["libc-bin"]
+  },
+  "seguridad": {
+    "nivel": "bajo",
+    "destructivo": false,
+    "requiere_root": false,
+    "requiere_confirmacion": false,
+    "advertencias": ["La consulta usa la configuración de resolución de la máquina y puede revelar el nombre consultado a servidores o servicios de red configurados."]
+  },
+  "instalacion": {
+    "instalable": false,
+    "metodo": "getent suele estar incluido con la biblioteca C del sistema; no suele requerir instalación independiente.",
+    "paquetes": {
+      "debian_ubuntu": "",
+      "arch_linux": "",
+      "rhel_centos": ""
+    }
+  },
+  "ejemplos": [
+    {
+      "nombre": "Consultar direcciones de un dominio",
+      "comando": "getent ahosts example.com",
+      "descripcion": "Muestra las direcciones que el resolvedor local devuelve para example.com.",
+      "resultado_esperado": "Se imprimen una o varias direcciones; una salida vacía o error indica que no hubo resolución visible."
+    },
+    {
+      "nombre": "Consultar un host interno configurado localmente",
+      "comando": "getent hosts servidor.local",
+      "descripcion": "Comprueba si el nombre se resuelve mediante NSS, que puede incluir DNS, /etc/hosts u otras fuentes configuradas.",
+      "resultado_esperado": "Se muestra la dirección y el nombre asociado si existe una entrada resoluble."
+    }
+  ],
+  "automatizacion": {
+    "idempotente": true,
+    "interactivo": false,
+    "apto_script": true,
+    "variables": ["nombre_host"],
+    "validaciones": ["Valide que el nombre sea un hostname esperado y no una dirección o dato sensible accidental.", "Interprete el resultado según NSS y la configuración local; una consulta correcta no garantiza conectividad con el servicio remoto."],
+    "rollback": null
+  }
+}
