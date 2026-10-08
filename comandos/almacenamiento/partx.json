@@ -1,7 +1,7 @@
 {
   "id": "partx",
   "nombre": "partx",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Indica al kernel que vuelva a leer y añadir, eliminar o actualizar particiones de un dispositivo; no crea ni modifica por sí mismo la tabla almacenada en disco.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "partx",
+    "principal": "partx [opciones] dispositivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Añade al kernel las particiones detectadas en el dispositivo.","conflictos":["-d","-u"],"requiere":[]},
+    {"flag":"-d","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina del kernel las particiones indicadas o detectadas.","conflictos":["-a","-u"],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Actualiza en el kernel la información de particiones.","conflictos":["-a","-d"],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra un resumen de las particiones detectadas.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":"inicio:fin","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la acción al rango de números de partición indicado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes para alterar la tabla de particiones del kernel"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "partx modifica la vista del kernel, no la tabla en disco. Eliminar o actualizar particiones que estén en uso puede causar errores de E/S o inconsistencias; verifique montajes y dispositivos mapeados.",
+      "No confunda -d con borrar una partición de la tabla del disco; esa operación requiere una herramienta de particionado."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar particiones detectadas","comando":"sudo partx --show /dev/sda","descripcion":"Presenta las particiones que partx detecta en el dispositivo, sin añadirlas ni eliminarlas del kernel.","resultado_esperado":"Tabla con número, inicio, tamaño y tipo de partición cuando estén disponibles."},
+    {"nombre":"Solicitar nueva lectura de particiones","comando":"sudo partx -u /dev/sda","descripcion":"Solicita al kernel actualizar la información de particiones del disco; úsese solo cuando no estén en uso.","resultado_esperado":"El kernel actualiza las particiones seleccionadas si puede hacerlo de forma segura."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo", "rango_particiones"],
+    "validaciones": ["Confirmar que ninguna partición afectada esté montada o activa.","Consultar tabla actual y escoger el dispositivo correcto; detenerse ante errores de dispositivos ocupados."],
     "rollback": null
   }
 }

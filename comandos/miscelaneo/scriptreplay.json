@@ -1,7 +1,7 @@
 {
   "id": "scriptreplay",
   "nombre": "scriptreplay",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Reproduce una sesión previamente grabada con script, sincronizando la transcripción con el archivo de tiempos.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,16 @@
     ]
   },
   "sintaxis": {
-    "principal": "scriptreplay",
+    "principal": "scriptreplay [-t] archivo_tiempos [archivo_transcripcion]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Compatibilidad histórica: interpreta el primer archivo como datos de tiempos; es el comportamiento predeterminado en versiones actuales.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": "factor", "tipo": "number", "requerido": false, "default": "1", "valores": [], "descripcion": "Ajusta la velocidad de reproducción multiplicando los retardos por el factor indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": "retardo_maximo", "tipo": "number", "requerido": false, "default": null, "valores": [], "descripcion": "Limita el máximo retardo entre eventos de salida, en segundos.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "archivo_tiempos", "tipo": "path", "requerido": true, "default": null, "valores": [], "descripcion": "Archivo de temporización creado por script.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "archivo_transcripcion", "tipo": "path", "requerido": false, "default": "typescript", "valores": [], "descripcion": "Transcripción a mostrar; debe corresponder al archivo de tiempos.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +30,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La reproducción emite el contenido grabado en la terminal actual, incluidos posibles datos sensibles o secuencias de control; use transcripciones de confianza."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Parte de util-linux; requiere archivos generados con script.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux (normalmente instalado)",
+      "arch_linux": "util-linux (normalmente instalado)",
+      "rhel_centos": "util-linux (normalmente instalado)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Reproducir una sesión grabada", "comando": "scriptreplay tiempos.log sesion.log", "descripcion": "Emite la transcripción siguiendo los retardos registrados durante la sesión original.", "resultado_esperado": "La sesión aparece en la terminal con tiempos similares a la grabación."},
+    {"nombre": "Reproducir más rápido", "comando": "scriptreplay -d 2 tiempos.log sesion.log", "descripcion": "Reduce aproximadamente a la mitad los retardos de reproducción con el factor 2.", "resultado_esperado": "La transcripción se reproduce a mayor velocidad; el contenido no se modifica."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique que ambos archivos existan y sean de la misma sesión; confirme opciones de velocidad con la versión instalada."],
     "rollback": null
   }
 }

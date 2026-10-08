@@ -1,7 +1,7 @@
 {
   "id": "arp",
   "nombre": "arp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra y administra la cache ARP del sistema para consultar o modificar asociaciones IPv4 entre direcciones IP y direcciones MAC en la red local.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "arp",
+    "principal": "arp [opciones] [direccion_IP]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":"[host]","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra las entradas ARP, opcionalmente para el host indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra direcciones numericas sin resolver nombres de host.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la operacion a la interfaz de red indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"IP","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Elimina de la cache la entrada del host especificado.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"IP MAC","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Agrega una entrada ARP estatica para la direccion IP y MAC indicadas.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_ADMIN para modificar la cache"],
+    "dependencias": ["net-tools"],
+    "paquetes": ["net-tools"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las operaciones de borrado o insercion alteran la cache ARP y pueden interrumpir conectividad local; normalmente se prefiere ip neigh.",
+      "La disponibilidad y sintaxis exacta dependen de la implementacion net-tools instalada."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install net-tools",
+      "arch_linux": "sudo pacman -S net-tools",
+      "rhel_centos": "sudo dnf install net-tools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar entradas ARP","comando":"arp -an","descripcion":"Lista la cache ARP en formato numerico.","resultado_esperado":"Se muestran las direcciones IPv4 y MAC conocidas en la red local."},
+    {"nombre":"Consultar vecino concreto","comando":"arp -an 192.168.1.1","descripcion":"Filtra la consulta para una direccion IPv4 local conocida.","resultado_esperado":"Se muestra la entrada ARP del vecino si esta presente en la cache."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["direccion_IP","interfaz"],
+    "validaciones": ["Confirmar que se consulta o modifica la interfaz y el vecino esperados; evitar cambios de cache sin necesidad."],
     "rollback": null
   }
 }

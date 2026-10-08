@@ -1,7 +1,7 @@
 {
   "id": "renice",
   "nombre": "renice",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia el valor nice de procesos existentes para ajustar su prioridad relativa de planificación; un valor mayor suele reducir la prioridad de CPU.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,65 @@
     ]
   },
   "sintaxis": {
-    "principal": "renice",
+    "principal": "renice [-n] prioridad [-p PID...] [-g PGID...] [-u usuario...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-n",
+      "argumento": "prioridad",
+      "tipo": "integer",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el valor nice objetivo; el rango habitual de Linux es -20 (mayor prioridad) a 19 (menor prioridad). La semántica histórica puede variar en otras implementaciones.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID...",
+      "tipo": "integer[]",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Interpreta los argumentos siguientes como PID (modo explícito disponible en procps).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-g",
+      "argumento": "PGID...",
+      "tipo": "integer[]",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Aplica el cambio a procesos de los grupos de procesos indicados.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario...",
+      "tipo": "string[]",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Aplica el cambio a procesos propiedad de los usuarios indicados.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Un usuario sin privilegios puede aumentar el valor nice de sus procesos; reducirlo normalmente requiere CAP_SYS_NICE o root."
+    ],
+    "dependencias": [
+      "Planificador de procesos del kernel Linux"
+    ],
+    "paquetes": [
+      "util-linux o procps, según distribución"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +76,47 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Modifica la prioridad de procesos en ejecución y puede afectar su latencia o rendimiento.",
+      "Compruebe usuario y PID; privilegios insuficientes pueden impedir el cambio."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "normalmente_incluido_en_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido habitualmente con util-linux",
+      "arch_linux": "incluido en util-linux",
+      "rhel_centos": "incluido en util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Reducir prioridad de CPU",
+      "comando": "renice -n 10 -p 1234",
+      "descripcion": "Aumenta en 10 el valor nice del proceso 1234 en implementaciones procps que interpretan -n como incremento.",
+      "resultado_esperado": "El proceso recibe un ajuste nice menos favorable si el usuario tiene permisos y el valor resultante está dentro del rango permitido."
+    },
+    {
+      "nombre": "Consultar prioridades antes del cambio",
+      "comando": "ps -o pid,ni,comm -p 1234",
+      "descripcion": "Consulta PID, valor nice y nombre del proceso para validar el objetivo antes de ejecutar renice.",
+      "resultado_esperado": "Una fila con el valor nice actual del proceso, si existe."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "apto_script": true,
+    "variables": [
+      "prioridad",
+      "pid",
+      "pgid",
+      "usuario"
+    ],
+    "validaciones": [
+      "Verificar el PID y valor nice objetivo; límites y permisos dependen del sistema.",
+      "Registrar el valor anterior si se necesita una reversión manual."
+    ],
+    "rollback": "Restaurar el valor nice anterior con renice, si aún es posible y se conservan los permisos."
   }
 }

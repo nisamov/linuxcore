@@ -1,7 +1,7 @@
 {
   "id": "mktemp",
   "nombre": "mktemp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea archivos o directorios temporales con nombres impredecibles y permisos restrictivos, evitando carreras al reservarlos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "mktemp",
+    "principal": "mktemp [opciones] [plantilla], mktemp -d [opciones] [plantilla]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Crea un directorio temporal en vez de un archivo.", "conflictos": [], "requiere": []},
+    {"flag": "-p", "argumento": "directorio", "tipo": "path", "requerido": false, "default": "TMPDIR o /tmp", "valores": [], "descripcion": "Usa el directorio indicado como ubicación base.", "conflictos": [], "requiere": []},
+    {"flag": "--suffix", "argumento": "sufijo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade el sufijo indicado al nombre generado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Escritura y búsqueda en el directorio temporal seleccionado."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Guarde la ruta devuelta y elimine el recurso temporal cuando deje de necesitarlo.", "No construya nombres temporales predecibles manualmente con $$ u otros métodos inseguros.", "El contenido temporal puede ser accesible al propietario y consumir espacio hasta su eliminación."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente viene preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear archivo temporal", "comando": "mktemp", "descripcion": "Crea un archivo temporal con nombre único en la ubicación temporal predeterminada.", "resultado_esperado": "Imprime la ruta del archivo creado, con permisos restrictivos."},
+    {"nombre": "Crear directorio temporal", "comando": "mktemp -d -p /tmp miapp.XXXXXX", "descripcion": "Crea un directorio con nombre aleatorio a partir de la plantilla indicada.", "resultado_esperado": "Imprime la ruta única del directorio creado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta_temporal", "directorio_temporal"],
+    "validaciones": ["Comprobar el estado de salida antes de usar la ruta impresa.", "Eliminar el archivo o directorio en una rutina de limpieza incluso ante errores.", "Usar una plantilla compatible con la implementación GNU instalada."],
     "rollback": null
   }
 }

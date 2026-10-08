@@ -1,7 +1,7 @@
 {
   "id": "nslookup",
   "nombre": "nslookup",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta servidores DNS para resolver nombres, direcciones y tipos de registros desde una interfaz de linea interactiva o en modo no interactivo.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "nslookup",
+    "principal": "nslookup [-opcion] [nombre | direccion] [servidor]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-type=tipo","argumento":"tipo_DNS","tipo":"string","requerido":false,"default":"A","valores":["A","AAAA","MX","NS","TXT","SOA","PTR"],"descripcion":"Selecciona el tipo de registro para la consulta.","conflictos":[],"requiere":[]},
+    {"flag":"-timeout=segundos","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Establece el tiempo de espera por intento en implementaciones que admiten esta opcion.","conflictos":[],"requiere":[]},
+    {"flag":"-debug","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa informacion de depuracion de la consulta.","conflictos":[],"requiere":[]},
+    {"flag":"servidor","argumento":"host_o_IP","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Usa el servidor DNS indicado para esta consulta.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red al servidor DNS"],
+    "dependencias": ["bind-utils / dnsutils"],
+    "paquetes": ["dnsutils (Debian/Ubuntu), bind-utils (RHEL), bind (Arch)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +30,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "nslookup tiene variantes de sintaxis; confirme opciones disponibles con la version instalada.",
+      "Las consultas DNS pueden quedar registradas por el resolutor; limite las pruebas a nombres necesarios."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install dnsutils",
+      "arch_linux": "sudo pacman -S bind",
+      "rhel_centos": "sudo dnf install bind-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Resolver un nombre","comando":"nslookup example.com","descripcion":"Consulta la resolucion DNS predeterminada del nombre de ejemplo.","resultado_esperado":"Muestra el servidor DNS utilizado y las direcciones devueltas."},
+    {"nombre":"Consultar registros MX","comando":"nslookup -type=MX example.com","descripcion":"Solicita registros de servidores de correo para el dominio de ejemplo.","resultado_esperado":"Se imprimen los registros MX disponibles o una respuesta sin datos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre","tipo_DNS","servidor"],
+    "validaciones": ["Validar nombre/tipo y distinguir NXDOMAIN, timeout y ausencia de registros."],
     "rollback": null
   }
 }

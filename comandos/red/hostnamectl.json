@@ -1,7 +1,7 @@
 {
   "id": "hostnamectl",
   "nombre": "hostnamectl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y administra el nombre de host del sistema y sus metadatos estaticos, transitorios y de chasis mediante systemd-hostnamed.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "hostnamectl",
+    "principal": "hostnamectl [opciones] [comando] [argumentos]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"status","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra el nombre de host y datos generales del sistema; es el comportamiento predeterminado.","conflictos":[],"requiere":[]},
+    {"flag":"hostname","argumento":"nombre","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Establece el nombre de host estatico y normalmente tambien el transitorio.","conflictos":[],"requiere":[]},
+    {"flag":"--static","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra o establece solo el nombre de host estatico al usar el subcomando aplicable.","conflictos":[],"requiere":[]},
+    {"flag":"--transient","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra o establece solo el nombre de host transitorio donde se admite.","conflictos":[],"requiere":[]},
+    {"flag":"--pretty","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra nombres de host con escape de caracteres no ASCII legible.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consulta; root o autorizacion polkit para cambios"],
+    "dependencias": ["systemd y systemd-hostnamed"],
+    "paquetes": ["systemd (incluido en la mayoria de distribuciones systemd)"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar el nombre de host puede afectar resolucion local, certificados, servicios y herramientas de gestion; use un nombre valido y coordinado.",
+      "Los cambios requieren systemd-hostnamed y privilegios administrativos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_con_systemd",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "Incluido con systemd (paquete systemd)",
+      "arch_linux": "Incluido con systemd (paquete systemd)",
+      "rhel_centos": "Incluido con systemd (paquete systemd)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar identidad del sistema","comando":"hostnamectl status","descripcion":"Muestra el nombre de host y metadatos del equipo local.","resultado_esperado":"Imprime hostname estatico/transitorio y detalles de sistema disponibles."},
+    {"nombre":"Consultar hostname estatico","comando":"hostnamectl --static","descripcion":"Imprime solo el nombre de host estatico configurado.","resultado_esperado":"Devuelve el hostname estatico actual en una linea."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_host"],
+    "validaciones": ["Validar formato y unicidad del hostname y revisar servicios que dependen de el antes de aplicar cambios."],
     "rollback": null
   }
 }

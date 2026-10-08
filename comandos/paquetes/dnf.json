@@ -1,7 +1,7 @@
 {
   "id": "dnf",
   "nombre": "dnf",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Gestor de paquetes de alto nivel de Fedora y sistemas RHEL compatibles. Administra paquetes RPM desde repositorios, resuelve dependencias y permite instalar, actualizar, eliminar y consultar paquetes; no es rpm, que opera a bajo nivel.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "dnf",
+    "principal": "dnf [opciones] <comando> [paquetes...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "install", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala los paquetes desde repositorios habilitados y resuelve dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "remove", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los paquetes indicados y puede retirar dependencias que ya no se necesiten.", "conflictos": [], "requiere": []},
+    {"flag": "upgrade", "argumento": "[PAQUETE...]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza todos los paquetes o solo los indicados; DNF puede ajustar dependencias para completar la transacción.", "conflictos": [], "requiere": []},
+    {"flag": "search", "argumento": "TÉRMINO", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Busca paquetes en los metadatos de repositorios configurados.", "conflictos": [], "requiere": []},
+    {"flag": "info", "argumento": "PAQUETE", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra información del paquete disponible en repositorios o instalado.", "conflictos": [], "requiere": []},
+    {"flag": "makecache", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Descarga o genera metadatos de los repositorios configurados.", "conflictos": [], "requiere": []},
+    {"flag": "-y, --assumeyes", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Responde afirmativamente a las preguntas de la transacción.", "conflictos": [], "requiere": []},
+    {"flag": "--refresh", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Marca los metadatos de repositorios para que se actualicen antes de la operación.", "conflictos": [], "requiere": []},
+    {"flag": "--assumeno", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Responde no a las preguntas y evita aplicar una transacción que solicita confirmación.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para modificar paquetes"],
+    "dependencias": ["repositorios DNF habilitados", "conectividad de red para descargar metadatos y paquetes"],
+    "paquetes": ["dnf (Fedora y versiones actuales de RHEL compatibles)"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Revisa la transacción propuesta antes de confirmar; una actualización puede sustituir o retirar paquetes.", "No uses DNF como si fuera el instalador de archivos RPM de bajo nivel: DNF trabaja con repositorios y dependencias."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Gestor nativo de Fedora y de RHEL 8 o posterior; normalmente se instala como parte del sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
-      "rhel_centos": ""
+      "rhel_centos": "dnf (RHEL 8+ y derivados que lo incluyan; la disponibilidad depende de la versión)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar y mostrar información de nginx", "comando": "dnf info nginx", "descripcion": "Consulta los metadatos del paquete nginx disponibles en repositorios configurados.", "resultado_esperado": "Muestra versión, origen, arquitectura y descripción si el paquete está disponible."},
+    {"nombre": "Instalar jq sin preguntas", "comando": "sudo dnf install -y jq", "descripcion": "Instala jq y las dependencias necesarias desde los repositorios habilitados.", "resultado_esperado": "jq queda instalado; DNF informa de la transacción y de cualquier error de repositorio."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verificar la distribución y los repositorios habilitados antes de ejecutar cambios.", "En automatización, revisar el código de salida y registrar el resumen de transacción.", "No añadir -y sin validar de antemano el origen y el alcance de los paquetes."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "chrt",
   "nombre": "chrt",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta o configura la política de planificación y la prioridad en tiempo real de un proceso o comando.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,170 @@
     ]
   },
   "sintaxis": {
-    "principal": "chrt",
-    "alternativas": []
+    "principal": "chrt [opciones] prioridad comando [argumentos...]",
+    "alternativas": [
+      "chrt [opciones] -p prioridad PID",
+      "chrt -p PID"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Selecciona la política SCHED_FIFO para el comando o proceso.",
+      "conflictos": [
+        "-r",
+        "-o",
+        "-b",
+        "-d",
+        "-i"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Selecciona la política SCHED_RR de round-robin en tiempo real.",
+      "conflictos": [
+        "-f",
+        "-o",
+        "-b",
+        "-d",
+        "-i"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-o",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Selecciona la política SCHED_OTHER.",
+      "conflictos": [
+        "-f",
+        "-r",
+        "-b",
+        "-d",
+        "-i"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-b",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Selecciona SCHED_BATCH.",
+      "conflictos": [
+        "-f",
+        "-r",
+        "-o",
+        "-d",
+        "-i"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-i",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Selecciona SCHED_IDLE cuando el kernel lo admite.",
+      "conflictos": [
+        "-f",
+        "-r",
+        "-o",
+        "-b",
+        "-d"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Opera sobre un PID existente; sin prioridad consulta la política, con prioridad intenta modificarla.",
+      "conflictos": [],
+      "requiere": [
+        "PID"
+      ]
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Cambiar a políticas/prioridades de tiempo real normalmente requiere root o CAP_SYS_NICE; límites RLIMIT_RTPRIO también pueden aplicar."
+    ],
+    "dependencias": [
+      "Políticas de planificación admitidas por el kernel Linux"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Modifica la planificación del proceso. Una tarea FIFO/RR con prioridad alta que no ceda CPU puede bloquear otras tareas y degradar gravemente el sistema.",
+      "No configure prioridades en tiempo real sin comprender límites, afinidad y mecanismo de recuperación."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Consultar política de un proceso",
+      "comando": "chrt -p 1234",
+      "descripcion": "Muestra política y prioridad actual del PID 1234 sin cambiarla.",
+      "resultado_esperado": "Política y prioridad actuales si el proceso es accesible."
+    },
+    {
+      "nombre": "Iniciar con política batch",
+      "comando": "chrt -b 0 comando_demo",
+      "descripcion": "Inicia un comando con política SCHED_BATCH y prioridad cero.",
+      "resultado_esperado": "El comando se ejecuta con política batch si es compatible con el kernel."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "apto_script": true,
+    "variables": [
+      "politica",
+      "prioridad",
+      "pid",
+      "comando"
+    ],
+    "validaciones": [
+      "Consultar política, rango de prioridad y límites del kernel antes del cambio.",
+      "No aplicar políticas de tiempo real a servicios críticos sin pruebas y acceso de recuperación."
+    ],
+    "rollback": "Restaurar la política/prioridad anterior con chrt -p si se guardó y se conservan los permisos."
   }
 }

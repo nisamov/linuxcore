@@ -1,7 +1,7 @@
 {
   "id": "split",
   "nombre": "split",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Divide un archivo o flujo en varios fragmentos consecutivos, por tamaño, número de líneas o cantidad de partes, y asigna prefijos a sus nombres.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "split",
+    "principal": "split [opciones] [archivo [prefijo]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": "líneas", "tipo": "integer", "requerido": false, "default": 1000, "valores": [], "descripcion": "Crea fragmentos con el máximo indicado de líneas cada uno.", "conflictos": ["-b", "-C", "-n"], "requiere": []},
+    {"flag": "-b", "argumento": "bytes", "tipo": "size", "requerido": false, "default": null, "valores": [], "descripcion": "Divide por cantidad máxima de bytes por fragmento.", "conflictos": ["-l", "-C", "-n"], "requiere": []},
+    {"flag": "-C", "argumento": "bytes", "tipo": "size", "requerido": false, "default": null, "valores": [], "descripcion": "Limita bytes por fragmento procurando no partir líneas.", "conflictos": ["-l", "-b", "-n"], "requiere": []},
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Usa sufijos numéricos decimales en vez de alfabéticos.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": "longitud", "tipo": "integer", "requerido": false, "default": 2, "valores": [], "descripcion": "Establece la longitud del sufijo de nombre de los fragmentos.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura del archivo de entrada y escritura en el directorio de salida."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Puede crear muchos archivos y consumir almacenamiento; compruebe prefijo y espacio disponible.", "La salida puede sobrescribir archivos con nombres coincidentes según la implementación y las opciones; use un directorio vacío."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Dividir cada mil líneas", "comando": "split -l 1000 registro.log parte-", "descripcion": "Crea archivos de salida con hasta mil líneas cada uno y prefijo parte-.", "resultado_esperado": "Se generan fragmentos consecutivos como parte-aa, parte-ab, etc."},
+    {"nombre": "Dividir en fragmentos de 10 MiB", "comando": "split -b 10M imagen.iso fragmento-", "descripcion": "Divide la entrada en piezas de tamaño máximo aproximado de 10 MiB.", "resultado_esperado": "Se crean fragmentos con nombres basados en fragmento- y sufijos secuenciales."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "prefijo", "tamaño_fragmento"],
+    "validaciones": ["Usar directorio de salida controlado y sin archivos coincidentes.", "Comprobar espacio y cantidad estimada de fragmentos.", "Validar reconstrucción y sumas si los fragmentos se transferirán."],
     "rollback": null
   }
 }

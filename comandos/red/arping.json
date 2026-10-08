@@ -1,7 +1,7 @@
 {
   "id": "arping",
   "nombre": "arping",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Envía solicitudes ARP para comprobar si una dirección IPv4 responde en el segmento Ethernet local; no enruta a través de routers.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "arping",
+    "principal": "arping [opciones] direccion_IP",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-I","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona la interfaz de red de salida.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"cuenta","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Termina despues de enviar el numero indicado de solicitudes.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Espera como maximo el tiempo indicado antes de salir.","conflictos":[],"requiere":[]},
+    {"flag":"-D","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Comprueba si la direccion IPv4 esta duplicada en la red local (duplicate address detection).","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_NET_RAW o root; algunas operaciones requieren privilegios elevados"],
+    "dependencias": ["arping"],
+    "paquetes": ["iputils-arping o arping, segun la distribucion"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +30,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Limite las sondas a redes propias o autorizadas; las solicitudes ARP generan trafico visible en el segmento local.",
+      "Las opciones varian entre iputils-arping y otras implementaciones; compruebe arping --help."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iputils-arping",
+      "arch_linux": "sudo pacman -S iputils",
+      "rhel_centos": "sudo dnf install iputils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Comprobar vecino local","comando":"sudo arping -I eth0 -c 3 192.168.1.1","descripcion":"Envía tres solicitudes ARP por eth0 a un host de la LAN autorizada.","resultado_esperado":"Se informa de respuestas, latencia y MAC observada, o de ausencia de respuesta."},
+    {"nombre":"Detectar uso de una IP local","comando":"sudo arping -D -I eth0 -c 3 192.168.1.50","descripcion":"Comprueba mediante ARP si una IP candidata ya está en uso en el segmento local.","resultado_esperado":"La herramienta indica si recibió respuestas que sugieren un conflicto de dirección."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz","direccion_IP","cuenta"],
+    "validaciones": ["Validar que la interfaz existe y que la direccion pertenece a una red propia o autorizada."],
     "rollback": null
   }
 }

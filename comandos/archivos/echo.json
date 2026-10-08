@@ -1,7 +1,7 @@
 {
   "id": "echo",
   "nombre": "echo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Escribe los argumentos en la salida estándar separados por espacios y, normalmente, añade un salto de línea; en shells suele ser un comando integrado.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "echo",
+    "principal": "echo [opciones] [argumento...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Omite el salto de línea final.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Interpreta secuencias de escape con implementaciones que admiten esta opción.", "conflictos": ["-E"], "requiere": []},
+    {"flag": "-E", "argumento": null, "tipo": "boolean", "requerido": false, "default": true, "valores": [], "descripcion": "Desactiva la interpretación de secuencias de escape en GNU echo.", "conflictos": ["-e"], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No requiere permisos especiales."],
+    "dependencias": ["Comando integrado de muchas shells o GNU coreutils si se ejecuta como binario."],
+    "paquetes": ["coreutils (para /usr/bin/echo); normalmente disponible"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El comportamiento de -e, -E y de argumentos que comienzan con guion varía entre shells e implementaciones.", "Para salida exacta y datos arbitrarios en scripts, prefiera printf."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "El comando suele estar integrado en la shell; GNU /usr/bin/echo pertenece a coreutils.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Imprimir un mensaje", "comando": "echo 'Proceso terminado'", "descripcion": "Escribe el mensaje en la salida estándar con un salto de línea final.", "resultado_esperado": "Se muestra Proceso terminado en una línea."},
+    {"nombre": "Suprimir salto final", "comando": "echo -n 'Cargando...'", "descripcion": "Imprime el texto sin terminar la línea, según la implementación de la shell.", "resultado_esperado": "El cursor permanece al final del texto en la misma línea."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["texto"],
+    "validaciones": ["Usar printf en scripts que dependan de escapes o formato exacto.", "Comprobar qué implementación de echo proporciona la shell."],
     "rollback": null
   }
 }

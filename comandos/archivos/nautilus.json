@@ -1,7 +1,7 @@
 {
   "id": "nautilus",
   "nombre": "nautilus",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Abre el gestor de archivos GNOME en una ventana gráfica, opcionalmente mostrando una ruta; no es una herramienta de consola para manipular archivos en lote.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "nautilus",
+    "principal": "nautilus [opciones] [URI...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--new-window", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Abre una ventana nueva en vez de reutilizar una existente.", "conflictos": [], "requiere": []},
+    {"flag": "--tabs", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Abre las URI indicadas como pestañas en una ventana, cuando está disponible.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Sesión gráfica activa y permisos de acceso a la ruta que se desea abrir."],
+    "dependencias": ["Entorno gráfico GNOME, GTK y Nautilus."],
+    "paquetes": ["nautilus"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No ejecutar con sudo para administrar archivos gráficos: puede crear archivos propiedad de root y ampliar el impacto de errores.", "La disponibilidad de opciones depende de la versión de GNOME y de una sesión gráfica."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar Nautilus desde los repositorios de la distribución; requiere componentes GNOME.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "nautilus",
+      "arch_linux": "nautilus",
+      "rhel_centos": "nautilus"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Abrir directorio personal", "comando": "nautilus ~", "descripcion": "Abre el gestor de archivos en el directorio personal del usuario.", "resultado_esperado": "Se muestra una ventana gráfica con el contenido del directorio personal."},
+    {"nombre": "Abrir una ruta en ventana nueva", "comando": "nautilus --new-window /var/log", "descripcion": "Solicita una ventana nueva del gestor para explorar /var/log.", "resultado_esperado": "Nautilus muestra la ruta si la sesión gráfica está disponible y el usuario tiene acceso."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["ruta"],
+    "validaciones": ["Comprobar que exista una sesión gráfica y que el usuario pueda acceder a la ruta.", "Usar herramientas de consola para automatizar operaciones sobre archivos."],
     "rollback": null
   }
 }

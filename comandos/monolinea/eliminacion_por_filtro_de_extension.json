@@ -1,7 +1,7 @@
 {
   "id": "eliminacion_por_filtro_de_extension",
   "nombre": "Filtrado por extension de archivo",
-  "descripcion": "Elimina archivos que coinciden con un patron de extension.",
+  "descripcion": "Busca recursivamente desde el directorio actual los archivos cuyo nombre coincide con *.<extensión> y los elimina sin pedir confirmación.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "find . -name \"*.$1\" -delete",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "extension",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Extensión sin punto usada por el patrón *.$1; find la compara contra nombres bajo el directorio actual y sus subdirectorios.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -24,14 +36,16 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "-delete elimina sin confirmación todos los archivos que coincidan recursivamente desde el directorio actual; revise primero el patrón y conserve respaldos."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza find y utilidades proporcionadas por el sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "find . -name \"*.$1\" -delete",
       "descripcion": "Elimina archivos que coinciden con un patron de extension.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Previsualizar archivos de registro que coinciden con la extensión",
+      "comando": "find . -type f -name '*.log' -print",
+      "descripcion": "Lista archivos con extensión .log bajo el directorio actual sin eliminar nada.",
+      "resultado_esperado": "Se muestran las rutas de los archivos coincidentes para revisión antes de cualquier eliminación."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme el directorio de trabajo, que sea el ámbito previsto, y valide la extensión antes de ejecutar una eliminación.", "Previsualice las coincidencias con find sin -delete y revise las rutas; limite el ámbito para evitar borrar archivos ajenos.", "Confirme permisos y que exista una copia de seguridad de los archivos que deban conservarse."] ,
     "rollback": null
   }
 }

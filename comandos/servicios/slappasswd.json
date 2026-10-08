@@ -1,7 +1,7 @@
 {
   "id": "slappasswd",
   "nombre": "slappasswd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Genera una representación hash de una contraseña compatible con los esquemas configurados en OpenLDAP, normalmente para su uso en atributos como userPassword. No cambia la contraseña ni escribe en el directorio por sí mismo.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "slappasswd",
+    "principal": "slappasswd [-h esquema] [-s secreto | -T archivo] [-n]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-h","argumento":"esquema","tipo":"string","requerido":false,"default":"esquema predeterminado del build","valores":["{SSHA}","{SHA}","{SMD5}","{MD5}","{CRYPT}"],"descripcion":"Selecciona el esquema de hash disponible en la compilación; la lista efectiva depende de la versión y módulos instalados.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"secreto","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Proporciona la contraseña en la línea de comandos; puede ser visible en historial o lista de procesos. Si se omite, la herramienta la solicita interactivamente.","conflictos":["-T"],"requiere":[]},
+    {"flag":"-T","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee el secreto desde el archivo indicado; proteja el archivo y sus permisos.","conflictos":["-s"],"requiere":[]},
+    {"flag":"-c","argumento":"formato_sal","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Especifica el formato de sal para esquemas que admiten esta opción.","conflictos":[],"requiere":[]},
+    {"flag":"-g","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Solicita generación aleatoria según las capacidades de la versión instalada.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite el salto de línea final en la salida del hash.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa salida detallada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No requiere root para generar el hash; restrinja el acceso a cualquier archivo o salida que contenga secretos."],
+    "dependencias": ["Utilidad slappasswd de OpenLDAP; el esquema seleccionado debe estar disponible en la compilación"],
+    "paquetes": ["slapd / openldap"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No use -s con una contraseña literal en comandos registrados: puede quedar en el historial o ser visible para otros usuarios mediante procesos.", "El hash no protege contra contraseñas débiles; use una frase robusta y el esquema de contraseña recomendado por la versión de OpenLDAP.", "No confunda generar el hash con actualizar el atributo del usuario en LDAP."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido habitualmente con el servidor OpenLDAP o sus utilidades administrativas.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "slapd",
+      "arch_linux": "openldap",
+      "rhel_centos": "openldap-servers"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Generar hash con solicitud interactiva","comando":"slappasswd -h '{SSHA}'","descripcion":"Solicita una contraseña de forma interactiva y genera su representación con el esquema salted SHA-1 disponible.","resultado_esperado":"Imprime una cadena de hash codificada con el prefijo de esquema; no revela la contraseña en los argumentos del proceso."},
+    {"nombre":"Generar hash desde entrada protegida","comando":"slappasswd -T /root/secretos/ldap-password -h '{SSHA}'","descripcion":"Lee la contraseña desde un archivo restringido y genera un hash para incorporarlo posteriormente a una operación LDAP controlada.","resultado_esperado":"Imprime el hash en salida estándar; el archivo de entrada debe tener permisos limitados y eliminarse de forma segura cuando ya no sea necesario."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "interactivo": true,
+    "apto_script": true,
+    "variables": ["esquema", "archivo_secreto"],
+    "validaciones": ["Comprobar que el esquema está soportado por la compilación y es aceptado por la política del servidor.", "No pasar secretos como argumentos; proteger entrada, salida y logs del proceso."],
     "rollback": null
   }
 }

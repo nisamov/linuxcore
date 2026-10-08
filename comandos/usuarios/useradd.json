@@ -1,7 +1,7 @@
 {
   "id": "useradd",
   "nombre": "useradd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea una cuenta local y, según las opciones, su directorio personal, grupo primario, grupos suplementarios, shell y caducidad.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,56 @@
     ]
   },
   "sintaxis": {
-    "principal": "useradd",
+    "principal": "useradd [opciones] usuario",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-m","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Crea el directorio personal si no existe.","conflictos":["-M"],"requiere":[]},
+    {"flag":"-M","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No crea el directorio personal.","conflictos":["-m"],"requiere":[]},
+    {"flag":"-d","argumento":"directorio","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Define la ruta del directorio personal.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"shell","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Define la shell de inicio de sesión.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":"UID","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Asigna un UID explícito.","conflictos":[],"requiere":[]},
+    {"flag":"-g","argumento":"grupo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Define el grupo primario existente por nombre o GID.","conflictos":[],"requiere":[]},
+    {"flag":"-G","argumento":"lista_grupos","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Define una lista separada por comas de grupos suplementarios existentes.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"comentario","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el campo de comentario/GECOS.","conflictos":[],"requiere":[]},
+    {"flag":"-e","argumento":"fecha","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece la fecha de expiración de la cuenta, normalmente YYYY-MM-DD.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Crea una cuenta de sistema con UID dentro del rango configurado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios administrativos"],
+    "dependencias": ["base de datos local de usuarios/grupos, configuración shadow y, para -m, espacio de almacenamiento"],
+    "paquetes": ["shadow en Debian/Ubuntu/Arch; shadow-utils en RHEL/Fedora"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Crear una cuenta concede una identidad local y puede habilitar acceso al sistema; verifica nombre, UID, grupos, shell, home y políticas antes de ejecutarlo.",
+      "No uses -p con una contraseña en texto claro ni expongas hashes en la línea de comandos; configura credenciales mediante passwd u otro mecanismo seguro.",
+      "Los valores predeterminados, rangos UID y opciones disponibles dependen de /etc/login.defs y de la versión de shadow."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades shadow.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Crear cuenta con home y shell","comando":"sudo useradd -m -s /bin/bash ana","descripcion":"Crea ana con directorio personal y bash como shell de acceso.","resultado_esperado":"La cuenta queda creada; configura después una contraseña con sudo passwd ana si corresponde a la política."},
+    {"nombre":"Crear cuenta con grupos suplementarios","comando":"sudo useradd -m -g usuarios -G desarrollo,contenedores -s /bin/bash diego","descripcion":"Crea diego con grupo primario usuarios y los grupos suplementarios indicados.","resultado_esperado":"Los atributos quedan registrados; compruébalos con id diego y getent passwd diego."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["usuario", "UID", "grupo_primario", "grupos_suplementarios", "home", "shell"],
+    "validaciones": ["Comprobar que la cuenta y UID no existan, los grupos estén creados y el shell sea válido.", "Aplicar privilegios mínimos, revisar la configuración de creación de home y verificar el estado final con getent/id."],
     "rollback": null
   }
 }

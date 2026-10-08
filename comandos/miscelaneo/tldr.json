@@ -1,7 +1,7 @@
 {
   "id": "tldr",
   "nombre": "tldr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta páginas comunitarias breves con ejemplos prácticos de comandos; los clientes descargan o almacenan localmente las páginas según su implementación.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "tldr",
+    "principal": "tldr [opciones] comando",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-p", "argumento": "plataforma", "tipo": "string", "requerido": false, "default": null, "valores": ["linux", "osx", "sunos", "windows"], "descripcion": "Selecciona la plataforma para la página solicitada en clientes que ofrecen esta opción.", "conflictos": [], "requiere": []},
+    {"flag": "-L", "argumento": "idioma", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona el idioma preferido de las páginas si el cliente dispone de traducciones.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Lista las páginas disponibles en la caché local.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza la caché local de páginas desde la fuente configurada.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": "consulta", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca páginas que coincidan con una consulta textual en clientes que admiten esta opción.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra información de versión del cliente instalado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las páginas son contenido comunitario y pueden estar incompletas o diferir de la versión local del comando; confirme siempre las opciones críticas en su manual oficial."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable mediante el paquete tldr de la distribución o un cliente Node/Python; las opciones cambian entre clientes.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "tldr (paquete disponible según versión)",
+      "arch_linux": "tealdeer o tldr (cliente disponible en repositorios)",
+      "rhel_centos": "tldr/tealdeer (disponibilidad variable)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar ejemplos de grep", "comando": "tldr grep", "descripcion": "Muestra una selección resumida de ejemplos comunitarios para grep.", "resultado_esperado": "Página concisa con ejemplos de uso; la primera consulta puede requerir descargar la caché."},
+    {"nombre": "Consultar página de plataforma", "comando": "tldr -p linux tar", "descripcion": "Solicita la página de tar para Linux en clientes compatibles con -p.", "resultado_esperado": "Ejemplos de tar asociados a Linux, si la opción está implementada por ese cliente."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe las opciones con tldr --help de la implementación instalada y confirme instrucciones críticas en man o documentación oficial."],
     "rollback": null
   }
 }

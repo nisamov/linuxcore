@@ -1,7 +1,7 @@
 {
   "id": "fzf",
   "nombre": "fzf",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Buscador difuso interactivo para seleccionar líneas de la entrada estándar o archivos, con búsqueda incremental y soporte de previsualización.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "fzf",
+    "principal": "fzf [opciones] [consulta inicial]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-m", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Permite seleccionar múltiples resultados.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": "consulta", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Inicia la búsqueda con el texto indicado.", "conflictos": [], "requiere": []},
+    {"flag": "--filter", "argumento": "consulta", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Filtra la entrada sin iniciar interfaz interactiva y sale con los resultados coincidentes.", "conflictos": [], "requiere": []},
+    {"flag": "--preview", "argumento": "comando", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Ejecuta el comando de previsualización para la línea resaltada; admite expresiones de fzf como {}.", "conflictos": [], "requiere": []},
+    {"flag": "--height", "argumento": "altura", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra una interfaz de altura limitada en vez de ocupar toda la pantalla.", "conflictos": [], "requiere": []},
+    {"flag": "--reverse", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Coloca los resultados cerca de la parte superior de la interfaz.", "conflictos": [], "requiere": []},
+    {"flag": "--delimiter", "argumento": "patrón", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el delimitador usado por opciones de transformación de campos.", "conflictos": [], "requiere": []},
+    {"flag": "--with-nth", "argumento": "rango", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Transforma las líneas para la búsqueda utilizando los campos indicados.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +33,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["--preview ejecuta un comando de shell con datos derivados de la selección; cite y valide los valores antes de interpolarlos. El modo interactivo requiere una terminal."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución o mediante el gestor de paquetes correspondiente.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "fzf",
+      "arch_linux": "fzf",
+      "rhel_centos": "fzf (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar entre archivos", "comando": "find . -type f | fzf", "descripcion": "Abre el selector interactivo con la lista de archivos encontrados.", "resultado_esperado": "La ruta seleccionada se imprime al salir de la interfaz."},
+    {"nombre": "Filtrar sin modo interactivo", "comando": "printf 'rojo\\nverde\\nazul\\n' | fzf --filter=ver", "descripcion": "Busca coincidencias con ver y devuelve los resultados sin abrir la interfaz.", "resultado_esperado": "verde"}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Para automatización no interactiva use --filter; compruebe que la entrada no esté vacía y escape datos usados en --preview."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "getenforce",
   "nombre": "getenforce",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra el modo SELinux efectivo: Enforcing, Permissive o Disabled; no admite opciones ni cambia el modo.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,40 @@
     "principal": "getenforce",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "(sin opciones)", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Consulta el modo SELinux actual.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Kernel con soporte SELinux"],
+    "paquetes": ["policycoreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Disabled indica que SELinux no está aplicando políticas en el sistema; consulte también la configuración de arranque para determinar persistencia."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install policycoreutils",
+      "arch_linux": "sudo pacman -S policycoreutils",
+      "rhel_centos": "sudo dnf install policycoreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar modo SELinux", "comando": "getenforce", "descripcion": "Comprueba el modo actual en el sistema administrado.", "resultado_esperado": "Imprime Enforcing, Permissive o Disabled."},
+    {"nombre": "Registrar estado en auditoría", "comando": "printf 'SELinux: '; getenforce", "descripcion": "Incluye el modo actual en una consulta local de estado.", "resultado_esperado": "Una línea con el modo informado."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Interpretar Disabled como SELinux no aplicado y registrar versión/contexto del host junto al resultado."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "mmv",
   "nombre": "mmv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Renombra o mueve varios archivos mediante patrones de origen y destino; las reglas de sustitución dependen de la implementación mmv instalada.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "mmv",
+    "principal": "mmv patrón_origen patrón_destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "patron_origen", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Patrón que selecciona los nombres de origen; la sintaxis y las capturas dependen de la implementación mmv instalada.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "patron_destino", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Patrón que construye los nombres de destino para los orígenes coincidentes, usando las reglas de sustitución de la implementación instalada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en los directorios de origen y destino."],
+    "dependencias": ["Implementación externa mmv; no forma parte de GNU coreutils."],
+    "paquetes": ["mmv (si está disponible en los repositorios de la distribución)"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La sintaxis de patrones puede diferir entre paquetes llamados mmv; consulte el manual de la implementación concreta.", "No se documentan opciones por no asumir que sean portables. Un patrón demasiado amplio puede mover o sobrescribir muchos archivos; pruebe en una copia y haga respaldo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar el paquete mmv solo si está disponible para la distribución; confirme el origen y la sintaxis del paquete.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "mmv",
+      "arch_linux": "mmv",
+      "rhel_centos": "mmv (disponibilidad según repositorio)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Cambiar extensión según patrón", "comando": "mmv '*.jpeg' '#1.jpg'", "descripcion": "En la implementación tradicional, renombra los archivos coincidentes sustituyendo el sufijo capturado por .jpg.", "resultado_esperado": "Los nombres coincidentes cambian de .jpeg a .jpg; confirme la regla de captura en el manual instalado."},
+    {"nombre": "Añadir prefijo a nombres", "comando": "mmv 'foto_*.png' 'archivo_#1.png'", "descripcion": "Usa el segmento coincidente con * para cambiar el prefijo de los archivos foto_*.png.", "resultado_esperado": "Los archivos coincidentes se renombran con el prefijo archivo_; revise colisiones antes de ejecutarlo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["patrón_origen", "patrón_destino"],
+    "validaciones": ["Identificar implementación y consultar su manual local.", "Probar la regla en una copia y revisar conflictos antes de cualquier renombrado en lote.", "Respaldar los archivos afectados."],
     "rollback": null
   }
 }

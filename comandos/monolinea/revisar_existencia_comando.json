@@ -1,7 +1,7 @@
 {
   "id": "revisar_existencia_comando",
   "nombre": "Revisar existencia de comando",
-  "descripcion": "Verifica si un comando existe en el sistema",
+  "descripcion": "Usa command -v para comprobar si la shell puede resolver el nombre indicado como comando, función, alias o ejecutable en PATH, y muestra un mensaje según el resultado.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\"",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "comando",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Nombre del comando, función, alias o ejecutable cuya disponibilidad en la shell se consulta (argumento posicional $1).",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -31,7 +43,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; command y type son funciones integradas de los shells compatibles.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +56,12 @@
       "comando": "command -v $1 >/dev/null && echo \"El comando existe en el sistema.\" || echo \"El comando no existe en el sistema.\"",
       "descripcion": "Verifica si un comando existe en el sistema",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Mostrar cómo resuelve el shell un nombre",
+      "comando": "command -V ls",
+      "descripcion": "Describe si ls se resuelve como alias, función, builtin o ejecutable disponible en PATH.",
+      "resultado_esperado": "El shell informa el tipo o la ubicación de la resolución encontrada."
     }
   ],
   "automatizacion": {
@@ -51,7 +69,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Proporcione un nombre de comando simple y esperado; no evalúe ni ejecute la entrada recibida como texto arbitrario.", "Compruebe que la consulta se realiza en el mismo shell y entorno PATH donde se usará el comando."] ,
     "rollback": null
   }
 }

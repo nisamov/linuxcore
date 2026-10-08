@@ -1,7 +1,7 @@
 {
   "id": "swapon",
   "nombre": "swapon",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Activa áreas de intercambio configuradas, por dispositivo/archivo o desde /etc/fstab, y muestra información de swap activa.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,14 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "swapon",
+    "principal": "swapon [opciones] [dispositivo|archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa las áreas de intercambio indicadas como swap en /etc/fstab.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el resumen de áreas swap activas; se conserva por compatibilidad, se prefiere --show.","conflictos":[],"requiere":[]},
+    {"flag":"--show","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra las áreas de intercambio activas.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"prioridad","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Asigna la prioridad especificada al área de intercambio activada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +30,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Activar swap cambia la gestión de memoria y puede producir E/S intensa si el sistema está bajo presión de memoria.",
+      "Compruebe que el área tenga una firma válida y sea el destino previsto antes de activarla."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar swap activa","comando":"swapon --show","descripcion":"Lista dispositivos y archivos de intercambio que están activos.","resultado_esperado":"Tabla con nombre, tipo, tamaño, uso y prioridad disponibles."},
+    {"nombre":"Activar área swap específica","comando":"sudo swapon /dev/sdb2","descripcion":"Activa la partición swap indicada si contiene una firma válida.","resultado_esperado":"La partición queda disponible como swap; puede comprobarse con swapon --show."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo_swap"],
+    "validaciones": ["Comprobar la firma con blkid o wipefs -n y verificar que el dispositivo no contenga datos necesarios.","Monitorizar espacio y presión de memoria tras activar swap."],
     "rollback": null
   }
 }

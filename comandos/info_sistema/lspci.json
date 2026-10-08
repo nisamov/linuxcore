@@ -1,7 +1,7 @@
 {
   "id": "lspci",
   "nombre": "lspci",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista los dispositivos PCI conectados y, con opciones adicionales, muestra sus identificadores, controladores asociados y detalles de configuración.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "lspci",
+    "principal": "lspci [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-nn","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra nombres legibles y códigos numéricos de fabricante y dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-k","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el controlador del kernel y los módulos candidatos para cada dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-v, -vv","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Aumenta el detalle de la información mostrada.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"[dominio:]bus:dispositivo.función","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona el dispositivo PCI indicado por su dirección de bus.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Dispositivos y datos PCI expuestos por el kernel mediante sysfs"],
+    "paquetes": ["pciutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Algunas capacidades o campos detallados pueden requerir acceso privilegiado y variar según permisos del sistema."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en pciutils (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "pciutils",
+      "arch_linux": "pciutils",
+      "rhel_centos": "pciutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Inventario PCI con identificadores","comando":"lspci -nn","descripcion":"Lista dispositivos PCI junto con sus códigos numéricos de fabricante y dispositivo.","resultado_esperado":"Una línea por dispositivo con dirección PCI, descripción y códigos entre corchetes."},
+    {"nombre":"Ver controlador asociado","comando":"lspci -k","descripcion":"Muestra el controlador actualmente en uso y los módulos compatibles para cada dispositivo.","resultado_esperado":"Secciones Kernel driver in use y Kernel modules cuando se conocen."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["DIRECCION_PCI (opcional)"],
+    "validaciones": ["Para inventarios automatizados, usar códigos numéricos (-nn) y considerar campos ausentes por permisos o hardware."],
     "rollback": null
   }
 }

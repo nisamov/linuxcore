@@ -1,7 +1,7 @@
 {
   "id": "vgs",
   "nombre": "vgs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra un informe tabular resumido de grupos de volúmenes LVM, con capacidad, espacio libre y estado.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "vgs",
+    "principal": "vgs [opciones] [VG|Tag...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye grupos internos y grupos normalmente omitidos.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"columnas","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona columnas del informe separadas por comas.","conflictos":[],"requiere":[]},
+    {"flag":"-S","argumento":"criterio","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Filtra grupos según criterios de selección LVM.","conflictos":[],"requiere":[]},
+    {"flag":"--reportformat","argumento":"formato","tipo":"string","requerido":false,"default":null,"valores":["basic","json"],"descripcion":"Selecciona el formato tabular básico o JSON para el informe.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de metadatos LVM"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El informe depende de los dispositivos visibles según la configuración de LVM; los valores de espacio se interpretan según unidades y campos seleccionados."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar grupos resumidos","comando":"sudo vgs","descripcion":"Muestra un resumen de los grupos de volúmenes visibles.","resultado_esperado":"Tabla de nombre, número de PV/LV y capacidad total/libre."},
+    {"nombre":"Informe JSON seleccionado","comando":"sudo vgs --reportformat json -o vg_name,vg_size,vg_free","descripcion":"Emite en JSON el nombre, tamaño y espacio libre de los grupos.","resultado_esperado":"Documento JSON con filas del informe para procesamiento automatizado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_vg"],
+    "validaciones": ["Comprobar el formato y los campos seleccionados antes de analizar la salida."],
     "rollback": null
   }
 }

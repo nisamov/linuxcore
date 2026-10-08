@@ -1,7 +1,7 @@
 {
   "id": "bc",
   "nombre": "bc",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Calculadora de precisión arbitraria para evaluar expresiones aritméticas mediante entrada interactiva, expresiones o archivos.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "bc",
+    "principal": "bc [-lqsvw] [-e expresion] [-f archivo] [archivo ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Carga la biblioteca matemática estándar y establece una escala decimal inicial de 20.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Suprime el mensaje de bienvenida interactivo.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Procesa en modo compatible con POSIX y desactiva extensiones de GNU bc.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Advierte sobre extensiones de GNU bc incompatibles con POSIX.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": "expresion", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Evalúa el texto como programa bc; es una extensión de GNU bc.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Lee y ejecuta el programa bc del archivo indicado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["bc evalúa un lenguaje de expresiones; ejecute solo archivos y expresiones de confianza. La sintaxis de opciones varía entre GNU bc y otras implementaciones."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bc",
+      "arch_linux": "bc",
+      "rhel_centos": "bc"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Calcular una expresión", "comando": "printf 'scale=2; 10 / 3\\n' | bc", "descripcion": "Evalúa una división con dos cifras decimales usando entrada por tubería.", "resultado_esperado": "3.33"},
+    {"nombre": "Usar funciones matemáticas", "comando": "echo 's(1)' | bc -l", "descripcion": "Carga la biblioteca matemática y calcula el seno de 1 radián.", "resultado_esperado": "Un resultado decimal aproximado a 0.8414709848."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Use punto como separador decimal y configure scale explícitamente cuando necesite precisión decimal determinada."],
     "rollback": null
   }
 }

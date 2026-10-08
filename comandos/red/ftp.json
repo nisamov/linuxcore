@@ -1,7 +1,7 @@
 {
   "id": "ftp",
   "nombre": "ftp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Instruccion interactiva del cliente FTP que inicia una sesion con un servidor y permite transferir archivos; FTP clasico transmite credenciales y datos sin cifrar.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "ftp",
+    "principal": "ftp [opciones] [host [puerto]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-p","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa modo pasivo para transferencias de datos.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Impide el inicio de sesion automatico al conectar.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa salida detallada de la sesion.","conflictos":[],"requiere":[]},
+    {"flag":"open","argumento":"host [puerto]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Instruccion del prompt FTP para abrir una conexion con el servidor indicado.","conflictos":[],"requiere":[]},
+    {"flag":"quit","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Cierra la sesion FTP y sale del cliente.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red al servidor FTP y permisos sobre archivos locales"],
+    "dependencias": ["cliente FTP"],
+    "paquetes": ["ftp o inetutils-ftp, segun distribucion"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "FTP sin TLS expone usuario, contraseña y contenido; prefiera SFTP o FTPS en redes no aisladas.",
+      "Use solo servidores propios o autorizados. Las operaciones de transferencia pueden sobrescribir archivos remotos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ftp",
+      "arch_linux": "sudo pacman -S inetutils",
+      "rhel_centos": "sudo dnf install ftp"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Conectar a servidor FTP de laboratorio","comando":"ftp -n ftp.example.com","descripcion":"Abre el cliente sin iniciar sesion automaticamente; las credenciales se solicitan en el prompt.","resultado_esperado":"Aparece el prompt ftp> tras establecer conexion, si el servidor de ejemplo esta disponible."},
+    {"nombre":"Salir de la sesion","comando":"ftp> quit","descripcion":"Cierra la sesion actual desde el prompt del cliente FTP.","resultado_esperado":"El cliente termina y vuelve al shell local."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["host","puerto","usuario"],
+    "validaciones": ["Verificar que el servidor y la transferencia estan autorizados; no enviar credenciales por FTP sin cifrado."],
     "rollback": null
   }
 }

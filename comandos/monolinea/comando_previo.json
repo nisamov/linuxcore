@@ -1,7 +1,7 @@
 {
   "id": "comando_previo",
   "nombre": "Comando previo",
-  "descripcion": "Ejecuta el ultimo comando.",
+  "descripcion": "Repite el último comando de la lista de historial de la shell interactiva actual. La expansión !! suele ser una función de Bash y otras shells interactivas, no un comando independiente para scripts.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "!!",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "comando_previo",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Comando que ya figura como el último elemento del historial; !! lo recupera implícitamente y lo vuelve a ejecutar, no se escribe como argumento adicional.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +39,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "El comando repetido conserva sus propios efectos: puede modificar archivos, instalar software o eliminar datos. Revise el historial antes de usar !!."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; la expansión de historial la proporciona el shell interactivo compatible.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "!!",
       "descripcion": "Ejecuta el ultimo comando.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Consultar el comando anterior",
+      "comando": "fc -ln -1",
+      "descripcion": "Muestra la entrada más reciente del historial interactivo sin volver a ejecutarla.",
+      "resultado_esperado": "Se imprime el comando anterior sin ejecutarlo de nuevo."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Use la expansión de historial únicamente en un shell interactivo que la admita y tenga el historial habilitado.", "Compruebe qué comando fue el último antes de repetirlo, especialmente si puede modificar datos o estado del sistema."] ,
     "rollback": null
   }
 }

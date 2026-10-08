@@ -1,7 +1,7 @@
 {
   "id": "iconv",
   "nombre": "iconv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Convierte texto entre codificaciones de caracteres usando los conversores disponibles en la biblioteca del sistema.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "iconv",
+    "principal": "iconv [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-f", "argumento": "codificación_origen", "tipo": "string", "requerido": false, "default": "locale actual", "valores": [], "descripcion": "Declara la codificación de los bytes de entrada.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": "codificación_destino", "tipo": "string", "requerido": false, "default": "locale actual", "valores": [], "descripcion": "Declara la codificación de la salida.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "archivo_salida", "tipo": "path", "requerido": false, "default": "salida estándar", "valores": [], "descripcion": "Escribe el resultado convertido en el archivo indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista las codificaciones conocidas por la implementación.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de los archivos de entrada y escritura en el destino si se especifica."],
+    "dependencias": ["GNU libiconv o implementación iconv de la biblioteca C del sistema."],
+    "paquetes": ["libc (iconv suele venir con el sistema); paquete iconv/libiconv si no está disponible"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los caracteres no representables pueden causar error o perderse según las opciones; no sobrescriba el original hasta validar la conversión.", "Una codificación incorrecta de origen puede producir texto corrupto aunque el comando termine correctamente."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Normalmente lo proporciona la biblioteca C del sistema; en sistemas que lo separan, instale el paquete iconv/libiconv de la distribución.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Convertir ISO-8859-1 a UTF-8", "comando": "iconv -f ISO-8859-1 -t UTF-8 entrada.txt -o salida-utf8.txt", "descripcion": "Convierte la codificación declarada del archivo y escribe el resultado en un destino separado.", "resultado_esperado": "salida-utf8.txt contiene el texto codificado en UTF-8 si todos los bytes son válidos."},
+    {"nombre": "Listar codificaciones", "comando": "iconv -l", "descripcion": "Muestra los nombres de codificaciones conocidos por la implementación instalada.", "resultado_esperado": "Imprime una lista de codificaciones admitidas."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["codificación_origen", "codificación_destino", "archivo_entrada", "archivo_salida"],
+    "validaciones": ["Confirmar codificaciones con iconv -l.", "Guardar en archivo temporal o distinto y comprobar estado de salida y contenido antes de sustituir el original."],
     "rollback": null
   }
 }

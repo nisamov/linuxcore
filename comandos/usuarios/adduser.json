@@ -1,7 +1,7 @@
 {
   "id": "adduser",
   "nombre": "adduser",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea usuarios o grupos; en Debian y derivados, adduser es una interfaz de alto nivel que configura la cuenta de forma guiada y no es idéntica a useradd de shadow.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "adduser",
+    "principal": "adduser [opciones] usuario",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--home","argumento":"directorio","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Define el directorio personal de la cuenta.","conflictos":[],"requiere":[]},
+    {"flag":"--shell","argumento":"ruta","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el shell de inicio de sesión.","conflictos":[],"requiere":[]},
+    {"flag":"--uid","argumento":"UID","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Asigna un UID explícito.","conflictos":[],"requiere":[]},
+    {"flag":"--ingroup","argumento":"grupo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Usa un grupo existente como grupo primario (variante Debian).","conflictos":[],"requiere":[]},
+    {"flag":"--disabled-password","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Crea la cuenta sin habilitar autenticación mediante contraseña (variante Debian).","conflictos":[],"requiere":[]},
+    {"flag":"--system","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Crea una cuenta de sistema (variante Debian).","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios administrativos"],
+    "dependencias": ["base de datos local de cuentas (/etc/passwd, /etc/group)"],
+    "paquetes": ["adduser en Debian/Ubuntu; shadow o shadow-utils en otras distribuciones"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Crear cuentas modifica la base de usuarios y puede conceder acceso al sistema; comprueba nombre, UID, grupo, shell y directorio antes de ejecutar.",
+      "Las opciones y el modo interactivo de adduser varían entre distribuciones; confirma la implementación local con man adduser. No pases contraseñas en la línea de comandos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Gestor de paquetes; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install adduser",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Crear una cuenta guiada","comando":"sudo adduser ana","descripcion":"Crea la cuenta ana y solicita interactivamente los datos y la contraseña según la política local.","resultado_esperado":"La cuenta queda registrada y, según la configuración de la distribución, se crea su directorio personal."},
+    {"nombre":"Crear cuenta con shell específico (Debian)","comando":"sudo adduser --disabled-password --shell /bin/bash invitado","descripcion":"Crea invitado sin habilitar contraseña y fija /bin/bash en sistemas con adduser de Debian.","resultado_esperado":"Se crea la cuenta con el shell solicitado; verifica sus demás atributos con getent passwd invitado."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "UID", "grupo", "shell"],
+    "validaciones": ["Confirmar que el usuario no exista y que el UID y grupo estén disponibles.", "Usar opciones no interactivas y específicas de la distribución solo tras verificar su manual local."],
     "rollback": null
   }
 }

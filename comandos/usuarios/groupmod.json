@@ -1,7 +1,7 @@
 {
   "id": "groupmod",
   "nombre": "groupmod",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Modifica atributos de un grupo local existente, como su GID, nombre o lista de miembros suplementarios.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "groupmod",
+    "principal": "groupmod [opciones] grupo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-g","argumento":"GID","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Cambia el GID del grupo.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Permite un GID no único; se utiliza junto con -g.","conflictos":[],"requiere":["-g"]},
+    {"flag":"-n","argumento":"nuevo_nombre","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Cambia el nombre del grupo.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"hash","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece una contraseña de grupo cifrada; se desaconseja su uso en sistemas modernos.","conflictos":[],"requiere":[]},
+    {"flag":"-U","argumento":"lista_usuarios","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece la lista de miembros suplementarios en versiones que admiten esta opción.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios administrativos"],
+    "dependencias": ["base de datos local de grupos y utilidades shadow"],
+    "paquetes": ["shadow en Debian/Ubuntu/Arch; shadow-utils en RHEL/Fedora"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar nombre o GID puede alterar permisos y referencias a archivos; planifica la actualización de ACL, servicios y archivos con el GID antiguo.",
+      "La opción -U y otras capacidades dependen de la versión de shadow. Evita pasar hashes/secretos en argumentos visibles del proceso."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades shadow.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Renombrar grupo","comando":"sudo groupmod -n desarrollo equipo-dev","descripcion":"Cambia el nombre del grupo equipo-dev a desarrollo.","resultado_esperado":"El nombre nuevo aparece en getent group; los miembros conservan el mismo GID."},
+    {"nombre":"Cambiar GID","comando":"sudo groupmod -g 2600 desarrollo","descripcion":"Asigna GID 2600 al grupo desarrollo si está disponible.","resultado_esperado":"El GID de la cuenta cambia; los archivos existentes no se reasignan automáticamente."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["grupo", "nuevo_nombre", "GID"],
+    "validaciones": ["Verificar unicidad y disponibilidad del nuevo nombre/GID, cuentas y servicios dependientes.", "Inventariar archivos con el GID anterior y planificar su reasignación."],
     "rollback": null
   }
 }

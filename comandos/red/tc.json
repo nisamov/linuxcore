@@ -1,7 +1,7 @@
 {
   "id": "tc",
   "nombre": "tc",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra el control de trafico del kernel Linux: disciplinas de cola, clases y filtros para planificar, limitar, clasificar o medir trafico de interfaces.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "tc",
+    "principal": "tc [opciones] {qdisc|class|filter|chain|action} {show|add|change|replace|delete} ...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"qdisc show","argumento":"[dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra disciplinas de cola asociadas a interfaces.","conflictos":[],"requiere":[]},
+    {"flag":"class show","argumento":"[dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra clases de planificacion de una interfaz.","conflictos":[],"requiere":[]},
+    {"flag":"filter show","argumento":"[dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra filtros de trafico configurados.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --statistics","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra estadisticas adicionales de objetos consultados.","conflictos":[],"requiere":[]},
+    {"flag":"-d, --details","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra detalles adicionales de configuracion.","conflictos":[],"requiere":[]},
+    {"flag":"-j, --json","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite salida JSON en versiones iproute2 que admiten el formato.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para show; root o CAP_NET_ADMIN para cambios"],
+    "dependencias": ["iproute2, soporte traffic control del kernel"],
+    "paquetes": ["iproute2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar qdisc/clases/filtros puede limitar o descartar trafico y desconectar acceso remoto; documente estado previo y tenga recuperacion local.",
+      "Las opciones dependen del modulo qdisc y version del kernel; los ejemplos solo consultan configuracion."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iproute2",
+      "arch_linux": "sudo pacman -S iproute2",
+      "rhel_centos": "sudo dnf install iproute"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar qdisc de loopback","comando":"tc -s qdisc show dev lo","descripcion":"Muestra disciplina de cola y contadores de la interfaz loopback local.","resultado_esperado":"Se informa la qdisc activa y sus estadisticas si el kernel las expone."},
+    {"nombre":"Consultar filtros de loopback","comando":"tc filter show dev lo ingress","descripcion":"Lista filtros de ingreso configurados en loopback sin modificarlos.","resultado_esperado":"Muestra filtros existentes o salida vacia si no hay reglas."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz","qdisc_o_filtro"],
+    "validaciones": ["Capturar estado previo, validar modulo/interfaz y probar cambios con acceso alternativo; nunca aplicar reglas de descarte sin plan de rollback."],
     "rollback": null
   }
 }

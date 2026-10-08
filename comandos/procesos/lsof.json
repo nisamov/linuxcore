@@ -1,7 +1,7 @@
 {
   "id": "lsof",
   "nombre": "lsof",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista archivos abiertos por procesos y permite buscar por PID, usuario, red, directorio y otros criterios.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,90 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsof",
-    "alternativas": []
+    "principal": "lsof [opciones]",
+    "alternativas": [
+      "lsof archivo...",
+      "lsof -i [especificación]"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-p",
+      "argumento": "PID[,PID...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Limita la salida a los procesos con los PID indicados.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona archivos abiertos por procesos del usuario indicado; admite exclusiones en formas propias de lsof.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-i",
+      "argumento": "[especificación]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona archivos de red; puede filtrar por protocolo, dirección, host y puerto.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "+D",
+      "argumento": "directorio",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Busca recursivamente archivos abiertos bajo el directorio indicado; puede ser costoso en árboles grandes.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Evita resolver nombres de host de red.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-P",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Evita resolver números de puerto a nombres de servicio.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Para ver todos los procesos y descriptores puede ser necesario root; la salida sin privilegios es parcial."
+    ],
+    "dependencias": [
+      "/proc en Linux; acceso a información de sockets y archivos"
+    ],
+    "paquetes": [
+      "lsof"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +101,47 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La salida puede revelar rutas, usuarios, archivos y conexiones de red sensibles.",
+      "La búsqueda recursiva +D puede tardar y causar carga de E/S en árboles grandes."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lsof",
+      "arch_linux": "sudo pacman -S lsof",
+      "rhel_centos": "sudo dnf install lsof"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Archivos abiertos por PID",
+      "comando": "lsof -p 1234",
+      "descripcion": "Lista los archivos y descriptores abiertos por el proceso 1234.",
+      "resultado_esperado": "Tabla de comando, PID, usuario, descriptor y nombre del archivo."
+    },
+    {
+      "nombre": "Procesos que escuchan en TCP",
+      "comando": "lsof -nP -iTCP:8080 -sTCP:LISTEN",
+      "descripcion": "Busca sockets TCP en escucha asociados al puerto 8080 sin resolución DNS ni de servicios.",
+      "resultado_esperado": "Procesos con socket LISTEN en el puerto, si son visibles."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "pid",
+      "usuario",
+      "puerto",
+      "directorio"
+    ],
+    "validaciones": [
+      "Usar -nP en scripts para evitar resolución externa/lenta.",
+      "Interpretar salida vacía como ausencia de coincidencias visibles, no necesariamente ausencia absoluta."
+    ],
     "rollback": null
   }
 }

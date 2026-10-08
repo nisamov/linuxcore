@@ -1,7 +1,7 @@
 {
   "id": "lslocks",
   "nombre": "lslocks",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista los bloqueos de archivos que el kernel mantiene actualmente, incluyendo procesos, tipos de bloqueo y recursos asociados.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "lslocks",
+    "principal": "lslocks [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-J, --json","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite la lista de bloqueos en formato JSON.","conflictos":[],"requiere":[]},
+    {"flag":"-o, --output","argumento":"lista","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona las columnas de salida; admite nombres de columna documentados por lslocks.","conflictos":[],"requiere":[]},
+    {"flag":"-p, --pid","argumento":"PID","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Muestra los bloqueos asociados al proceso indicado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Información de bloqueos expuesta por el kernel, habitualmente en /proc/locks"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La visibilidad de bloqueos puede estar limitada por permisos, contenedores y el espacio de nombres de procesos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en util-linux (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux",
+      "arch_linux": "util-linux",
+      "rhel_centos": "util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar bloqueos actuales","comando":"lslocks","descripcion":"Muestra los bloqueos de archivos visibles en el sistema.","resultado_esperado":"Tabla con PID, tipo de bloqueo, modo, ruta y detalles disponibles."},
+    {"nombre":"Consultar bloqueos como JSON","comando":"lslocks --json","descripcion":"Solicita la misma información en un formato legible por programas.","resultado_esperado":"Documento JSON con una lista de bloqueos y sus campos."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["PID (opcional)", "LISTA_COLUMNAS (opcional)"],
+    "validaciones": ["Usar campos JSON o columnas explícitas al procesar la salida y considerar las limitaciones de permisos."],
     "rollback": null
   }
 }

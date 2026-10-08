@@ -1,7 +1,7 @@
 {
   "id": "cowsay",
   "nombre": "cowsay",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra un mensaje dentro de un globo ASCII junto a una vaca u otra figura seleccionable mediante un archivo de personaje.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "cowsay",
+    "principal": "cowsay [-n] [-W ancho] [-e ojos] [-T lengua] [-f personaje] [mensaje ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-f", "argumento": "personaje", "tipo": "string", "requerido": false, "default": "cow", "valores": [], "descripcion": "Selecciona el archivo de personaje instalado; -l lista los disponibles.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Lista los archivos de personaje encontrados.", "conflictos": [], "requiere": []},
+    {"flag": "-W", "argumento": "ancho", "tipo": "integer", "requerido": false, "default": "40", "valores": [], "descripcion": "Establece el ancho máximo del globo de texto antes de ajustar líneas.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Desactiva el ajuste de líneas del mensaje.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": "ojos", "tipo": "string", "requerido": false, "default": "oo", "valores": [], "descripcion": "Sustituye los dos caracteres que representan los ojos de la figura.", "conflictos": [], "requiere": []},
+    {"flag": "-T", "argumento": "lengua", "tipo": "string", "requerido": false, "default": "  ", "valores": [], "descripcion": "Sustituye los caracteres que representan la lengua de la figura.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El texto se muestra en terminal; trate datos externos como contenido no confiable y no los evalúe como órdenes de shell."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "cowsay",
+      "arch_linux": "cowsay",
+      "rhel_centos": "cowsay"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar mensaje sencillo", "comando": "cowsay 'Hola Linux'", "descripcion": "Dibuja el mensaje dentro de un globo y usa el personaje predeterminado.", "resultado_esperado": "Un globo ASCII con el texto y una vaca debajo."},
+    {"nombre": "Elegir personaje y ajustar ancho", "comando": "cowsay -f tux -W 30 'Terminal Linux'", "descripcion": "Usa el archivo de personaje tux y limita el ancho del globo a 30 columnas.", "resultado_esperado": "El mensaje aparece ajustado en el globo con el personaje tux, si está instalado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe la disponibilidad del personaje solicitado mediante cowsay -l."],
     "rollback": null
   }
 }

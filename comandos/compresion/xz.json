@@ -184,7 +184,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Compruebe primero `command -v xz`; si falta, instale xz-utils (Debian/Ubuntu: `sudo apt install xz-utils`), xz (Arch: `sudo pacman -S xz`) o xz (RHEL/CentOS: `sudo dnf install xz`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -206,7 +206,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que cada entrada exista, sea legible y corresponda a la operación; use `xz -t` para verificar archivos comprimidos antes de descomprimirlos.", "Compruebe la ruta de salida, las colisiones con archivos existentes, los permisos y el espacio disponible; no use `-f` si no se ha aprobado la sobrescritura.", "xz normalmente elimina la entrada después de comprimir o descomprimir con éxito; use `-k` para conservarla y tenga en cuenta el elevado consumo potencial de memoria con niveles de compresión altos."],
     "rollback": null
   }
 }

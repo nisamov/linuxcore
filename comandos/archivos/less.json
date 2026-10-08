@@ -1,7 +1,7 @@
 {
   "id": "less",
   "nombre": "less",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra texto de forma paginada e interactiva, permitiendo desplazarse hacia delante y atrás sin cargar necesariamente todo el archivo en pantalla.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "less",
+    "principal": "less [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-N", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra números de línea.", "conflictos": [], "requiere": []},
+    {"flag": "-S", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No ajusta líneas largas; permite desplazamiento horizontal.", "conflictos": [], "requiere": []},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Permite secuencias ANSI de color limitadas al mostrar texto.", "conflictos": [], "requiere": []},
+    {"flag": "+F", "argumento": null, "tipo": "special", "requerido": false, "default": null, "valores": [], "descripcion": "Sigue el crecimiento del archivo, de forma similar a tail -f; se puede detener con Ctrl+C.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre el archivo."],
+    "dependencias": ["less."],
+    "paquetes": ["less"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["less ejecuta comandos interactivos y puede invocar un shell según su configuración; no abra contenido no confiable con opciones o variables de entorno sospechosas.", "Use -R solo cuando confíe en las secuencias de control del contenido."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar less mediante el gestor de paquetes de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "less",
+      "arch_linux": "less",
+      "rhel_centos": "less"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Abrir archivo con números de línea", "comando": "less -N /var/log/syslog", "descripcion": "Abre el registro en un paginador y muestra números de línea.", "resultado_esperado": "Se presenta una vista desplazable; q cierra el paginador."},
+    {"nombre": "Seguir un registro", "comando": "less +F aplicación.log", "descripcion": "Muestra el archivo y espera nuevas líneas añadidas, permitiendo pausar el seguimiento con Ctrl+C.", "resultado_esperado": "El contenido nuevo aparece conforme se añade; q sale."}
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
+    "idempotente": true,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo"],
+    "validaciones": ["Verificar que el archivo sea legible.", "Evitar opciones de shell de less al inspeccionar contenido no confiable."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "figlet",
   "nombre": "figlet",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Convierte texto en letras grandes de arte ASCII usando fuentes FIGlet y permite controlar el ancho y la alineación.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "figlet",
+    "principal": "figlet [-f fuente] [-d directorio] [-w ancho] [-c|-l|-r] [texto ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-f", "argumento": "fuente", "tipo": "string", "requerido": false, "default": "standard", "valores": [], "descripcion": "Selecciona la fuente FIGlet instalada.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": "directorio", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Busca los archivos de fuentes en el directorio indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": "ancho", "tipo": "integer", "requerido": false, "default": "80", "valores": [], "descripcion": "Establece el ancho de salida usado para ajustar el texto.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Centra horizontalmente la salida dentro del ancho configurado.", "conflictos": ["-l", "-r"], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Alinea la salida a la izquierda.", "conflictos": ["-c", "-r"], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Alinea la salida a la derecha.", "conflictos": ["-c", "-l"], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida puede contener muchas líneas y caracteres de control o Unicode según la fuente y el terminal; redirija con cuidado."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "figlet",
+      "arch_linux": "figlet",
+      "rhel_centos": "figlet"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear un rótulo", "comando": "figlet Linux", "descripcion": "Representa Linux usando la fuente predeterminada.", "resultado_esperado": "Varias líneas de texto ASCII formando la palabra Linux."},
+    {"nombre": "Usar fuente y centrar", "comando": "figlet -f slant -c 'Linux Core'", "descripcion": "Selecciona la fuente slant y centra el rótulo.", "resultado_esperado": "El texto con estilo inclinado aparece centrado según el ancho de terminal detectado/configurado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique que la fuente solicitada esté instalada y que la terminal admita el ancho previsto."],
     "rollback": null
   }
 }

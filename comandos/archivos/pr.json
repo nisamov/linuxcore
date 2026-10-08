@@ -1,7 +1,7 @@
 {
   "id": "pr",
   "nombre": "pr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Pagina y formatea texto para impresión o lectura por columnas, con encabezados, márgenes y ancho de página configurables.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "pr",
+    "principal": "pr [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-h", "argumento": "encabezado", "tipo": "string", "requerido": false, "default": "nombre de archivo", "valores": [], "descripcion": "Usa el texto indicado como encabezado en lugar del nombre de archivo.", "conflictos": [], "requiere": []},
+      {"flag": "-l", "argumento": "líneas", "tipo": "integer", "requerido": false, "default": 66, "valores": [], "descripcion": "Establece la longitud de página en líneas.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": "columnas", "tipo": "integer", "requerido": false, "default": 72, "valores": [], "descripcion": "Establece el ancho de página en columnas.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Omite encabezados, pies de página y separadores de página.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Combina archivos en columnas paralelas, una columna por archivo.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre las entradas."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["pr transforma el formato de la salida y no está pensado para conservar datos estructurados.", "La salida puede incluir encabezados con rutas de archivo; evite incluir datos sensibles en registros impresos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Paginar con encabezado propio", "comando": "pr -h 'Informe semanal' informe.txt", "descripcion": "Divide el texto en páginas e incluye el encabezado indicado.", "resultado_esperado": "La salida contiene páginas formateadas con Informe semanal como título."},
+    {"nombre": "Combinar archivos en columnas", "comando": "pr -m -t resumen-a.txt resumen-b.txt", "descripcion": "Combina ambos archivos en columnas paralelas y omite encabezados y pies de página.", "resultado_esperado": "Las líneas correspondientes aparecen lado a lado en la salida."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "encabezado", "ancho"],
+    "validaciones": ["Comprobar legibilidad de archivos.", "Ajustar ancho al medio de salida y tratar la salida como formato de presentación."],
     "rollback": null
   }
 }

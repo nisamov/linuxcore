@@ -1,7 +1,7 @@
 {
   "id": "mostrar_puertos_abiertos",
   "nombre": "Mostrar puertos abiertos en el sistema",
-  "descripcion": "Muestra los puertos abiertos y en escucha que estan en uso.",
+  "descripcion": "Lista sockets TCP y UDP en escucha con ss; -p solicita información de los procesos asociados y -n evita resolver nombres de servicios. Sin privilegios, algunos datos de proceso pueden no mostrarse.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "ss -tulpn",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "espacio_de_red",
+      "tipo": "string",
+      "requerido": false,
+      "default": "espacio de red del sistema actual",
+      "valores": [],
+      "descripcion": "Sockets TCP/UDP en escucha que ss consulta en el espacio de nombres de red actual; no se especifica un argumento de destino.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -31,7 +43,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza ss del paquete de herramientas de red disponible en el sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +56,12 @@
       "comando": "ss -tulpn",
       "descripcion": "Muestra los puertos abiertos y en escucha que estan en uso.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Mostrar sockets TCP en escucha",
+      "comando": "ss -lnt",
+      "descripcion": "Lista sockets TCP en escucha con direcciones y puertos numéricos, sin resolver nombres.",
+      "resultado_esperado": "Se muestran los sockets TCP que están escuchando en el sistema."
     }
   ],
   "automatizacion": {
@@ -51,7 +69,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que ss está disponible; para mostrar información de procesos, use solo los permisos autorizados y espere que algunos datos requieran privilegios.", "Distinga sockets locales en escucha de puertos accesibles desde redes externas y contraste con las reglas de firewall."] ,
     "rollback": null
   }
 }

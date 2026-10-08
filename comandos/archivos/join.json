@@ -1,7 +1,7 @@
 {
   "id": "join",
   "nombre": "join",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Une líneas de dos archivos de texto ordenados que comparten un campo, mostrando las columnas coincidentes y las solicitadas.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "join",
+    "principal": "join [opciones] archivo1 archivo2",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-1", "argumento": "campo", "tipo": "integer", "requerido": false, "default": 1, "valores": [], "descripcion": "Selecciona el campo de unión del primer archivo, numerado desde 1.", "conflictos": [], "requiere": []},
+    {"flag": "-2", "argumento": "campo", "tipo": "integer", "requerido": false, "default": 1, "valores": [], "descripcion": "Selecciona el campo de unión del segundo archivo, numerado desde 1.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": "carácter", "tipo": "string", "requerido": false, "default": "espacio", "valores": [], "descripcion": "Usa el carácter indicado como separador de campos de entrada y salida.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": "archivo", "tipo": "integer", "requerido": false, "default": null, "valores": ["1", "2"], "descripcion": "Imprime solo líneas no emparejadas del archivo especificado.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "formato", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona y ordena campos de salida, por ejemplo 1.2,2.1.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre ambos archivos."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las entradas deben estar ordenadas de forma compatible por el campo de unión; use el mismo locale al prepararlas.", "No interpreta formatos con campos entrecomillados como CSV."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Unir listas por primer campo", "comando": "join usuarios.txt grupos.txt", "descripcion": "Empareja líneas ordenadas cuyo primer campo coincide y muestra campos de ambos archivos.", "resultado_esperado": "Imprime una línea combinada por cada clave coincidente."},
+    {"nombre": "Unir por campos específicos", "comando": "join -t: -1 1 -2 2 claves.txt cuentas.txt", "descripcion": "Usa dos puntos como separador y une el primer campo del primer archivo con el segundo del otro.", "resultado_esperado": "Muestra registros combinados para las claves compartidas."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo1", "archivo2", "campo1", "campo2", "separador"],
+    "validaciones": ["Ordenar ambas entradas de forma compatible antes de unir.", "Validar que los campos y separadores correspondan al formato real."],
     "rollback": null
   }
 }

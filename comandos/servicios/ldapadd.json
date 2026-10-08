@@ -1,7 +1,7 @@
 {
   "id": "ldapadd",
   "nombre": "ldapadd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Añade entradas a un directorio LDAP. Es un modo de ldapmodify para operaciones de alta; recibe entradas LDIF por archivo o entrada estándar y no crea cuentas locales del sistema.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "ldapadd",
+    "principal": "ldapadd [opciones] [archivo_ldif...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-H","argumento":"URI","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"URI del servidor LDAP, por ejemplo ldap://servidor:389 o ldaps://servidor:636.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa autenticación simple en lugar de SASL.","conflictos":[],"requiere":[]},
+    {"flag":"-D","argumento":"DN_bind","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"DN con el que se realiza el bind al servidor.","conflictos":[],"requiere":[]},
+    {"flag":"-W","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Solicita interactivamente la contraseña del bind; evita incluirla en la línea de comandos.","conflictos":["-w"],"requiere":["-D"]},
+    {"flag":"-w","argumento":"contraseña","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Proporciona la contraseña en la línea de comandos; puede quedar expuesta en historial o lista de procesos.","conflictos":["-W"],"requiere":["-D"]},
+    {"flag":"-f","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee registros LDIF del archivo indicado; sin archivo puede leer de la entrada estándar.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Continúa procesando después de errores en operaciones individuales.","conflictos":[],"requiere":[]},
+    {"flag":"-ZZ","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Exige StartTLS y aborta si no se puede establecer; no desactiva la validación del certificado.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa salida detallada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Se requiere una identidad LDAP con permiso de escritura sobre el contexto objetivo; root local no concede privilegios LDAP automáticamente."],
+    "dependencias": ["Servidor LDAP accesible; formato LDIF válido; cliente OpenLDAP"],
+    "paquetes": ["ldap-utils / openldap-clients / openldap"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Una alta puede crear objetos sensibles y afectar aplicaciones; valide DN, atributos y esquema antes de enviar.", "Use TLS con validación del certificado; -w expone potencialmente la contraseña.", "ldapadd no es idempotente: repetir una entrada existente normalmente devuelve Already exists."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Cliente de OpenLDAP disponible mediante el gestor de paquetes de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "ldap-utils",
+      "arch_linux": "openldap",
+      "rhel_centos": "openldap-clients"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Agregar una entrada desde LDIF por TLS","comando":"ldapadd -x -H ldaps://ldap.example.org -D 'cn=admin,dc=example,dc=org' -W -f nueva-entrada.ldif","descripcion":"Solicita la contraseña de bind y agrega las entradas descritas en el archivo LDIF mediante LDAPS.","resultado_esperado":"El servidor confirma el DN agregado o informa errores de esquema, permisos o existencia previa."},
+    {"nombre":"Enviar entrada desde entrada estándar","comando":"ldapadd -x -H ldaps://ldap.example.org -D 'cn=admin,dc=example,dc=org' -W <<'LDIF'\ndn: ou=people,dc=example,dc=org\nobjectClass: organizationalUnit\nou: people\nLDIF","descripcion":"Crea la unidad organizativa people a partir de un registro LDIF suministrado por entrada estándar.","resultado_esperado":"Se confirma la incorporación de ou=people,dc=example,dc=org si el DN aún no existe y la cuenta tiene permisos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["uri_ldap", "dn_bind", "archivo_ldif"],
+    "validaciones": ["Validar sintaxis y esquema del LDIF y confirmar que cada DN sea nuevo.", "Comprobar TLS/certificado, permisos LDAP y código de salida; evitar -w con contraseña literal."],
     "rollback": null
   }
 }

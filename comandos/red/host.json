@@ -1,7 +1,7 @@
 {
   "id": "host",
   "nombre": "host",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Realiza consultas DNS para obtener direcciones IP, registros de correo, servidores de nombres y otra informacion publicada para un nombre o direccion.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "host",
+    "principal": "host [opciones] nombre [servidor_DNS]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":"A/AAAA segun consulta","valores":["A","AAAA","MX","NS","TXT","CNAME","PTR","SOA"],"descripcion":"Consulta el tipo de registro DNS indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Realiza una consulta detallada equivalente a solicitar registros comunes y SOA segun la implementacion.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa salida detallada de la consulta.","conflictos":[],"requiere":[]},
+    {"flag":"-W","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita el tiempo de espera para una respuesta, cuando esta opcion existe en la version instalada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red al servidor DNS"],
+    "dependencias": ["bind-utils / dnsutils"],
+    "paquetes": ["dnsutils (Debian/Ubuntu), bind-utils (RHEL), bind (Arch)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +30,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las consultas generan trafico DNS y pueden quedar registradas por el resolutor; consulte solo nombres necesarios.",
+      "Las opciones concretas varian entre versiones de bind-utils."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install dnsutils",
+      "arch_linux": "sudo pacman -S bind",
+      "rhel_centos": "sudo dnf install bind-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar direcciones IPv4","comando":"host example.com","descripcion":"Consulta la resolucion IPv4 predeterminada para el dominio de ejemplo.","resultado_esperado":"Imprime las direcciones A publicadas o informa que no existe respuesta."},
+    {"nombre":"Consultar servidores de correo","comando":"host -t MX example.com","descripcion":"Solicita los registros MX del dominio de ejemplo.","resultado_esperado":"Muestra los servidores de correo y sus prioridades si estan publicados."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre","tipo","servidor_DNS"],
+    "validaciones": ["Validar argumentos y tratar errores DNS, respuestas vacias y timeouts como resultados distintos."],
     "rollback": null
   }
 }

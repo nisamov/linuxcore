@@ -1,7 +1,7 @@
 {
   "id": "comando_previo_con_superusuario",
   "nombre": "Comando previo con superusuario",
-  "descripcion": "Ejecuta el ultimo comando con privilegios de superusuario.",
+  "descripcion": "Vuelve a ejecutar el último comando de la shell interactiva actual a través de sudo. La expansión !! suele resolverse en la shell antes de invocar sudo y el comando recuperado puede tener efectos privilegiados.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "sudo !!",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "comando_previo",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Comando que ya figura como el último elemento del historial; !! lo recupera implícitamente y sudo lo ejecuta con los privilegios concedidos.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -23,15 +35,17 @@
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Ejecuta con privilegios elevados el comando anterior, que puede modificar o eliminar datos; revise qué comando se repetirá antes de confirmarlo."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza sudo y la expansión de historial del shell interactivo.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "sudo !!",
       "descripcion": "Ejecuta el ultimo comando con privilegios de superusuario.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Consultar permisos sudo disponibles",
+      "comando": "sudo -l",
+      "descripcion": "Muestra las operaciones que el usuario tiene autorizadas mediante sudo sin repetir el comando anterior.",
+      "resultado_esperado": "sudo informa las reglas y comandos permitidos para el usuario actual."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Use sudo !! solo en un shell interactivo con historial habilitado y después de revisar exactamente el comando anterior.", "Confirme que el usuario está autorizado para la operación y que elevar privilegios es realmente necesario."] ,
     "rollback": null
   }
 }

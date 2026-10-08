@@ -1,7 +1,7 @@
 {
   "id": "tail",
   "nombre": "tail",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra las últimas líneas o bytes de archivos; puede seguir archivos de registro mientras crecen.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "tail",
+    "principal": "tail [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": "cantidad", "tipo": "integer", "requerido": false, "default": 10, "valores": [], "descripcion": "Muestra el número indicado de líneas finales; +n comienza desde la línea n.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": "cantidad", "tipo": "size", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el número indicado de bytes finales.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Sigue los datos añadidos al final del archivo abierto.", "conflictos": ["-F"], "requiere": []},
+    {"flag": "-F", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Sigue por nombre y reabre el archivo si se reemplaza, con reintento; equivalente a --follow=name --retry en GNU tail.", "conflictos": ["-f"], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Omite encabezados con nombres al mostrar varios archivos.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El seguimiento puede permanecer ejecutándose indefinidamente y mostrar datos sensibles; deténgalo con Ctrl+C.", "-f sigue el descriptor abierto mientras que -F sigue el nombre y reabre tras rotación; elija el modo adecuado."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; tail suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar últimas 25 líneas", "comando": "tail -n 25 servicio.log", "descripcion": "Imprime las veinticinco líneas finales del registro.", "resultado_esperado": "La salida contiene hasta las últimas 25 líneas."},
+    {"nombre": "Seguir un registro rotado", "comando": "tail -F /var/log/app.log", "descripcion": "Sigue el registro por nombre y vuelve a abrirlo después de rotación si la implementación GNU lo permite.", "resultado_esperado": "Las nuevas líneas aparecen continuamente; Ctrl+C detiene el seguimiento."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "cantidad"],
+    "validaciones": ["Elegir seguimiento por descriptor o por nombre conforme al método de rotación.", "Detener el proceso cuando termine la observación.", "Evitar exponer contenido sensible en terminales o logs."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "fallocate",
   "nombre": "fallocate",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Manipula el espacio asignado a un archivo, normalmente reservándolo o liberándolo con soporte del sistema de archivos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "fallocate",
+    "principal": "fallocate [opciones] archivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": "longitud", "tipo": "size", "requerido": false, "default": null, "valores": [], "descripcion": "Establece la longitud del archivo; admite sufijos de tamaño como K, M o G.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "desplazamiento", "tipo": "size", "requerido": false, "default": "0", "valores": [], "descripcion": "Establece el desplazamiento inicial de la región que se manipula.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No trunca el archivo al final de la región asignada.", "conflictos": [], "requiere": []},
+    {"flag": "--keep-size", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Reserva o libera bloques sin cambiar el tamaño aparente del archivo.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura sobre el archivo y el directorio contenedor."],
+    "dependencias": ["fallocate de util-linux; compatibilidad del sistema de archivos."],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Puede cambiar el tamaño aparente o el espacio asignado y sobrescribir o descartar datos en el rango afectado.", "El soporte y la semántica dependen del sistema de archivos; revise cuidadosamente longitud y desplazamiento."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar util-linux mediante el gestor de paquetes; suele estar disponible por defecto.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux",
+      "arch_linux": "util-linux",
+      "rhel_centos": "util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear archivo preasignado", "comando": "fallocate -l 100M prueba.img", "descripcion": "Crea o amplía prueba.img hasta un tamaño de 100 MiB de forma eficiente cuando el sistema de archivos lo permite.", "resultado_esperado": "El archivo tiene un tamaño aparente de 100 MiB y puede tener bloques asignados."},
+    {"nombre": "Reservar espacio sin cambiar longitud", "comando": "fallocate --keep-size -l 1G archivo.dat", "descripcion": "Solicita asignar espacio para el rango indicado manteniendo el tamaño aparente actual.", "resultado_esperado": "Si el sistema de archivos admite la operación, aumenta el espacio asignado sin ampliar la longitud visible."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "longitud", "desplazamiento"],
+    "validaciones": ["Verificar ruta, tamaño, espacio libre y soporte del sistema de archivos.", "Confirmar que la región afectada no contiene datos que deban conservarse."],
     "rollback": null
   }
 }

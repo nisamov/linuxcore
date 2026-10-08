@@ -1,7 +1,7 @@
 {
   "id": "conntrack",
   "nombre": "conntrack",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y administra la tabla de seguimiento de conexiones del subsistema Netfilter del kernel, util para diagnosticar estados NAT y flujos.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "conntrack",
+    "principal": "conntrack [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-L","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista las conexiones registradas actualmente.","conflictos":[],"requiere":[]},
+    {"flag":"-E","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Escucha eventos de conntrack hasta que se interrumpa el proceso.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"protocolo","tipo":"string","requerido":false,"default":null,"valores":["tcp","udp","icmp"],"descripcion":"Filtra o selecciona el protocolo para la operacion indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"direccion_IP","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Filtra por direccion IP de origen; el uso depende de la operacion.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"direccion_IP","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Filtra por direccion IP de destino; el uso depende de la operacion.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_ADMIN para consultar o modificar conntrack"],
+    "dependencias": ["conntrack-tools y soporte Netfilter del kernel"],
+    "paquetes": ["conntrack-tools"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las operaciones de borrado (-D, -F) eliminan estado de seguimiento y pueden interrumpir conexiones activas; no se incluyen en los ejemplos.",
+      "La salida puede contener direcciones y puertos de comunicaciones del sistema."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install conntrack",
+      "arch_linux": "sudo pacman -S conntrack-tools",
+      "rhel_centos": "sudo dnf install conntrack-tools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar conexiones TCP","comando":"sudo conntrack -L -p tcp","descripcion":"Consulta las entradas TCP registradas por Netfilter en el sistema propio.","resultado_esperado":"Se imprimen flujos TCP seguidos por conntrack; la tabla puede estar vacia."},
+    {"nombre":"Escuchar eventos de seguimiento","comando":"sudo conntrack -E -p udp","descripcion":"Muestra eventos UDP de conntrack en tiempo real hasta interrumpir con Ctrl+C.","resultado_esperado":"Se observan eventos NEW, UPDATE y DESTROY conforme ocurren."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["protocolo","direccion_IP"],
+    "validaciones": ["Limitar la consulta al espacio de red propio y evitar -D o -F sobre conexiones activas sin una ventana de mantenimiento."],
     "rollback": null
   }
 }

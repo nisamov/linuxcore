@@ -1,7 +1,7 @@
 {
   "id": "mkfifo",
   "nombre": "mkfifo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea una FIFO (tubería con nombre) para comunicar procesos mediante una ruta del sistema de archivos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "mkfifo",
+    "principal": "mkfifo [opciones] nombre...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-m", "argumento": "modo", "tipo": "mode", "requerido": false, "default": "0666 modificado por umask", "valores": [], "descripcion": "Establece los permisos de la FIFO recién creada.", "conflictos": [], "requiere": []},
+    {"flag": "-Z", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Establece el contexto de seguridad SELinux predeterminado, si está disponible.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en el directorio padre; permisos de acceso a la FIFO para productores y consumidores."],
+    "dependencias": ["GNU coreutils y soporte FIFO del sistema."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Abrir una FIFO puede bloquear hasta que exista un proceso lector y escritor compatible.", "No sustituya una ruta existente; compruebe el nombre antes de crearla.", "Los permisos determinan qué usuarios pueden intercambiar datos por la tubería."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear FIFO con acceso restringido", "comando": "mkfifo -m 0600 /tmp/canal-local", "descripcion": "Crea una tubería con nombre accesible únicamente por su propietario.", "resultado_esperado": "Aparece /tmp/canal-local como FIFO con modo 0600."},
+    {"nombre": "Crear FIFO en directorio de trabajo", "comando": "mkfifo eventos.pipe", "descripcion": "Crea una FIFO con permisos sujetos a la umask actual.", "resultado_esperado": "eventos.pipe queda disponible para comunicación entre procesos autorizados."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta_fifo", "modo"],
+    "validaciones": ["Comprobar que la ruta no exista y que el directorio padre sea seguro.", "Coordinar lectores y escritores para evitar bloqueos.", "Restringir permisos al mínimo necesario."],
     "rollback": null
   }
 }

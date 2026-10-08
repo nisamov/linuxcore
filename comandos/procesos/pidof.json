@@ -1,7 +1,7 @@
 {
   "id": "pidof",
   "nombre": "pidof",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Obtiene los PID de procesos en ejecución a partir de sus nombres de programa.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,99 @@
     ]
   },
   "sintaxis": {
-    "principal": "pidof",
+    "principal": "pidof [opciones] programa...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Devuelve un solo PID por cada nombre de programa indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-x",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Incluye scripts que se ejecutan con un intérprete cuando la implementación los reconoce.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-o",
+      "argumento": "PID[,PID...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Omite los PID especificados de la salida.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso a la información de procesos visible para el usuario."
+    ],
+    "dependencias": [
+      "/proc en Linux"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Puede no mostrar procesos ocultos por permisos o configuración del sistema.",
+      "Los PID pueden terminar o reutilizarse entre la consulta y su uso posterior."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Obtener PID de sshd",
+      "comando": "pidof sshd",
+      "descripcion": "Consulta los PID asociados al programa sshd.",
+      "resultado_esperado": "Uno o varios PID separados por espacios, o salida vacía si no está activo."
+    },
+    {
+      "nombre": "Devolver un solo PID",
+      "comando": "pidof -s systemd",
+      "descripcion": "Solicita un único PID para el nombre indicado.",
+      "resultado_esperado": "Un PID si el programa está activo y visible."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "programa"
+    ],
+    "validaciones": [
+      "Validar que el nombre sea el esperado y manejar la ausencia de resultados.",
+      "Verificar de nuevo que el PID siga asociado al proceso antes de actuar sobre él."
+    ],
     "rollback": null
   }
 }

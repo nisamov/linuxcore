@@ -1,7 +1,7 @@
 {
   "id": "sl",
   "nombre": "sl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra una animación ASCII de una locomotora que atraviesa la terminal al invocar accidentalmente sl en lugar de ls; es una utilidad de entretenimiento.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,15 @@
     ]
   },
   "sintaxis": {
-    "principal": "sl",
+    "principal": "sl [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Activa la variante de accidente en implementaciones clásicas que incluyen esta opción.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Usa una locomotora pequeña en implementaciones clásicas que incluyen esta opción.", "conflictos": [], "requiere": []},
+    {"flag": "-F", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Activa la variante voladora en implementaciones clásicas que incluyen esta opción.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Permite interrumpir la animación con una tecla en implementaciones que ofrecen esta opción.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +29,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Es exclusivamente una animación y requiere una terminal interactiva; las opciones no son uniformes entre paquetes, por lo que debe comprobarse la ayuda local."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Paquete de entretenimiento disponible en repositorios de algunas distribuciones.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sl",
+      "arch_linux": "sl",
+      "rhel_centos": "sl (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Ejecutar la animación", "comando": "sl", "descripcion": "Muestra la animación de tren predeterminada en la terminal.", "resultado_esperado": "Locomotora ASCII animada que cruza la pantalla; la tecla de salida depende de la implementación."},
+    {"nombre": "Usar variante clásica pequeña", "comando": "sl -l", "descripcion": "Solicita una locomotora pequeña en versiones clásicas que admiten la opción -l.", "resultado_esperado": "Animación con variante pequeña; si la versión local no admite -l mostrará su uso o un error."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe la ayuda del paquete local antes de usar opciones; requiere una terminal compatible."],
     "rollback": null
   }
 }

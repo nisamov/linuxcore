@@ -1,7 +1,7 @@
 {
   "id": "tee",
   "nombre": "tee",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lee la entrada estándar y la escribe simultáneamente en la salida estándar y en uno o más archivos.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,15 @@
     ]
   },
   "sintaxis": {
-    "principal": "tee",
+    "principal": "tee [-ai] [--output-error[=modo]] [archivo ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Añade a los archivos indicados en lugar de sobrescribirlos.", "conflictos": [], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Ignora señales SIGINT durante la escritura.", "conflictos": [], "requiere": []},
+    {"flag": "--output-error[=modo]", "argumento": null, "tipo": "string", "requerido": false, "default": null, "valores": ["warn", "warn-nopipe", "exit", "exit-nopipe"], "descripcion": "Controla cómo GNU tee informa errores al escribir en salidas; sin modo usa warn-nopipe.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "archivo ...", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Archivos de salida; si no se indican, tee copia la entrada únicamente a la salida estándar.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -21,29 +26,30 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Sin -a, los archivos existentes se truncan; use rutas y permisos adecuados y evite redirigir datos sensibles a registros o archivos compartidos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "GNU coreutils, normalmente instalado en Linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils (incluido en el sistema)",
+      "arch_linux": "coreutils (incluido en el sistema)",
+      "rhel_centos": "coreutils (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Guardar y mostrar salida", "comando": "printf 'resultado\\n' | tee salida.txt", "descripcion": "Escribe la entrada en salida.txt y la conserva en la salida estándar.", "resultado_esperado": "La palabra resultado aparece en terminal y queda guardada en salida.txt."},
+    {"nombre": "Añadir a un registro", "comando": "echo 'nueva entrada' | tee -a actividad.log", "descripcion": "Añade la línea al final del archivo sin borrar registros previos.", "resultado_esperado": "La línea se agrega a actividad.log y también se muestra en pantalla."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe permisos y destino del archivo; revise el código de salida cuando haya varios destinos."],
     "rollback": null
   }
 }

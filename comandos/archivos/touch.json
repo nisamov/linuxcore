@@ -1,7 +1,7 @@
 {
   "id": "touch",
   "nombre": "touch",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea archivos vacíos si no existen o actualiza sus marcas de tiempo de acceso y modificación sin alterar normalmente su contenido.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "touch",
+    "principal": "touch [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Actualiza solo la marca de tiempo de acceso.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Actualiza solo la marca de tiempo de modificación.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No crea archivos que no existan.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": "archivo_referencia", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Copia las marcas de tiempo del archivo de referencia.", "conflictos": ["-d", "-t"], "requiere": []},
+    {"flag": "-d", "argumento": "fecha", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece la fecha interpretada por GNU coreutils en lugar de usar la hora actual.", "conflictos": ["-r", "-t"], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura sobre el archivo existente o en el directorio padre para crearlo."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Si el archivo no existe, touch lo crea salvo que se use -c; evite rutas que puedan colisionar con archivos importantes.", "Cambiar marcas temporales puede afectar respaldos, compilaciones, auditorías o políticas de retención."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; touch normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear archivo vacío", "comando": "touch notas.txt", "descripcion": "Crea notas.txt si no existe o actualiza sus marcas de tiempo si existe.", "resultado_esperado": "El archivo queda presente y con la marca de modificación actualizada."},
+    {"nombre": "Actualizar solo marca de modificación", "comando": "touch -m informe.txt", "descripcion": "Actualiza la hora de modificación sin cambiar la marca de acceso.", "resultado_esperado": "La marca mtime se actualiza; el contenido no cambia."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "archivo_referencia", "fecha"],
+    "validaciones": ["Verificar la ruta para evitar creación accidental de archivos.", "Confirmar el formato de fecha en la implementación instalada.", "Considerar efectos de auditoría y procesos que dependen de timestamps."],
     "rollback": null
   }
 }

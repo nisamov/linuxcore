@@ -1,7 +1,7 @@
 {
   "id": "mkswap",
   "nombre": "mkswap",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Inicializa un área de intercambio Linux en un dispositivo o archivo, escribiendo una firma y metadatos de swap.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "mkswap",
+    "principal": "mkswap [opciones] dispositivo [tamaño]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-L","argumento":"etiqueta","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Asigna una etiqueta al área de intercambio.","conflictos":[],"requiere":[]},
+    {"flag":"-U","argumento":"UUID","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Asigna el UUID indicado al área de intercambio.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Comprueba bloques defectuosos antes de inicializar el área swap.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la creación aunque el dispositivo parezca tener una firma de sistema de archivos o swap.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o escritura sobre el dispositivo/archivo"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Inicializar swap sobrescribe metadatos existentes y puede destruir un sistema de archivos o datos. Verifique el destino y no use un dispositivo montado ni ocupado.",
+      "No use -f salvo que se haya confirmado que el contenido previo puede descartarse."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Inicializar swap en partición nueva","comando":"sudo mkswap -L swap_datos /dev/sdb2","descripcion":"Escribe una firma swap y etiqueta en una partición vacía confirmada como destino.","resultado_esperado":"Imprime el UUID y tamaño del área swap inicializada."},
+    {"nombre":"Crear archivo swap","comando":"sudo mkswap /swapfile","descripcion":"Inicializa un archivo previamente creado y con permisos adecuados como área swap.","resultado_esperado":"El archivo recibe la firma swap y queda listo para activarse con swapon."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo_o_archivo", "etiqueta"],
+    "validaciones": ["Verificar tamaño, destino, ausencia de montajes y ausencia de datos necesarios.","Exigir confirmación explícita antes de escribir una firma sobre un dispositivo."],
     "rollback": null
   }
 }

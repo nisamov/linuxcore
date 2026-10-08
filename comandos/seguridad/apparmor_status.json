@@ -1,7 +1,7 @@
 {
   "id": "apparmor_status",
   "nombre": "apparmor_status",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra el estado de AppArmor, los perfiles cargados y cuántos están en modo enforce o complain; es una consulta de auditoría.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "apparmor_status",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--enabled", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Indica si AppArmor está habilitado en el kernel.", "conflictos": [], "requiere": []},
+    {"flag": "--profiled", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra los perfiles cargados.", "conflictos": [], "requiere": []},
+    {"flag": "--verbose", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra el estado detallado de los perfiles.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Acceso de lectura a la información de AppArmor del sistema"],
+    "dependencias": ["AppArmor habilitado para obtener estado útil"],
+    "paquetes": ["apparmor-utils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El nombre del ejecutable disponible puede ser aa-status según la distribución; la consulta no cambia políticas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install apparmor-utils",
+      "arch_linux": "sudo pacman -S apparmor",
+      "rhel_centos": "sudo dnf install apparmor-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Resumen del estado", "comando": "sudo apparmor_status", "descripcion": "Consulta perfiles y modos de AppArmor en el equipo administrado.", "resultado_esperado": "Resumen de perfiles cargados, enforce y complain."},
+    {"nombre": "Comprobar habilitación", "comando": "apparmor_status --enabled", "descripcion": "Comprueba si AppArmor está habilitado sin modificar políticas.", "resultado_esperado": "Indicación de habilitación o deshabilitación."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirmar que AppArmor está instalado y habilitado si se necesita un informe de perfiles."],
     "rollback": null
   }
 }

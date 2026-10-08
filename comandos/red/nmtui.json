@@ -1,7 +1,7 @@
 {
   "id": "nmtui",
   "nombre": "nmtui",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz de texto basada en curses para editar conexiones, activar/desactivar perfiles y cambiar el nombre de host mediante NetworkManager.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "nmtui",
+    "principal": "nmtui [edit|connect|hostname]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"edit","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Abre el editor interactivo de perfiles de conexion.","conflictos":[],"requiere":[]},
+    {"flag":"connect","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Abre el menu interactivo para activar o desactivar conexiones.","conflictos":[],"requiere":[]},
+    {"flag":"hostname","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Abre el editor interactivo del nombre de host.","conflictos":[],"requiere":[]},
+    {"flag":"--help","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra ayuda breve, si lo admite la version instalada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["terminal interactivo; cambios sujetos a autorizacion polkit/root"],
+    "dependencias": ["NetworkManager, nmtui y terminal compatible"],
+    "paquetes": ["network-manager (Debian/Ubuntu), NetworkManager (Arch/RHEL)"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Activar/desactivar una conexion o editar parametros puede desconectar la sesion; evite modificar la interfaz de acceso remoto sin recuperacion.",
+      "Requiere NetworkManager; no controla directamente configuraciones administradas por otro gestor."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install network-manager",
+      "arch_linux": "sudo pacman -S networkmanager",
+      "rhel_centos": "sudo dnf install NetworkManager"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Abrir editor de conexiones","comando":"nmtui edit","descripcion":"Abre la interfaz de texto para consultar/editar perfiles configurados.","resultado_esperado":"Se presenta una lista de perfiles y un formulario interactivo."},
+    {"nombre":"Consultar menu de conexiones","comando":"nmtui connect","descripcion":"Abre el menu para inspeccionar conexiones y elegir una accion manualmente.","resultado_esperado":"Se muestra la lista interactiva de conexiones disponibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["perfil","parametros_de_red"],
+    "validaciones": ["Confirmar perfil correcto, conservar configuracion previa y garantizar acceso local antes de aplicar cambios de red."],
     "rollback": null
   }
 }

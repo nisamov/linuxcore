@@ -1,7 +1,7 @@
 {
   "id": "localizar_enlaces_simbolicos_huerfanos",
   "nombre": "Localizar enlaces simbolicos huerfanos",
-  "descripcion": "Busca enlaces simbolicos que apuntan a archivos que no existen.",
+  "descripcion": "Recorre /var/ y muestra enlaces simbólicos rotos (enlaces cuyo destino no existe). La búsqueda es de solo lectura; sudo amplía el acceso a directorios protegidos.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "sudo find /var/ -xtype l",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "directorio_inicial",
+      "tipo": "string",
+      "requerido": false,
+      "default": "/var/",
+      "valores": [],
+      "descripcion": "Directorio desde el que find busca enlaces simbólicos colgantes; la receta fija /var/.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -25,13 +37,13 @@
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": []
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza find y las interfaces del sistema de archivos.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +56,12 @@
       "comando": "sudo find /var/ -xtype l",
       "descripcion": "Busca enlaces simbolicos que apuntan a archivos que no existen.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Buscar enlaces simbólicos rotos en el directorio personal",
+      "comando": "find \"$HOME\" -xtype l -print",
+      "descripcion": "Localiza y muestra enlaces simbólicos cuyo destino no existe dentro del directorio personal.",
+      "resultado_esperado": "Se imprimen las rutas de los enlaces rotos encontrados; no se modifica ningún archivo."
     }
   ],
   "automatizacion": {
@@ -51,7 +69,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que el directorio de búsqueda es el esperado y que tiene permiso para recorrerlo.", "Use solo opciones de listado; revise manualmente los resultados antes de cualquier reparación o eliminación de enlaces."] ,
     "rollback": null
   }
 }

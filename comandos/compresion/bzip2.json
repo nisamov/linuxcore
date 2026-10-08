@@ -184,7 +184,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Compruebe primero `command -v bzip2`; si falta, instale el paquete bzip2 con el gestor de paquetes de su distribución (Debian/Ubuntu: `sudo apt install bzip2`; Arch: `sudo pacman -S bzip2`; RHEL/CentOS: `sudo dnf install bzip2`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -206,7 +206,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Antes de comprimir o descomprimir, compruebe que cada entrada exista, sea legible y corresponda al formato esperado; use `bzip2 -t` para validar archivos .bz2 antes de extraerlos.", "Compruebe si el nombre de salida ya existe y si hay espacio y permisos suficientes; no use `-f` salvo que la sobrescritura sea intencional.", "bzip2 suele eliminar la entrada tras una operación correcta: use `-k` para conservarla o `-c` para enviar el resultado a stdout cuando se necesite preservar el original."],
     "rollback": null
   }
 }

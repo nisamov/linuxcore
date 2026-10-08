@@ -1,7 +1,7 @@
 {
   "id": "unlink",
   "nombre": "unlink",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Elimina un único nombre de archivo mediante la llamada unlink; no elimina directorios ni procesa árboles recursivamente.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,43 @@
     ]
   },
   "sintaxis": {
-    "principal": "unlink",
+    "principal": "unlink archivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "archivo", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Única ruta de archivo cuya entrada se eliminará; no admite directorios ni una lista de rutas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en el directorio que contiene la entrada; las restricciones del sistema de archivos también aplican."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "requiere_confirmacion": true,
+    "advertencias": ["Elimina la entrada de forma inmediata y no utiliza la papelera; la recuperación no está garantizada. Si la ruta es un enlace simbólico, elimina el enlace, no el destino.", "No acepta directorios ni ofrece confirmación interactiva; compruebe cuidadosamente la ruta exacta y que no se trate de un archivo necesario antes de ejecutarlo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Eliminar un archivo", "comando": "unlink archivo-temporal.txt", "descripcion": "Elimina el nombre archivo-temporal.txt si existe y puede modificarse el directorio padre.", "resultado_esperado": "La entrada deja de aparecer en el directorio; el espacio puede liberarse al cerrarse referencias abiertas."},
+    {"nombre": "Eliminar una ruta relativa", "comando": "unlink ./salida/cache.bin", "descripcion": "Quita una única entrada de archivo en la ruta relativa indicada.", "resultado_esperado": "La ruta deja de existir; si es un directorio o no hay permisos, se informa un error."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo"],
+    "validaciones": ["Revisar la ruta exacta y confirmar que la entrada pueda eliminarse.", "Usar rmdir para directorios vacíos y herramientas específicas solo tras revisar su alcance."],
     "rollback": null
   }
 }

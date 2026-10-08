@@ -1,7 +1,7 @@
 {
   "id": "lsns",
   "nombre": "lsns",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista información sobre espacios de nombres del kernel, como montaje, red, PID y usuario, y permite filtrar o cambiar el formato del informe.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsns",
+    "principal": "lsns [opciones] [tipo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":null,"valores":["mnt","net","pid","user","uts","ipc","cgroup","time"],"descripcion":"Limita el informe al tipo de espacio de nombres indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"PID","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Muestra espacios de nombres asociados al proceso especificado.","conflictos":[],"requiere":[]},
+    {"flag":"-J","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite el informe en formato JSON.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"lista","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona las columnas de salida separadas por comas.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa valores sin procesar en columnas seleccionadas, cuando sea aplicable.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de información de procesos y espacios de nombres"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La visibilidad de procesos puede estar limitada por permisos y por el espacio de nombres PID actual."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar espacios de nombres de montaje","comando":"lsns -t mnt","descripcion":"Filtra el informe para mostrar solo espacios de nombres de montaje visibles.","resultado_esperado":"Tabla de identificadores, procesos y propietarios asociados a esos espacios."},
+    {"nombre":"Consultar espacios de nombres de un proceso","comando":"lsns -p 1","descripcion":"Muestra espacios de nombres asociados al proceso con PID 1.","resultado_esperado":"Filas con los tipos de espacios de nombres a los que pertenece el proceso, si son visibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["tipo", "pid"],
+    "validaciones": ["Comprobar que el PID existe antes de consultarlo.","No tratar la lista como exhaustiva si el proceso carece de visibilidad por permisos."],
     "rollback": null
   }
 }

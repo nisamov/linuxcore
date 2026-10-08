@@ -1,7 +1,7 @@
 {
   "id": "nohup",
   "nombre": "nohup",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta un comando ignorando la señal SIGHUP, de modo que pueda continuar cuando la sesión terminal se cierre, sujeto al resto del entorno.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,79 @@
     ]
   },
   "sintaxis": {
-    "principal": "nohup",
+    "principal": "nohup comando [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "comando",
+      "argumento": "orden [argumentos...]",
+      "tipo": "command",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Comando que se ejecutará ignorando SIGHUP; nohup no lo pone por sí mismo en segundo plano.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Permisos habituales para ejecutar el comando y escribir sus archivos de salida."
+    ],
+    "dependencias": [
+      "La shell controla la asignación a segundo plano; redirigir stdin/stdout/stderr según el uso."
+    ],
+    "paquetes": [
+      "coreutils"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El proceso puede continuar ejecutándose después de cerrar la terminal; nohup no gestiona reinicio, supervisión ni cierre ordenado.",
+      "La salida puede escribirse en nohup.out si stdout es terminal; proteja permisos y espacio del archivo."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "normalmente_incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Ejecutar en segundo plano con logs explícitos",
+      "comando": "nohup tarea_demo > tarea.log 2>&1 &",
+      "descripcion": "Ignora SIGHUP, envía stdout y stderr al archivo y solicita a la shell ejecutar en segundo plano.",
+      "resultado_esperado": "La shell devuelve el control y el comando continúa mientras el sistema y el proceso lo permitan."
+    },
+    {
+      "nombre": "Guardar salida sin segundo plano",
+      "comando": "nohup comando_demo > salida.log 2>&1",
+      "descripcion": "Ejecuta la orden en primer plano ignorando SIGHUP y redirige ambas salidas.",
+      "resultado_esperado": "El comando permanece asociado a la shell hasta finalizar, con salida en salida.log."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "comando",
+      "argumentos",
+      "archivo_salida"
+    ],
+    "validaciones": [
+      "Comprobar permisos, espacio y política de rotación del archivo de salida.",
+      "Registrar PID y definir supervisión o terminación; nohup no es un gestor de servicios."
+    ],
     "rollback": null
   }
 }

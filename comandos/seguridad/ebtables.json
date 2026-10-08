@@ -1,7 +1,7 @@
 {
   "id": "ebtables",
   "nombre": "ebtables",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra reglas de filtrado Ethernet de capa 2, especialmente en puentes Linux; los cambios pueden afectar el tráfico del puente.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,44 @@
     "principal": "ebtables",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-L", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista reglas de la cadena seleccionada o de todas las cadenas.", "conflictos": [], "requiere": []},
+    {"flag": "-A", "argumento": "cadena", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una regla al final de la cadena indicada.", "conflictos": [], "requiere": ["regla"]},
+    {"flag": "-D", "argumento": "cadena regla", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina una regla coincidente.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": "cadena política", "tipo": "string", "requerido": false, "default": null, "valores": ["ACCEPT", "DROP", "RETURN"], "descripcion": "Define la política predeterminada de una cadena integrada.", "conflictos": [], "requiere": []},
+    {"flag": "-F", "argumento": "cadena", "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Vacía reglas de la cadena indicada o de todas si se omite.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_NET_ADMIN (normalmente root) para modificar reglas"],
+    "dependencias": ["Soporte ebtables del kernel y puente Linux si se filtra tráfico puenteado"],
+    "paquetes": ["ebtables"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Reglas o políticas equivocadas pueden interrumpir tráfico y administración del puente; respalde la configuración y asegure acceso alternativo.", "-F elimina reglas y -P cambia la política predeterminada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ebtables",
+      "arch_linux": "sudo pacman -S ebtables",
+      "rhel_centos": "sudo dnf install ebtables"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar reglas", "comando": "sudo ebtables -L --Lc", "descripcion": "Lista reglas y contadores actuales del cortafuegos de puente.", "resultado_esperado": "Cadenas y reglas existentes con contadores."},
+    {"nombre": "Ver tabla filter", "comando": "sudo ebtables -t filter -L", "descripcion": "Consulta la tabla filter sin cambiar configuración.", "resultado_esperado": "Lista las cadenas y reglas de filter."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["cadena", "regla", "politica"],
+    "validaciones": ["Verificar backend, reglas activas y persistencia de la distribución antes de cualquier cambio."],
     "rollback": null
   }
 }

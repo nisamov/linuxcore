@@ -1,7 +1,7 @@
 {
   "id": "w",
   "nombre": "w",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra quién ha iniciado sesión y qué está haciendo, junto con el tiempo de actividad, carga del sistema y detalles de procesos visibles.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "w",
+    "principal": "w [opciones] [usuario]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-h","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No imprime el encabezado en implementaciones procps compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa formato corto y omite algunos campos de tiempo de actividad/proceso.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Alterna la visualización del campo remoto en implementaciones compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ignora el nombre de usuario al calcular el tiempo de actividad del proceso.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la dirección IP en lugar del nombre de host cuando está disponible.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el PID del proceso de inicio de sesión/proceso mostrado en la columna de comando.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de registros de sesión/procesos accesibles; algunos datos pueden limitarse"],
+    "dependencias": ["utmp, uptime y datos de procesos del sistema"],
+    "paquetes": ["procps-ng (paquete procps en Debian/Ubuntu)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La salida revela nombres de usuario, terminales, orígenes de conexión y actividad; protege capturas y registros.",
+      "Los campos dependen de utmp y de los permisos de proceso; valores vacíos o incompletos no necesariamente indican error."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en procps/procps-ng.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Ver sesiones y actividad","comando":"w","descripcion":"Muestra sesiones interactivas, origen, inactividad y comando actual junto con la carga del sistema.","resultado_esperado":"Imprime un encabezado de uptime/carga y una fila por sesión registrada."},
+    {"nombre":"Filtrar por usuario","comando":"w ana","descripcion":"Muestra solo la sesión de ana si aparece entre las sesiones actuales.","resultado_esperado":"Presenta las filas coincidentes o ninguna si ana no tiene sesión registrada."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario"],
+    "validaciones": ["Interpretar datos de sesiones como instantánea y no como registro de auditoría completo.", "Proteger la salida si se almacena porque puede contener información de actividad y origen."],
     "rollback": null
   }
 }

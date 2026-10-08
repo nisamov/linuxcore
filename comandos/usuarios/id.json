@@ -1,7 +1,7 @@
 {
   "id": "id",
   "nombre": "id",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Imprime el identificador de usuario y los identificadores de grupo real, efectivo y suplementarios del usuario actual o indicado.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "id",
+    "principal": "id [opciones] [usuario]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra solo el UID.","conflictos":[],"requiere":[]},
+    {"flag":"-g","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra solo el GID efectivo.","conflictos":[],"requiere":[]},
+    {"flag":"-G","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra todos los GID suplementarios.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra nombres en vez de identificadores numéricos; se combina con -u, -g o -G.","conflictos":[],"requiere":["-u, -g o -G"]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el ID real en vez del efectivo; se combina con -u o -g.","conflictos":[],"requiere":["-u o -g"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Acceso de lectura a la información de identidad consultada"],
+    "dependencias": ["NSS y base de datos de usuarios/grupos configuradas"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los resultados reflejan la identidad resuelta por NSS y las credenciales del proceso; grupos añadidos recientemente podrían no estar activos en una sesión ya abierta."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Normalmente incluido en GNU coreutils.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install coreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar identidad completa","comando":"id","descripcion":"Muestra UID, GID primario y grupos suplementarios de la sesión actual.","resultado_esperado":"Imprime los identificadores y sus nombres resueltos."},
+    {"nombre":"Consultar UID numérico de una cuenta","comando":"id -u ana","descripcion":"Solicita únicamente el UID numérico de ana.","resultado_esperado":"Imprime el UID o devuelve error si la cuenta no puede resolverse."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario"],
+    "validaciones": ["Verificar el código de salida antes de consumir la salida en scripts.", "Distinguir UID/GID real y efectivo según el uso previsto."],
     "rollback": null
   }
 }

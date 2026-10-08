@@ -1,7 +1,7 @@
 {
   "id": "strace",
   "nombre": "strace",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Registra llamadas al sistema y señales de un programa o proceso para diagnosticar interacción con el kernel.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,89 @@
     ]
   },
   "sintaxis": {
-    "principal": "strace",
-    "alternativas": []
+    "principal": "strace [opciones] comando [argumentos...]",
+    "alternativas": [
+      "strace -p PID"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-p",
+      "argumento": "PID",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Adjunta el trazador al proceso existente indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Sigue procesos hijo creados mediante fork/vfork/clone.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-e",
+      "argumento": "expresión",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Filtra o configura llamadas/señales trazadas, por ejemplo trace=openat; sintaxis exacta según versión.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-o",
+      "argumento": "archivo",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe el rastro en un archivo en vez de stderr.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Cuenta tiempo, llamadas y errores por syscall en lugar de mostrar cada llamada.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-tt",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Anteponen marcas de tiempo de alta precisión a las líneas del rastro en versiones compatibles.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Adjuntar está sujeto a ptrace, usuario propietario, Yama/LSM y configuración; root puede ser necesario."
+    ],
+    "dependencias": [
+      "Kernel Linux y ABI compatible; el trazado añade latencia"
+    ],
+    "paquetes": [
+      "strace"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +100,48 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Puede ralentizar o alterar la temporización del proceso; adjuntar puede pausarlo brevemente.",
+      "Los argumentos de syscalls y rutas pueden revelar contraseñas, tokens o datos privados; proteja la salida."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install strace",
+      "arch_linux": "sudo pacman -S strace",
+      "rhel_centos": "sudo dnf install strace"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Trazar syscalls de un comando",
+      "comando": "strace -c ls /tmp",
+      "descripcion": "Ejecuta ls y presenta un resumen de las llamadas al sistema realizadas.",
+      "resultado_esperado": "Tabla de llamadas, errores y tiempo acumulado al finalizar."
+    },
+    {
+      "nombre": "Seguir llamadas de apertura de archivos",
+      "comando": "strace -e trace=openat -o /tmp/strace.log comando_demo",
+      "descripcion": "Registra llamadas openat del comando y guarda los datos en un archivo.",
+      "resultado_esperado": "El registro contiene eventos openat decodificados si la versión y ABI los reconocen."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "comando",
+      "argumentos",
+      "pid",
+      "filtro",
+      "archivo_salida"
+    ],
+    "validaciones": [
+      "Usar filtros y duración acotados para evitar registros enormes.",
+      "Obtener autorización para depurar el proceso y proteger los archivos de traza."
+    ],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "comprobacion_velocidad_disco",
   "nombre": "Comprobacion de velocidad de disco",
-  "descripcion": "Verifica la velocidad de escritura del disco",
+  "descripcion": "Mide aproximadamente la escritura secuencial síncrona creando un archivo de prueba de 1 GiB en el directorio actual. El archivo permanece después de la prueba.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "dd if=/dev/zero of=test bs=1G count=1 oflag=dsync",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "archivo_prueba",
+      "tipo": "string",
+      "requerido": false,
+      "default": "test",
+      "valores": [],
+      "descripcion": "Ruta del archivo de salida de dd; la receta usa test en el directorio actual y escribe 1 GiB en él.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -24,14 +36,16 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "dd crea o sobrescribe el archivo test y puede reemplazar datos previos; requiere al menos 1 GiB libre y genera carga de escritura en el dispositivo."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; necesita dd y las herramientas básicas proporcionadas por el sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "dd if=/dev/zero of=test bs=1G count=1 oflag=dsync",
       "descripcion": "Verifica la velocidad de escritura del disco",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Medir escritura secuencial en un archivo temporal",
+      "comando": "dd if=/dev/zero of=./prueba-escritura.tmp bs=1M count=128 conv=fdatasync status=progress",
+      "descripcion": "Escribe 128 MiB en un archivo temporal del directorio actual y sincroniza los datos para observar el rendimiento de escritura.",
+      "resultado_esperado": "dd informa los bytes escritos y la tasa de transferencia; queda un archivo temporal que debe eliminarse tras verificarlo."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique el disco, sistema de archivos y ruta de destino antes de escribir; confirme que ./prueba-escritura.tmp no existe para evitar sobrescribir datos.", "Compruebe espacio libre suficiente, permisos de escritura y que la ruta no sea un dispositivo o un montaje crítico.", "Ejecute la prueba con un archivo temporal en el sistema de archivos que desea medir y elimínelo solo después de confirmar su ruta."] ,
     "rollback": null
   }
 }

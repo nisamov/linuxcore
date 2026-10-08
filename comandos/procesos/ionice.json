@@ -1,7 +1,7 @@
 {
   "id": "ionice",
   "nombre": "ionice",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta o ajusta la clase y prioridad de planificación de E/S de un proceso, o inicia un comando con esa política.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,77 @@
     ]
   },
   "sintaxis": {
-    "principal": "ionice",
-    "alternativas": []
+    "principal": "ionice [opciones] comando [argumentos...]",
+    "alternativas": [
+      "ionice -p PID",
+      "ionice -c clase [-n nivel] -p PID"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-c",
+      "argumento": "clase",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "0 (ninguna)",
+        "1 (tiempo real)",
+        "2 (mejor esfuerzo)",
+        "3 (inactiva)"
+      ],
+      "descripcion": "Selecciona la clase de E/S. La disponibilidad y efecto dependen del planificador y kernel.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": "nivel",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "0-7 para clases compatibles"
+      ],
+      "descripcion": "Establece prioridad dentro de una clase que admite niveles, normalmente mejor esfuerzo o tiempo real.",
+      "conflictos": [],
+      "requiere": [
+        "-c"
+      ]
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Consulta o cambia la política de E/S del proceso existente.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Interpreta los argumentos restantes como un comando a ejecutar.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "El cambio de política de procesos ajenos o la selección de clases de mayor prioridad puede requerir privilegios."
+    ],
+    "dependencias": [
+      "Soporte de planificación de E/S del kernel y dispositivo; algunos planificadores pueden ignorar ionice."
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +88,47 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar la clase o prioridad afecta el acceso relativo a E/S del proceso y puede perjudicar otras cargas.",
+      "La clase de tiempo real puede requerir privilegios y no todos los planificadores la implementan."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Consultar política actual",
+      "comando": "ionice -p 1234",
+      "descripcion": "Muestra clase y nivel de E/S del PID 1234.",
+      "resultado_esperado": "Descripción de la clase/nivel si el proceso es visible."
+    },
+    {
+      "nombre": "Ejecutar comando en clase inactiva",
+      "comando": "ionice -c 3 comando_demo",
+      "descripcion": "Inicia el comando con clase de E/S inactiva cuando el kernel y el planificador lo admiten.",
+      "resultado_esperado": "El comando se inicia con esa política, o se informa de una limitación del sistema."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "apto_script": true,
+    "variables": [
+      "clase",
+      "nivel",
+      "pid",
+      "comando"
+    ],
+    "validaciones": [
+      "Consultar la política y comprobar clases admitidas por el kernel.",
+      "Verificar el PID y los permisos antes de cambiar una política."
+    ],
+    "rollback": "Restablecer la clase/nivel previos consultados, si se guardaron y aún se dispone de permisos."
   }
 }

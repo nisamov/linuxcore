@@ -1,7 +1,7 @@
 {
   "id": "lime",
   "nombre": "lime",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Módulo de kernel LiME (Linux Memory Extractor) para adquirir memoria física volátil a un destino autorizado; el uso requiere cargar un módulo compatible con el kernel.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,41 @@
     "principal": "lime",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "path=", "argumento": "ruta_destino", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Ruta local o destino soportado donde el módulo escribirá la imagen de memoria.", "conflictos": [], "requiere": []},
+    {"flag": "format=", "argumento": "formato", "tipo": "string", "requerido": true, "default": null, "valores": ["lime", "raw", "padded"], "descripcion": "Formato de adquisición admitido por el módulo LiME compilado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_SYS_MODULE y permisos de escritura en el destino; normalmente root"],
+    "dependencias": ["Módulo LiME compilado para el kernel en ejecución y soporte de carga de módulos"],
+    "paquetes": ["No suele distribuirse como paquete de repositorio; obtener y compilar desde una fuente confiable para el kernel exacto"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La imagen de RAM puede contener claves, credenciales, datos personales y contenido de procesos; cifre, controle acceso y elimine de forma segura según el procedimiento autorizado.", "Cargar un módulo altera el estado del sistema y un módulo incompatible puede causar inestabilidad; use solo equipos propios o autorizados y preserve cadena de custodia."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "compilacion_controlada_del_modulo_para_el_kernel",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "Compilar LiME desde una fuente verificada para la versión exacta del kernel; no hay paquete universal.",
+      "arch_linux": "Compilar LiME desde una fuente verificada para la versión exacta del kernel; no hay paquete universal.",
+      "rhel_centos": "Compilar LiME desde una fuente verificada para la versión exacta del kernel; no hay paquete universal."
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Verificar kernel antes de adquisición", "comando": "uname -r; test -r ./lime.ko", "descripcion": "Comprueba versión del kernel y disponibilidad del módulo de laboratorio antes de cualquier carga.", "resultado_esperado": "Muestra la versión y confirma que el módulo puede leerse si está presente."},
+    {"nombre": "Adquisición en equipo de laboratorio propio", "comando": "sudo insmod ./lime.ko 'path=/mnt/evidencia/memoria.lime format=lime'", "descripcion": "Carga el módulo compilado compatible para adquirir memoria de un equipo de laboratorio propio con destino protegido y autorizado.", "resultado_esperado": "El módulo escribe la imagen de memoria en el destino indicado y queda cargado hasta retirarlo o reiniciar."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["ruta_destino", "formato", "modulo_compatible"],
+    "validaciones": ["Confirmar autorización, integridad y compatibilidad del módulo, espacio suficiente, destino protegido y procedimiento de cadena de custodia antes de cargarlo."],
     "rollback": null
   }
 }

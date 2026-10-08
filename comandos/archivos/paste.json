@@ -1,7 +1,7 @@
 {
   "id": "paste",
   "nombre": "paste",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Combina líneas de archivos en paralelo o concatena líneas de cada archivo en secuencia, separando campos con tabuladores u otro delimitador.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "paste",
+    "principal": "paste [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-d", "argumento": "delimitadores", "tipo": "string", "requerido": false, "default": "tabulador", "valores": [], "descripcion": "Usa los caracteres indicados, en secuencia, como delimitadores entre columnas.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Procesa cada archivo de forma serial, colocando sus líneas en una sola línea de salida.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos de entrada."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["paste no analiza CSV ni interpreta campos entrecomillados; delimitadores dentro de los datos pueden volver ambigua la salida.", "La salida no conserva necesariamente la estructura si las entradas tienen distinto número de líneas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Combinar dos listas en columnas", "comando": "paste nombres.txt edades.txt", "descripcion": "Combina líneas correspondientes de ambos archivos con tabulador entre columnas.", "resultado_esperado": "Cada línea de salida contiene un nombre y su edad separados por tabulador."},
+    {"nombre": "Unir líneas serialmente con coma", "comando": "paste -s -d, etiquetas.txt", "descripcion": "Concatena las líneas del archivo en una sola línea, separándolas por comas.", "resultado_esperado": "Imprime una lista separada por comas."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo1", "archivo2", "delimitador"],
+    "validaciones": ["Comprobar legibilidad y correspondencia de líneas entre archivos.", "Evitar usar como parser de CSV con reglas de citado."],
     "rollback": null
   }
 }

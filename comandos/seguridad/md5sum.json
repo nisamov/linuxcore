@@ -1,7 +1,7 @@
 {
   "id": "md5sum",
   "nombre": "md5sum",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Calcula o verifica hashes MD5 de archivos para comprobar cambios accidentales; MD5 no es adecuado para seguridad criptográfica ni autenticación adversaria.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "md5sum",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-c", "argumento": "archivo_sumas", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lee hashes en formato de manifiesto y verifica los archivos enumerados.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lee archivos en modo binario; no cambia el resultado en sistemas que no distinguen modo texto/binario.", "conflictos": [], "requiere": []},
+    {"flag": "--tag", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Genera salida en formato BSD.", "conflictos": [], "requiere": []},
+    {"flag": "--status", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime salida normal durante comprobación; consultar código de salida.", "conflictos": [], "requiere": ["-c"]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Coreutils"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["MD5 tiene colisiones prácticas; no lo use para contraseñas, firmas, autenticación ni verificación hostil. Prefiera SHA-256 o superior."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Calcular hash de muestra", "comando": "md5sum ./archivo-prueba.txt", "descripcion": "Calcula MD5 para comparar copias no adversariales de un archivo propio.", "resultado_esperado": "Imprime digest hexadecimal y nombre del archivo."},
+    {"nombre": "Crear y verificar manifiesto de prueba", "comando": "md5sum ./archivo-prueba.txt > ./md5-prueba.txt && md5sum -c ./md5-prueba.txt", "descripcion": "Detecta cambios accidentales en un archivo local usando un manifiesto de prueba.", "resultado_esperado": "El verificador informa OK si el contenido no cambió."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "manifiesto"],
+    "validaciones": ["Comprobar código de salida; usar solo para integridad no adversarial y preferir SHA-256 cuando exista riesgo de manipulación."],
     "rollback": null
   }
 }

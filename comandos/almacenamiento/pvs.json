@@ -470,7 +470,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Forma parte de LVM2. Compruebe primero `command -v pvs`; si no está instalado, instale lvm2 con el gestor de paquetes de su distribución (Debian/Ubuntu: `sudo apt install lvm2`; Arch: `sudo pacman -S lvm2`; RHEL/CentOS: `sudo dnf install lvm2`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -508,7 +508,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que `pvs` esté disponible y que el usuario tenga permisos para consultar los dispositivos LVM requeridos.", "Si se especifican PV o etiquetas, confirme que existen y coinciden con el alcance esperado; trate una salida vacía como un resultado válido pero distinto de una consulta fallida.", "En scripts, use columnas y formato de salida explícitos y compruebe el código de salida antes de procesar la información; evite depender del espaciado o de encabezados predeterminados."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "basename",
   "nombre": "basename",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Imprime el último componente de una ruta, eliminando opcionalmente un sufijo final; resulta útil para extraer nombres de archivo en scripts.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "basename",
+    "principal": "basename ruta [sufijo], basename opción... ruta...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Procesa todos los argumentos como rutas; no se combina con -s.", "conflictos": ["-s"], "requiere": []},
+    {"flag": "-s", "argumento": "sufijo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina el sufijo final indicado de cada nombre; implica procesamiento múltiple.", "conflictos": ["-a"], "requiere": []},
+    {"flag": "-z", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Termina cada salida con byte NUL en vez de salto de línea.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No requiere permisos especiales; no accede al contenido de los archivos."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida de texto puede ser ambigua para nombres con saltos de línea; use -z al canalizar nombres arbitrarios entre herramientas compatibles."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes de la distribución; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Obtener nombre de archivo", "comando": "basename /var/log/syslog", "descripcion": "Extrae el último componente de la ruta indicada.", "resultado_esperado": "Imprime syslog."},
+    {"nombre": "Quitar una extensión conocida", "comando": "basename -s .tar.gz /tmp/respaldo.tar.gz", "descripcion": "Extrae el nombre y elimina el sufijo literal .tar.gz.", "resultado_esperado": "Imprime respaldo."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta", "sufijo"],
+    "validaciones": ["Citar la ruta como argumento para preservar espacios y caracteres especiales."],
     "rollback": null
   }
 }

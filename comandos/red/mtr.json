@@ -1,7 +1,7 @@
 {
   "id": "mtr",
   "nombre": "mtr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Combina traceroute y ping para mostrar en tiempo real latencia y perdida de paquetes por salto hacia un destino de red.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "mtr",
+    "principal": "mtr [opciones] destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-r, --report","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ejecuta en modo informe y termina tras el numero de ciclos configurado.","conflictos":[],"requiere":[]},
+    {"flag":"-c, --report-cycles","argumento":"cuenta","tipo":"integer","requerido":false,"default":10,"valores":[],"descripcion":"Define el numero de ciclos de sondeo del modo informe.","conflictos":[],"requiere":["-r"]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desactiva la resolucion de nombres de host.","conflictos":[],"requiere":[]},
+    {"flag":"-4","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza el uso de IPv4.","conflictos":["-6"],"requiere":[]},
+    {"flag":"-6","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza el uso de IPv6.","conflictos":["-4"],"requiere":[]},
+    {"flag":"-T","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa sondas TCP en lugar de ICMP/UDP cuando la version lo admite.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red; algunas sondas o modos pueden requerir privilegios"],
+    "dependencias": ["mtr-tiny o mtr; soporte ICMP/UDP/TCP"],
+    "paquetes": ["mtr-tiny (Debian/Ubuntu), mtr (Arch/RHEL)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Genera sondas periodicas hasta finalizar; limite ciclos y consulte solo destinos propios o autorizados.",
+      "Routers pueden limitar o no responder a sondas, por lo que la perdida mostrada en un salto intermedio no implica necesariamente perdida extremo a extremo."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install mtr-tiny",
+      "arch_linux": "sudo pacman -S mtr",
+      "rhel_centos": "sudo dnf install mtr"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Informe limitado a red propia","comando":"mtr -r -c 5 -n 127.0.0.1","descripcion":"Realiza cinco ciclos de diagnostico contra loopback y emite informe numerico.","resultado_esperado":"Se imprime un resumen por salto con latencia y perdida observada."},
+    {"nombre":"Diagnostico interactivo de dominio autorizado","comando":"mtr -n example.com","descripcion":"Muestra en vivo la ruta y latencia hacia el destino de ejemplo sin resolver nombres de saltos.","resultado_esperado":"Se actualiza una tabla de saltos hasta terminar con q o Ctrl+C."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["destino_autorizado","ciclos"],
+    "validaciones": ["Limitar ciclos y frecuencia, validar destino y tratar respuestas ICMP filtradas como inconclusas."],
     "rollback": null
   }
 }

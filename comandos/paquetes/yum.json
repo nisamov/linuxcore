@@ -1,7 +1,7 @@
 {
   "id": "yum",
   "nombre": "yum",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz clásica del gestor YUM para sistemas basados en RPM, usada especialmente en RHEL y CentOS 7 y anteriores. Instala y actualiza desde repositorios resolviendo dependencias; en versiones modernas, el comando yum puede ser una interfaz de compatibilidad proporcionada por DNF.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "yum",
+    "principal": "yum [opciones] <comando> [paquetes...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "install", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala paquetes desde repositorios configurados y resuelve dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "update", "argumento": "[PAQUETE...]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza todos los paquetes o los indicados según los metadatos de los repositorios.", "conflictos": [], "requiere": []},
+    {"flag": "upgrade", "argumento": "[PAQUETE...]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "En YUM clásico actúa como actualización y puede retirar paquetes obsoletos; el comportamiento exacto depende de la versión.", "conflictos": [], "requiere": []},
+    {"flag": "remove", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina paquetes y, según la resolución de dependencias, otros paquetes que ya no sean necesarios.", "conflictos": [], "requiere": []},
+    {"flag": "search", "argumento": "TÉRMINO", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Busca paquetes y descripciones en los repositorios habilitados.", "conflictos": [], "requiere": []},
+    {"flag": "info", "argumento": "PAQUETE", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra información de un paquete disponible o instalado.", "conflictos": [], "requiere": []},
+    {"flag": "-y, --assumeyes", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Responde afirmativamente a las preguntas, omitiendo la confirmación interactiva.", "conflictos": [], "requiere": []},
+    {"flag": "--enablerepo=REPO", "argumento": "REPO", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Habilita un repositorio para esta ejecución sin cambiar necesariamente su configuración permanente.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para modificar paquetes"],
+    "dependencias": ["repositorios YUM/RPM configurados", "conectividad de red para descargar metadatos y paquetes"],
+    "paquetes": ["yum en sistemas clásicos; en sistemas modernos el comando puede ser provisto por dnf"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["YUM clásico y la compatibilidad yum de DNF pueden diferir en opciones y resolución de transacciones.", "Revisa los paquetes que se instalarán, actualizarán o eliminarán antes de confirmar.", "No confundas yum con rpm: yum administra repositorios y dependencias; rpm opera sobre paquetes y la base local."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Herramienta nativa de sistemas RPM antiguos, especialmente RHEL/CentOS 7; en versiones actuales puede ser una interfaz compatible de DNF.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
-      "rhel_centos": ""
+      "rhel_centos": "yum (RHEL/CentOS 7; en versiones modernas suele proporcionarlo la compatibilidad de dnf)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar un paquete disponible", "comando": "yum search nginx", "descripcion": "Busca coincidencias en los nombres y descripciones de los paquetes de repositorios habilitados.", "resultado_esperado": "Muestra los paquetes que coinciden con nginx y su resumen."},
+    {"nombre": "Instalar htop sin preguntas", "comando": "sudo yum install -y htop", "descripcion": "Instala htop desde los repositorios configurados y acepta automáticamente la transacción.", "resultado_esperado": "htop queda instalado si existe en un repositorio habilitado y se satisfacen sus dependencias."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Identificar si yum es YUM clásico o un alias/interfaz de compatibilidad de DNF.", "Comprobar repositorios habilitados y revisar la transacción antes de usar -y.", "Validar la compatibilidad de las opciones con la versión instalada."],
     "rollback": null
   }
 }

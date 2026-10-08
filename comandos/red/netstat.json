@@ -1,7 +1,7 @@
 {
   "id": "netstat",
   "nombre": "netstat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra conexiones de red, puertos en escucha, tablas de rutas e interfaces mediante la utilidad heredada net-tools; ss suele ser su reemplazo recomendado.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,22 @@
     ]
   },
   "sintaxis": {
-    "principal": "netstat",
+    "principal": "netstat [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra sockets en escucha y no escucha.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra solo sockets en escucha.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Limita la salida a sockets TCP.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Limita la salida a sockets UDP.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra direcciones y puertos numericos sin resolver nombres.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la tabla de rutas del kernel.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra tabla de interfaces y contadores.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura; algunos detalles de proceso pueden requerir privilegios"],
+    "dependencias": ["net-tools"],
+    "paquetes": ["net-tools"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +33,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "netstat esta obsoleto en muchas distribuciones y puede no mostrar toda la informacion; prefiera ss e iproute2.",
+      "La informacion de conexiones locales puede revelar procesos y puertos expuestos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install net-tools",
+      "arch_linux": "sudo pacman -S net-tools",
+      "rhel_centos": "sudo dnf install net-tools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar puertos TCP en escucha","comando":"netstat -lnt","descripcion":"Muestra sockets TCP que escuchan con direcciones y puertos numericos.","resultado_esperado":"Se listan puertos locales TCP en escucha, si los hay."},
+    {"nombre":"Consultar tabla de rutas","comando":"netstat -rn","descripcion":"Muestra rutas de kernel sin resolucion de nombres.","resultado_esperado":"Se imprimen redes destino, gateways e interfaces asociadas."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["protocolo","opciones"],
+    "validaciones": ["Comprobar que net-tools esta instalado y preferir ss/ip en scripts nuevos; no asumir formato estable de salida."],
     "rollback": null
   }
 }

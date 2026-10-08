@@ -1,7 +1,7 @@
 {
   "id": "find",
   "nombre": "find",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca archivos y directorios desde las rutas indicadas según criterios como nombre, tipo, tamaño o fecha, y puede ejecutar acciones sobre los resultados.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "find",
+    "principal": "find [ruta...] [expresión]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-name", "argumento": "patrón", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona nombres que coinciden con un patrón glob entre comillas.", "conflictos": [], "requiere": []},
+    {"flag": "-type", "argumento": "tipo", "tipo": "string", "requerido": false, "default": null, "valores": ["f", "d", "l"], "descripcion": "Filtra por tipo: archivo regular, directorio o enlace simbólico, entre otros tipos admitidos.", "conflictos": [], "requiere": []},
+    {"flag": "-mtime", "argumento": "n", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona según la antigüedad de modificación en periodos de 24 horas; admite prefijos + y -.", "conflictos": [], "requiere": []},
+    {"flag": "-maxdepth", "argumento": "niveles", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Limita los niveles de descenso desde la ruta de inicio.", "conflictos": [], "requiere": []},
+    {"flag": "-print0", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Imprime cada ruta terminada en NUL para uso seguro con herramientas compatibles.", "conflictos": [], "requiere": []},
+    {"flag": "-exec", "argumento": "comando", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Ejecuta un comando para cada resultado; finaliza la expresión con \";\" o con + según la forma usada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de búsqueda en directorios recorridos; lectura de metadatos y contenido según las pruebas o acciones."],
+    "dependencias": ["GNU findutils."],
+    "paquetes": ["findutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["-exec puede ejecutar acciones destructivas: inspeccione primero la selección, especialmente antes de rm.", "Use -print0 junto con xargs -0 al procesar nombres arbitrarios.", "Citar patrones como '*.log' para que los interprete find y no la shell."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar findutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "findutils",
+      "arch_linux": "findutils",
+      "rhel_centos": "findutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar archivos por extensión", "comando": "find ./documentos -type f -name '*.pdf'", "descripcion": "Recorre documentos y selecciona archivos regulares cuyo nombre termine en .pdf.", "resultado_esperado": "Imprime una ruta por cada PDF encontrado."},
+    {"nombre": "Buscar y eliminar temporales de forma segura", "comando": "find ./tmp -type f -name '*.tmp' -print", "descripcion": "Enumera primero los archivos temporales seleccionados; use la lista revisada antes de agregar una acción de borrado.", "resultado_esperado": "Muestra las rutas candidatas sin modificar ni eliminar archivos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta_inicio", "patrón", "tipo"],
+    "validaciones": ["Validar la ruta inicial y revisar los resultados antes de cualquier acción modificadora.", "Usar -print0 y consumidores compatibles para nombres con espacios o saltos de línea.", "Limitar el recorrido cuando el alcance sea conocido."],
     "rollback": null
   }
 }

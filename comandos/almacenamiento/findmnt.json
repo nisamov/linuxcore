@@ -1,7 +1,7 @@
 {
   "id": "findmnt",
   "nombre": "findmnt",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta la tabla de montajes del kernel y muestra sistemas de archivos, dispositivos, tipos y puntos de montaje con filtros y formatos seleccionables.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "findmnt",
+    "principal": "findmnt [opciones] [dispositivo|punto_de_montaje]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye sistemas de archivos marcados como ignorados.","conflictos":[],"requiere":[]},
+    {"flag":"-T","argumento":"ruta","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra el sistema de archivos que contiene la ruta indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Filtra por tipo de sistema de archivos.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"lista","tipo":"string","requerido":false,"default":null,"valores":["SOURCE","TARGET","FSTYPE","OPTIONS","UUID"],"descripcion":"Selecciona las columnas de salida separadas por comas.","conflictos":[],"requiere":[]},
+    {"flag":"-J","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite la salida en formato JSON.","conflictos":["-P","-R"],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de la información de montajes"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La visibilidad de montajes puede variar según el espacio de nombres de montaje del proceso."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar montajes","comando":"findmnt","descripcion":"Presenta en árbol los sistemas de archivos montados visibles en el espacio de nombres actual.","resultado_esperado":"Tabla con origen, destino, tipo y opciones de montaje."},
+    {"nombre":"Identificar sistema de archivos de una ruta","comando":"findmnt -T /var -o SOURCE,FSTYPE,TARGET","descripcion":"Consulta qué montaje contiene /var y limita las columnas mostradas.","resultado_esperado":"Una fila con el dispositivo, tipo y punto de montaje correspondiente."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta"],
+    "validaciones": ["Verificar que la ruta exista cuando se usa -T.","No asumir que la tabla representa otros espacios de nombres de montaje."],
     "rollback": null
   }
 }

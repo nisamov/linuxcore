@@ -1,7 +1,7 @@
 {
   "id": "xdpyinfo",
   "nombre": "xdpyinfo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra información del servidor X al que se conecta el cliente, como versión, extensiones, pantallas, visuales y formatos de píxel.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "xdpyinfo",
+    "principal": "xdpyinfo [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-display","argumento":"DISPLAY","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Conecta con el servidor X indicado en lugar del valor de la variable DISPLAY.","conflictos":[],"requiere":[]},
+    {"flag":"-queryExtensions","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Consulta y muestra las extensiones anunciadas por el servidor X.","conflictos":[],"requiere":[]},
+    {"flag":"-version","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la versión del cliente xdpyinfo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Servidor X accesible y autorización de conexión para el usuario"],
+    "paquetes": ["x11-utils (Debian/Ubuntu, RHEL/CentOS)", "xorg-xdpyinfo (Arch Linux)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Requiere un servidor X accesible y autorización del cliente; la salida puede revelar detalles del entorno gráfico."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install x11-utils",
+      "arch_linux": "sudo pacman -S xorg-xdpyinfo",
+      "rhel_centos": "sudo dnf install xorg-x11-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar servidor X predeterminado","comando":"xdpyinfo","descripcion":"Consulta los atributos del servidor indicado por DISPLAY.","resultado_esperado":"Información general del servidor, pantallas, formatos y extensiones."},
+    {"nombre":"Listar extensiones X","comando":"xdpyinfo -queryExtensions","descripcion":"Solicita el listado de extensiones anunciadas por el servidor gráfico.","resultado_esperado":"Nombres y códigos de las extensiones disponibles en esa sesión X."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["DISPLAY (opcional si se usa -display)"],
+    "validaciones": ["Verificar que DISPLAY esté configurado y que el usuario tenga autorización para conectarse al servidor X."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "pwconv",
   "nombre": "pwconv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Convierte y sincroniza las contraseñas locales del formato tradicional /etc/passwd al formato shadow, manteniendo la información de cuenta coherente.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "pwconv",
+    "principal": "pwconv [-R directorio_raíz]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-R","argumento":"directorio_raíz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Aplica la operación dentro del directorio raíz indicado, si la versión instalada admite esta opción.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root"],
+    "dependencias": ["/etc/passwd, /etc/shadow y sus archivos de bloqueo"],
+    "paquetes": ["shadow en Debian/Ubuntu/Arch; shadow-utils en RHEL/Fedora"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Modifica archivos centrales de autenticación; un error, interrupción o permisos incorrectos pueden impedir inicios de sesión.",
+      "Realiza respaldo protegido de /etc/passwd y /etc/shadow y verifica su consistencia antes y después. No ejecutes concurrentemente con otras herramientas de gestión de cuentas."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en el paquete de utilidades shadow.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Sincronizar archivos de cuentas","comando":"sudo pwconv","descripcion":"Convierte los registros locales de contraseña al esquema shadow y sincroniza ambos archivos.","resultado_esperado":"Las contraseñas protegidas quedan en /etc/shadow y los archivos de cuentas se actualizan."},
+    {"nombre":"Revisar consistencia antes de la conversión","comando":"sudo pwck -r && sudo grpck -r","descripcion":"Ejecuta comprobaciones de solo lectura de las bases de usuarios y grupos antes de una conversión planificada.","resultado_esperado":"Se reportan inconsistencias detectadas sin aplicar reparaciones."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["directorio_raíz"],
+    "validaciones": ["Respaldar archivos de cuentas con permisos restrictivos y disponer de acceso de recuperación.", "Ejecutar sin procesos concurrentes de administración de usuarios y validar con pwck después."],
     "rollback": null
   }
 }

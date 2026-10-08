@@ -1,7 +1,7 @@
 {
   "id": "arptables",
   "nombre": "arptables",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra reglas de filtrado de tramas ARP en el cortafuegos de capa 2 del kernel Linux; las reglas afectan la conectividad del segmento.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,44 @@
     "principal": "arptables",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-L", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista las reglas de la cadena seleccionada o de todas las cadenas.", "conflictos": [], "requiere": []},
+    {"flag": "-A", "argumento": "cadena", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una regla al final de la cadena indicada.", "conflictos": [], "requiere": ["regla"]},
+    {"flag": "-D", "argumento": "cadena regla", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina una regla coincidente de la cadena.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": "cadena política", "tipo": "string", "requerido": false, "default": null, "valores": ["ACCEPT", "DROP", "RETURN"], "descripcion": "Establece la política predeterminada de una cadena integrada.", "conflictos": [], "requiere": []},
+    {"flag": "-F", "argumento": "cadena", "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Vacía reglas de una cadena o de todas si se omite; no restablece políticas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_NET_ADMIN (normalmente root) para cambiar reglas; la consulta puede ser legible sin privilegios según configuración"],
+    "dependencias": ["Soporte netfilter/arptables del kernel"],
+    "paquetes": ["arptables"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cambiar políticas o vaciar reglas puede interrumpir la conectividad de capa 2; respalde la configuración y mantenga acceso alternativo.", "-F elimina reglas y -P cambia el comportamiento predeterminado."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install arptables",
+      "arch_linux": "sudo pacman -S arptables",
+      "rhel_centos": "sudo dnf install arptables"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar reglas activas", "comando": "sudo arptables -L -n -v", "descripcion": "Lista reglas y contadores ARP en un equipo administrado.", "resultado_esperado": "Cadenas y reglas actuales con contadores."},
+    {"nombre": "Añadir regla en laboratorio", "comando": "sudo arptables -A INPUT --source-mac 02:00:00:00:00:01 -j ACCEPT", "descripcion": "Añade una regla de prueba para una MAC reservada en un laboratorio propio; revisar primero las reglas existentes.", "resultado_esperado": "La regla aparece al listar INPUT; el cambio es volátil salvo persistencia configurada por la distribución."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["cadena", "regla", "politica"],
+    "validaciones": ["Guardar reglas actuales y validar la sintaxis en una consola con acceso alternativo antes de aplicar cambios."],
     "rollback": null
   }
 }

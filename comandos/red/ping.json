@@ -1,7 +1,7 @@
 {
   "id": "ping",
   "nombre": "ping",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Envía solicitudes ICMP Echo a un host y mide respuestas, latencia y perdida para diagnosticar conectividad IP.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "ping",
+    "principal": "ping [opciones] destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-c","argumento":"cuenta","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Termina despues de enviar el numero indicado de solicitudes.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":"segundos","tipo":"number","requerido":false,"default":1,"valores":[],"descripcion":"Espera el intervalo indicado entre solicitudes; intervalos menores a 0.2 s suelen requerir privilegios.","conflictos":[],"requiere":[]},
+    {"flag":"-W","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita el tiempo de espera de respuesta en implementaciones iputils.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra direcciones numericas sin resolver nombres inversos.","conflictos":[],"requiere":[]},
+    {"flag":"-4","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa solo IPv4.","conflictos":["-6"],"requiere":[]},
+    {"flag":"-6","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa solo IPv6.","conflictos":["-4"],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red; el permiso de socket ICMP suele estar configurado para usuarios sin privilegios"],
+    "dependencias": ["iputils-ping o implementacion ping del sistema"],
+    "paquetes": ["iputils-ping (Debian/Ubuntu), iputils (Arch/RHEL)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Respuestas ausentes no prueban que un host este caido: firewalls pueden filtrar ICMP.",
+      "Evite frecuencia elevada o inundacion; sondee solo destinos propios o autorizados."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iputils-ping",
+      "arch_linux": "sudo pacman -S iputils",
+      "rhel_centos": "sudo dnf install iputils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Probar loopback con cuenta limitada","comando":"ping -c 4 127.0.0.1","descripcion":"Envía cuatro solicitudes ICMP al propio host para comprobar la pila local.","resultado_esperado":"Se muestra latencia por respuesta y resumen de paquetes enviados/recibidos."},
+    {"nombre":"Comprobar host autorizado","comando":"ping -c 3 -W 2 192.0.2.10","descripcion":"Envía tres solicitudes con espera limitada a una direccion de documentacion reservada o destino de laboratorio sustituido por uno autorizado.","resultado_esperado":"Se informa de respuestas o timeout y se presenta el porcentaje de perdida."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["destino_autorizado","cuenta","timeout"],
+    "validaciones": ["Limitar cuenta/intervalo/timeout, validar destino y no interpretar el bloqueo de ICMP como indisponibilidad total."],
     "rollback": null
   }
 }

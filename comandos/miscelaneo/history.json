@@ -1,7 +1,7 @@
 {
   "id": "history",
   "nombre": "history",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra y administra el historial de órdenes del shell Bash actual; el almacenamiento y la persistencia dependen de las opciones del shell.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "history",
+    "principal": "history [-c] [-d desplazamiento] [-anrw] [archivo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Borra la lista de historial en memoria de la sesión actual.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": "desplazamiento", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina la entrada situada en el desplazamiento indicado (o un rango con inicio y longitud en Bash).", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Añade al archivo de historial las entradas nuevas de esta sesión.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Lee las entradas aún no leídas del archivo de historial a la lista actual.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Añade el contenido del archivo a la lista de historial actual.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Escribe la lista actual en el archivo de historial, sobrescribiendo su contenido.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -21,29 +28,30 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El historial puede contener credenciales o datos sensibles; -c y -d eliminan entradas y -w puede sobrescribir el archivo de historial."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Builtin de Bash; no se instala por separado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bash (incluido en el sistema)",
+      "arch_linux": "bash (incluido en el sistema)",
+      "rhel_centos": "bash (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar últimas órdenes", "comando": "history 10", "descripcion": "Muestra las diez entradas más recientes del historial de la sesión.", "resultado_esperado": "Líneas numeradas con las órdenes recientes, si el historial está habilitado."},
+    {"nombre": "Borrar una entrada concreta", "comando": "history -d 42", "descripcion": "Elimina de la lista en memoria la entrada cuyo desplazamiento es 42.", "resultado_esperado": "La entrada deja de aparecer en el historial actual; la persistencia depende de cómo se guarde el historial."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe HISTFILE y las opciones de historial antes de asumir persistencia; evite mostrar historiales en registros compartidos."],
     "rollback": null
   }
 }

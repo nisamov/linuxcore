@@ -1,7 +1,7 @@
 {
   "id": "chkconfig",
   "nombre": "chkconfig",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y administra la configuración de inicio de scripts de servicio SysV en niveles de ejecución. Es una utilidad heredada y no gestiona unidades systemd.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "chkconfig",
+    "principal": "chkconfig [--list [servicio]] | chkconfig [--level niveles] servicio {on|off|reset|...}",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--list","argumento":"servicio","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Lista los servicios y su configuración por nivel de ejecución, o consulta uno especificado.","conflictos":[],"requiere":[]},
+    {"flag":"--add","argumento":"servicio","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Registra un script SysV existente para administración mediante chkconfig.","conflictos":[],"requiere":[]},
+    {"flag":"--del","argumento":"servicio","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Elimina la configuración de niveles de ejecución del servicio registrado; no necesariamente borra el script.","conflictos":[],"requiere":[]},
+    {"flag":"--level","argumento":"niveles","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita on u off a los niveles SysV indicados, normalmente una secuencia de dígitos como 2345.","conflictos":[],"requiere":[]},
+    {"flag":"on|off|reset","argumento":"servicio","tipo":"subcomando","requerido":false,"default":null,"valores":["on","off","reset"],"descripcion":"Habilita, deshabilita o restablece la configuración predeterminada del servicio en los niveles aplicables.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Modificar enlaces de arranque suele requerir root o sudo; listar normalmente requiere solo lectura."],
+    "dependencias": ["Scripts SysV init y soporte chkconfig de la distribución"],
+    "paquetes": ["chkconfig (distribuciones heredadas compatibles)"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cambiar niveles de arranque puede impedir que servicios necesarios se inicien.", "La sintaxis y disponibilidad varían; en sistemas systemd use systemctl y no asuma compatibilidad."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Utilidad heredada disponible en determinadas distribuciones SysV/RHEL antiguas; no suele ser apropiada para sistemas actuales con systemd.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "chkconfig (disponibilidad según versión)",
+      "arch_linux": "No suele incluirse en los repositorios oficiales actuales",
+      "rhel_centos": "chkconfig (sistemas heredados; versiones actuales pueden no incluirlo)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar configuración SysV","comando":"sudo chkconfig --list sshd","descripcion":"Consulta los niveles de ejecución configurados para el script sshd en un sistema que disponga de chkconfig.","resultado_esperado":"Muestra el estado on/off por nivel, o informa que el servicio no está registrado."},
+    {"nombre":"Deshabilitar servicio en niveles seleccionados","comando":"sudo chkconfig --level 345 httpd off","descripcion":"Deshabilita httpd para los niveles SysV 3, 4 y 5 sin modificar otros niveles.","resultado_esperado":"Actualiza los enlaces de arranque correspondientes; el cambio no necesariamente detiene un proceso ya activo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["servicio", "niveles"],
+    "validaciones": ["Verificar que el sistema usa scripts SysV y que chkconfig admite la sintaxis indicada.", "Confirmar el servicio y niveles objetivo; consultar --list después del cambio."],
     "rollback": null
   }
 }

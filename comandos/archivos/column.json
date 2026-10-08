@@ -1,7 +1,7 @@
 {
   "id": "column",
   "nombre": "column",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Formatea la entrada en columnas para facilitar su lectura; en GNU util-linux puede crear tablas con delimitadores definidos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "column",
+    "principal": "column [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Determina el número de columnas y alinea la entrada como tabla.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": "separadores", "tipo": "string", "requerido": false, "default": "espacios en blanco", "valores": [], "descripcion": "Usa los caracteres indicados como separadores de campos para la tabla.", "conflictos": [], "requiere": ["-t"]},
+    {"flag": "-o", "argumento": "separador_salida", "tipo": "string", "requerido": false, "default": "espacios", "valores": [], "descripcion": "Establece la cadena que separa las columnas de salida.", "conflictos": [], "requiere": ["-t"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos de entrada."],
+    "dependencias": ["Versión de column incluida en util-linux (las opciones varían entre implementaciones)."],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las opciones de column difieren entre util-linux y otras implementaciones; consulte column --help en el sistema objetivo.", "La salida tabular está pensada para presentación y puede no ser adecuada para datos con separadores embebidos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar util-linux mediante el gestor de paquetes; habitualmente ya está presente.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux",
+      "arch_linux": "util-linux",
+      "rhel_centos": "util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Alinear una lista en columnas", "comando": "printf 'uno\ndos\ntres\ncuatro\n' | column", "descripcion": "Distribuye la lista de elementos en columnas ajustadas al ancho disponible.", "resultado_esperado": "Los cuatro elementos aparecen organizados en una presentación compacta."},
+    {"nombre": "Formatear datos separados por dos puntos", "comando": "printf 'nombre:edad\nAna:31\nLuis:27\n' | column -t -s :", "descripcion": "Interpreta los dos puntos como separadores y alinea los campos.", "resultado_esperado": "Muestra nombre y edad en columnas alineadas."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "separador"],
+    "validaciones": ["Confirmar la implementación y las opciones disponibles en el sistema destino.", "Asegurar que el separador no aparezca dentro de los campos sin escape."],
     "rollback": null
   }
 }

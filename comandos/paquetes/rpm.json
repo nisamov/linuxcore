@@ -1,7 +1,7 @@
 {
   "id": "rpm",
   "nombre": "rpm",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y modifica la base de datos RPM local, y puede instalar o retirar archivos de paquete .rpm. Es una herramienta de bajo nivel: no administra repositorios ni resuelve dependencias descargándolas; en sistemas RPM se usa DNF o YUM para esa gestión de alto nivel.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "rpm",
+    "principal": "rpm [opciones] [paquete|archivo.rpm...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-q, --query", "argumento": "PAQUETE", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Consulta la base de datos local RPM; admite selectores como -a para todos los paquetes.", "conflictos": [], "requiere": []},
+    {"flag": "-qa", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista todos los paquetes registrados como instalados en la base de datos RPM.", "conflictos": [], "requiere": []},
+    {"flag": "-qi", "argumento": "PAQUETE", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra información del paquete instalado consultado.", "conflictos": [], "requiere": ["-q"]},
+    {"flag": "-ql", "argumento": "PAQUETE", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lista archivos que pertenecen a un paquete instalado.", "conflictos": [], "requiere": ["-q"]},
+    {"flag": "-qf", "argumento": "ARCHIVO", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Identifica qué paquete instalado posee el archivo indicado.", "conflictos": [], "requiere": ["-q"]},
+    {"flag": "-i, --install", "argumento": "ARCHIVO.rpm", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Instala un archivo RPM local sin obtener dependencias faltantes desde repositorios.", "conflictos": [], "requiere": []},
+    {"flag": "-U, --upgrade", "argumento": "ARCHIVO.rpm", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Instala o actualiza desde un archivo RPM local, reemplazando una versión anterior si corresponde.", "conflictos": [], "requiere": []},
+    {"flag": "-e, --erase", "argumento": "PAQUETE", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Desinstala un paquete de la base de datos RPM; no resuelve automáticamente la operación mediante repositorios.", "conflictos": [], "requiere": []},
+    {"flag": "-K, --checksig", "argumento": "ARCHIVO.rpm", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Comprueba firmas y resúmenes del paquete según las claves y políticas configuradas; no sustituye la verificación del origen confiable.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, actualizar o borrar paquetes"],
+    "dependencias": ["base de datos RPM local", "archivo .rpm compatible si se instala desde archivo"],
+    "paquetes": ["rpm"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["rpm -i y rpm -U no resuelven dependencias desde repositorios; una instalación directa puede dejar el sistema inconsistente.", "Usa dnf o yum para operaciones normales en sistemas RPM.", "Instala únicamente archivos RPM de origen confiable y compatibles con la distribución y arquitectura."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Componente del ecosistema RPM; puede instalarse como paquete rpm en distribuciones que soporten RPM.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "rpm",
+      "arch_linux": "rpm",
+      "rhel_centos": "rpm (normalmente presente en sistemas RPM)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar detalles de bash instalado", "comando": "rpm -qi bash", "descripcion": "Consulta metadatos del paquete bash registrado en la base de datos local.", "resultado_esperado": "Muestra versión, arquitectura, fecha, proveedor y descripción del paquete instalado."},
+    {"nombre": "Identificar el paquete propietario de un archivo", "comando": "rpm -qf /usr/bin/bash", "descripcion": "Busca en la base de datos local qué paquete instaló la ruta indicada.", "resultado_esperado": "Devuelve el nombre y versión del paquete propietario, o informa si la ruta no pertenece a un paquete registrado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verificar el origen, firma, distribución y arquitectura de cualquier archivo RPM local.", "Usar DNF/YUM para resolver dependencias y planificar cambios desde repositorios.", "Comprobar el resultado de consultas antes de borrar o sustituir paquetes."],
     "rollback": null
   }
 }

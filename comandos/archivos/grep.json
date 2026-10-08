@@ -1,7 +1,7 @@
 {
   "id": "grep",
   "nombre": "grep",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca líneas que coinciden con una expresión regular o cadena en archivos o entrada estándar; puede recorrer directorios y filtrar coincidencias.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "grep",
+    "principal": "grep [opciones] patrón [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-E", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Interpreta el patrón como expresión regular extendida.", "conflictos": ["-F", "-P"], "requiere": []},
+    {"flag": "-F", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Interpreta el patrón como una cadena literal, no como expresión regular.", "conflictos": ["-E", "-P"], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ignora diferencias entre mayúsculas y minúsculas.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra el número de línea de cada coincidencia.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Busca recursivamente en directorios.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra líneas que no coinciden con el patrón.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos y directorios examinados."],
+    "dependencias": ["GNU grep."],
+    "paquetes": ["grep"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cite patrones que puedan expandirse o interpretarse por la shell.", "La salida puede incluir contenido sensible y los estados 0, 1 y 2 significan coincidencia, ausencia de coincidencias y error, respectivamente.", "La búsqueda recursiva puede atravesar muchos archivos; limite su alcance."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar grep mediante el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "grep",
+      "arch_linux": "grep",
+      "rhel_centos": "grep"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar texto sin distinguir mayúsculas", "comando": "grep -in 'error' aplicación.log", "descripcion": "Busca la palabra error sin distinguir mayúsculas y muestra números de línea.", "resultado_esperado": "Imprime cada línea coincidente precedida por su número."},
+    {"nombre": "Buscar patrón en árbol", "comando": "grep -r --include='*.conf' -n 'PermitRootLogin' /etc/ssh", "descripcion": "Busca recursivamente el texto en archivos .conf bajo /etc/ssh.", "resultado_esperado": "Muestra rutas, números de línea y líneas coincidentes."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["patrón", "archivo_o_directorio"],
+    "validaciones": ["Citar el patrón y las rutas.", "Distinguir los estados de salida 0, 1 y 2.", "Limitar el alcance de búsquedas recursivas."],
     "rollback": null
   }
 }

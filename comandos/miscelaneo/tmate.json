@@ -1,7 +1,7 @@
 {
   "id": "tmate",
   "nombre": "tmate",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Proporciona una sesión de terminal compartible basada en tmux y genera direcciones de acceso SSH/web para colaboración remota autorizada.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "tmate",
+    "principal": "tmate [opciones de tmux] [comando [argumentos ...]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-f", "argumento": "archivo_configuracion", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa un archivo de configuración alternativo compatible con tmux.", "conflictos": [], "requiere": []},
+    {"flag": "-S", "argumento": "socket", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el socket de servidor indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Solicita mensajes de depuración detallados en versiones que heredan esta opción de tmux.", "conflictos": [], "requiere": []},
+    {"flag": "-V", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la versión instalada y finaliza.", "conflictos": [], "requiere": []},
+    {"flag": "show-messages", "argumento": null, "tipo": "comando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra mensajes del servidor, incluidas las direcciones de conexión compartida cuando ya se establecieron.", "conflictos": [], "requiere": []},
+    {"flag": "display-message -p", "argumento": "formato", "tipo": "comando", "requerido": false, "default": null, "valores": [], "descripcion": "Imprime una variable de formato de tmux/tmate, como la dirección SSH de la sesión cuando está disponible.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": ["Cuenta de usuario autorizada para la sesión de terminal"],
+    "dependencias": ["Conectividad de red a los servidores de relay de tmate"],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Compartir tmate concede acceso a una shell con los permisos del usuario de la sesión. Entregue las direcciones solo a colaboradores autorizados, supervise la sesión y ciérrela al terminar."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde repositorios comunitarios o binarios del proyecto; requiere conectividad de red para establecer la pasarela de colaboración.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "tmate",
+      "arch_linux": "tmate (repositorio comunitario/AUR, según disponibilidad)",
+      "rhel_centos": "tmate (disponibilidad variable; consultar repositorios)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Iniciar sesión compartida", "comando": "tmate", "descripcion": "Inicia una sesión interactiva y establece las conexiones remotas de tmate.", "resultado_esperado": "La terminal muestra direcciones de conexión SSH/web una vez que el servicio de relay está disponible."},
+    {"nombre": "Consultar direcciones de sesión", "comando": "tmate show-messages", "descripcion": "Muestra los mensajes del servidor que contienen los datos de conexión de la sesión activa.", "resultado_esperado": "Información de conexión compartida visible para el operador; trátela como credencial temporal."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme identidad de colaboradores, exposición de red y permisos de la cuenta; cierre el servidor al finalizar la colaboración."],
     "rollback": null
   }
 }

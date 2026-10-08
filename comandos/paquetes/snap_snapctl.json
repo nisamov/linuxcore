@@ -1,7 +1,7 @@
 {
   "id": "snap_snapctl",
-  "nombre": "snap_snapctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "nombre": "snap / snapctl",
+  "descripcion": "snap administra paquetes Snap mediante el servicio snapd: permite buscar, instalar, listar, actualizar y eliminar snaps desde la Snap Store u otros canales configurados. snapctl es una utilidad distinta, invocada normalmente desde una aplicación Snap para consultar configuración y controlar servicios de ese snap; no es un sustituto de snap install.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "snap_snapctl",
-    "alternativas": []
+    "principal": "snap [opciones] <comando> [argumentos...]",
+    "alternativas": ["snapctl <comando> [argumentos...] (disponible en el entorno de una aplicación Snap)"]
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "install", "argumento": "[opciones] SNAP...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala snaps y sus revisiones desde la tienda o un canal seleccionado; normalmente modifica el sistema y requiere snapd.", "conflictos": [], "requiere": []},
+    {"flag": "list", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Lista los snaps instalados y sus revisiones.", "conflictos": [], "requiere": []},
+    {"flag": "find", "argumento": "TÉRMINO", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Busca snaps disponibles en la tienda configurada.", "conflictos": [], "requiere": []},
+    {"flag": "refresh", "argumento": "[SNAP...]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza los snaps indicados o todos los que tengan una actualización disponible.", "conflictos": [], "requiere": []},
+    {"flag": "remove", "argumento": "SNAP...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los snaps indicados; las instantáneas de datos pueden conservarse según la opción usada.", "conflictos": [], "requiere": []},
+    {"flag": "--channel=CANAL", "argumento": "CANAL", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona un canal de publicación, como stable, candidate, beta o edge, si está disponible para el snap.", "conflictos": [], "requiere": ["install", "refresh"]},
+    {"flag": "--classic", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Solicita el modo classic para snaps que lo declaran; concede acceso más amplio, similar al de una aplicación tradicional.", "conflictos": [], "requiere": ["install"]},
+    {"flag": "--revision=REVISION", "argumento": "REVISION", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona una revisión específica durante una operación compatible.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, actualizar o eliminar snaps a nivel de sistema"],
+    "dependencias": ["servicio snapd activo", "conectividad con la Snap Store u origen configurado"],
+    "paquetes": ["snapd (proporciona snap; snapctl se suministra para el entorno Snap)"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Comprueba editor, canal y permisos solicitados; los snaps classic tienen confinamiento mucho más amplio.", "snapctl no instala paquetes: úsalo desde el contexto de una aplicación Snap para operaciones permitidas sobre esa aplicación.", "remove puede afectar datos y servicios asociados; verifica el nombre del snap antes de eliminarlo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "El cliente snap se instala junto con snapd; la activación del servicio y la disponibilidad varían por distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "snapd",
+      "arch_linux": "snapd (AUR; requiere configuración del servicio)",
+      "rhel_centos": "snapd (EPEL en sistemas compatibles; requiere habilitar el servicio)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Listar snaps instalados", "comando": "snap list", "descripcion": "Consulta los snaps instalados, canales y revisiones locales.", "resultado_esperado": "Muestra una tabla con nombre, versión, revisión, seguimiento, editor y notas."},
+    {"nombre": "Instalar el snap hello-world", "comando": "sudo snap install hello-world", "descripcion": "Instala hello-world desde el canal predeterminado de la tienda Snap configurada.", "resultado_esperado": "snapd descarga y monta el snap; el cliente informa de la instalación o del error del servicio/origen."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que snapd está instalado y activo antes de ejecutar comandos de gestión.", "Verificar que el nombre, canal y nivel de confinamiento son los esperados.", "No invocar snapctl desde scripts de host como si fuera un gestor general; depende del contexto de la aplicación Snap."],
     "rollback": null
   }
 }

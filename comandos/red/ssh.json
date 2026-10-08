@@ -1,7 +1,7 @@
 {
   "id": "ssh",
   "nombre": "ssh",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Inicia una sesion cifrada con un servidor OpenSSH remoto para ejecutar una shell o comando y admite tuneles y opciones de autenticacion.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "ssh",
+    "principal": "ssh [opciones] [usuario@]host [comando]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-p","argumento":"puerto","tipo":"integer","requerido":false,"default":22,"valores":[],"descripcion":"Puerto del servidor SSH remoto.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":"archivo_clave","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Usa el archivo de identidad indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-J","argumento":"host_salto","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Conecta a traves de un host de salto (ProxyJump).","conflictos":[],"requiere":[]},
+    {"flag":"-L","argumento":"[bind:]puerto:host:puerto","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Crea reenvio local de puerto a traves del canal SSH.","conflictos":[],"requiere":[]},
+    {"flag":"-N","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No ejecuta un comando remoto; util junto con reenvio de puertos.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra mensajes de depuracion; puede repetirse para mas detalle.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red al servidor SSH y permisos de la cuenta remota"],
+    "dependencias": ["OpenSSH cliente; servidor SSH remoto habilitado"],
+    "paquetes": ["openssh-client (Debian/Ubuntu), openssh (Arch), openssh-clients (RHEL)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Verifique la huella del host antes del primer acceso; no desactive StrictHostKeyChecking para suprimir alertas de identidad.",
+      "Un comando remoto puede modificar datos; los tuneles exponen servicios locales/remotos y deben limitarse a destinos autorizados."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_con_openssh_cliente",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install openssh-client",
+      "arch_linux": "sudo pacman -S openssh",
+      "rhel_centos": "sudo dnf install openssh-clients"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar servidor SSH propio","comando":"ssh usuario@servidor-propio hostname","descripcion":"Ejecuta hostname en un servidor administrado por el usuario tras validar la identidad del host.","resultado_esperado":"Devuelve el nombre de host remoto y cierra la sesion."},
+    {"nombre":"Conectar a SSH local","comando":"ssh usuario@localhost","descripcion":"Abre una sesion SSH contra el servicio local para diagnostico autorizado.","resultado_esperado":"Solicita autenticacion y, si es correcta, abre una shell remota local."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["usuario","host_autorizado","puerto","comando_remoto"],
+    "validaciones": ["Verificar identidad/clave host, cotizar argumentos del comando remoto, usar timeouts cuando convenga y restringir tuneles a puertos necesarios."],
     "rollback": null
   }
 }

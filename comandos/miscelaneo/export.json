@@ -1,7 +1,7 @@
 {
   "id": "export",
   "nombre": "export",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Marca variables del shell para que se exporten al entorno de los procesos hijos; también puede quitar la marca de exportación.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,14 @@
     ]
   },
   "sintaxis": {
-    "principal": "export",
+    "principal": "export [-fn] [nombre[=valor] ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Exporta nombres de funciones del shell (soportado por Bash).", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Quita la propiedad de exportación de las variables indicadas, sin borrar sus valores.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "nombre[=valor]", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Exporta la variable y, si se proporciona, asigna su valor; sin nombres muestra las variables exportadas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +28,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El valor exportado se hereda en procesos hijos y puede exponer datos sensibles; evita exportar contraseñas o tokens."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Builtin de Bash/POSIX shell; no se instala por separado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bash (incluido en el sistema)",
+      "arch_linux": "bash (incluido en el sistema)",
+      "rhel_centos": "bash (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Exportar variable para procesos hijos", "comando": "export EDITOR=vim", "descripcion": "Asigna vim a EDITOR y hace que el valor se herede por programas iniciados desde el shell.", "resultado_esperado": "EDITOR aparece en el entorno de los procesos hijos de esta sesión."},
+    {"nombre": "Eliminar marca de exportación", "comando": "export -n EDITOR", "descripcion": "Mantiene el valor de EDITOR en el shell pero evita exportarlo a nuevos procesos hijos.", "resultado_esperado": "EDITOR sigue definida localmente, pero deja de formar parte del entorno exportado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["La asignación solo modifica el shell actual y sus descendientes; para persistencia configure el archivo de inicio apropiado."],
     "rollback": null
   }
 }

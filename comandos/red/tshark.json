@@ -1,7 +1,7 @@
 {
   "id": "tshark",
   "nombre": "tshark",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Analizador de protocolos de linea de comandos de Wireshark para capturar trafico en vivo, leer capturas y filtrar/extraer campos de paquetes.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,53 @@
     ]
   },
   "sintaxis": {
-    "principal": "tshark",
+    "principal": "tshark [opciones de captura] [opciones de salida]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-i","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona interfaz para captura en vivo.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee paquetes desde un archivo de captura.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":"filtro_BPF","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Aplica filtro de captura BPF antes de guardar/procesar paquetes en vivo.","conflictos":[],"requiere":[]},
+    {"flag":"-Y","argumento":"filtro_display","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Aplica filtro de visualizacion de Wireshark sobre paquetes decodificados.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"cuenta","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Detiene captura al alcanzar el numero de paquetes indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Escribe paquetes capturados en un archivo de salida.","conflictos":[],"requiere":[]},
+    {"flag":"-T","argumento":"formato","tipo":"string","requerido":false,"default":"text","valores":["fields","json","text","pdml"],"descripcion":"Selecciona formato de salida decodificada.","conflictos":[],"requiere":[]},
+    {"flag":"-e","argumento":"campo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona un campo de protocolo para salida; suele combinarse con -T fields.","conflictos":[],"requiere":["-T fields"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["grupo/capacidades de captura o root para captura en vivo; lectura para archivos"],
+    "dependencias": ["Wireshark/tshark y libpcap/dumpcap"],
+    "paquetes": ["tshark (Debian/Ubuntu), wireshark-cli (Arch/Fedora/RHEL, segun version)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Capturas pueden contener credenciales y datos sensibles; capture solo trafico autorizado, aplique filtros y proteja archivos de salida.",
+      "En algunas distribuciones la captura requiere configurar permisos/grupo durante la instalacion; no ejecute como root salvo necesidad."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install tshark",
+      "arch_linux": "sudo pacman -S wireshark-cli",
+      "rhel_centos": "sudo dnf install wireshark-cli"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Capturar loopback con limite","comando":"sudo tshark -i lo -f 'tcp port 22' -c 10","descripcion":"Captura hasta diez paquetes TCP del puerto 22 en loopback del propio equipo.","resultado_esperado":"Muestra paquetes decodificados coincidentes y termina al alcanzar la cuenta."},
+    {"nombre":"Leer captura propia en JSON","comando":"tshark -r laboratorio.pcap -Y 'dns' -T json","descripcion":"Lee una captura de laboratorio y muestra paquetes DNS en formato JSON.","resultado_esperado":"Emite estructuras JSON para paquetes que coinciden con el filtro de visualizacion."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz_o_captura","filtro","archivo_salida"],
+    "validaciones": ["Confirmar autorizacion, filtrar protocolos/hosts necesarios, limitar paquetes/tiempo y restringir acceso a capturas."],
     "rollback": null
   }
 }

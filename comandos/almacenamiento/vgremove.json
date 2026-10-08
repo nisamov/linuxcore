@@ -1,7 +1,7 @@
 {
   "id": "vgremove",
   "nombre": "vgremove",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Elimina un grupo de volúmenes LVM y sus metadatos; los volúmenes lógicos asociados deben retirarse o gestionarse previamente.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "vgremove",
+    "principal": "vgremove [opciones] VG...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la eliminación y omite algunas comprobaciones; repetir puede anular más protecciones.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Responde afirmativamente a todas las preguntas de confirmación.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de prueba sin actualizar metadatos.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La eliminación de un VG destruye su configuración y puede hacer inaccesibles todos sus volúmenes lógicos y datos. No ejecutar hasta migrar o respaldar cada LV y confirmar que ningún servicio depende de ellos.",
+      "No use -f/-y como mecanismo para ignorar advertencias; los metadatos eliminados no garantizan una recuperación sencilla."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular eliminación de VG","comando":"sudo vgremove -t vg_pruebas","descripcion":"Valida en modo de prueba el efecto de retirar vg_pruebas sin actualizar metadatos.","resultado_esperado":"LVM muestra si la operación pasaría las comprobaciones actuales."},
+    {"nombre":"Eliminar VG vacío confirmado","comando":"sudo vgremove vg_pruebas","descripcion":"Elimina metadatos del grupo vg_pruebas únicamente después de respaldar o eliminar sus LVs de forma planificada.","resultado_esperado":"El grupo deja de aparecer en los informes LVM; los datos asociados pueden quedar inaccesibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["nombre_vg"],
+    "validaciones": ["Verificar identidad del VG y que no contenga LVs activos ni datos necesarios.","Obtener respaldo verificable de datos y metadatos y confirmar plan de recuperación.","No automatizar eliminación ni omitir confirmaciones."],
     "rollback": null
   }
 }

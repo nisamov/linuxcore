@@ -1,7 +1,7 @@
 {
   "id": "flatpak",
   "nombre": "flatpak",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra aplicaciones Flatpak y sus runtimes desde remotos configurados. Permite instalaciones por usuario o por sistema y actualización independiente de los paquetes nativos de la distribución; Flatpak usa un formato y un modelo de despliegue distintos de apt, rpm o snap.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "flatpak",
+    "principal": "flatpak [opciones] <comando> [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "install", "argumento": "[REMOTO] APP_ID", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala una aplicación identificada por su ID desde un remoto; requiere que el remoto esté configurado o especificado.", "conflictos": [], "requiere": []},
+    {"flag": "update", "argumento": "[APP_ID...]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza aplicaciones y runtimes instalados, o los IDs indicados.", "conflictos": [], "requiere": []},
+    {"flag": "uninstall", "argumento": "APP_ID", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Desinstala una aplicación; puede añadirse --delete-data para eliminar también los datos de la aplicación.", "conflictos": [], "requiere": []},
+    {"flag": "list", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Lista aplicaciones y runtimes instalados.", "conflictos": [], "requiere": []},
+    {"flag": "search", "argumento": "TÉRMINO", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Busca aplicaciones en remotos configurados.", "conflictos": [], "requiere": []},
+    {"flag": "--user", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Realiza la operación para el usuario actual en vez de la instalación de sistema.", "conflictos": ["--system"], "requiere": []},
+    {"flag": "--system", "argumento": null, "tipo": "boolean", "requerido": false, "default": true, "valores": [], "descripcion": "Usa la instalación de sistema, que normalmente requiere privilegios administrativos.", "conflictos": ["--user"], "requiere": []},
+    {"flag": "--assumeyes", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Responde afirmativamente a las preguntas interactivas.", "conflictos": [], "requiere": []},
+    {"flag": "--no-deploy", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Descarga la referencia sin desplegarla como instalación activa.", "conflictos": [], "requiere": ["install"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar en ámbito de sistema; no suele requerirse para --user"],
+    "dependencias": ["remoto Flatpak configurado, por ejemplo Flathub", "conectividad de red para descargar aplicaciones y runtimes"],
+    "paquetes": ["flatpak"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Instala solo desde remotos de confianza y verifica el ID y editor de la aplicación.", "El confinamiento Flatpak depende de permisos concedidos, portales y configuración; no implica aislamiento absoluto.", "--delete-data elimina datos de usuario y puede ser irreversible."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Disponible en los repositorios de las distribuciones principales; los remotos de aplicaciones se configuran aparte.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "flatpak",
+      "arch_linux": "flatpak",
+      "rhel_centos": "flatpak (disponibilidad según versión/repositorio)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Instalar Firefox desde Flathub", "comando": "flatpak install flathub org.mozilla.firefox", "descripcion": "Instala Firefox por ID de aplicación desde el remoto Flathub configurado, en el ámbito predeterminado.", "resultado_esperado": "Flatpak descarga la aplicación y los runtimes necesarios y solicita confirmación si corresponde."},
+    {"nombre": "Actualizar aplicaciones y runtimes", "comando": "flatpak update", "descripcion": "Busca e instala actualizaciones para las referencias Flatpak instaladas.", "resultado_esperado": "Flatpak muestra las referencias que actualizará y completa la transacción tras la confirmación."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verificar el remoto y el ID de aplicación antes de instalar.", "Seleccionar explícitamente --user o --system cuando el ámbito sea relevante.", "Confirmar que el paquete Flatpak está disponible para la distribución y que sus permisos son adecuados."],
     "rollback": null
   }
 }

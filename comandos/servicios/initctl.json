@@ -1,7 +1,7 @@
 {
   "id": "initctl",
   "nombre": "initctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz de línea de comandos para consultar y controlar trabajos del sistema Upstart. No administra unidades systemd ni servicios OpenRC o SysV directamente.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "initctl",
+    "principal": "initctl [opciones] subcomando [trabajo [instancia]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"list","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Lista trabajos conocidos por Upstart.","conflictos":[],"requiere":[]},
+    {"flag":"status","argumento":"trabajo [instancia]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra el estado del trabajo y sus instancias.","conflictos":[],"requiere":[]},
+    {"flag":"start|stop|restart|reload","argumento":"trabajo [instancia]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Inicia, detiene, reinicia o solicita recarga de configuración a un trabajo; reload depende de que el trabajo lo implemente.","conflictos":[],"requiere":[]},
+    {"flag":"show-config","argumento":"trabajo","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra la configuración efectiva de un trabajo Upstart.","conflictos":[],"requiere":[]},
+    {"flag":"--system","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Se conecta al proceso init del sistema; es el modo habitual para administración del sistema.","conflictos":["--user"],"requiere":[]},
+    {"flag":"--user","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Se conecta a una instancia de Upstart por usuario cuando está disponible.","conflictos":["--system"],"requiere":[]},
+    {"flag":"--no-wait","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No espera a que la transición del trabajo termine antes de devolver el control.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Las operaciones sobre trabajos del sistema suelen requerir root o sudo; la consulta depende de la configuración."],
+    "dependencias": ["Upstart como sistema init y su socket de control"],
+    "paquetes": ["upstart (obsoleto en la mayoría de distribuciones actuales)"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Upstart es un sistema init heredado; verifique que el host realmente lo utiliza antes de ejecutar acciones.", "start, stop, restart y reload pueden interrumpir servicios o afectar la disponibilidad."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Herramienta propia de Upstart; el paquete no está disponible o soportado en muchas versiones actuales de las distribuciones.",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "upstart (solo versiones heredadas; no instalar como reemplazo de systemd sin plan de migración)",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar trabajos Upstart","comando":"initctl list","descripcion":"Muestra los trabajos registrados y su estado actual en un sistema que ejecuta Upstart.","resultado_esperado":"Líneas con nombres de trabajos y estados como start/running o stop/waiting."},
+    {"nombre":"Consultar estado de una instancia","comando":"sudo initctl status networking","descripcion":"Consulta el estado del trabajo networking administrado por Upstart.","resultado_esperado":"Estado e información de proceso si está activo, o indicación de que está detenido/no existe."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["trabajo", "instancia"],
+    "validaciones": ["Confirmar que PID 1 es Upstart y que initctl puede conectarse al daemon.", "Comprobar que el trabajo existe y revisar el código de salida antes de continuar."],
     "rollback": null
   }
 }

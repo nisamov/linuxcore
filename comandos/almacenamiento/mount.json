@@ -1,7 +1,7 @@
 {
   "id": "mount",
   "nombre": "mount",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Monta un sistema de archivos en un directorio o muestra los sistemas montados; permite seleccionar tipo, origen y opciones de montaje.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "mount",
+    "principal": "mount [opciones] dispositivo directorio",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Monta los sistemas de archivos definidos en /etc/fstab, excepto los marcados noauto.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Indica el tipo de sistema de archivos que se montará.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"opciones","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Pasa una lista de opciones de montaje separadas por comas, como ro, nosuid o nodev.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Monta en modo de solo lectura.","conflictos":["-w"],"requiere":[]},
+    {"flag":"-w","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Monta en modo lectura/escritura, sujeto a soporte y permisos.","conflictos":["-r"],"requiere":[]},
+    {"flag":"-B","argumento":"origen destino","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Crea un montaje bind del árbol de directorios origen en destino.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root normalmente; usuarios autorizados según /etc/fstab y políticas del sistema"],
+    "dependencias": ["util-linux y soporte del sistema de archivos"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Montar con permisos de escritura permite modificar el contenido del volumen. Use ro para inspección cuando sea adecuado y aplique nosuid/nodev/noexec a medios no confiables según el uso.",
+      "-a procesa múltiples entradas de /etc/fstab; revise la configuración antes de automatizar montajes masivos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Montar volumen ext4 en solo lectura","comando":"sudo mount -t ext4 -o ro /dev/sdb1 /mnt/datos","descripcion":"Monta la partición ext4 en /mnt/datos con acceso de solo lectura.","resultado_esperado":"El volumen queda accesible en el punto de montaje sin escrituras ordinarias."},
+    {"nombre":"Consultar montajes actuales","comando":"mount","descripcion":"Sin argumentos, muestra los sistemas de archivos montados visibles en el espacio de nombres actual.","resultado_esperado":"Lista de orígenes, destinos, tipos y opciones de montaje."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo", "punto_de_montaje", "opciones"],
+    "validaciones": ["Verificar tipo de sistema de archivos, dispositivo y directorio destino.","Preferir solo lectura al inspeccionar medios no confiables.","Comprobar que no exista ya un montaje inesperado en el destino."],
     "rollback": null
   }
 }

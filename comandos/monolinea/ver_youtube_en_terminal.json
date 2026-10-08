@@ -1,7 +1,7 @@
 {
   "id": "ver_youtube_en_terminal",
   "nombre": "Ver video de YouTube en terminal",
-  "descripcion": "Reproduce un video de YouTube en el terminal utilizando mpv",
+  "descripcion": "Pasa a mpv la URL del video o una ruta de medio para reproducirlo; mpv puede obtener contenido remoto de YouTube mediante la red y herramientas externas instaladas.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "mpv $1",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "url_o_archivo_video",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "URL del video (por ejemplo, de YouTube) o ruta local del medio que mpv debe reproducir (argumento posicional $1).",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +39,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Al reproducir una URL, mpv contacta el servicio remoto y puede descargar/transmitir datos; use únicamente contenido al que tenga acceso autorizado."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Requiere que mpv esté instalado y disponible; instálelo únicamente desde una fuente de confianza adecuada a su sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "mpv $1",
       "descripcion": "Reproduce un video de YouTube en el terminal utilizando mpv",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Reproducir solo el audio de una URL autorizada",
+      "comando": "mpv --no-video \"$1\"",
+      "descripcion": "Reproduce la pista de audio de la URL indicada sin mostrar video, cuando el sitio es compatible con mpv.",
+      "resultado_esperado": "mpv reproduce el audio disponible y no abre una ventana de video."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que mpv proviene de una fuente confiable y que la URL es válida y de un origen confiable.", "Confirme que tiene autorización para acceder al contenido y que la conexión de red está permitida.", "Evite pasar texto no confiable que pueda alterar la interpretación de argumentos; cite correctamente la URL."] ,
     "rollback": null
   }
 }

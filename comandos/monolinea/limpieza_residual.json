@@ -1,7 +1,7 @@
 {
   "id": "limpieza_residual_linea_produccion",
   "nombre": "Limpieza residual de la línea de producción",
-  "descripcion": "Este comando permite actualizar el sistema e instalar las últimas actualizaciones de los paquetes disponibles en un sistema basado en Debian o Ubuntu. Es útil para mantener el sistema seguro y con las últimas mejoras.",
+  "descripcion": "En Debian/Ubuntu elimina paquetes considerados innecesarios y sus configuraciones residuales, limpia la caché local de paquetes y borra el historial de la shell actual y ~/.bash_history antes de desactivar HISTFILE. No actualiza ni instala actualizaciones, pese a la descripción anterior del registro.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "sudo apt autoremove --purge -y && dpkg -l | awk '/^rc/ {print $2}' | xargs -r sudo apt purge -y && sudo apt clean && history -c && > ~/.bash_history && unset HISTFILE",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "sistema_objetivo",
+      "tipo": "string",
+      "requerido": false,
+      "default": "sistema local Debian/Ubuntu y ~/.bash_history del usuario actual",
+      "valores": [],
+      "descripcion": "Sistema local sobre el que apt purga paquetes y limpia caché; también vacía el archivo ~/.bash_history del usuario que ejecuta la shell.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -23,15 +35,19 @@
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Con -y purga automáticamente paquetes marcados como innecesarios y configuraciones residuales; revise la lista de paquetes que APT considera prescindibles antes de ejecutar.",
+      "sudo apt clean elimina archivos de caché locales; history -c y la redirección > ~/.bash_history borran el historial de la sesión/archivo del usuario actual, y unset HISTFILE evita que la shell lo vuelva a guardar. Esto no borra logs de auditoría ni proporciona borrado seguro.",
+      "La receta no necesita descargar paquetes y no realiza una actualización del sistema; puede afectar servicios o herramientas si se purga una dependencia que aún necesitaba."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional en sistemas Debian/Ubuntu; utiliza APT, dpkg y herramientas habituales del sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +60,12 @@
       "comando": "sudo apt autoremove --purge -y && dpkg -l | awk '/^rc/ {print $2}' | xargs -r sudo apt purge -y && sudo apt clean && history -c && > ~/.bash_history && unset HISTFILE",
       "descripcion": "Limpia los paquetes residuales y archivos de historial del sistema.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Limpiar la caché local de paquetes APT",
+      "comando": "sudo apt clean",
+      "descripcion": "Elimina los archivos de paquetes descargados de la caché local de APT sin desinstalar paquetes instalados.",
+      "resultado_esperado": "APT limpia los archivos descargados que conserva en su caché local."
     }
   ],
   "automatizacion": {
@@ -51,7 +73,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que el sistema es Debian/Ubuntu y usa APT antes de ejecutar las operaciones de esta receta.", "Revise con atención los paquetes que se eliminarían y confirme que no son necesarios; no acepte purgas automáticas sin revisar.", "Verifique que las rutas de historial afectadas corresponden al usuario y sesión previstos y que su eliminación está autorizada."] ,
     "rollback": null
   }
 }

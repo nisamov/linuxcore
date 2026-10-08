@@ -1,7 +1,7 @@
 {
   "id": "umask",
   "nombre": "umask",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta o establece la máscara de creación de permisos del shell actual; la máscara resta permisos predeterminados en archivos y directorios nuevos.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,10 +13,13 @@
     "principal": "umask",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-S", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra la máscara en forma simbólica; como shell builtin, la disponibilidad depende del shell.", "conflictos": [], "requiere": []},
+    {"flag": "máscara", "argumento": "modo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece máscara octal o simbólica para creaciones posteriores en el shell actual.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": ["No requiere root; afecta el shell invocante y sus procesos descendientes"],
+    "dependencias": ["Builtin del shell; el valor se aplica al proceso de shell y procesos hijos"],
     "paquetes": []
   },
   "seguridad": {
@@ -24,26 +27,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Una máscara demasiado permisiva puede exponer archivos nuevos; la configuración puede diferir entre shells, sesiones y servicios.", "umask no cambia permisos de archivos ya existentes."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "builtin_de_shell",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "Incluido como builtin en shells habituales (bash, dash, zsh).",
+      "arch_linux": "Incluido como builtin en shells habituales (bash, zsh).",
+      "rhel_centos": "Incluido como builtin en shells habituales (bash, ksh)."
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar máscara actual", "comando": "umask -S", "descripcion": "Muestra la máscara del shell actual en forma simbólica.", "resultado_esperado": "Salida simbólica, por ejemplo u=rwx,g=rx,o=rx."},
+    {"nombre": "Aplicar máscara restrictiva a sesión de prueba", "comando": "umask 077", "descripcion": "Limita a propietario los permisos predeterminados de archivos creados posteriormente en este shell de prueba.", "resultado_esperado": "Archivos nuevos suelen quedar con permisos 600 y directorios con 700, sujeto a modo solicitado por la aplicación."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["mascara", "shell_objetivo"],
+    "validaciones": ["Comprobar umask en el shell o unidad de servicio correcta y probar creación controlada con stat; no asumir que cambia archivos existentes."],
     "rollback": null
   }
 }

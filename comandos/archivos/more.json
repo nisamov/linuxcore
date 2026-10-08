@@ -1,7 +1,7 @@
 {
   "id": "more",
   "nombre": "more",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra archivos de texto página por página en una terminal; permite avanzar por la salida, aunque normalmente ofrece menos navegación que less.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "more",
+    "principal": "more [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra indicaciones de ayuda al avanzar o salir.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cuenta líneas lógicas en vez de líneas de pantalla al paginar.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Agrupa líneas vacías consecutivas en una sola línea vacía.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos."],
+    "dependencias": ["Utilidad more, habitualmente proporcionada por util-linux."],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El uso es interactivo y las teclas disponibles dependen de la implementación.", "Algunas implementaciones pueden ejecutar comandos desde el paginador; evite abrir archivos no confiables con configuración manipulada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar util-linux mediante el gestor de paquetes; more suele estar incluido.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux",
+      "arch_linux": "util-linux",
+      "rhel_centos": "util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Paginar un archivo", "comando": "more /var/log/syslog", "descripcion": "Muestra el registro por páginas en la terminal.", "resultado_esperado": "Se presenta la primera página y se puede avanzar o salir con las teclas indicadas."},
+    {"nombre": "Reducir líneas vacías", "comando": "more -s notas.txt", "descripcion": "Muestra el texto agrupando rachas de líneas vacías.", "resultado_esperado": "La salida interactiva contiene como máximo una línea vacía entre bloques."}
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
+    "idempotente": true,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo"],
+    "validaciones": ["Confirmar legibilidad del archivo.", "No usar como parte de una canalización automatizada que requiere interacción."],
     "rollback": null
   }
 }

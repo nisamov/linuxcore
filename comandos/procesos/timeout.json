@@ -1,7 +1,7 @@
 {
   "id": "timeout",
   "nombre": "timeout",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta un comando y, si supera una duración límite, le envía una señal para detenerlo; opcionalmente puede enviar después otra señal.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,113 @@
     ]
   },
   "sintaxis": {
-    "principal": "timeout",
+    "principal": "timeout [opciones] duración comando [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-s",
+      "argumento": "señal",
+      "tipo": "string",
+      "requerido": false,
+      "default": "TERM",
+      "valores": [],
+      "descripcion": "Señal que se envía al vencer la duración (nombre o número admitido por la implementación).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-k",
+      "argumento": "duración",
+      "tipo": "duration",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Envía SIGKILL si el comando sigue activo después de esta duración adicional tras la primera señal.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--foreground",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "No crea un grupo de procesos separado; el comando puede conservar acceso a la terminal y las señales del terminal tienen el comportamiento habitual.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Informa si se agotó el tiempo límite.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Permisos para ejecutar y señalizar el comando iniciado."
+    ],
+    "dependencias": [
+      "Implementación GNU coreutils en Linux para estas opciones"
+    ],
+    "paquetes": [
+      "coreutils"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Al expirar, el comando recibe una señal y puede terminar abruptamente; con -k puede recibir SIGKILL y no completar limpieza.",
+      "Use solo sobre una orden cuya interrupción sea segura, y tenga en cuenta que procesos hijos pueden requerir manejo de grupo según la plataforma."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "normalmente_incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Limitar consulta a 10 segundos",
+      "comando": "timeout 10s ping -c 100 127.0.0.1",
+      "descripcion": "Permite que la consulta se ejecute hasta 10 segundos y luego envía SIGTERM.",
+      "resultado_esperado": "ping finaliza antes o se interrumpe al agotarse el límite; timeout devuelve un estado asociado al vencimiento."
+    },
+    {
+      "nombre": "Añadir plazo para cierre y señal final",
+      "comando": "timeout -k 5s 30s comando_demo",
+      "descripcion": "Envía la señal inicial al llegar a 30 segundos y SIGKILL cinco segundos después si sigue activo.",
+      "resultado_esperado": "El comando termina por sí mismo o recibe señales al cumplirse los límites."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "duracion",
+      "senal",
+      "comando",
+      "argumentos"
+    ],
+    "validaciones": [
+      "Asegurar que la duración sea positiva y que la orden tolere la señal de interrupción.",
+      "Manejar explícitamente los códigos de salida de timeout y del comando."
+    ],
     "rollback": null
   }
 }

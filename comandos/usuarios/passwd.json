@@ -1,7 +1,7 @@
 {
   "id": "passwd",
   "nombre": "passwd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia la contraseña de una cuenta local o administra su estado de bloqueo y caducidad; el usuario normal modifica su propia contraseña.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,54 @@
     ]
   },
   "sintaxis": {
-    "principal": "passwd",
+    "principal": "passwd [opciones] [usuario]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Bloquea la contraseña de la cuenta anteponiendo el marcador de bloqueo al hash.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desbloquea la contraseña previamente bloqueada.","conflictos":[],"requiere":[]},
+    {"flag":"-e","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la expiración inmediata de la contraseña.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina la contraseña de la cuenta; puede permitir acceso sin contraseña según la configuración y método de autenticación.","conflictos":[],"requiere":[]},
+    {"flag":"-S","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el estado de la contraseña de la cuenta.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":"días","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Establece el máximo de días de vigencia de la contraseña.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":"días","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Establece el mínimo de días entre cambios.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"días","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Establece los días de aviso antes de la expiración.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El usuario puede cambiar su propia contraseña; root puede administrar otras cuentas"],
+    "dependencias": ["sistema PAM y base de datos de contraseñas configurados"],
+    "paquetes": ["passwd (Debian/Ubuntu); shadow/shadow-utils en otras distribuciones"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "critico",
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El bloqueo, desbloqueo, expiración o eliminación de contraseña modifica la autenticación y puede dejar una cuenta inaccesible o permitir acceso no protegido.",
+      "No pases contraseñas como argumentos ni las escribas en scripts/historiales; usa el prompt seguro. Las opciones administrativas suelen requerir root.",
+      "Bloquear la contraseña no necesariamente deshabilita otros métodos de autenticación como claves SSH."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Normalmente instalado como parte de las utilidades de autenticación/cuentas.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Cambiar contraseña propia","comando":"passwd","descripcion":"Solicita la contraseña actual y luego la nueva, sin exponerla en la línea de comandos.","resultado_esperado":"La contraseña se actualiza si cumple la política PAM del sistema."},
+    {"nombre":"Forzar cambio de contraseña al próximo acceso","comando":"sudo passwd -e ana","descripcion":"Marca como expirada la contraseña de ana.","resultado_esperado":"ana deberá establecer una nueva contraseña en el siguiente acceso compatible con la política local."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "política_contraseña"],
+    "validaciones": ["Confirmar usuario objetivo y autorización administrativa antes de cambiar estado.", "Usar el prompt interactivo; nunca registrar contraseñas en argumentos, variables visibles o logs.", "Verificar que exista un método de acceso alternativo antes de bloquear cuentas críticas."],
     "rollback": null
   }
 }

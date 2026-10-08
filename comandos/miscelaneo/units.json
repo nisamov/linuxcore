@@ -1,7 +1,7 @@
 {
   "id": "units",
   "nombre": "units",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Convierte cantidades entre unidades físicas mediante una calculadora dimensional interactiva o evaluaciones no interactivas.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "units",
+    "principal": "units [opciones] [desde [hasta]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-f", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Carga definiciones de unidades adicionales desde el archivo indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Suprime mensajes de bienvenida y avisos de formato en modo interactivo.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra únicamente el resultado de la conversión, sin equivalencia detallada.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la salida en forma detallada con la unidad de destino.", "conflictos": ["-t"], "requiere": []},
+    {"flag": "-e", "argumento": "factor", "tipo": "number", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el margen de error relativo usado al comparar unidades dimensionalmente compatibles.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "formato", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona el formato numérico de salida en versiones GNU units que ofrecen esta opción.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "desde hasta", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Unidades de origen y destino con dimensión compatible; pueden incluir cantidades y expresiones.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +32,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las abreviaturas y definiciones dependen del archivo de unidades local; revise ambigüedades y dimensiones, especialmente en cálculos de ingeniería o salud."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde repositorios de la distribución; la implementación más extendida es GNU units.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "units",
+      "arch_linux": "units",
+      "rhel_centos": "units"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Convertir longitud", "comando": "units '5 km' 'm'", "descripcion": "Convierte cinco kilómetros a metros en modo no interactivo.", "resultado_esperado": "5 km = 5000 m (el formato exacto depende de la versión)."},
+    {"nombre": "Convertir temperatura", "comando": "units '20 degC' 'degF'", "descripcion": "Convierte 20 grados Celsius a Fahrenheit con unidades de temperatura explícitas.", "resultado_esperado": "Aproximadamente 68 grados Fahrenheit, sujeto al formato de salida local."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Use nombres de unidades reconocidos por la base local y confirme que origen y destino sean dimensionalmente compatibles."],
     "rollback": null
   }
 }

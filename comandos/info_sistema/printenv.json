@@ -1,7 +1,7 @@
 {
   "id": "printenv",
   "nombre": "printenv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Imprime los valores de las variables de entorno exportadas; si se indican nombres, limita la salida a esas variables.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,43 @@
     ]
   },
   "sintaxis": {
-    "principal": "printenv",
+    "principal": "printenv [OPCIÓN]... [VARIABLE]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-0, --null","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Termina cada valor con el byte NUL en lugar de salto de línea.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las variables pueden contener rutas, tokens u otros datos sensibles; revisa la salida antes de compartirla."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en coreutils (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar PATH","comando":"printenv PATH","descripcion":"Imprime únicamente el valor de la variable PATH exportada.","resultado_esperado":"Lista de directorios separados por dos puntos, o salida vacía si PATH no está exportada."},
+    {"nombre":"Consultar varias variables","comando":"printenv HOME USER LANG","descripcion":"Muestra los valores exportados de HOME, USER y LANG.","resultado_esperado":"Una línea por cada variable existente, con su valor."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["VARIABLE (opcional)"],
+    "validaciones": ["No asumir que las variables solicitadas existen; printenv devuelve un estado distinto de cero si falta alguna."],
     "rollback": null
   }
 }

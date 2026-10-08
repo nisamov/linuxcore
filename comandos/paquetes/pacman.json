@@ -1,7 +1,7 @@
 {
   "id": "pacman",
   "nombre": "pacman",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Gestor de paquetes de Arch Linux y distribuciones derivadas. Sincroniza repositorios, instala, actualiza y elimina paquetes, y gestiona dependencias. Una actualización completa con -Syu evita el estado de actualización parcial no soportado por Arch.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "pacman",
+    "principal": "pacman [opciones] [paquetes...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-S, --sync", "argumento": "PAQUETE...", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Sincroniza paquetes con los repositorios; combinado con nombres de paquetes los instala.", "conflictos": [], "requiere": []},
+    {"flag": "-y, --refresh", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Descarga o actualiza las bases de datos de paquetes de los repositorios.", "conflictos": [], "requiere": ["-S"]},
+    {"flag": "-u, --sysupgrade", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Actualiza los paquetes instalados; úsalo junto con -S y -y como actualización completa (-Syu).", "conflictos": [], "requiere": ["-S", "-y"]},
+    {"flag": "-R, --remove", "argumento": "PAQUETE...", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina paquetes instalados; sin -s también puede retirar dependencias que queden huérfanas.", "conflictos": [], "requiere": []},
+    {"flag": "-Q, --query", "argumento": "PAQUETE", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Consulta la base de datos local de paquetes instalados.", "conflictos": [], "requiere": []},
+    {"flag": "-Ss", "argumento": "TÉRMINO", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca paquetes en las bases de datos sincronizadas de los repositorios.", "conflictos": [], "requiere": []},
+    {"flag": "--needed", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Con -S, omite paquetes que ya estén instalados y actualizados.", "conflictos": [], "requiere": ["-S"]},
+    {"flag": "--noconfirm", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Omite las solicitudes de confirmación; úsalo solo con transacciones previamente validadas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, actualizar o eliminar paquetes"],
+    "dependencias": ["repositorios definidos en /etc/pacman.conf", "conectividad de red para sincronizar bases de datos y descargar paquetes"],
+    "paquetes": ["pacman (incluido en Arch Linux)"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Evita actualizaciones parciales: no ejecutes pacman -Sy seguido de una instalación aislada; usa pacman -Syu.", "Revisa paquetes sustituidos o eliminados durante una actualización.", "No interrumpas pacman mientras modifica la base de datos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Gestor base de Arch Linux; está incluido en la distribución y en derivadas compatibles.",
     "paquetes": {
       "debian_ubuntu": "",
-      "arch_linux": "",
+      "arch_linux": "pacman (incluido en Arch Linux)",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Realizar actualización completa del sistema", "comando": "sudo pacman -Syu", "descripcion": "Sincroniza las bases de datos y actualiza todos los paquetes instalados en una sola transacción.", "resultado_esperado": "Pacman presenta los paquetes que actualizará y solicita confirmación antes de aplicar los cambios."},
+    {"nombre": "Instalar git si aún no está actualizado", "comando": "sudo pacman -S --needed git", "descripcion": "Instala git desde los repositorios y evita reinstalarlo si ya está actualizado.", "resultado_esperado": "git y sus dependencias quedan instalados, o pacman informa que ya están al día."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirmar que el sistema es Arch Linux o derivado y que sus repositorios coinciden con la distribución.", "Usar actualización completa -Syu, no sincronización parcial -Sy para luego instalar.", "Revisar cambios anunciados y conservar acceso a una consola de recuperación en actualizaciones críticas."],
     "rollback": null
   }
 }

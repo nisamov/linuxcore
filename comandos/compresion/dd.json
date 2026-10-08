@@ -162,7 +162,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "`dd` forma parte de GNU coreutils y normalmente ya está instalado; compruebe `command -v dd`. Si falta, instale coreutils (Debian/Ubuntu: `sudo apt install coreutils`; Arch: `sudo pacman -S coreutils`; RHEL/CentOS: `sudo dnf install coreutils`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -184,7 +184,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Valide explícitamente `if=` y `of=`: confirme que la entrada existe y es legible, que la salida es el archivo o dispositivo exacto previsto y que origen y destino no son el mismo objeto.", "Antes de escribir, compruebe el tipo del destino, permisos, espacio/capacidad, tamaño previsto (`bs`, `count`, `seek`) y si está montado o en uso; para un dispositivo, confirme su identidad con herramientas como `lsblk` y desmóntelo cuando corresponda.", "`dd` sobrescribe o trunca el destino sin una protección interactiva fiable. No continúe si `of=` ya existe o apunta a un dispositivo hasta verificarlo y aprobar la destrucción de su contenido; asegure una copia recuperable y privilegios mínimos necesarios."],
     "rollback": null
   }
 }

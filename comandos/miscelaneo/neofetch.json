@@ -1,7 +1,7 @@
 {
   "id": "neofetch",
   "nombre": "neofetch",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra información resumida del sistema y una representación ASCII del logotipo de la distribución; el proyecto original está archivado y sin mantenimiento activo.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "neofetch",
+    "principal": "neofetch [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--config", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el archivo de configuración especificado.", "conflictos": [], "requiere": []},
+    {"flag": "--config", "argumento": "none", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Omite la carga de configuración en versiones que admiten el valor none.", "conflictos": [], "requiere": []},
+    {"flag": "--disable", "argumento": "elementos", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Deshabilita uno o varios elementos de información separados por espacios según la versión.", "conflictos": [], "requiere": []},
+    {"flag": "--stdout", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Imprime sin secuencias de color ANSI para consumo de texto plano.", "conflictos": [], "requiere": []},
+    {"flag": "--off", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Desactiva la salida ASCII del logotipo.", "conflictos": [], "requiere": []},
+    {"flag": "--version", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la versión y finaliza.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El proyecto Neofetch original está archivado; la detección puede ser incompleta en hardware o distribuciones recientes. No lo use como fuente autoritativa de inventario."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Paquete heredado disponible en algunos repositorios; el proyecto original no recibe mantenimiento activo.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "neofetch (si está disponible en la versión de la distribución)",
+      "arch_linux": "neofetch (paquete heredado o AUR, según repositorios actuales)",
+      "rhel_centos": "neofetch (disponibilidad variable; revisar repositorios)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar resumen del sistema", "comando": "neofetch", "descripcion": "Detecta información básica y la presenta junto a un logotipo ASCII.", "resultado_esperado": "Resumen visual de sistema operativo, kernel, tiempo activo y otros datos detectables."},
+    {"nombre": "Salida sin logotipo ni colores", "comando": "neofetch --off --stdout", "descripcion": "Solicita texto plano sin logotipo para facilitar su lectura o redirección.", "resultado_esperado": "Información del sistema sin arte ASCII ni códigos de color."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe las opciones con la versión local y no dependa del formato de salida como API estable."],
     "rollback": null
   }
 }

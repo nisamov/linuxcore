@@ -1,7 +1,7 @@
 {
   "id": "umount",
   "nombre": "umount",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Desmonta uno o varios sistemas de archivos por punto de montaje o dispositivo y permite mostrar el estado actual de montajes.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "umount",
+    "principal": "umount [opciones] dispositivo|punto_de_montaje...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desmonta los sistemas de archivos montados indicados en /etc/mtab, sujeto a filtros y restricciones.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza el desmontaje; es principalmente útil para sistemas de archivos de red inaccesibles.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Realiza un desmontaje diferido: separa el montaje ahora y limpia referencias cuando deje de estar ocupado.","conflictos":[],"requiere":[]},
+    {"flag":"-R","argumento":"directorio","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Desmonta recursivamente los montajes bajo el directorio indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita las operaciones de desmontaje al tipo de sistema de archivos especificado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o propietario del montaje según configuración del sistema"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Desmontar un sistema de archivos ocupado puede interrumpir aplicaciones y escrituras. Identifique procesos que lo usan y vacíe datos pendientes antes de proceder.",
+      "El desmontaje diferido -l no garantiza que todos los procesos hayan terminado de usar el volumen; evite usarlo como sustituto de una detención ordenada.",
+      "-a o -R pueden afectar muchos montajes; verifique el alcance antes de ejecutarlos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Desmontar por punto de montaje","comando":"sudo umount /mnt/datos","descripcion":"Desmonta el sistema de archivos montado en /mnt/datos si no está ocupado.","resultado_esperado":"El punto deja de aparecer en findmnt y ya no da acceso al volumen a través de esa ruta."},
+    {"nombre":"Comprobar montajes antes de desmontar","comando":"findmnt /mnt/usb","descripcion":"Consulta el montaje asociado al punto indicado para confirmar el objetivo antes de desmontarlo.","resultado_esperado":"Información del montaje /mnt/usb, o ninguna fila si no está montado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["punto_de_montaje"],
+    "validaciones": ["Confirmar el montaje exacto con findmnt antes de operar.","Detener procesos y sincronizar datos pendientes de forma controlada.","Evitar -a, -R, -f y -l salvo que el alcance y el efecto estén aprobados."],
     "rollback": null
   }
 }

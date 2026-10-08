@@ -1,7 +1,7 @@
 {
   "id": "whoami",
   "nombre": "whoami",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Imprime el nombre de usuario asociado al ID de usuario efectivo del proceso actual.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "whoami",
+    "principal": "whoami [--help] [--version]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--help","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la ayuda de GNU coreutils.","conflictos":[],"requiere":[]},
+    {"flag":"--version","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la versión de GNU coreutils.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Acceso de lectura a la identidad efectiva del proceso"],
+    "dependencias": ["resolución local/NSS del UID efectivo"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El nombre mostrado corresponde al UID efectivo del proceso, que puede diferir del usuario de inicio de sesión (por ejemplo, tras usar sudo)."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Normalmente incluido en GNU coreutils.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install coreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar usuario efectivo","comando":"whoami","descripcion":"Imprime el nombre asociado a la identidad efectiva de la sesión actual.","resultado_esperado":"Imprime un único nombre de usuario y termina."},
+    {"nombre":"Comprobar identidad efectiva tras sudo","comando":"sudo whoami","descripcion":"Ejecuta whoami con la identidad efectiva que sudo haya concedido.","resultado_esperado":"Imprime root si la política permitió ejecutar como superusuario."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["En scripts, comprobar el estado de salida y distinguir identidad efectiva de identidad de login."],
     "rollback": null
   }
 }

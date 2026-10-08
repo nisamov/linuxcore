@@ -1,7 +1,7 @@
 {
   "id": "iostat",
   "nombre": "iostat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Genera informes de utilización de CPU y estadísticas de entrada/salida de dispositivos y particiones; los intervalos sucesivos permiten observar tendencias.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "iostat",
+    "principal": "iostat [opciones] [intervalo [recuento]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-d","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra estadísticas de dispositivos, sin el informe de CPU.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra estadísticas extendidas de dispositivos.","conflictos":[],"requiere":[]},
+    {"flag":"-m","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra tasas en megabytes por segundo en lugar de kilobytes por segundo.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"dispositivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra estadísticas del dispositivo y de sus particiones; puede especificarse un dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite la primera salida desde el arranque, que representa promedios acumulados desde el inicio.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de contadores del sistema"],
+    "dependencias": ["sysstat"],
+    "paquetes": ["sysstat"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las métricas son muestras estadísticas y no sustituyen una prueba de rendimiento controlada."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install sysstat",
+      "arch_linux": "sudo pacman -S sysstat",
+      "rhel_centos": "sudo dnf install sysstat"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Muestra tres informes cada segundo","comando":"iostat -y -dx 1 3","descripcion":"Genera tres informes de estadísticas extendidas de dispositivos a intervalos de un segundo, omitiendo el promedio inicial desde el arranque.","resultado_esperado":"Tres actualizaciones periódicas de actividad de E/S."},
+    {"nombre":"Tasas en megabytes por segundo","comando":"iostat -y -dm 2 5","descripcion":"Muestra cinco informes de estadísticas de dispositivos en MB/s, cada dos segundos, omitiendo el promedio inicial.","resultado_esperado":"Cinco informes periódicos de rendimiento de dispositivos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["intervalo", "recuento"],
+    "validaciones": ["Usar intervalo y recuento positivos para limitar la ejecución automatizada."],
     "rollback": null
   }
 }

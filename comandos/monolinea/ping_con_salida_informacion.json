@@ -1,7 +1,7 @@
 {
   "id": "ping_con_salida_informacion",
   "nombre": "Ping con output a log",
-  "descripcion": "Ejecuta ping y envia la informacion saliente a un archivo log.",
+  "descripcion": "Envía cuatro solicitudes ICMP al host indicado, muestra la salida y la guarda con tee en ping_output.log; tee trunca el archivo existente al iniciar.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,30 @@
     "principal": "ping -c 4 $1 | tee ping_output.log",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "host",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Nombre DNS o dirección IP a la que ping envía cuatro solicitudes ICMP (argumento posicional $1).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "",
+      "argumento": "archivo_log",
+      "tipo": "string",
+      "requerido": false,
+      "default": "ping_output.log",
+      "valores": [],
+      "descripcion": "Archivo que tee crea o trunca para guardar la salida de ping; se escribe en el directorio actual.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -24,14 +47,16 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Envía tráfico ICMP al host indicado. tee crea o trunca ping_output.log en el directorio actual, por lo que puede sobrescribir un registro anterior."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional si ping y tee están disponibles en el sistema; sus paquetes varían según la distribución.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +69,12 @@
       "comando": "ping -c 4 $1 | tee ping_output.log",
       "descripcion": "Ejecuta ping y envia la informacion saliente a un archivo log.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Registrar cuatro respuestas de una dirección IP",
+      "comando": "ping -c 4 1.1.1.1 | tee -a ping_output.log",
+      "descripcion": "Envía cuatro solicitudes ICMP a una dirección de prueba y añade la salida al archivo de registro existente.",
+      "resultado_esperado": "La salida se muestra en pantalla y se añade a ping_output.log."
     }
   ],
   "automatizacion": {
@@ -51,7 +82,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que el destino es un host autorizado y válido; compruebe que la conectividad ICMP está permitida en la red.", "Verifique que ping y tee están disponibles y que ping_output.log es la ruta prevista, escribible y no un enlace a un archivo sensible.", "Use -a si desea conservar el registro previo y confirme espacio disponible antes de añadir datos."] ,
     "rollback": null
   }
 }

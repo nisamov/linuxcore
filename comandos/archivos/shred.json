@@ -1,7 +1,7 @@
 {
   "id": "shred",
   "nombre": "shred",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Sobrescribe repetidamente el contenido de archivos para dificultar su recuperación y puede eliminarlos después, aunque no garantiza borrado seguro en todos los soportes.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "shred",
+    "principal": "shred [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": "pasadas", "tipo": "integer", "requerido": false, "default": 3, "valores": [], "descripcion": "Realiza el número indicado de pasadas de sobrescritura.", "conflictos": [], "requiere": []},
+    {"flag": "-z", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Añade una pasada final de ceros para ocultar el patrón de sobrescritura.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Desasigna y elimina el archivo después de sobrescribirlo.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra el progreso de la operación.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura sobre el archivo y permiso para eliminar su nombre si se usa -u."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "requiere_confirmacion": true,
+    "advertencias": ["La sobrescritura destruye datos y no se puede deshacer.", "No garantiza borrado seguro en SSD, almacenamiento con copy-on-write, snapshots, RAID, copias, sistemas remotos o medios con nivelación de desgaste.", "No use -u hasta verificar cuidadosamente el archivo y el soporte."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; shred suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Sobrescribir un archivo y conservarlo", "comando": "shred -v -n 1 documento-temporal.txt", "descripcion": "Sobrescribe una vez el archivo temporal e informa del progreso, sin eliminar su nombre.", "resultado_esperado": "El contenido anterior se reemplaza; el archivo permanece con datos sobrescritos."},
+    {"nombre": "Sobrescribir y eliminar un archivo temporal", "comando": "shred -u -z -n 3 archivo-descartable.bin", "descripcion": "Realiza tres pasadas, añade una pasada de ceros y elimina el archivo al final.", "resultado_esperado": "El archivo se sobrescribe y se elimina, sujeto a las limitaciones del sistema de almacenamiento."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo_objetivo", "pasadas"],
+    "validaciones": ["Confirmar identidad y respaldo del objetivo antes de destruir datos.", "Verificar que el medio y sistema de archivos permitan sobrescritura efectiva.", "No confiar en shred para SSD, snapshots o almacenamiento remoto."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "losetup",
   "nombre": "losetup",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Asocia archivos regulares o dispositivos a dispositivos loop, los lista y permite configurar o liberar asociaciones.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "losetup",
+    "principal": "losetup [opciones] [dispositivo_loop] [archivo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra los dispositivos loop actualmente asociados.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Busca el primer dispositivo loop libre; suele combinarse con --show para obtener su nombre.","conflictos":[],"requiere":[]},
+    {"flag":"--show","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el nombre del dispositivo loop asociado o encontrado.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"dispositivo_loop","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Desasocia el archivo o dispositivo del dispositivo loop indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Asocia el dispositivo loop en modo de solo lectura.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"desplazamiento","tipo":"integer","requerido":false,"default":0,"valores":[],"descripcion":"Usa el desplazamiento indicado en bytes dentro del archivo asociado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes para crear o retirar asociaciones"],
+    "dependencias": ["util-linux y soporte loop del kernel"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "No desasocie un loop device mientras esté montado o en uso. Los cambios en un archivo asociado pueden alterar la imagen subyacente.",
+      "Asociar un archivo en modo escritura no protege contra modificaciones realizadas a través del dispositivo loop."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar asociaciones loop","comando":"losetup -a","descripcion":"Muestra los archivos asociados a dispositivos loop actualmente configurados.","resultado_esperado":"Una línea por dispositivo loop activo, o salida vacía si no hay asociaciones."},
+    {"nombre":"Asociar imagen en solo lectura","comando":"sudo losetup --find --show --read-only imagen.iso","descripcion":"Asocia imagen.iso al primer dispositivo loop libre en solo lectura e imprime el dispositivo asignado.","resultado_esperado":"Nombre del dispositivo loop, por ejemplo /dev/loop0."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_imagen", "dispositivo_loop"],
+    "validaciones": ["Verificar que la imagen exista y usar solo lectura si no se requiere modificarla.","Antes de desasociar, confirmar que el dispositivo no esté montado ni referenciado por procesos."],
     "rollback": null
   }
 }

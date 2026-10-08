@@ -1,7 +1,7 @@
 {
   "id": "sysctl",
   "nombre": "sysctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta o modifica parámetros del kernel en tiempo de ejecución mediante /proc/sys y puede cargar ajustes desde archivos de configuración.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "sysctl",
+    "principal": "sysctl [OPCIÓN]... [CLAVE[=VALOR]... ]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a, --all","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra todos los parámetros disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"-n, --values","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite los nombres de las claves al consultar valores.","conflictos":[],"requiere":[]},
+    {"flag":"-w, --write","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Permite asignar valores a las claves indicadas; las escrituras suelen requerir privilegios elevados.","conflictos":[],"requiere":[]},
+    {"flag":"-p, --load","argumento":"archivo","tipo":"string","requerido":false,"default":"/etc/sysctl.conf","valores":[],"descripcion":"Carga los ajustes del archivo indicado (o la ubicación predeterminada si no se especifica).","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["La lectura suele estar permitida; cambiar parámetros del kernel requiere root o capacidades/permisos concedidos por el sistema."],
+    "dependencias": ["Interfaz /proc/sys del kernel; permisos de escritura para modificar valores"],
+    "paquetes": ["procps (Debian/Ubuntu)", "procps-ng (Arch Linux, RHEL/CentOS)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cambiar parámetros puede afectar seguridad, red o estabilidad y normalmente solo persiste si también se configura en archivos de sysctl.","Revisar cada clave y el valor admitido por el kernel antes de escribirlo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en procps/procps-ng (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "procps",
+      "arch_linux": "procps-ng",
+      "rhel_centos": "procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar reenvío IPv4","comando":"sysctl net.ipv4.ip_forward","descripcion":"Lee el valor actual del parámetro que controla el reenvío IPv4.","resultado_esperado":"La clave y su valor, normalmente 0 o 1."},
+    {"nombre":"Consultar todos los parámetros","comando":"sysctl -a","descripcion":"Muestra las claves sysctl que el sistema expone actualmente.","resultado_esperado":"Listado extenso de parámetros del kernel y sus valores."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["CLAVE_SYSCTL", "VALOR (al escribir)", "ARCHIVO_CONFIGURACION (opcional)"],
+    "validaciones": ["Antes de escribir, verificar clave, rango/documentación del kernel, privilegios y efecto; guardar el valor anterior para poder restaurarlo."],
     "rollback": null
   }
 }

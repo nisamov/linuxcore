@@ -1,7 +1,7 @@
 {
   "id": "snmpbulkwalk",
   "nombre": "snmpbulkwalk",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Recorre un subárbol SNMP usando operaciones GETBULK para obtener varios sucesores por solicitud, normalmente con SNMPv2c o SNMPv3. No está disponible para SNMPv1; para consultas individuales use snmpget.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,54 @@
     ]
   },
   "sintaxis": {
-    "principal": "snmpbulkwalk",
+    "principal": "snmpbulkwalk [opciones] agente [OID_inicio]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-v","argumento":"versión","tipo":"string","requerido":false,"default":"2c","valores":["2c","3"],"descripcion":"Selecciona SNMPv2c o SNMPv3; GETBULK no está definido para SNMPv1.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"comunidad","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Comunidad para SNMPv2c, transmitida sin cifrado y potencialmente visible en argumentos.","conflictos":[],"requiere":["-v 2c"]},
+    {"flag":"-u","argumento":"usuario","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Nombre de seguridad para SNMPv3.","conflictos":[],"requiere":["-v 3"]},
+    {"flag":"-l","argumento":"nivel","tipo":"string","requerido":false,"default":null,"valores":["noAuthNoPriv","authNoPriv","authPriv"],"descripcion":"Nivel de seguridad SNMPv3 configurado en el agente.","conflictos":[],"requiere":["-v 3"]},
+    {"flag":"-a","argumento":"protocolo_autenticación","tipo":"string","requerido":false,"default":null,"valores":["MD5","SHA"],"descripcion":"Protocolo de autenticación disponible en cliente y agente.","conflictos":[],"requiere":["nivel authNoPriv o authPriv"]},
+    {"flag":"-A","argumento":"frase_autenticación","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Frase de autenticación; puede quedar expuesta al pasarla como argumento del proceso.","conflictos":[],"requiere":["-a"]},
+    {"flag":"-x","argumento":"protocolo_privacidad","tipo":"string","requerido":false,"default":null,"valores":["DES","AES"],"descripcion":"Protocolo de privacidad SNMPv3 admitido por ambas partes.","conflictos":[],"requiere":["nivel authPriv"]},
+    {"flag":"-X","argumento":"frase_privacidad","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Frase de privacidad; puede quedar expuesta al pasarla como argumento del proceso.","conflictos":[],"requiere":["-x"]},
+    {"flag":"-Cr<NUM>","argumento":null,"tipo":"integer","requerido":false,"default":10,"valores":[],"descripcion":"Establece el máximo de repeticiones GETBULK solicitado por cada petición; el número se escribe unido a la opción (por ejemplo, -Cr20). Valores altos pueden producir respuestas grandes.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"segundos","tipo":"number","requerido":false,"default":1,"valores":[],"descripcion":"Tiempo de espera por solicitud.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":"reintentos","tipo":"integer","requerido":false,"default":5,"valores":[],"descripcion":"Número de reintentos en caso de timeout.","conflictos":[],"requiere":[]},
+    {"flag":"-On","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra OID numéricos.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No requiere root; el usuario/comunidad SNMP debe tener autorización de lectura para el subárbol solicitado."],
+    "dependencias": ["Agente SNMPv2c/v3 compatible con GETBULK y cliente Net-SNMP"],
+    "paquetes": ["snmp / net-snmp-utils / net-snmp"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["GETBULK requiere SNMPv2c o v3; no seleccione versión 1.", "Un subárbol amplio o un número alto de repeticiones puede cargar el agente y generar respuestas UDP grandes.", "Prefiera SNMPv3 authPriv; comunidades y frases de autenticación/privacidad pueden exponerse en red o en argumentos CLI."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Herramienta cliente incluida en Net-SNMP; paquete disponible en los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "snmp",
+      "arch_linux": "net-snmp",
+      "rhel_centos": "net-snmp-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Recorrer interfaces con GETBULK y SNMPv3","comando":"snmpbulkwalk -v 3 -l authPriv -u $SNMP_USER -a SHA -A $SNMP_AUTH_PASS -x AES -X $SNMP_PRIV_PASS -Cr20 192.0.2.10 .1.3.6.1.2.1.2.2","descripcion":"Recorre la tabla de interfaces con hasta 20 repeticiones por solicitud, usando SNMPv3 autenticado y cifrado.","resultado_esperado":"Lista los OID y valores accesibles; si las respuestas son demasiado grandes, reduzca el valor de -Cr."},
+    {"nombre":"Consultar árbol system con SNMPv2c","comando":"snmpbulkwalk -v 2c -c $SNMP_COMMUNITY -Cr5 -On 192.0.2.10 .1.3.6.1.2.1.1","descripcion":"Recorre un subárbol pequeño con un tamaño de respuesta moderado y OID numéricos; la comunidad v2c no está cifrada.","resultado_esperado":"Devuelve las variables bajo system MIB que permite leer el agente, o un error de autenticación/timeout."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["agente", "oid_inicio", "repeticiones", "SNMP_USER", "SNMP_AUTH_PASS", "SNMP_PRIV_PASS"],
+    "validaciones": ["Confirmar que el agente y versión soportan GETBULK y limitar OID y repeticiones.", "Proteger credenciales y salida; aplicar timeout y controlar carga/red antes de automatizar recorridos."],
     "rollback": null
   }
 }

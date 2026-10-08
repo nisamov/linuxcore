@@ -1,7 +1,7 @@
 {
   "id": "apk",
   "nombre": "apk",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra paquetes de Alpine Linux desde sus repositorios: permite consultar índices, buscar, instalar, actualizar y eliminar paquetes. No es el gestor de paquetes de Debian ni resuelve el mismo flujo que apt.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "apk",
+    "principal": "apk [opciones] <comando> [paquetes...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "add", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala los paquetes solicitados y sus dependencias desde los repositorios configurados; requiere privilegios administrativos.", "conflictos": [], "requiere": []},
+    {"flag": "del", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los paquetes especificados; puede retirar dependencias que ya no sean necesarias.", "conflictos": [], "requiere": []},
+    {"flag": "update", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza los índices locales de los repositorios; no actualiza por sí solo los paquetes instalados.", "conflictos": [], "requiere": []},
+    {"flag": "upgrade", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza los paquetes instalados según los índices disponibles; Alpine recomienda revisar el cambio antes de confirmar.", "conflictos": [], "requiere": []},
+    {"flag": "-U, --update-cache", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Actualiza los índices antes de realizar la operación solicitada.", "conflictos": [], "requiere": ["add"]},
+    {"flag": "--no-cache", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Evita conservar la caché local de índices y paquetes en las operaciones compatibles; útil en imágenes de contenedor.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, actualizar o eliminar paquetes"],
+    "dependencias": ["repositorios Alpine configurados en /etc/apk/repositories", "conectividad de red para descargar paquetes"],
+    "paquetes": ["apk-tools"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La actualización y eliminación modifican el sistema; comprueba los paquetes y repositorios antes de confirmar.", "No mezcles repositorios de distintas versiones de Alpine: puede causar incompatibilidades."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Gestor nativo de Alpine Linux, normalmente incluido en el sistema base como apk-tools.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Actualizar índices e instalar curl", "comando": "sudo apk -U add curl", "descripcion": "Actualiza los índices de repositorios y después instala curl con sus dependencias.", "resultado_esperado": "curl queda instalado; apk informa de los paquetes descargados y de cualquier error."},
+    {"nombre": "Buscar un paquete disponible", "comando": "apk search -v 'nginx*'", "descripcion": "Busca paquetes cuyo nombre coincida con nginx* en los índices locales.", "resultado_esperado": "Muestra los paquetes coincidentes y sus versiones disponibles en los repositorios configurados."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verificar que el sistema sea Alpine y que los repositorios correspondan a su versión.", "Revisar el nombre del paquete y el resultado de apk update antes de cambios masivos."],
     "rollback": null
   }
 }

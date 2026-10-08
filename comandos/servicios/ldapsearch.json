@@ -1,7 +1,7 @@
 {
   "id": "ldapsearch",
   "nombre": "ldapsearch",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca y muestra entradas de un directorio LDAP conforme a un filtro RFC 4515. Es una operación de consulta y no modifica el directorio.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,53 @@
     ]
   },
   "sintaxis": {
-    "principal": "ldapsearch",
+    "principal": "ldapsearch [opciones] [filtro [atributos...]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-H","argumento":"URI","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"URI del servidor LDAP, por ejemplo ldap://servidor:389 o ldaps://servidor:636.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa autenticación simple en lugar de SASL.","conflictos":[],"requiere":[]},
+    {"flag":"-D","argumento":"DN_bind","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Realiza bind como el DN indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-W","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Solicita la contraseña de bind de forma interactiva.","conflictos":["-w"],"requiere":["-D"]},
+    {"flag":"-w","argumento":"contraseña","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Proporciona contraseña como argumento, potencialmente visible en historial o lista de procesos.","conflictos":["-W"],"requiere":["-D"]},
+    {"flag":"-b","argumento":"base_DN","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el DN base de búsqueda.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"alcance","tipo":"string","requerido":false,"default":"sub","valores":["base","one","sub"],"descripcion":"Selecciona búsqueda en la entrada base, un nivel hijo o el subárbol completo.","conflictos":[],"requiere":[]},
+    {"flag":"-LLL","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa formato LDIF sin comentarios ni versión, apropiado para salida legible o procesamiento sencillo.","conflictos":[],"requiere":[]},
+    {"flag":"-z","argumento":"límite","tipo":"integer","requerido":false,"default":0,"valores":[],"descripcion":"Solicita un límite de tamaño de resultados al servidor; 0 significa sin límite pedido por el cliente.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":"segundos","tipo":"integer","requerido":false,"default":0,"valores":[],"descripcion":"Límite temporal de la búsqueda en segundos; 0 significa sin límite pedido por el cliente.","conflictos":[],"requiere":[]},
+    {"flag":"-ZZ","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Exige StartTLS y falla si no se establece una conexión TLS.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El usuario LDAP solo necesita permiso de lectura para los atributos solicitados; la ACL puede ocultar resultados."],
+    "dependencias": ["Servidor LDAP accesible y cliente OpenLDAP"],
+    "paquetes": ["ldap-utils / openldap-clients / openldap"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los resultados pueden contener datos personales o secretos; limite atributos y proteja archivos exportados.", "Use TLS con validación del certificado cuando las consultas incluyan datos sensibles.", "Un filtro amplio puede generar muchas respuestas; limite base, alcance o cantidad cuando proceda."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Cliente OpenLDAP instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "ldap-utils",
+      "arch_linux": "openldap",
+      "rhel_centos": "openldap-clients"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Buscar usuarios por uid","comando":"ldapsearch -x -H ldaps://ldap.example.org -b 'ou=people,dc=example,dc=org' '(uid=ana)' cn mail","descripcion":"Consulta por LDAPS el subárbol de personas y solicita solo los atributos cn y mail de la entrada coincidente.","resultado_esperado":"Entradas LDIF con DN, cn y mail visibles para el acceso anónimo permitido, o error si requiere autenticación."},
+    {"nombre":"Buscar grupos con autenticación","comando":"ldapsearch -x -H ldaps://ldap.example.org -D 'cn=reader,dc=example,dc=org' -W -b 'dc=example,dc=org' '(&(objectClass=posixGroup)(cn=ops*))' cn gidNumber","descripcion":"Autentica de forma interactiva y busca grupos POSIX cuyo nombre comienza por ops, mostrando nombre y gid.","resultado_esperado":"Lista de entradas que satisfacen el filtro y son legibles por la identidad autenticada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["uri_ldap", "base_DN", "filtro", "atributos"],
+    "validaciones": ["Escapar correctamente caracteres especiales del filtro LDAP y validar DN/base.", "Limitar atributos, alcance y resultados; manejar códigos de salida y proteger la salida con datos sensibles."],
     "rollback": null
   }
 }

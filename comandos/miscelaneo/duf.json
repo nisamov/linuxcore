@@ -1,7 +1,7 @@
 {
   "id": "duf",
   "nombre": "duf",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Presenta el uso de espacio de sistemas de archivos montados en una tabla legible, con opciones para filtrar, ordenar y exportar datos.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "duf",
+    "principal": "duf [opciones] [ruta ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--all", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Incluye sistemas de archivos especiales o normalmente omitidos.", "conflictos": [], "requiere": []},
+    {"flag": "--hide", "argumento": "patrón", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Oculta sistemas de archivos que coinciden con el patrón indicado.", "conflictos": [], "requiere": []},
+    {"flag": "--only", "argumento": "tipo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Limita la presentación a tipos de sistema de archivos especificados.", "conflictos": [], "requiere": []},
+    {"flag": "--output", "argumento": "formato", "tipo": "string", "requerido": false, "default": null, "valores": ["json", "csv", "table"], "descripcion": "Selecciona el formato de salida estructurada o tabular según la versión instalada.", "conflictos": [], "requiere": []},
+    {"flag": "--sort", "argumento": "campo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Ordena las filas por el campo disponible indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-h", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la ayuda.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los tamaños dependen de los datos reportados por el kernel y permisos de lectura de las rutas; las opciones pueden variar entre versiones de duf."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de algunas distribuciones o mediante los binarios oficiales del proyecto.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "duf (si está disponible en la versión de la distribución)",
+      "arch_linux": "duf",
+      "rhel_centos": "duf (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar sistemas de archivos", "comando": "duf", "descripcion": "Lista los sistemas de archivos montados en una tabla legible.", "resultado_esperado": "Tabla con dispositivo, punto de montaje, capacidad, espacio usado/disponible y uso porcentual."},
+    {"nombre": "Consultar una ruta concreta", "comando": "duf /home", "descripcion": "Muestra el sistema de archivos que contiene la ruta indicada.", "resultado_esperado": "La fila del sistema de archivos donde reside /home."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["En scripts utilice un formato estable admitido por la versión local y compruebe el código de salida."],
     "rollback": null
   }
 }

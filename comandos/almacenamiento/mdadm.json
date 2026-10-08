@@ -1,7 +1,7 @@
 {
   "id": "mdadm",
   "nombre": "mdadm",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra dispositivos RAID software Linux: crea, ensambla, supervisa, examina y modifica arreglos MD.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "mdadm",
+    "principal": "mdadm [modo] [opciones] dispositivo_MD [dispositivos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--detail","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información detallada de un dispositivo RAID MD activo.","conflictos":[],"requiere":[]},
+    {"flag":"--examine","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lee y muestra los metadatos RAID encontrados en uno o varios dispositivos miembro.","conflictos":[],"requiere":[]},
+    {"flag":"--assemble","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ensambla un arreglo existente a partir de dispositivos miembro y metadatos encontrados.","conflictos":[],"requiere":[]},
+    {"flag":"--create","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Crea un nuevo arreglo RAID MD y escribe metadatos en los dispositivos miembros.","conflictos":[],"requiere":[]},
+    {"flag":"--stop","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Detiene un dispositivo RAID MD activo cuando no está en uso.","conflictos":[],"requiere":[]},
+    {"flag":"--scan","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Actúa sobre los arreglos indicados por la configuración del sistema para el modo seleccionado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["mdadm y soporte MD del kernel"],
+    "paquetes": ["mdadm"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "mdadm ofrece operaciones destructivas. Crear o modificar un arreglo escribe metadatos y puede sobrescribir datos; detener o ensamblar mal un arreglo puede dejar volúmenes inaccesibles. Confirme modelo, número de serie, rol y estado de cada miembro.",
+      "Antes de reparar o reconfigurar un RAID, registre el estado con --detail y examine individualmente los miembros. No ejecute create sobre unidades con datos que deban conservarse."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install mdadm",
+      "arch_linux": "sudo pacman -S mdadm",
+      "rhel_centos": "sudo dnf install mdadm"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar estado de un arreglo","comando":"sudo mdadm --detail /dev/md0","descripcion":"Muestra nivel RAID, estado, cantidad de dispositivos y eventos del arreglo activo.","resultado_esperado":"Informe del arreglo MD y del estado de sus miembros."},
+    {"nombre":"Examinar metadatos de un miembro","comando":"sudo mdadm --examine /dev/sdb1","descripcion":"Lee metadatos RAID almacenados en el miembro sin ensamblar ni modificar el arreglo.","resultado_esperado":"Información de UUID, nivel, rol y eventos detectados en el miembro."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo_md", "miembros"],
+    "validaciones": ["Enumerar miembros por identificadores estables y comprobar UUID/rol mediante --examine.","Guardar salida --detail y copia de datos antes de cualquier cambio.","No automatizar --create, --stop o reparación sin un procedimiento aprobado y redundancia verificada."],
     "rollback": null
   }
 }

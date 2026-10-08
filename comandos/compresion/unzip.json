@@ -173,7 +173,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Compruebe primero `command -v unzip`; si falta, instale el paquete unzip con el gestor de paquetes de su distribución (Debian/Ubuntu: `sudo apt install unzip`; Arch: `sudo pacman -S unzip`; RHEL/CentOS: `sudo dnf install unzip`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -195,7 +195,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que el archivo ZIP exista, sea legible y pase `unzip -t`; use `unzip -l` para revisar los nombres y las rutas de las entradas antes de extraer.", "Verifique que el directorio destino sea el esperado y escribible, y que haya espacio suficiente; revise colisiones con archivos existentes y no use `-o` salvo que sobrescribirlos sea intencional.", "Extraiga primero en un directorio aislado y revise rutas absolutas o con `..` del archivo antes de confiar en su contenido; use `-n` si la política exige no reemplazar archivos existentes."],
     "rollback": null
   }
 }

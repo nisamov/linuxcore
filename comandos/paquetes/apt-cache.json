@@ -1,7 +1,7 @@
 {
   "id": "apt-cache",
   "nombre": "apt-cache",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta la caché local de metadatos APT para buscar paquetes y mostrar información, versiones, dependencias o políticas de repositorio. No instala paquetes ni descarga índices; para refrescarlos se usa apt-get update o apt update.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "apt-cache",
+    "principal": "apt-cache [opciones] <comando> [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "search", "argumento": "PATRÓN...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Busca paquetes en los metadatos locales por nombre y descripción.", "conflictos": [], "requiere": []},
+    {"flag": "show", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra los metadatos disponibles de los paquetes indicados.", "conflictos": [], "requiere": []},
+    {"flag": "policy", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra versiones disponibles y la prioridad/origen que APT asigna según sus fuentes configuradas.", "conflictos": [], "requiere": []},
+    {"flag": "depends", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra las dependencias declaradas para los paquetes indicados.", "conflictos": [], "requiere": []},
+    {"flag": "rdepends", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra dependencias inversas conocidas en los metadatos locales.", "conflictos": [], "requiere": []},
+    {"flag": "madison", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Presenta versiones del paquete disponibles en las fuentes conocidas por la caché.", "conflictos": [], "requiere": []},
+    {"flag": "-g, --generate", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Genera automáticamente la caché de dependencias según la configuración de APT cuando sea necesario.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No requiere privilegios de administrador para las consultas habituales"],
+    "dependencias": ["caché e índices APT locales; pueden estar desactualizados"],
+    "paquetes": ["apt (proporciona apt-cache)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los resultados dependen de los índices locales y pueden no reflejar cambios recientes en los repositorios.", "Este comando consulta metadatos: no debe usarse para instalar, actualizar índices ni modificar paquetes."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en el paquete apt de Debian y Ubuntu; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "apt",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar versiones y origen de nginx", "comando": "apt-cache policy nginx", "descripcion": "Consulta las versiones de nginx conocidas localmente y la prioridad de sus fuentes.", "resultado_esperado": "Muestra la versión instalada, la candidata y las fuentes disponibles según la caché local."},
+    {"nombre": "Buscar paquetes relacionados con openssh", "comando": "apt-cache search openssh", "descripcion": "Busca en nombres y descripciones de paquetes presentes en los índices locales.", "resultado_esperado": "Imprime una lista de coincidencias; no descarga ni instala paquetes."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Ejecutar apt-get update o apt update si se necesitan índices recientes.", "Tratar la salida como información de repositorios configurados, no como verificación de autenticidad del paquete descargado."],
     "rollback": null
   }
 }

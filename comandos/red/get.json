@@ -1,7 +1,7 @@
 {
   "id": "get",
   "nombre": "get",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Instruccion del cliente FTP que descarga un archivo del directorio remoto al directorio local actual; no es un ejecutable independiente.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "get",
+    "principal": "ftp> get archivo_remoto [archivo_local]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"archivo_remoto","argumento":"ruta","tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Nombre o ruta del archivo remoto que se descargara.","conflictos":[],"requiere":[]},
+    {"flag":"archivo_local","argumento":"ruta","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Nombre opcional para guardar localmente el archivo recibido.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["sesion FTP activa, permisos de lectura remota y escritura local"],
+    "dependencias": ["cliente FTP interactivo"],
+    "paquetes": ["ftp o inetutils-ftp, segun distribucion"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "FTP clasico no cifra credenciales ni datos; prefiera SFTP/FTPS en redes no aisladas.",
+      "Compruebe el directorio destino y el nombre local para evitar sobrescrituras accidentales; FTP puede reemplazar un archivo local existente."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (parte del cliente FTP)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ftp",
+      "arch_linux": "sudo pacman -S inetutils",
+      "rhel_centos": "sudo dnf install ftp"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Descargar archivo de laboratorio","comando":"ftp> get informe.txt","descripcion":"Descarga informe.txt desde el directorio remoto actual al directorio local actual.","resultado_esperado":"Se transfiere el archivo y queda guardado localmente si el servidor autoriza la lectura."},
+    {"nombre":"Guardar con otro nombre","comando":"ftp> get informe.txt copia-informe.txt","descripcion":"Descarga el archivo remoto y lo guarda con un nombre local explicito.","resultado_esperado":"Se crea copia-informe.txt en el directorio local actual."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo_remoto","archivo_local"],
+    "validaciones": ["Confirmar que el archivo remoto pertenece a un servidor autorizado y que el destino local no contiene datos que deban conservarse."],
     "rollback": null
   }
 }

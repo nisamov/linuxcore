@@ -1,7 +1,7 @@
 {
   "id": "hping3",
   "nombre": "hping3",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Genera y analiza paquetes TCP, UDP, ICMP o IP sin procesar para diagnosticos de red y pruebas controladas de protocolos; puede producir trafico de alto impacto.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "hping3",
+    "principal": "hping3 [opciones] destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-1","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Selecciona modo ICMP.","conflictos":[],"requiere":[]},
+    {"flag":"-2","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Selecciona modo UDP.","conflictos":[],"requiere":[]},
+    {"flag":"-S","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa la bandera SYN en modo TCP.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"puerto","tipo":"integer","requerido":false,"default":0,"valores":[],"descripcion":"Establece el puerto de destino para paquetes TCP o UDP.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"cuenta","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita el numero de paquetes enviados.","conflictos":[],"requiere":[]},
+    {"flag":"-I","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona la interfaz de red de salida.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_RAW"],
+    "dependencias": ["hping3 y soporte de sockets raw"],
+    "paquetes": ["hping3"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Puede generar exploraciones o carga que afecten redes y servicios. Enviar paquetes solo a sistemas propios o con autorizacion explicita.",
+      "No use inundacion (-f) ni rangos/volumenes grandes; mantenga cuenta y frecuencia limitadas."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install hping3",
+      "arch_linux": "AUR: hping (paquete comunitario; verificar disponibilidad)",
+      "rhel_centos": "EPEL: hping3 (si esta habilitado; verificar disponibilidad)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Sondeo ICMP limitado en localhost","comando":"sudo hping3 -1 -c 2 127.0.0.1","descripcion":"Envía dos paquetes ICMP al loopback propio para probar el envio y la respuesta local.","resultado_esperado":"Muestra respuestas ICMP recibidas o indica que no hubo respuesta."},
+    {"nombre":"Sondeo TCP controlado de servicio propio","comando":"sudo hping3 -S -p 22 -c 2 127.0.0.1","descripcion":"Envía dos SYN al puerto SSH local para comprobar la respuesta TCP del propio equipo.","resultado_esperado":"Se observa respuesta RST/SYN-ACK u otro resultado del stack local; no completa una sesion SSH."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["destino_autorizado","puerto","cuenta"],
+    "validaciones": ["Rechazar destinos no autorizados, limitar paquetes y tasa, y verificar que la prueba no pueda degradar el servicio."],
     "rollback": null
   }
 }

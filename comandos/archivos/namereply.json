@@ -1,7 +1,7 @@
 {
   "id": "namereply",
   "nombre": "namereply",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "No se identifica como una utilidad estándar de GNU/Linux ni como un comando común documentado; podría pertenecer a un producto o entorno específico. Verifique su origen antes de ejecutarlo.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,13 +10,15 @@
     ]
   },
   "sintaxis": {
-    "principal": "namereply",
+    "principal": "No existe una sintaxis portable conocida para namereply; consulte la documentación del producto que lo proporciona.",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "argumentos_de_la_implementacion (si existen)", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "No hay operandos portables confirmados para namereply; no interprete este marcador como sintaxis válida. Añada argumentos solo después de identificar y consultar la documentación del ejecutable concreto.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": ["No determinado: depende del programa concreto instalado con ese nombre."],
+    "dependencias": ["No se ha identificado una implementación estándar; confirme el ejecutable mediante command -v y su procedencia."],
     "paquetes": []
   },
   "seguridad": {
@@ -24,26 +26,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No ejecute un binario no identificado ni instale un paquete homónimo sin validar editor, repositorio y documentación.", "Las opciones y posibles efectos no pueden documentarse de forma fiable sin conocer la implementación."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No se puede recomendar un paquete sin identificar qué producto o implementación se pretende documentar.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Comprobar si existe en PATH", "comando": "command -v namereply", "descripcion": "Consulta la shell para determinar si hay un ejecutable o función con ese nombre disponible.", "resultado_esperado": "Imprime una ruta si existe; si no, la shell indica que no está disponible. No ejecuta namereply."},
+    {"nombre": "Buscar una página de manual local", "comando": "man -w namereply", "descripcion": "Comprueba si el sistema tiene una página de manual registrada para ese nombre.", "resultado_esperado": "Imprime la ruta de la página si existe; la ausencia de página no confirma que un ejecutable sea seguro."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Identificar el paquete y la documentación oficial antes de añadir sintaxis u opciones.", "Verificar la ruta y la firma/procedencia del ejecutable antes de invocarlo."],
     "rollback": null
   }
 }

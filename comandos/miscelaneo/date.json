@@ -1,7 +1,7 @@
 {
   "id": "date",
   "nombre": "date",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o formatea la fecha y hora del sistema; puede interpretar fechas relativas y, con privilegios adecuados, ajustar el reloj.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "date",
+    "principal": "date [opcion] [+FORMATO] [FECHA]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra o interpreta la fecha usando UTC en lugar de la zona horaria local.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": "FECHA", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la fecha descrita por FECHA, incluidas expresiones relativas en GNU date.", "conflictos": [], "requiere": []},
+    {"flag": "-I[FORMATO]", "argumento": null, "tipo": "string", "requerido": false, "default": "date", "valores": ["date", "hours", "minutes", "seconds", "ns"], "descripcion": "Emite formato ISO 8601 con la precisión solicitada (extensión GNU).", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": "ARCHIVO", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la fecha de última modificación del archivo indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": "FECHA", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Ajusta el reloj del sistema a FECHA; requiere CAP_SYS_TIME o privilegios administrativos.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "+FORMATO", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Formatea la salida con conversiones como %F (fecha ISO), %T (hora) y %s (época).", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
+    "permisos": ["CAP_SYS_TIME o privilegios administrativos únicamente para la opción -s"],
     "dependencias": [],
     "paquetes": []
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["-s modifica el reloj global del sistema y puede afectar registros, certificados y servicios; compruebe la zona horaria y no ajuste el reloj en producción sin autorización."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Parte de GNU coreutils y normalmente instalada en Linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils (incluido en el sistema)",
+      "arch_linux": "coreutils (incluido en el sistema)",
+      "rhel_centos": "coreutils (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Fecha en formato ISO", "comando": "date '+%F %T %Z'", "descripcion": "Muestra fecha, hora y zona horaria con formato explícito.", "resultado_esperado": "Una línea como 2025-03-08 14:30:00 UTC, según el reloj y la zona local."},
+    {"nombre": "Interpretar una fecha relativa", "comando": "date -d 'tomorrow' '+%Y-%m-%d'", "descripcion": "Calcula la fecha del día siguiente sin cambiar el reloj del sistema.", "resultado_esperado": "La fecha de mañana en formato año-mes-día."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Valide la cadena de fecha y la zona horaria; use -s solo con privilegios y autorización explícitos."],
     "rollback": null
   }
 }

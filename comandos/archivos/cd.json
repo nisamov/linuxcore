@@ -1,7 +1,7 @@
 {
   "id": "cd",
   "nombre": "cd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia el directorio de trabajo de la shell actual; es un comando integrado y no puede cambiar el directorio de una shell padre desde un proceso externo.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,13 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "cd",
+    "principal": "cd [directorio], cd [-L|-P] [directorio]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-L", "argumento": null, "tipo": "boolean", "requerido": false, "default": true, "valores": [], "descripcion": "Resuelve enlaces simbólicos lógicamente al procesar ..; suele ser el comportamiento predeterminado.", "conflictos": ["-P"], "requiere": []},
+    {"flag": "-P", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Usa la estructura física de directorios al procesar .. y enlaces simbólicos.", "conflictos": ["-L"], "requiere": []},
+    {"flag": "-", "argumento": null, "tipo": "special", "requerido": false, "default": null, "valores": [], "descripcion": "Cambia al directorio anterior almacenado en OLDPWD e imprime su ruta.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": ["Permiso de búsqueda/ejecución en cada componente de la ruta de destino."],
+    "dependencias": ["Shell compatible (bash, dash, zsh u otra); cd suele ser integrado."],
     "paquetes": []
   },
   "seguridad": {
@@ -24,26 +28,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Ejecutarlo con sudo cd no cambia el directorio de la shell actual; use una shell elevada si realmente es necesario.", "Las rutas relativas se resuelven desde el directorio de trabajo actual."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Integrado en la shell; no se instala por separado.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Cambiar a una ruta", "comando": "cd /var/log", "descripcion": "Cambia el directorio de trabajo de la shell actual a /var/log.", "resultado_esperado": "Los comandos posteriores se ejecutan desde /var/log."},
+    {"nombre": "Volver al directorio anterior", "comando": "cd -", "descripcion": "Regresa al directorio guardado en OLDPWD.", "resultado_esperado": "Imprime y establece el directorio de trabajo anterior."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["directorio"],
+    "validaciones": ["Comprobar que la ruta de destino exista y sea accesible.", "Usar cd dentro del mismo proceso de shell o script que necesita el cambio."],
     "rollback": null
   }
 }

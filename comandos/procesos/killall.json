@@ -1,7 +1,7 @@
 {
   "id": "killall",
   "nombre": "killall",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Envía una señal a procesos por nombre; puede actuar sobre varios procesos coincidentes y su alcance depende de filtros y opciones.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,138 @@
     ]
   },
   "sintaxis": {
-    "principal": "killall",
-    "alternativas": []
+    "principal": "killall [opciones] nombre...",
+    "alternativas": [
+      "killall -l"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-s",
+      "argumento": "señal",
+      "tipo": "string",
+      "requerido": false,
+      "default": "TERM",
+      "valores": [],
+      "descripcion": "Envía la señal indicada por nombre o número.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-i",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Solicita confirmación antes de terminar cada proceso coincidente (si la implementación la ofrece).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Espera a que los procesos señalizados terminen; puede esperar indefinidamente.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Limita la acción a procesos propiedad del usuario indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-e",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Exige coincidencia exacta del nombre largo del proceso.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Lista los nombres de señal admitidos.",
+      "conflictos": [
+        "nombre"
+      ],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Permiso para señalizar los procesos seleccionados; normalmente el propietario o root."
+    ],
+    "dependencias": [
+      "En Linux, comportamiento correspondiente a killall de psmisc; otras plataformas pueden tener semántica distinta."
+    ],
+    "paquetes": [
+      "psmisc"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La acción cambia el estado de todos los procesos que coincidan y puede terminarlos; revise nombre y usuario antes de ejecutar.",
+      "No confundir con implementaciones de otras plataformas cuyo comportamiento puede diferir."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_psmisc",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install psmisc",
+      "arch_linux": "sudo pacman -S psmisc",
+      "rhel_centos": "sudo dnf install psmisc"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Solicitar terminación por nombre exacto",
+      "comando": "killall -s TERM -e proceso_demo",
+      "descripcion": "Envía SIGTERM a los procesos cuyo nombre coincide exactamente con proceso_demo.",
+      "resultado_esperado": "Señal enviada a las coincidencias autorizadas; los procesos pueden terminar o manejar la señal."
+    },
+    {
+      "nombre": "Listar señales admitidas",
+      "comando": "killall -l",
+      "descripcion": "Consulta los nombres de señal disponibles sin seleccionar procesos.",
+      "resultado_esperado": "Lista de señales que admite esta versión de killall."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "senal",
+      "nombre",
+      "usuario"
+    ],
+    "validaciones": [
+      "Consultar previamente las coincidencias con pgrep y verificar los procesos objetivo.",
+      "Usar filtro exacto y señal menos disruptiva adecuada; manejar que ningún proceso coincida."
+    ],
     "rollback": null
   }
 }

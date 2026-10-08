@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://linuxcore.site/schemas/comando.schema.json",
+  "title": "LinuxCore - ficha de comando",
+  "description": "Esquema oficial para los registros JSON de comandos de LinuxCore.",
+  "type": "object",
+  "required": [
+    "id",
+    "nombre",
+    "descripcion",
+    "clasificacion",
+    "sintaxis",
+    "parametros",
+    "requisitos",
+    "seguridad",
+    "instalacion",
+    "ejemplos",
+    "automatizacion"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "nombre": { "type": "string", "minLength": 1 },
+    "descripcion": { "type": "string", "minLength": 1 },
+    "clasificacion": {
+      "type": "object",
+      "required": ["categoria", "subcategoria", "tags"],
+      "properties": {
+        "categoria": { "type": "string", "minLength": 1 },
+        "subcategoria": { "type": "string", "minLength": 1 },
+        "tags": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      },
+      "additionalProperties": true
+    },
+    "sintaxis": {
+      "type": "object",
+      "required": ["principal", "alternativas"],
+      "properties": {
+        "principal": { "type": "string", "minLength": 1 },
+        "alternativas": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "parametros": { "type": "array", "items": { "$ref": "#/$defs/parametro" } },
+    "requisitos": {
+      "type": "object",
+      "required": ["permisos", "dependencias", "paquetes"],
+      "properties": {
+        "permisos": { "type": "array", "items": { "type": "string" } },
+        "dependencias": { "type": "array", "items": { "type": "string" } },
+        "paquetes": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "seguridad": {
+      "type": "object",
+      "required": ["nivel", "destructivo", "requiere_root", "requiere_confirmacion", "advertencias"],
+      "properties": {
+        "nivel": { "type": "string", "enum": ["bajo", "medio", "alto", "critico"] },
+        "destructivo": { "type": "boolean" },
+        "requiere_root": { "type": "boolean" },
+        "requiere_confirmacion": { "type": "boolean" },
+        "advertencias": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "instalacion": {
+      "type": "object",
+      "required": ["instalable", "metodo", "paquetes"],
+      "properties": {
+        "instalable": { "type": "boolean" },
+        "metodo": { "type": "string" },
+        "paquetes": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "ejemplos": { "type": "array", "items": { "$ref": "#/$defs/ejemplo" } },
+    "automatizacion": {
+      "type": "object",
+      "required": ["idempotente", "interactivo", "apto_script", "variables", "validaciones", "rollback"],
+      "properties": {
+        "idempotente": { "type": "boolean" },
+        "interactivo": { "type": "boolean" },
+        "apto_script": { "type": "boolean" },
+        "variables": { "type": "array", "items": { "type": "string" } },
+        "validaciones": { "type": "array", "items": { "type": "string" } },
+        "rollback": { "type": ["string", "object", "null"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "parametro": {
+      "type": "object",
+      "required": ["flag", "argumento", "tipo", "requerido", "default", "valores", "descripcion", "conflictos", "requiere"],
+      "properties": {
+        "flag": { "type": "string" },
+        "argumento": { "type": ["string", "null"] },
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "boolean",
+            "string",
+            "integer",
+            "number",
+            "subcomando",
+            "path",
+            "size",
+            "comando",
+            "command",
+            "posicional",
+            "mode",
+            "special",
+            "integer[]",
+            "string[]",
+            "duration"
+          ]
+        },
+        "requerido": { "type": "boolean" },
+        "default": {},
+        "valores": { "type": "array" },
+        "descripcion": { "type": "string", "minLength": 1 },
+        "conflictos": { "type": "array", "items": { "type": "string" } },
+        "requiere": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "ejemplo": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["nombre", "comando", "descripcion", "resultado_esperado"],
+          "properties": {
+            "nombre": { "type": "string", "minLength": 1 },
+            "comando": { "type": "string", "minLength": 1 },
+            "descripcion": { "type": "string", "minLength": 1 },
+            "resultado_esperado": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": true
+        },
+        {
+          "type": "object",
+          "required": ["uso", "explicacion"],
+          "properties": {
+            "uso": { "type": "string", "minLength": 1 },
+            "explicacion": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": true
+        }
+      ]
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,7 +1,7 @@
 {
   "id": "at",
   "nombre": "at",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Programa comandos para ejecutarse una sola vez en una fecha y hora futuras mediante el servicio atd.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,130 @@
     ]
   },
   "sintaxis": {
-    "principal": "at",
-    "alternativas": []
+    "principal": "at [opciones] hora",
+    "alternativas": [
+      "atq [opciones]",
+      "atrm trabajo..."
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-f",
+      "argumento": "archivo",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee los comandos a programar desde el archivo indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-m",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Envía correo al usuario al finalizar el trabajo, si el sistema de correo local está configurado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-q",
+      "argumento": "cola",
+      "tipo": "string",
+      "requerido": false,
+      "default": "a",
+      "valores": [],
+      "descripcion": "Asigna el trabajo a la cola indicada; letras disponibles y políticas dependen de la implementación.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Lista trabajos pendientes (forma equivalente a atq en implementaciones comunes).",
+      "conflictos": [
+        "hora"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-r",
+      "argumento": "trabajo",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Elimina un trabajo en cola (forma equivalente a atrm en implementaciones comunes).",
+      "conflictos": [
+        "hora"
+      ],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "El usuario debe estar autorizado por la configuración de allow/deny; root puede programar para otros usuarios según opciones."
+    ],
+    "dependencias": [
+      "Servicio atd activo para ejecutar trabajos; interpretación de fecha/hora válida"
+    ],
+    "paquetes": [
+      "at"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los comandos se ejecutarán más tarde con el entorno del usuario; valide rutas, permisos, variables y efectos antes de programarlos.",
+      "La tarea puede seguir en cola incluso después de cerrar sesión y puede modificar archivos o servicios cuando se ejecute."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_y_servicio_atd",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install at",
+      "arch_linux": "sudo pacman -S at",
+      "rhel_centos": "sudo dnf install at"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Programar un aviso de prueba",
+      "comando": "echo 'logger tarea_at_demo' | at now + 2 minutes",
+      "descripcion": "Programa la ejecución de una acción de registro de prueba dentro de dos minutos.",
+      "resultado_esperado": "at confirma la hora y número de trabajo; logger escribe un mensaje al ejecutarse si atd está activo."
+    },
+    {
+      "nombre": "Listar trabajos pendientes",
+      "comando": "atq",
+      "descripcion": "Muestra los trabajos at pendientes del usuario actual.",
+      "resultado_esperado": "Lista con identificador, hora programada y cola, o salida vacía."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "hora",
+      "archivo_comandos",
+      "cola"
+    ],
+    "validaciones": [
+      "Probar la expresión temporal y revisar cada orden antes de enviarla.",
+      "Confirmar que atd esté activo y que el usuario esté autorizado; registrar el ID asignado."
+    ],
+    "rollback": "Eliminar el trabajo pendiente con atrm ID si aún no se ha ejecutado."
   }
 }

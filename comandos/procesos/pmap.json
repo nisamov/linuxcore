@@ -1,3 +1,125 @@
 {
-    
+	"id": "pmap",
+	"nombre": "pmap",
+	"descripcion": "Muestra el mapa de memoria de uno o varios procesos identificados por su PID, incluyendo regiones asignadas y, según las opciones, el consumo agregado y el mapeo de dispositivos.",
+	"clasificacion": {
+		"categoria": "procesos",
+		"subcategoria": "memoria",
+		"tags": ["procesos", "memoria", "diagnostico", "procps"]
+	},
+	"sintaxis": {
+		"principal": "pmap [opciones] PID...",
+		"alternativas": []
+	},
+	"parametros": [
+		{
+			"flag": "-x",
+			"argumento": null,
+			"tipo": "boolean",
+			"requerido": false,
+			"default": false,
+			"valores": [],
+			"descripcion": "Muestra un formato extendido con tamaño, RSS, mapeo y modo de cada región, además de totales.",
+			"conflictos": [],
+			"requiere": []
+		},
+		{
+			"flag": "-X",
+			"argumento": null,
+			"tipo": "boolean",
+			"requerido": false,
+			"default": false,
+			"valores": [],
+			"descripcion": "Muestra el formato extendido más detallado disponible en la versión instalada de procps-ng.",
+			"conflictos": [],
+			"requiere": []
+		},
+		{
+			"flag": "-d",
+			"argumento": null,
+			"tipo": "boolean",
+			"requerido": false,
+			"default": false,
+			"valores": [],
+			"descripcion": "Muestra el formato de dispositivo, con direcciones y desplazamientos de los mapeos.",
+			"conflictos": [],
+			"requiere": []
+		},
+		{
+			"flag": "-q",
+			"argumento": null,
+			"tipo": "boolean",
+			"requerido": false,
+			"default": false,
+			"valores": [],
+			"descripcion": "Suprime algunas cabeceras y campos informativos para producir una salida más compacta.",
+			"conflictos": [],
+			"requiere": []
+		},
+		{
+			"flag": "-p",
+			"argumento": null,
+			"tipo": "boolean",
+			"requerido": false,
+			"default": false,
+			"valores": [],
+			"descripcion": "Muestra las rutas completas de los archivos asociados a los mapeos cuando están disponibles.",
+			"conflictos": [],
+			"requiere": []
+		},
+		{
+			"flag": "-A",
+			"argumento": "inicio[,fin]",
+			"tipo": "string",
+			"requerido": false,
+			"default": null,
+			"valores": [],
+			"descripcion": "Limita la salida a las direcciones del espacio de memoria comprendidas en el rango indicado; la sintaxis exacta depende de procps-ng.",
+			"conflictos": [],
+			"requiere": []
+		}
+	],
+	"requisitos": {
+		"permisos": ["usuario propietario del proceso o root para todos los detalles"],
+		"dependencias": ["/proc montado"],
+		"paquetes": ["procps", "procps-ng"]
+	},
+	"seguridad": {
+		"nivel": "bajo",
+		"destructivo": false,
+		"requiere_root": false,
+		"requiere_confirmacion": false,
+		"advertencias": ["La visibilidad de los mapas de memoria de otros usuarios puede estar limitada por los permisos del sistema y la configuración de /proc."]
+	},
+	"instalacion": {
+		"instalable": true,
+		"metodo": "gestor_paquetes",
+		"paquetes": {
+			"debian_ubuntu": "sudo apt install procps",
+			"arch_linux": "sudo pacman -S procps-ng",
+			"rhel_centos": "sudo dnf install procps-ng"
+		}
+	},
+	"ejemplos": [
+		{
+			"nombre": "Mapa de memoria básico",
+			"comando": "pmap 1234",
+			"descripcion": "Muestra las regiones de memoria virtual del proceso con PID 1234.",
+			"resultado_esperado": "Listado de direcciones y tamaños de mapeo, con un total al final."
+		},
+		{
+			"nombre": "Mapa de memoria extendido",
+			"comando": "pmap -x 1234",
+			"descripcion": "Añade columnas de tamaño, memoria residente y modo para analizar el consumo del proceso.",
+			"resultado_esperado": "Tabla extendida de mapeos y totales de memoria virtual y residente."
+		}
+	],
+	"automatizacion": {
+		"idempotente": true,
+		"interactivo": false,
+		"apto_script": true,
+		"variables": ["pid"],
+		"validaciones": ["Comprobar que el PID existe y corresponde al proceso esperado."],
+		"rollback": null
+	}
 }

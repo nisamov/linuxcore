@@ -1,7 +1,7 @@
 {
   "id": "man",
   "nombre": "man",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta páginas del manual en línea y las muestra con el paginador configurado para documentar comandos, llamadas y archivos del sistema.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "man",
+    "principal": "man [-a] [-k|-f] [-C archivo] [-M ruta] [-P paginador] [-S seccion] [seccion] pagina ...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra todas las páginas coincidentes, una tras otra.", "conflictos": [], "requiere": []},
+    {"flag": "-k", "argumento": "palabra", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca por palabra clave en las descripciones de las páginas (equivale a apropos en sistemas man-db).", "conflictos": ["-f"], "requiere": []},
+    {"flag": "-f", "argumento": "pagina", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca una coincidencia exacta de nombre y muestra una descripción breve (equivale a whatis en sistemas man-db).", "conflictos": ["-k"], "requiere": []},
+    {"flag": "-C", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa un archivo de configuración man alternativo.", "conflictos": [], "requiere": []},
+    {"flag": "-M", "argumento": "ruta", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Busca páginas en la lista de directorios indicada.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": "paginador", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el paginador indicado para mostrar la página.", "conflictos": [], "requiere": []},
+    {"flag": "-S", "argumento": "seccion", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca únicamente en las secciones indicadas, separadas por dos puntos.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +32,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las páginas instaladas pueden pertenecer a paquetes distintos y describir versiones diferentes a las del sistema; un paginador configurado externamente puede ejecutar programas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Parte del sistema man-db o man; instale los paquetes de manual de los programas consultados.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "man-db",
+      "arch_linux": "man-db",
+      "rhel_centos": "man-db"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar la página de ls", "comando": "man ls", "descripcion": "Abre la página principal del manual para ls.", "resultado_esperado": "El contenido se muestra en el paginador configurado; salga con la tecla q en less."},
+    {"nombre": "Buscar páginas por concepto", "comando": "man -k filesystem", "descripcion": "Busca páginas cuyas descripciones incluyan el término filesystem.", "resultado_esperado": "Lista de nombres y secciones de páginas que coinciden, si la base de datos está actualizada."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Para consumo programático use man -w o las utilidades whatis/apropos en lugar de depender de la interfaz del paginador."],
     "rollback": null
   }
 }

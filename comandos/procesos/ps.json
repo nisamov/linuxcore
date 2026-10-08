@@ -1,7 +1,7 @@
 {
   "id": "ps",
   "nombre": "ps",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra una instantánea de los procesos y sus atributos; el formato y la selección dependen de las opciones especificadas.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,138 @@
     ]
   },
   "sintaxis": {
-    "principal": "ps",
-    "alternativas": []
+    "principal": "ps [opciones]",
+    "alternativas": [
+      "ps -e [opciones]",
+      "ps aux"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-e",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Selecciona todos los procesos del sistema (forma de opciones UNIX).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra un formato de listado completo con campos adicionales.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona procesos por usuario (forma UNIX; en sintaxis BSD su significado/formato de filtro puede diferir).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID[,PID...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona los procesos con los PID indicados.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-o",
+      "argumento": "formato",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Define las columnas de salida mediante nombres de campo reconocidos por la implementación.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--sort",
+      "argumento": "clave",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ordena la salida por una clave de campo; admite prefijo - para orden descendente en procps.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso a la información de procesos que el sistema permita ver."
+    ],
+    "dependencias": [
+      "/proc en Linux"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La visibilidad de procesos y argumentos puede estar restringida por el sistema.",
+      "La salida puede contener argumentos o datos sensibles; evite publicarla sin revisión."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Listar todos los procesos con detalle",
+      "comando": "ps -ef",
+      "descripcion": "Muestra una lista completa de procesos en el formato UNIX.",
+      "resultado_esperado": "Tabla con UID, PID, PPID, hora de inicio y línea de órdenes, según la implementación."
+    },
+    {
+      "nombre": "Consultar proceso por PID",
+      "comando": "ps -p 1234 -o pid,ppid,stat,comm",
+      "descripcion": "Muestra campos concretos para el proceso 1234.",
+      "resultado_esperado": "Una fila con PID, padre, estado y nombre si ese proceso existe y es visible."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "pid",
+      "usuario",
+      "formato",
+      "clave_orden"
+    ],
+    "validaciones": [
+      "Usar nombres de campos disponibles en la versión instalada.",
+      "No asumir que los PID son estables entre consultas."
+    ],
     "rollback": null
   }
 }

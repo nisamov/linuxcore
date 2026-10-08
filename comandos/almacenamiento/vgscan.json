@@ -1,7 +1,7 @@
 {
   "id": "vgscan",
   "nombre": "vgscan",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca grupos de volúmenes LVM en los dispositivos visibles y construye o actualiza información de caché según las opciones usadas.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "vgscan",
+    "principal": "vgscan [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--cache","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Actualiza la caché LVM y crea nodos de dispositivos lógicos cuando corresponda.","conflictos":[],"requiere":[]},
+    {"flag":"--mknodes","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Comprueba los nodos de dispositivos lógicos requeridos y crea los que falten.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información detallada del escaneo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de dispositivos; root puede ser necesario para caché y nodos"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El descubrimiento depende de filtros y configuración de dispositivos LVM; --cache puede modificar archivos de caché del sistema."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Buscar grupos LVM","comando":"sudo vgscan","descripcion":"Escanea los dispositivos visibles para localizar grupos de volúmenes.","resultado_esperado":"Lista de grupos detectados o mensaje de que no se encontró ninguno."},
+    {"nombre":"Actualizar caché y nodos LVM","comando":"sudo vgscan --cache --mknodes","descripcion":"Actualiza la caché de dispositivos LVM y asegura la presencia de nodos lógicos necesarios.","resultado_esperado":"Los grupos detectables se registran y los nodos requeridos quedan disponibles cuando procede."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirmar filtros y archivos de configuración LVM antes de diagnosticar dispositivos no detectados."],
     "rollback": null
   }
 }

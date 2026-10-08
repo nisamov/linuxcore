@@ -1,7 +1,7 @@
 {
   "id": "pvdisplay",
   "nombre": "pvdisplay",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra atributos de volúmenes físicos LVM, incluyendo tamaño, extensiones, grupo de volúmenes asociado y segmentos asignados.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "pvdisplay",
+    "principal": "pvdisplay [opciones] [PV...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-m","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la asignación de extensiones físicas a volúmenes lógicos.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra un resumen breve de cada volumen físico.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa un formato compacto de salida separado por dos puntos.","conflictos":[],"requiere":[]},
+    {"flag":"-C","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Produce una salida tabular para scripts y procesamiento.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de metadatos LVM; root puede ser necesario según dispositivos y configuración"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La salida refleja los metadatos LVM visibles y puede verse limitada por filtros de dispositivos o permisos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar PVs conocidos","comando":"sudo pvdisplay","descripcion":"Muestra información detallada de los volúmenes físicos LVM visibles.","resultado_esperado":"Secciones con dispositivo, grupo asociado, capacidad y extents disponibles."},
+    {"nombre":"Ver mapa de extents de un PV","comando":"sudo pvdisplay -m /dev/sdb1","descripcion":"Presenta el mapa de asignación de extensiones físicas del PV indicado.","resultado_esperado":"Lista de segmentos y volúmenes lógicos que ocupan el dispositivo, si está inicializado como PV."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["pv"],
+    "validaciones": ["Confirmar que los filtros de dispositivos LVM incluyan el PV esperado."],
     "rollback": null
   }
 }

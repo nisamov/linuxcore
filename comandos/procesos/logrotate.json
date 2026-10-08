@@ -1,7 +1,7 @@
 {
   "id": "logrotate",
   "nombre": "logrotate",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Rota, comprime y elimina archivos de registro según reglas configuradas, normalmente mediante ejecución periódica del sistema.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,126 @@
     ]
   },
   "sintaxis": {
-    "principal": "logrotate",
+    "principal": "logrotate [opciones] archivo_configuración",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Activa depuración: muestra lo que haría sin modificar logs ni estado.",
+      "conflictos": [
+        "-f"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Fuerza la rotación incluso si no se cumplen criterios habituales; modifica archivos y puede ejecutar scripts configurados.",
+      "conflictos": [
+        "-d"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra información detallada del procesamiento.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": "archivo_estado",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Usa el archivo indicado para registrar el estado de rotación.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-m",
+      "argumento": "comando",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Usa el comando indicado para comprimir archivos si así se configura en reglas compatibles.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Permisos de lectura/escritura sobre la configuración, logs y archivo de estado; la operación global suele ejecutarse como root."
+    ],
+    "dependencias": [
+      "Archivo de configuración válido y scripts auxiliares/hooks configurados"
+    ],
+    "paquetes": [
+      "logrotate"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La rotación mueve, comprime o elimina logs y puede ejecutar scripts postrotate/prerotate; -f puede forzar esos efectos.",
+      "Ejecute primero -d -v con la configuración revisada y asegure respaldo/retención adecuada."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install logrotate",
+      "arch_linux": "sudo pacman -S logrotate",
+      "rhel_centos": "sudo dnf install logrotate"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Simular rotación de configuración",
+      "comando": "sudo logrotate -d -v /etc/logrotate.conf",
+      "descripcion": "Muestra las acciones previstas sin cambiar archivos ni estado.",
+      "resultado_esperado": "Informe detallado de reglas aplicables y rotaciones simuladas."
+    },
+    {
+      "nombre": "Procesar configuración normal",
+      "comando": "sudo logrotate /etc/logrotate.conf",
+      "descripcion": "Evalúa reglas y rota únicamente los logs que cumplan los criterios configurados.",
+      "resultado_esperado": "Los archivos elegibles se rotan; otros quedan intactos."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "apto_script": true,
+    "variables": [
+      "archivo_configuración",
+      "archivo_estado"
+    ],
+    "validaciones": [
+      "Validar primero con -d -v y revisar scripts hook, permisos y destino.",
+      "Evitar -f en tareas recurrentes salvo mantenimiento controlado; registrar estado y respaldar datos críticos."
+    ],
+    "rollback": "Restaurar archivos rotados desde respaldo y recuperar la configuración/estado previos si la rotación produjo resultados no deseados."
   }
 }

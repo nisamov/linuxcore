@@ -1,7 +1,7 @@
 {
   "id": "bat",
   "nombre": "bat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Visor de archivos de texto con resaltado de sintaxis, números de línea y paginación; es una alternativa a cat y puede detectar diferencias Git.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "bat",
+    "principal": "bat [opciones] [archivo ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra números de línea.", "conflictos": [], "requiere": []},
+    {"flag": "-A", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra todos los caracteres no imprimibles de forma visible.", "conflictos": [], "requiere": []},
+    {"flag": "-p", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra texto sin resaltado de sintaxis ni adornos; use --paging=never para controlar el paginador por separado.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": "lenguaje", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Fuerza el lenguaje/sintaxis para el resaltado.", "conflictos": [], "requiere": []},
+    {"flag": "--style", "argumento": "estilos", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona adornos de presentación como numbers, grid, header, changes o snip; las opciones dependen de versión.", "conflictos": [], "requiere": []},
+    {"flag": "--paging", "argumento": "modo", "tipo": "string", "requerido": false, "default": null, "valores": ["auto", "always", "never"], "descripcion": "Controla cuándo se inicia el paginador.", "conflictos": [], "requiere": []},
+    {"flag": "--theme", "argumento": "tema", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona un tema de resaltado instalado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +32,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El resaltado es solo presentación y no valida ni ejecuta el contenido; salida con paginador puede no ser adecuada para tuberías sin -p."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable como bat o batcat según la distribución; algunas distribuciones renombran el ejecutable por conflicto de nombres.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bat (el ejecutable puede llamarse batcat)",
+      "arch_linux": "bat",
+      "rhel_centos": "bat (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Ver archivo con números de línea", "comando": "bat -n script.sh", "descripcion": "Muestra el archivo con resaltado de sintaxis y numeración de líneas.", "resultado_esperado": "Contenido del script presentado con números y colores según el terminal."},
+    {"nombre": "Salida apta para tubería", "comando": "bat -p --paging=never archivo.txt | head", "descripcion": "Desactiva presentación decorada y paginación para entregar texto a head.", "resultado_esperado": "Las primeras líneas del contenido sin interfaz interactiva de paginador."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["En scripts use -p y tenga en cuenta que Debian/Ubuntu puede exponer el binario como batcat."],
     "rollback": null
   }
 }

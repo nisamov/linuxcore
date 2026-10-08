@@ -1,7 +1,7 @@
 {
   "id": "wipefs",
   "nombre": "wipefs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o elimina firmas de sistemas de archivos, RAID y tablas de particiones detectadas en un dispositivo; no borra el contenido completo del sistema de archivos.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "wipefs",
+    "principal": "wipefs [opciones] dispositivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No realiza cambios; muestra las firmas que serían eliminadas.","conflictos":[],"requiere":[]},
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina todas las firmas reconocidas del dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la eliminación de firmas en un dispositivo montado; extremadamente peligroso.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita las firmas consideradas al tipo indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"offset","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la operación a la firma en el desplazamiento indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-J","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite el informe en formato JSON.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para inspección; root o escritura para borrar firmas"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Eliminar firmas puede hacer que sistemas operativos y herramientas de montaje dejen de reconocer los volúmenes; no borra los datos subyacentes ni constituye un borrado seguro.",
+      "Inspeccione primero con -n. No use -f en dispositivos montados y verifique exactamente el dispositivo antes de cualquier eliminación.",
+      "La opción -a elimina todas las firmas detectadas y puede afectar firmas anidadas o metadatos necesarios para recuperar el volumen."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Inspeccionar firmas sin cambios","comando":"sudo wipefs -n /dev/sdb","descripcion":"Muestra firmas reconocidas en el dispositivo sin borrarlas.","resultado_esperado":"Lista de firmas, tipos y desplazamientos que se detectarían."},
+    {"nombre":"Eliminar firmas de un dispositivo vacío","comando":"sudo wipefs -a /dev/sdb","descripcion":"Elimina todas las firmas detectadas del dispositivo; usar únicamente en un destino confirmado cuyos metadatos puedan descartarse.","resultado_esperado":"Se eliminan las firmas seleccionadas; los datos no se sobrescriben completamente y pueden seguir siendo recuperables."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo"],
+    "validaciones": ["Ejecutar primero -n y revisar tipos/offsets de cada firma.","Confirmar identidad, montajes, dependencias RAID/LVM y respaldo del dispositivo.","Requerir aprobación explícita para -a y prohibir -f en automatización rutinaria."],
     "rollback": null
   }
 }

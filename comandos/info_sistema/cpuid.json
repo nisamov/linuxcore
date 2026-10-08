@@ -1,7 +1,7 @@
 {
   "id": "cpuid",
   "nombre": "cpuid",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Vuelca información de identificación y características del procesador obtenida mediante la instrucción CPUID; la disponibilidad y detalle dependen de la arquitectura y del procesador.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "cpuid",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-1","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Limita la consulta a un solo procesador lógico.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra los registros CPUID en formato hexadecimal sin decodificar.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Enumera las hojas CPUID disponibles.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["cpuid"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida puede variar según el procesador, la arquitectura y la versión de cpuid."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install cpuid",
+      "arch_linux": "sudo pacman -S cpuid",
+      "rhel_centos": "sudo dnf install cpuid"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Decodificar características del procesador","comando":"cpuid -1","descripcion":"Muestra información CPUID decodificada para los procesadores lógicos disponibles.","resultado_esperado":"Secciones legibles con fabricante, familia y capacidades informadas por el procesador."},
+    {"nombre":"Listar hojas CPUID","comando":"cpuid -l","descripcion":"Enumera las hojas CPUID que la utilidad detecta en el sistema.","resultado_esperado":"Una lista de hojas y subhojas disponibles."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirmar que el paquete cpuid está instalado y que la plataforma implementa CPUID."],
     "rollback": null
   }
 }

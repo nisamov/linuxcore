@@ -1,7 +1,7 @@
 {
   "id": "setenforce",
   "nombre": "setenforce",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia en tiempo de ejecución el modo SELinux entre enforcing y permissive; no habilita SELinux si está desactivado ni persiste necesariamente tras reiniciar.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,40 @@
     "principal": "setenforce",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "0", "argumento": null, "tipo": "integer", "requerido": false, "default": null, "valores": ["0", "1"], "descripcion": "0 cambia a permissive; 1 cambia a enforcing.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_MAC_ADMIN; normalmente requiere root"],
+    "dependencias": ["SELinux cargado y en modo enforcing o permissive"],
+    "paquetes": ["policycoreutils"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Pasar a permissive suspende la aplicación de denegaciones SELinux y debilita la política de seguridad; úselo solo temporalmente para diagnóstico autorizado.", "El cambio es global y puede afectar servicios; revise estado con getenforce y devuelva a enforcing al concluir."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install policycoreutils",
+      "arch_linux": "sudo pacman -S policycoreutils",
+      "rhel_centos": "sudo dnf install policycoreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Verificar modo sin cambiarlo", "comando": "getenforce", "descripcion": "Consulta el estado previo antes de cualquier acción administrativa.", "resultado_esperado": "Muestra Enforcing, Permissive o Disabled."},
+    {"nombre": "Restaurar enforcing tras diagnóstico", "comando": "sudo setenforce 1", "descripcion": "Restaura enforcing en un sistema propio después de una prueba temporal controlada.", "resultado_esperado": "getenforce informa Enforcing si SELinux está habilitado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["modo_objetivo"],
+    "validaciones": ["Registrar modo previo, limitar duración del diagnóstico y verificar inmediatamente el modo final con getenforce."],
     "rollback": null
   }
 }

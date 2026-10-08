@@ -1,7 +1,7 @@
 {
   "id": "lvrename",
   "nombre": "lvrename",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia el nombre de un volumen lógico LVM sin modificar su tamaño ni el contenido del sistema de archivos.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvrename",
+    "principal": "lvrename VG nombre_actual nombre_nuevo | lvrename LV nombre_nuevo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"VG","argumento":"nombre_VG","tipo":"posicional","requerido":true,"default":null,"valores":[],"descripcion":"Grupo de volúmenes que contiene el LV cuando se usa la forma de tres argumentos.","conflictos":[],"requiere":[]},
+    {"flag":"nombre_actual","argumento":null,"tipo":"posicional","requerido":true,"default":null,"valores":[],"descripcion":"Nombre actual del volumen lógico que se va a renombrar.","conflictos":[],"requiere":[]},
+    {"flag":"nombre_nuevo","argumento":null,"tipo":"posicional","requerido":true,"default":null,"valores":[],"descripcion":"Nombre nuevo, que debe ser válido y no estar ya utilizado en el VG.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de prueba sin actualizar metadatos.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Aunque no altera deliberadamente los datos del LV, el cambio puede romper referencias por ruta, configuración de arranque, fstab, scripts o servicios. Actualice dependencias y ventanas de mantenimiento.",
+      "Compruebe el nombre nuevo y las herramientas que puedan estar usando el dispositivo lógico."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular cambio de nombre","comando":"sudo lvrename --test vg_datos archivos archivos_nuevo","descripcion":"Comprueba el cambio de nombre propuesto en modo de prueba.","resultado_esperado":"LVM informa del resultado previsto sin cambiar metadatos."},
+    {"nombre":"Renombrar un LV","comando":"sudo lvrename vg_datos archivos archivos_nuevo","descripcion":"Cambia el nombre del LV dentro de vg_datos; actualice las referencias externas a su antigua ruta.","resultado_esperado":"El dispositivo lógico aparece con el nombre nuevo bajo /dev/vg_datos/."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["nombre_vg", "nombre_actual", "nombre_nuevo"],
+    "validaciones": ["Verificar que el LV actual exista y el nombre nuevo no esté ocupado.","Buscar y actualizar referencias en fstab, servicios, scripts y herramientas de monitoreo."],
     "rollback": null
   }
 }

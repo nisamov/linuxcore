@@ -1,7 +1,7 @@
 {
   "id": "exiftool",
   "nombre": "exiftool",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lee, escribe y organiza metadatos de imágenes, audio, vídeo y otros formatos; por defecto muestra metadatos del archivo indicado.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,7 +13,13 @@
     "principal": "exiftool",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Usa nombres de etiqueta abreviados en la salida.", "conflictos": [], "requiere": []},
+    {"flag": "-json", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Emite metadatos en formato JSON.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Procesa directorios recursivamente.", "conflictos": [], "requiere": []},
+    {"flag": "-all=", "argumento": "valor", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece o borra todas las etiquetas según el valor asignado; puede alterar archivos.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Escribe salida de metadatos en un archivo indicado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +30,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las asignaciones de etiquetas modifican metadatos; ExifTool suele conservar una copia original con sufijo _original. Revise antes de procesar en lote.", "Los metadatos pueden contener información personal o de ubicación."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install libimage-exiftool-perl",
+      "arch_linux": "sudo pacman -S perl-image-exiftool",
+      "rhel_centos": "sudo dnf install perl-Image-ExifTool"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Inspeccionar metadatos de muestra", "comando": "exiftool -s ./foto-prueba.jpg", "descripcion": "Lee etiquetas de una imagen propia sin modificarla.", "resultado_esperado": "Lista de etiquetas y valores disponibles."},
+    {"nombre": "Exportar metadatos a JSON", "comando": "exiftool -json ./foto-prueba.jpg > ./foto-prueba-metadata.json", "descripcion": "Guarda en JSON metadatos de un archivo de prueba propio.", "resultado_esperado": "Crea un documento JSON con los metadatos legibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "formato_salida", "directorio_salida"],
+    "validaciones": ["Trabajar sobre copias, comprobar el archivo destino y proteger el JSON exportado si contiene ubicación u otros datos personales."],
     "rollback": null
   }
 }

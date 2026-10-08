@@ -1,7 +1,7 @@
 {
   "id": "ssh-copy-id",
   "nombre": "ssh-copy-id",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Instala una clave publica local en el archivo authorized_keys de una cuenta remota para habilitar autenticacion SSH por clave.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,20 @@
     ]
   },
   "sintaxis": {
-    "principal": "ssh-copy-id",
+    "principal": "ssh-copy-id [opciones] [usuario@]host",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-i","argumento":"archivo_clave.pub","tipo":"string","requerido":false,"default":"identidad predeterminada","valores":[],"descripcion":"Selecciona la clave publica que se instalara; puede indicar un archivo .pub.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"puerto","tipo":"integer","requerido":false,"default":22,"valores":[],"descripcion":"Puerto SSH remoto (se pasa al cliente ssh).","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra lo que se instalaria sin modificar authorized_keys.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la instalacion sin comprobar si la clave ya esta instalada.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"opciones_ssh","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Pasa opciones al cliente ssh remoto.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso a cuenta remota y permisos de escritura en ~/.ssh/authorized_keys"],
+    "dependencias": ["OpenSSH cliente, ssh y clave publica local"],
+    "paquetes": ["openssh-client (Debian/Ubuntu), openssh (Arch), openssh-clients (RHEL)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +31,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Verifique la huella del host remoto antes de autenticar; solo instale claves en cuentas propias o expresamente autorizadas.",
+      "La clave publica otorga acceso equivalente a su titular; proteja la clave privada correspondiente y revise authorized_keys."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_con_openssh_cliente",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install openssh-client",
+      "arch_linux": "sudo pacman -S openssh",
+      "rhel_centos": "sudo dnf install openssh-clients"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Previsualizar instalacion de clave","comando":"ssh-copy-id -n -i ~/.ssh/id_ed25519.pub usuario@localhost","descripcion":"Muestra la clave que se instalaria en una cuenta local SSH sin modificar archivos.","resultado_esperado":"Se presenta la clave seleccionada y el comando termina sin editar authorized_keys."},
+    {"nombre":"Instalar clave en cuenta local autorizada","comando":"ssh-copy-id -i ~/.ssh/id_ed25519.pub usuario@localhost","descripcion":"Agrega la clave publica indicada a la cuenta SSH local tras autenticar y verificar la identidad del host.","resultado_esperado":"Informa si la clave se agrego o ya estaba presente."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_clave_publica","usuario","host","puerto"],
+    "validaciones": ["Confirmar usuario/host, verificar huella SSH y comprobar que la clave publica corresponde a una clave privada protegida."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "vgchange",
   "nombre": "vgchange",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia el estado de activación de grupos de volúmenes LVM y administra opciones operativas de sus volúmenes lógicos.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "vgchange",
+    "principal": "vgchange [opciones] VG...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":"y|n","tipo":"string","requerido":false,"default":null,"valores":["y","n"],"descripcion":"Activa (y) o desactiva (n) los volúmenes lógicos del grupo indicado.","conflictos":[],"requiere":[]},
+    {"flag":"--refresh","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Solicita actualizar la activación de los volúmenes lógicos del grupo.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de prueba sin actualizar metadatos.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Responde sí a todas las preguntas de confirmación.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2 y device-mapper"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Desactivar un VG puede interrumpir sistemas de archivos y aplicaciones que usan sus volúmenes. Compruebe montajes, dependencias y actividad antes de cambiar activación.",
+      "Activar un VG compartido simultáneamente en hosts sin coordinación puede corromper datos; siga el mecanismo de bloqueo del clúster."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar grupo activo","comando":"sudo vgs vg_datos","descripcion":"Comprueba el estado y capacidad del grupo sin cambiar activación.","resultado_esperado":"Resumen de vg_datos y capacidad disponible."},
+    {"nombre":"Activar grupo LVM","comando":"sudo vgchange -ay vg_datos","descripcion":"Activa los volúmenes lógicos del VG vg_datos para hacerlos disponibles.","resultado_esperado":"Los dispositivos lógicos aparecen bajo /dev/VG/ si la activación es posible."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["nombre_vg", "estado"],
+    "validaciones": ["Verificar que el VG esté visible y consultar quién usa sus volúmenes antes de desactivar.","Coordinar activación de grupos compartidos con todos los nodos y su sistema de bloqueo."],
     "rollback": null
   }
 }

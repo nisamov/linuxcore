@@ -1,7 +1,7 @@
 {
   "id": "update-rc.d",
   "nombre": "update-rc.d",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Instala, elimina o ajusta los enlaces de inicio de scripts SysV en sistemas Debian y derivados. Configura el arranque tradicional, no inicia ni detiene unidades systemd.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "update-rc.d",
+    "principal": "update-rc.d [-f] nombre_script {defaults [NN | NN SS] | defaults-disabled [NN | NN SS] | remove | enable|disable [nivel]}",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"nombre_script","argumento":null,"tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Nombre de un script SysV situado normalmente en /etc/init.d.","conflictos":[],"requiere":[]},
+    {"flag":"defaults","argumento":"NN [SS]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Crea enlaces predeterminados para los niveles de ejecución; NN y SS especifican prioridades de inicio/parada cuando se proporcionan.","conflictos":["remove","defaults-disabled"],"requiere":[]},
+    {"flag":"defaults-disabled","argumento":"NN [SS]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Crea enlaces predeterminados dejando el servicio deshabilitado inicialmente.","conflictos":["remove","defaults"],"requiere":[]},
+    {"flag":"remove","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Elimina enlaces del script en los directorios rcN.d; no borra el archivo del script.","conflictos":["defaults","defaults-disabled"],"requiere":[]},
+    {"flag":"enable|disable","argumento":"nivel","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Habilita o deshabilita el inicio del script para los niveles indicados conforme a la implementación de Debian.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la eliminación de enlaces incluso cuando el script declara dependencias LSB; usar solo tras revisar el impacto.","conflictos":[],"requiere":["remove"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Modificar enlaces bajo /etc/rc*.d normalmente requiere root o sudo."],
+    "dependencias": ["Scripts SysV init y esquema de niveles de ejecución Debian; init-system-helpers"],
+    "paquetes": ["init-system-helpers"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Solo administra enlaces de inicio SysV; no controla el estado runtime de systemd.", "remove elimina enlaces de arranque y -f omite comprobaciones de dependencias; confirme el script y los niveles antes de actuar."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Provisto por init-system-helpers en Debian y derivados; habitualmente ya está instalado y no es una utilidad genérica de todas las distribuciones.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "init-system-helpers",
+      "arch_linux": "No es el gestor estándar; disponibilidad según compatibilidad SysV local",
+      "rhel_centos": "No es la herramienta habitual; chkconfig se usaba en sistemas SysV heredados"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Crear enlaces predeterminados","comando":"sudo update-rc.d cron defaults","descripcion":"Registra los enlaces de inicio y parada predeterminados del script SysV cron.","resultado_esperado":"Se crean los enlaces requeridos en los directorios de niveles de ejecución, si no estaban configurados."},
+    {"nombre":"Retirar enlaces de un script","comando":"sudo update-rc.d -f nombre-servicio remove","descripcion":"Fuerza la eliminación de los enlaces de inicio/parada de nombre-servicio después de comprobar que el sistema usa el esquema SysV.","resultado_esperado":"Se eliminan los enlaces rcN.d asociados; el script permanece en /etc/init.d."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_script", "niveles", "prioridad_inicio", "prioridad_parada"],
+    "validaciones": ["Confirmar que el host usa scripts SysV y que existe /etc/init.d/nombre_script.", "Revisar los enlaces actuales y dependencias antes de remove o -f; comprobar el resultado en /etc/rc*.d."],
     "rollback": null
   }
 }

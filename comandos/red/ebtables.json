@@ -1,7 +1,7 @@
 {
   "id": "ebtables",
   "nombre": "ebtables",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Configura reglas de filtrado de tramas Ethernet en puentes Linux mediante las cadenas de la tabla bridge de Netfilter.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "ebtables",
+    "principal": "ebtables [opciones] { -L | -A | -D | -I | -P | -F } [cadena] [regla]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-L, --list","argumento":"[cadena]","tipo":"string","requerido":false,"default":null,"valores":["INPUT","OUTPUT","FORWARD"],"descripcion":"Lista reglas de una cadena o de todas las cadenas.","conflictos":[],"requiere":[]},
+    {"flag":"-A, --append","argumento":"cadena","tipo":"string","requerido":false,"default":null,"valores":["INPUT","OUTPUT","FORWARD"],"descripcion":"Anade una regla al final de la cadena indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-D, --delete","argumento":"cadena regla","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Elimina una regla coincidente de la cadena indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-P, --policy","argumento":"cadena accion","tipo":"string","requerido":false,"default":null,"valores":["ACCEPT","DROP","RETURN"],"descripcion":"Establece la politica predeterminada de una cadena integrada.","conflictos":[],"requiere":[]},
+    {"flag":"-F, --flush","argumento":"[cadena]","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Vacía reglas de la cadena o tabla seleccionada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_ADMIN"],
+    "dependencias": ["soporte bridge Netfilter del kernel; ebtables"],
+    "paquetes": ["ebtables"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Reglas o politicas incorrectas pueden cortar conectividad de puente o dejar expuestas redes; guarde la configuracion antes de modificarla.",
+      "En sistemas modernos ebtables puede usar el backend nf_tables; verifique compatibilidad con nftables."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ebtables",
+      "arch_linux": "sudo pacman -S ebtables",
+      "rhel_centos": "sudo dnf install ebtables"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar reglas bridge","comando":"sudo ebtables -L --Lc","descripcion":"Consulta las reglas bridge actuales con contadores en el sistema propio.","resultado_esperado":"Se listan cadenas y reglas configuradas, sin cambiar el filtrado."},
+    {"nombre":"Consultar cadena FORWARD","comando":"sudo ebtables -L FORWARD","descripcion":"Muestra las reglas que procesan tramas reenviadas por puentes locales.","resultado_esperado":"Se imprimen las reglas de FORWARD o se indica que no hay reglas."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["cadena","regla"],
+    "validaciones": ["Guardar reglas actuales, validar la cadena y aplicar cambios con acceso de consola o mecanismo de recuperacion."],
     "rollback": null
   }
 }

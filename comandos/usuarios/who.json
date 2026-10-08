@@ -1,7 +1,7 @@
 {
   "id": "who",
   "nombre": "who",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra usuarios conectados según el registro utmp, con terminal, hora de inicio y, si está disponible, origen de conexión.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "who",
+    "principal": "who [opciones] [archivo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-H","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Imprime encabezados de columnas.","conflictos":[],"requiere":[]},
+    {"flag":"-b","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la hora del último arranque del sistema.","conflictos":[],"requiere":[]},
+    {"flag":"-q","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista solo nombres de usuario y el total de usuarios conectados.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye tiempo de inactividad y PID del proceso de inicio de sesión cuando están disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"-m","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra solo la sesión asociada a la entrada estándar/terminal actual en implementaciones compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra toda la información disponible en el registro utmp.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura del archivo utmp configurado; puede estar restringida"],
+    "dependencias": ["utmp, habitualmente /run/utmp"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La salida puede revelar usuarios, terminales y ubicaciones de origen; considera esto información sensible del sistema.",
+      "who depende de utmp y puede no informar sesiones de servicios que no registran allí."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido normalmente en GNU coreutils.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install coreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar sesiones con encabezados","comando":"who -H","descripcion":"Lista sesiones actuales y etiqueta las columnas para facilitar lectura.","resultado_esperado":"Muestra las filas disponibles en utmp con encabezados."},
+    {"nombre":"Consultar último arranque","comando":"who -b","descripcion":"Solicita la hora del último arranque registrada.","resultado_esperado":"Imprime la fecha/hora del arranque más reciente si utmp contiene esa entrada."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo_utmp"],
+    "validaciones": ["Comprobar si el sistema usa utmp y si el registro está actualizado.", "Proteger resultados que incluyan identidades u orígenes de sesión."],
     "rollback": null
   }
 }

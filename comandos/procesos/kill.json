@@ -1,7 +1,7 @@
 {
   "id": "kill",
   "nombre": "kill",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Envía una señal a uno o varios procesos identificados por PID; no necesariamente termina el proceso, pues la señal también puede solicitar recarga o pausa.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,122 @@
     ]
   },
   "sintaxis": {
-    "principal": "kill",
-    "alternativas": []
+    "principal": "kill [-s señal | -n número | -señal] PID...",
+    "alternativas": [
+      "kill -l [señal]",
+      "kill -L"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-s",
+      "argumento": "señal",
+      "tipo": "string",
+      "requerido": false,
+      "default": "TERM",
+      "valores": [],
+      "descripcion": "Envía la señal indicada por nombre o número.",
+      "conflictos": [
+        "-n",
+        "-señal"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": "número",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Envía la señal indicada por número.",
+      "conflictos": [
+        "-s",
+        "-señal"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-l",
+      "argumento": "[señal]",
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Lista los nombres de señales o traduce un número de señal a nombre.",
+      "conflictos": [
+        "PID"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-L",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Lista los nombres de señales disponibles en la implementación.",
+      "conflictos": [
+        "PID"
+      ],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": [
+      "El mismo usuario propietario del proceso o privilegios adecuados para señalizarlo."
+    ],
+    "dependencias": [
+      "En la mayoría de las shells kill es un builtin; la forma externa depende del sistema."
+    ],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Enviar señales cambia el estado del proceso; SIGTERM puede finalizarlo y SIGKILL no permite limpieza ordenada.",
+      "Compruebe el PID antes de actuar; los permisos limitan qué procesos se pueden señalizar."
     ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "builtin_de_shell_o_comando_del_sistema",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Solicitar terminación ordenada",
+      "comando": "kill -s TERM 1234",
+      "descripcion": "Envía SIGTERM al proceso con PID 1234 para que pueda cerrar ordenadamente.",
+      "resultado_esperado": "El proceso termina si maneja o acepta la señal; no se garantiza su finalización inmediata."
+    },
+    {
+      "nombre": "Consultar nombre de señal",
+      "comando": "kill -l 9",
+      "descripcion": "Traduce el número de señal 9 en su nombre en la shell compatible.",
+      "resultado_esperado": "Se muestra KILL, si la implementación reconoce ese número."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "senal",
+      "pid"
+    ],
+    "validaciones": [
+      "Confirmar que el PID pertenece al proceso previsto y sigue vigente.",
+      "Usar SIGKILL solo como último recurso y comprobar el resultado."
+    ],
     "rollback": null
   }
 }

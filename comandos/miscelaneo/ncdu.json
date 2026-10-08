@@ -1,7 +1,7 @@
 {
   "id": "ncdu",
   "nombre": "ncdu",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Analizador interactivo del uso de espacio en disco que recorre directorios y permite ordenar, inspeccionar y exportar resultados.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "ncdu",
+    "principal": "ncdu [opciones] [directorio]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-x", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No cruza límites entre sistemas de archivos durante el recorrido.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza la pantalla con menor frecuencia para reducir carga en terminales lentos.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Abre la interfaz en modo de solo lectura y deshabilita acciones de borrado.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Exporta los datos del análisis al archivo indicado en formato de ncdu.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Carga un archivo de análisis previamente exportado en lugar de recorrer el sistema.", "conflictos": [], "requiere": []},
+    {"flag": "--exclude", "argumento": "patrón", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Excluye rutas que coinciden con el patrón especificado.", "conflictos": [], "requiere": []},
+    {"flag": "--si", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra tamaños en unidades decimales (base 1000) en lugar de binarias.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
+    "permisos": ["Lectura de los directorios/archivos que se van a analizar; terminal interactiva para el navegador"],
     "dependencias": [],
     "paquetes": []
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "requiere_confirmacion": true,
+    "advertencias": ["La interfaz interactiva permite borrar archivos y directorios; use -r para inspección de solo lectura y confirme cuidadosamente cualquier eliminación. El recorrido consume E/S."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "ncdu",
+      "arch_linux": "ncdu",
+      "rhel_centos": "ncdu"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Analizar el directorio actual", "comando": "ncdu .", "descripcion": "Recorre el árbol desde el directorio actual y abre el navegador de uso de disco.", "resultado_esperado": "Interfaz ordenable con tamaños por directorio; q sale de la aplicación."},
+    {"nombre": "Analizar sin cruzar sistemas de archivos", "comando": "ncdu -x /home", "descripcion": "Analiza /home evitando entrar en otros sistemas de archivos montados debajo.", "resultado_esperado": "Interfaz con el uso del sistema de archivos que contiene /home."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Para automatización exporte con -o; use -r cuando el objetivo sea estrictamente inspeccionar y no modificar archivos."],
     "rollback": null
   }
 }

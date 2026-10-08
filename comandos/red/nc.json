@@ -1,7 +1,7 @@
 {
   "id": "nc",
   "nombre": "nc",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lee y escribe datos a traves de conexiones TCP o UDP, permitiendo comprobar puertos, crear oyentes sencillos y transferir flujos entre equipos autorizados.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "nc",
+    "principal": "nc [opciones] host puerto  |  nc -l [opciones] [puerto]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Escucha conexiones entrantes en el puerto indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra informacion detallada de conexion.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa direcciones numericas sin resolver nombres o servicios.","conflictos":[],"requiere":[]},
+    {"flag":"-z","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de sondeo: no envia datos y solo informa del resultado de conexion en implementaciones compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita el tiempo de espera de conexion/lectura en implementaciones compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa UDP en vez de TCP.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red; privilegios pueden ser necesarios para puertos privilegiados o captura"],
+    "dependencias": ["implementacion netcat (OpenBSD, GNU o Ncat)"],
+    "paquetes": ["netcat-openbsd o netcat-traditional; ncat en algunas distribuciones"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las variantes nc difieren en opciones y modo de escucha; consulte la ayuda local antes de automatizar.",
+      "Un listener expone un puerto y los datos se transmiten sin cifrado; vincule a loopback en pruebas locales y no envíe secretos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install netcat-openbsd",
+      "arch_linux": "sudo pacman -S openbsd-netcat",
+      "rhel_centos": "sudo dnf install nmap-ncat"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Comprobar puerto local","comando":"nc -vz 127.0.0.1 22","descripcion":"Intenta una conexion TCP breve al puerto SSH del propio equipo sin enviar datos.","resultado_esperado":"Indica si el puerto local acepta o rechaza conexiones; el codigo de salida refleja el resultado."},
+    {"nombre":"Escuchar solo en loopback","comando":"nc -l 127.0.0.1 9000","descripcion":"Abre un listener de prueba enlazado al loopback en variantes que aceptan esa sintaxis; finaliza con Ctrl+C.","resultado_esperado":"El proceso espera una conexion local en el puerto 9000 y muestra datos recibidos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["host_autorizado","puerto","timeout"],
+    "validaciones": ["Validar variante instalada y destino autorizado; limitar timeout, no exponer listeners a interfaces publicas y no enviar credenciales en claro."],
     "rollback": null
   }
 }

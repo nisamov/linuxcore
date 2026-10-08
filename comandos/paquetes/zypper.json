@@ -1,7 +1,7 @@
 {
   "id": "zypper",
   "nombre": "zypper",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz de gestión de paquetes de openSUSE y SUSE Linux Enterprise basada en libzypp. Administra paquetes RPM mediante repositorios, permite refrescar metadatos, instalar, eliminar, actualizar y realizar una actualización de distribución; no equivale a rpm ni a DNF.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "zypper",
+    "principal": "zypper [opciones] <comando> [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "refresh", "argumento": "[REPOSITORIO...]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza los metadatos de los repositorios configurados; no actualiza por sí solo los paquetes instalados.", "conflictos": [], "requiere": []},
+    {"flag": "install, in", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala paquetes desde repositorios habilitados y resuelve dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "remove, rm", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los paquetes indicados y evalúa los efectos sobre sus dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "search, se", "argumento": "TÉRMINO", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Busca paquetes en los metadatos disponibles.", "conflictos": [], "requiere": []},
+    {"flag": "update, up", "argumento": "[PAQUETE...]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza paquetes instalados según los repositorios configurados.", "conflictos": [], "requiere": []},
+    {"flag": "dist-upgrade, dup", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Realiza una actualización de distribución resolviendo cambios de dependencias; puede sustituir o eliminar paquetes.", "conflictos": [], "requiere": []},
+    {"flag": "--non-interactive, -n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No solicita confirmación interactiva; la resolución sigue las políticas de no interacción de zypper.", "conflictos": [], "requiere": []},
+    {"flag": "--no-recommends", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Evita instalar paquetes recomendados que no sean dependencias necesarias.", "conflictos": [], "requiere": ["install"]},
+    {"flag": "--dry-run", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Resuelve e informa la transacción prevista sin efectuar los cambios de paquetes.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, actualizar o eliminar paquetes"],
+    "dependencias": ["repositorios configurados en zypper", "conectividad de red para refrescar metadatos y descargar paquetes"],
+    "paquetes": ["zypper (incluido en openSUSE y SUSE Linux Enterprise)"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["dist-upgrade puede cambiar proveedores o eliminar paquetes; revisa la propuesta antes de continuar.", "--non-interactive elimina confirmaciones, no la necesidad de validar la transacción.", "Utiliza repositorios y comandos de actualización adecuados a la versión de SUSE instalada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Gestor nativo de openSUSE y SUSE Linux Enterprise, normalmente instalado por defecto.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Refrescar metadatos de repositorios", "comando": "sudo zypper refresh", "descripcion": "Actualiza los metadatos locales de los repositorios configurados.", "resultado_esperado": "zypper informa del estado de cada repositorio y de los metadatos actualizados."},
+    {"nombre": "Instalar htop sin paquetes recomendados", "comando": "sudo zypper install --no-recommends htop", "descripcion": "Instala htop y sus dependencias necesarias, omitiendo paquetes recomendados opcionales.", "resultado_esperado": "zypper presenta la transacción y, al confirmarla, instala htop desde un repositorio habilitado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirmar que el sistema es openSUSE o SUSE Linux Enterprise y revisar los repositorios habilitados.", "Probar con --dry-run las transacciones de actualización o eliminación de riesgo.", "En automatización, revisar el código de salida y registrar la transacción propuesta."],
     "rollback": null
   }
 }

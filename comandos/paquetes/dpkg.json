@@ -1,7 +1,7 @@
 {
   "id": "dpkg",
   "nombre": "dpkg",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Herramienta de bajo nivel para consultar y modificar la base de datos local de paquetes Debian .deb. Puede instalar un archivo .deb, pero no descarga ni resuelve automáticamente las dependencias desde repositorios; para eso se usa APT.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "dpkg",
+    "principal": "dpkg [opciones] <acción> [paquete|archivo.deb...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-i, --install", "argumento": "ARCHIVO.deb...", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Desempaqueta e instala archivos .deb locales; no obtiene dependencias faltantes de repositorios.", "conflictos": [], "requiere": []},
+    {"flag": "-r, --remove", "argumento": "PAQUETE...", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los archivos del paquete, manteniendo normalmente la configuración.", "conflictos": [], "requiere": []},
+    {"flag": "-P, --purge", "argumento": "PAQUETE...", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina el paquete y los archivos de configuración administrados por dpkg.", "conflictos": [], "requiere": []},
+    {"flag": "-l, --list", "argumento": "PATRÓN", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lista paquetes conocidos por la base de datos local, opcionalmente filtrados por patrón.", "conflictos": [], "requiere": []},
+    {"flag": "-L, --listfiles", "argumento": "PAQUETE", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lista los archivos registrados para un paquete instalado.", "conflictos": [], "requiere": []},
+    {"flag": "-S, --search", "argumento": "RUTA...", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca qué paquete instalado registra los archivos indicados.", "conflictos": [], "requiere": []},
+    {"flag": "--configure -a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Configura todos los paquetes desempaquetados que quedaron pendientes de configuración.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, eliminar o configurar paquetes"],
+    "dependencias": ["archivo .deb compatible con la arquitectura y versión del sistema para instalar localmente"],
+    "paquetes": ["dpkg"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La instalación directa con dpkg puede dejar dependencias sin configurar; usa apt install ./archivo.deb cuando necesites resolución desde repositorios.", "purge y remove modifican el sistema; inspecciona el nombre exacto del paquete.", "No interrumpas una transacción dpkg en curso."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Herramienta base del sistema de paquetes Debian; normalmente preinstalada en Debian y Ubuntu.",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "dpkg (normalmente preinstalado)",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar el estado de paquetes nginx", "comando": "dpkg -l 'nginx*'", "descripcion": "Lista los paquetes cuyo nombre coincide con nginx* en la base de datos local.", "resultado_esperado": "Muestra el estado y versión de los paquetes coincidentes; no consulta repositorios."},
+    {"nombre": "Instalar un archivo .deb local", "comando": "sudo dpkg -i ./paquete-local.deb", "descripcion": "Instala el archivo .deb indicado sin resolver desde repositorios las dependencias que falten.", "resultado_esperado": "El paquete se instala si sus dependencias están satisfechas; si no, dpkg informa de la configuración pendiente."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verificar arquitectura y origen del archivo .deb antes de instalarlo.", "Comprobar dpkg -l y el código de salida; usar APT para resolver dependencias.", "No automatizar purge sin una lista permitida de paquetes."],
     "rollback": null
   }
 }

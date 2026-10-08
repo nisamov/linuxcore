@@ -1,7 +1,7 @@
 {
   "id": "curl",
   "nombre": "curl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Transfiere datos hacia o desde servidores mediante URL y protocolos compatibles, con opciones para cabeceras, metodos, autenticacion, TLS y salida a archivo.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,23 @@
     ]
   },
   "sintaxis": {
-    "principal": "curl",
+    "principal": "curl [opciones] URL",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-I, --head","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Solicita solo las cabeceras de respuesta HTTP (HEAD).","conflictos":[],"requiere":[]},
+    {"flag":"-L, --location","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Sigue redirecciones HTTP.","conflictos":[],"requiere":[]},
+    {"flag":"-o, --output","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Escribe el cuerpo de la respuesta en el archivo indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-O, --remote-name","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Guarda el recurso con el nombre de archivo de la URL.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --silent","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Suprime el medidor de progreso y mensajes de error; combine con --show-error para conservar errores.","conflictos":[],"requiere":[]},
+    {"flag":"-X, --request","argumento":"metodo","tipo":"string","requerido":false,"default":null,"valores":["GET","HEAD","POST","PUT","DELETE"],"descripcion":"Indica el metodo de solicitud HTTP a utilizar.","conflictos":[],"requiere":[]},
+    {"flag":"-H, --header","argumento":"cabecera","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Agrega una cabecera a la solicitud; puede repetirse.","conflictos":[],"requiere":[]},
+    {"flag":"--connect-timeout","argumento":"segundos","tipo":"number","requerido":false,"default":null,"valores":[],"descripcion":"Limita el tiempo permitido para establecer la conexion.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["permisos de lectura/escritura para los archivos de entrada y salida"],
+    "dependencias": ["curl"],
+    "paquetes": ["curl"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +34,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "No use -k/--insecure en conexiones reales: desactiva la validacion del certificado TLS.",
+      "Las credenciales y cabeceras pueden quedar expuestas en historial o lista de procesos; evite incluir secretos literalmente."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install curl",
+      "arch_linux": "sudo pacman -S curl",
+      "rhel_centos": "sudo dnf install curl"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar cabeceras de servicio propio","comando":"curl -I https://example.com","descripcion":"Realiza una solicitud HEAD para revisar cabeceras HTTP del dominio de ejemplo.","resultado_esperado":"Muestra codigo de estado y cabeceras de respuesta."},
+    {"nombre":"Descargar documento","comando":"curl -L --output pagina.html https://example.com","descripcion":"Sigue redirecciones y guarda el cuerpo de la respuesta en pagina.html.","resultado_esperado":"Se crea o reemplaza pagina.html con el contenido descargado y curl devuelve un codigo de salida."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["URL","archivo_salida","tiempo_limite"],
+    "validaciones": ["Validar el esquema y dominio de la URL, el certificado TLS y permisos de escritura en el destino; comprobar el codigo de salida."],
     "rollback": null
   }
 }

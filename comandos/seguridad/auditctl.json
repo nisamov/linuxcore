@@ -1,7 +1,7 @@
 {
   "id": "auditctl",
   "nombre": "auditctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y configura reglas del subsistema Linux Audit; las reglas pueden ser temporales o persistentes según cómo se carguen.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,44 @@
     "principal": "auditctl",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista las reglas de auditoría cargadas.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": "ruta", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una regla de vigilancia de archivo o directorio; normalmente se combina con -p y -k.", "conflictos": [], "requiere": ["-p"]},
+    {"flag": "-p", "argumento": "permisos", "tipo": "string", "requerido": false, "default": null, "valores": ["r", "w", "x", "a"], "descripcion": "Indica permisos vigilados: lectura, escritura, ejecución o cambio de atributos.", "conflictos": [], "requiere": ["-w"]},
+    {"flag": "-k", "argumento": "clave", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Asocia una clave de búsqueda a la regla.", "conflictos": [], "requiere": []},
+    {"flag": "-D", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Elimina todas las reglas cargadas; operación de alto impacto.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_AUDIT_CONTROL (normalmente root) para modificar reglas; lectura de reglas depende de la política del sistema"],
+    "dependencias": ["Kernel con Linux Audit y servicio auditd activo para registrar eventos"],
+    "paquetes": ["auditd"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["-D elimina todas las reglas activas; registre la configuración actual antes de modificarla.", "Las reglas cargadas directamente pueden no sobrevivir al reinicio."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install auditd",
+      "arch_linux": "sudo pacman -S audit",
+      "rhel_centos": "sudo dnf install audit"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Listar reglas", "comando": "sudo auditctl -l", "descripcion": "Audita las reglas cargadas actualmente.", "resultado_esperado": "Muestra reglas activas o informa que no hay reglas."},
+    {"nombre": "Vigilar archivo de prueba", "comando": "sudo auditctl -w /tmp/archivo-auditoria -p wa -k prueba_local", "descripcion": "En un sistema propio, vigila escrituras y cambios de atributos del archivo de prueba.", "resultado_esperado": "La regla aparece con auditctl -l y genera eventos mientras esté cargada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta", "permisos_auditoria", "clave"],
+    "validaciones": ["Confirmar ruta y alcance de la regla, comprobar auditd y guardar la configuración vigente antes de cambiar reglas."],
     "rollback": null
   }
 }

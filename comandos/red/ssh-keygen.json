@@ -1,7 +1,7 @@
 {
   "id": "ssh-keygen",
   "nombre": "ssh-keygen",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Genera, administra y consulta claves de autenticacion SSH, huellas digitales y claves de host para el protocolo OpenSSH.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "ssh-keygen",
+    "principal": "ssh-keygen [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":"ed25519 recomendado","valores":["ed25519","ecdsa","rsa"],"descripcion":"Selecciona el tipo de clave que se genera.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":"archivo","tipo":"string","requerido":false,"default":"~/.ssh/id_ed25519","valores":[],"descripcion":"Define la ruta del archivo de clave de salida o entrada segun el modo.","conflictos":[],"requiere":[]},
+    {"flag":"-C","argumento":"comentario","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Agrega un comentario a la clave publica generada.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la huella de la clave publica indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lee una clave privada y emite su clave publica correspondiente.","conflictos":[],"requiere":[]},
+    {"flag":"-R","argumento":"host","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Elimina de known_hosts las claves asociadas al host indicado; revise antes por riesgo de suplantacion/ataque en curso.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["escritura en ~/.ssh para generar claves; lectura de clave para consultar"],
+    "dependencias": ["OpenSSH cliente"],
+    "paquetes": ["openssh-client (Debian/Ubuntu), openssh (Arch), openssh-clients (RHEL)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La clave privada autentica como el titular: use frase de paso, permisos restrictivos y nunca la comparta ni la copie a servidores.",
+      "No sobrescriba claves existentes sin respaldo; -R modifica known_hosts y no debe usarse para ocultar alertas de cambio de clave sin investigar."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_con_openssh_cliente",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install openssh-client",
+      "arch_linux": "sudo pacman -S openssh",
+      "rhel_centos": "sudo dnf install openssh-clients"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Generar clave Ed25519","comando":"ssh-keygen -t ed25519 -C 'usuario@equipo' -f ~/.ssh/id_ed25519","descripcion":"Genera una clave Ed25519 y solicita frase de paso de forma interactiva.","resultado_esperado":"Crea clave privada y archivo .pub; si el archivo ya existe, solicita confirmacion antes de sobrescribir."},
+    {"nombre":"Consultar huella publica","comando":"ssh-keygen -lf ~/.ssh/id_ed25519.pub","descripcion":"Calcula y muestra la huella de la clave publica local.","resultado_esperado":"Se imprime tipo y huella SHA256 de la clave indicada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["tipo_clave","ruta_clave","comentario"],
+    "validaciones": ["Comprobar existencia y propiedad de ruta antes de generar; conservar frase de paso fuera de argumentos y restringir permisos de la clave privada."],
     "rollback": null
   }
 }

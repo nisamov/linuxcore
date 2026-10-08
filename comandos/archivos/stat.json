@@ -1,7 +1,7 @@
 {
   "id": "stat",
   "nombre": "stat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra metadatos de archivos o sistemas de archivos, como tamaño, permisos, propietario, identificadores y marcas de tiempo.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "stat",
+    "principal": "stat [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-c", "argumento": "formato", "tipo": "string", "requerido": false, "default": "formato detallado", "valores": [], "descripcion": "Usa una cadena de formato personalizada para seleccionar campos de metadatos.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra información del sistema de archivos que contiene cada ruta.", "conflictos": [], "requiere": []},
+    {"flag": "-L", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Sigue enlaces simbólicos y muestra los metadatos de su destino.", "conflictos": ["-l"], "requiere": []},
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra la salida en forma concisa, adecuada para ciertas consultas automatizadas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de búsqueda en la ruta y acceso a metadatos; algunos atributos pueden depender de permisos."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los metadatos pueden cambiar entre la consulta y su uso; no los trate como una comprobación atómica de seguridad.", "El formato de salida predeterminado es para lectura humana; use formato explícito en scripts."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; habitualmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar metadatos detallados", "comando": "stat documento.txt", "descripcion": "Muestra tamaño, permisos, propietario, dispositivo y tiempos asociados al archivo.", "resultado_esperado": "Imprime un resumen de metadatos del archivo."},
+    {"nombre": "Consultar permisos y tamaño", "comando": "stat -c '%A %s %n' /etc/hosts", "descripcion": "Usa un formato explícito para mostrar permisos simbólicos, tamaño en bytes y ruta.", "resultado_esperado": "Imprime los tres campos solicitados en una línea."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "formato"],
+    "validaciones": ["Usar formato de salida explícito para automatización.", "Comprobar estado de salida para rutas inexistentes o inaccesibles.", "No basar decisiones críticas en metadatos susceptibles a cambios concurrentes."],
     "rollback": null
   }
 }

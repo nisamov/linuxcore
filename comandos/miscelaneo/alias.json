@@ -1,7 +1,7 @@
 {
   "id": "alias",
   "nombre": "alias",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Define, muestra o elimina alias del shell actual; un alias sustituye una palabra inicial de una orden por texto indicado.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,14 @@
     ]
   },
   "sintaxis": {
-    "principal": "alias",
+    "principal": "alias [-p] [nombre[=valor] ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-p", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Imprime los alias definidos en una forma reutilizable como entrada del shell.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "nombre=valor", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Define o reemplaza un alias en la sesión actual; el valor se expande al inicio de una orden posterior.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "nombre", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la definición del alias indicado; sin argumentos muestra todos los alias.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +28,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los alias afectan solo al shell actual y normalmente no se expanden en scripts no interactivos; no usar valores de alias de fuentes no confiables."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Builtin de Bash y otros shells; no se instala por separado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bash (incluido en el sistema)",
+      "arch_linux": "bash (incluido en el sistema)",
+      "rhel_centos": "bash (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear un alias para listar", "comando": "alias ll='ls -lah'", "descripcion": "Define ll como una abreviatura de ls con listado largo y archivos ocultos.", "resultado_esperado": "El alias queda disponible en la sesión interactiva actual."},
+    {"nombre": "Consultar alias", "comando": "alias ll", "descripcion": "Muestra la definición vigente del alias ll.", "resultado_esperado": "Imprime una línea con la asignación alias ll='ls -lah' o informa si no existe."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["El alias solo persiste durante la sesión salvo que se añada a un archivo de inicio del shell."],
     "rollback": null
   }
 }

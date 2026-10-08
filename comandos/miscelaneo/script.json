@@ -1,7 +1,7 @@
 {
   "id": "script",
   "nombre": "script",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Graba una sesión de terminal en un archivo de transcripción y, opcionalmente, registra tiempos para reproducir la interacción posteriormente.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "script",
+    "principal": "script [-a] [-c comando] [-f] [-q] [-e] [-t[=]archivo_tiempos] [archivo_transcripcion]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Añade la transcripción al archivo existente en lugar de sobrescribirlo.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": "comando", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Ejecuta únicamente el comando indicado en vez de iniciar un shell interactivo.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Vacía los búferes de salida después de cada escritura para mantener actualizado el archivo.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No muestra mensajes de inicio y finalización.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Devuelve el estado de salida del proceso hijo al finalizar.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": "archivo_tiempos", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Escribe datos de temporización para reproducir la sesión con scriptreplay.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "archivo_transcripcion", "tipo": "path", "requerido": false, "default": "typescript", "valores": [], "descripcion": "Archivo donde se guardará la transcripción de la terminal.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -21,29 +29,30 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La transcripción puede capturar comandos, tokens y resultados sensibles; almacénela con permisos adecuados. La grabación registra la salida de pantalla, no necesariamente las pulsaciones como un registro de auditoría seguro."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Parte de util-linux en la mayoría de las distribuciones Linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux (normalmente instalado)",
+      "arch_linux": "util-linux (normalmente instalado)",
+      "rhel_centos": "util-linux (normalmente instalado)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Grabar una sesión", "comando": "script sesion.typescript", "descripcion": "Inicia una shell y guarda la salida de terminal en el archivo indicado; use exit para terminar la grabación.", "resultado_esperado": "sesion.typescript contiene la transcripción de la sesión."},
+    {"nombre": "Grabar salida y tiempos", "comando": "script -t=tiempos.log sesion.log", "descripcion": "Guarda una transcripción junto con información temporal para su reproducción posterior.", "resultado_esperado": "Se crean sesion.log y tiempos.log, que pueden reproducirse con scriptreplay según la implementación."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe espacio y permisos de los archivos destino; no capture credenciales en una transcripción compartida."],
     "rollback": null
   }
 }

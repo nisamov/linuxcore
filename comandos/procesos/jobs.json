@@ -1,7 +1,7 @@
 {
   "id": "jobs",
   "nombre": "jobs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra los trabajos asociados a la shell actual, incluyendo su estado y, según opciones, PID u órdenes.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,123 @@
     ]
   },
   "sintaxis": {
-    "principal": "jobs",
+    "principal": "jobs [opciones] [especificación_trabajo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Incluye los PID de los procesos asociados a cada trabajo.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra únicamente los PID del líder del grupo de procesos de cada trabajo.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Limita la salida a los trabajos en ejecución.",
+      "conflictos": [
+        "-s"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Limita la salida a los trabajos detenidos.",
+      "conflictos": [
+        "-r"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra trabajos cuyo estado haya cambiado desde la última notificación.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": [
+      "Builtin de shell; solo conoce los trabajos de la shell actual."
+    ],
+    "dependencias": [
+      "Shell interactiva con control de trabajos"
+    ],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "No enumera necesariamente todos los procesos del sistema; lista solo trabajos administrados por esa shell.",
+      "Los PID pueden terminar o reutilizarse después de la consulta."
     ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "builtin_de_shell",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Listar trabajos con PID",
+      "comando": "jobs -l",
+      "descripcion": "Muestra los trabajos de la shell actual junto con PID.",
+      "resultado_esperado": "Identificadores de trabajo, estado, PID y orden asociada."
+    },
+    {
+      "nombre": "Listar solo trabajos detenidos",
+      "comando": "jobs -s",
+      "descripcion": "Filtra la tabla de trabajos para mostrar los que están suspendidos/detenidos.",
+      "resultado_esperado": "Listado de trabajos detenidos o salida vacía si no hay ninguno."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": [
+      "especificación_trabajo"
+    ],
+    "validaciones": [
+      "Ejecutar en la shell propietaria de los trabajos.",
+      "No tratar su salida como inventario completo de procesos del sistema."
+    ],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "pwuconv",
   "nombre": "pwuconv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "pwuconv no es un nombre de comando estándar de Linux conocido; podría ser una errata por pwunconv, que convierte /etc/shadow de vuelta al formato tradicional. Verifica la existencia y documentación del ejecutable local antes de usarlo.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -15,35 +15,39 @@
   },
   "parametros": [],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": ["No ejecutar hasta identificar y verificar el programa instalado"],
+    "dependencias": ["La disponibilidad depende de la distribución o paquete de terceros"],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "No se debe inferir el comportamiento por el nombre: un ejecutable local con este nombre podría ser ajeno al paquete shadow.",
+      "Si se pretendía usar pwunconv, su conversión puede exponer hashes en /etc/passwd; confirma el objetivo, consulta su manual local y protege copias y permisos."
     ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No hay una instalación estándar documentada para pwuconv. Para convertir shadow a passwd, verifica si la distribución proporciona pwunconv y consulta su manual.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Comprobar si existe un ejecutable local","comando":"command -v pwuconv","descripcion":"Busca pwuconv en el PATH sin asumir que forma parte de shadow.","resultado_esperado":"Devuelve la ruta si existe; si no, no imprime ruta y retorna estado distinto de cero."},
+    {"nombre":"Consultar alternativa estándar posible","comando":"man pwunconv","descripcion":"Comprueba la documentación local del comando estándar de shadow que podría haberse querido nombrar.","resultado_esperado":"Muestra el manual si pwunconv está instalado; no ejecuta conversión ni cambia archivos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["No ejecutar pwuconv sin confirmar el origen, el paquete y el manual del binario.", "Si se trata de pwunconv, respaldar y proteger /etc/passwd y /etc/shadow y evaluar el riesgo de exponer hashes."],
     "rollback": null
   }
 }

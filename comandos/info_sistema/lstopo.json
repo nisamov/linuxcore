@@ -1,7 +1,7 @@
 {
   "id": "lstopo",
   "nombre": "lstopo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Representa la topología de hardware y memoria visible para hwloc, incluyendo paquetes, núcleos, cachés, nodos NUMA y dispositivos de E/S.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "lstopo",
+    "principal": "lstopo [OPCIÓN]... [SALIDA]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--of","argumento":"formato","tipo":"string","requerido":false,"default":"console","valores":["console","ascii","png","svg","pdf","xml"],"descripcion":"Selecciona el formato de salida soportado por la compilación de hwloc.","conflictos":[],"requiere":[]},
+    {"flag":"--no-io","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite los dispositivos de E/S de la representación de topología.","conflictos":[],"requiere":[]},
+    {"flag":"--no-bridges","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite los puentes de E/S que conectan dispositivos.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Topología de hardware visible para hwloc; salida gráfica opcional según formato y compilación"],
+    "paquetes": ["hwloc"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["En máquinas virtuales la topología mostrada puede ser virtual o estar limitada por el hipervisor."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install hwloc",
+      "arch_linux": "sudo pacman -S hwloc",
+      "rhel_centos": "sudo dnf install hwloc"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar topología en consola","comando":"lstopo --of console","descripcion":"Imprime una representación textual de la topología detectada.","resultado_esperado":"Árbol de paquetes, núcleos, cachés, nodos NUMA y dispositivos visibles."},
+    {"nombre":"Exportar topología XML","comando":"lstopo --of xml topologia.xml","descripcion":"Guarda la descripción de topología en formato XML para procesarla con herramientas hwloc.","resultado_esperado":"Crea topologia.xml con la topología representada por hwloc."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["FORMATO_SALIDA", "ARCHIVO_SALIDA (opcional)"],
+    "validaciones": ["Verificar que el formato de salida esté habilitado en la versión instalada y que la ruta de destino sea escribible."],
     "rollback": null
   }
 }

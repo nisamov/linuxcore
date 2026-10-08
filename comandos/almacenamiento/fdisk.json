@@ -1,7 +1,7 @@
 {
   "id": "fdisk",
   "nombre": "fdisk",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra tablas de particiones MBR y GPT en dispositivos de bloques; los cambios solo se aplican al escribir la nueva tabla.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "fdisk",
+    "principal": "fdisk [opciones] dispositivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista las tablas de particiones de los dispositivos indicados o de los detectados.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"partición","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra el tamaño de la partición especificada en bloques.","conflictos":[],"requiere":[]},
+    {"flag":"-b","argumento":"tamaño","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Especifica el tamaño de sector en bytes para operaciones sobre una imagen o dispositivo, cuando se necesite.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"modo","tipo":"string","requerido":false,"default":"auto","valores":["auto","never","always"],"descripcion":"Controla el uso del color en la salida.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para listar; root o privilegios equivalentes para escribir cambios"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Escribir una tabla de particiones incorrecta puede hacer inaccesibles los datos o impedir el arranque. Haga una copia de seguridad y verifique el dispositivo y los límites antes de confirmar la escritura.",
+      "Evite editar particiones montadas o utilizadas; la tabla puede no ser releída mientras estén en uso."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar particiones de un disco","comando":"sudo fdisk -l /dev/sda","descripcion":"Muestra la tabla de particiones y tamaños del disco seleccionado sin entrar al modo de edición.","resultado_esperado":"Resumen del esquema de particiones, sectores y tipos detectados."},
+    {"nombre":"Abrir editor interactivo en solo lectura","comando":"sudo fdisk -l /dev/nvme0n1","descripcion":"Inspecciona la tabla GPT/MBR del disco indicado sin ejecutar operaciones de escritura.","resultado_esperado":"Información de particiones del dispositivo, si contiene una tabla reconocible."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo"],
+    "validaciones": ["Confirmar modelo, tamaño y ruta del dispositivo con herramientas de solo lectura antes de editar.","Asegurar copia de seguridad de tabla y datos y desmontar volúmenes afectados.","Revisar la tabla propuesta antes de ejecutar la orden de escritura."],
     "rollback": null
   }
 }

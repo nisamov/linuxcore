@@ -1,7 +1,7 @@
 {
   "id": "mget",
   "nombre": "mget",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Instruccion del cliente FTP que descarga varios archivos remotos, admitiendo patrones segun el cliente; no es un ejecutable independiente.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "mget",
+    "principal": "ftp> mget patron [patron ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"patron","argumento":"glob_remoto","tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Patron o nombre remoto de los archivos que se descargaran; puede repetirse.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["sesion FTP activa, permisos de lectura remota y escritura local"],
+    "dependencias": ["cliente FTP interactivo"],
+    "paquetes": ["ftp o inetutils-ftp, segun distribucion"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "FTP clasico no cifra credenciales ni archivos; prefiera SFTP/FTPS.",
+      "Los patrones pueden seleccionar mas archivos de los esperados; inspeccione el directorio y confirme sobrescrituras de archivos locales."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (parte del cliente FTP)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ftp",
+      "arch_linux": "sudo pacman -S inetutils",
+      "rhel_centos": "sudo dnf install ftp"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Descargar archivos de prueba","comando":"ftp> mget informe-*.txt","descripcion":"Descarga los archivos de texto que coincidan en el directorio remoto actual.","resultado_esperado":"El cliente transfiere los archivos coincidentes y puede solicitar confirmacion por archivo."},
+    {"nombre":"Descargar con confirmaciones","comando":"ftp> prompt\nftp> mget *.csv","descripcion":"Activa o desactiva el modo de confirmacion y descarga CSV coincidentes desde un servidor autorizado.","resultado_esperado":"El cliente pregunta por cada archivo si el modo interactivo de prompt queda habilitado."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["patron_remoto","directorio_local"],
+    "validaciones": ["Verificar el conjunto de archivos coincidentes, espacio disponible y autorizacion; no enviar credenciales sin cifrado."],
     "rollback": null
   }
 }

@@ -63,7 +63,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "`zless` suele instalarse como parte de gzip y necesita `less` para paginar; compruebe `command -v zless` y `command -v less`. Si faltan, instale gzip y less (Debian/Ubuntu: `sudo apt install gzip less`; Arch: `sudo pacman -S gzip less`; RHEL/CentOS: `sudo dnf install gzip less`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -85,7 +85,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que cada archivo exista, sea legible y contenga texto en un formato de compresión compatible con la instalación local; confirme que `zless` y el paginador `less` estén disponibles.", "Use rutas explícitas y evite pasar datos no confiables como opciones; si se necesita procesamiento no interactivo o salida reproducible, use un descompresor apropiado en vez del paginador interactivo.", "No envíe registros o contenido potencialmente sensible a terminales compartidas; confirme que el usuario tenga autorización para leer los archivos."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "sort",
   "nombre": "sort",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ordena líneas de texto según orden lexicográfico o criterios numéricos y de campos, con opciones para eliminar duplicados o combinar archivos ya ordenados.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "sort",
+    "principal": "sort [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Compara valores numéricos en vez de texto lexicográfico.", "conflictos": ["-g", "-h"], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Invierte el orden de comparación.", "conflictos": [], "requiere": []},
+    {"flag": "-k", "argumento": "inicio[,fin]", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Ordena usando el campo o rango de campos especificado.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": "separador", "tipo": "string", "requerido": false, "default": "transición no en blanco", "valores": [], "descripcion": "Usa el carácter indicado como separador de campos junto con -k.", "conflictos": [], "requiere": ["-k"]},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Emite solo una línea por cada grupo de líneas iguales según el criterio de ordenación.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "archivo_salida", "tipo": "path", "requerido": false, "default": "salida estándar", "valores": [], "descripcion": "Escribe el resultado en el archivo indicado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de las entradas y escritura en el destino especificado."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El resultado depende de la configuración regional; establezca LC_ALL=C para orden binario reproducible cuando sea apropiado.", "No use -o sobre una entrada sin comprender el comportamiento de la implementación y mantener respaldo.", "sort puede consumir espacio temporal para entradas grandes."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; sort normalmente viene preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Ordenar numéricamente", "comando": "sort -n puntuaciones.txt", "descripcion": "Ordena líneas interpretadas como números en orden ascendente.", "resultado_esperado": "Los valores aparecen ordenados numéricamente."},
+    {"nombre": "Ordenar por campo separado por dos puntos", "comando": "sort -t: -k3,3n /etc/passwd", "descripcion": "Ordena las entradas por el tercer campo numérico, usando dos puntos como delimitador.", "resultado_esperado": "Las líneas aparecen ordenadas por UID en orden numérico."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "campo", "separador", "locale"],
+    "validaciones": ["Elegir y fijar locale para resultados reproducibles.", "Comprobar el delimitador y el rango de campo con datos de muestra.", "Verificar espacio temporal suficiente para entradas grandes."],
     "rollback": null
   }
 }

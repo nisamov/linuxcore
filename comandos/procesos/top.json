@@ -1,7 +1,7 @@
 {
   "id": "top",
   "nombre": "top",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra en tiempo real una vista dinámica de procesos y estadísticas generales de CPU y memoria.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,87 @@
     ]
   },
   "sintaxis": {
-    "principal": "top",
+    "principal": "top [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-b",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Ejecuta en modo batch, adecuado para redirección o captura automatizada.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": "iteraciones",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Número de refrescos antes de salir; útil junto con -b.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-d",
+      "argumento": "segundos",
+      "tipo": "number",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el intervalo de actualización.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID[,PID...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Supervisa solo los PID indicados (procps-ng).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra procesos del usuario indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-H",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra hilos individuales además de procesos.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Lectura de procesos visibles; la visibilidad de otros usuarios depende de permisos y configuración."
+    ],
+    "dependencias": [
+      "/proc en Linux; terminal para modo interactivo"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +98,47 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La interfaz interactiva permite enviar señales y cambiar prioridades mediante teclas; una selección accidental puede afectar procesos.",
+      "Las líneas de órdenes visibles pueden contener información sensible. En scripts use -b -n para captura limitada."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Vista interactiva",
+      "comando": "top",
+      "descripcion": "Abre el monitor interactivo de procesos con refresco predeterminado.",
+      "resultado_esperado": "Pantalla actualizable con carga, CPU, memoria y procesos."
+    },
+    {
+      "nombre": "Capturar tres muestras",
+      "comando": "top -b -n 3 -d 1",
+      "descripcion": "Emite tres informes batch separados por un segundo y termina.",
+      "resultado_esperado": "Salida tabular de tres iteraciones, apropiada para redirección."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "idempotente": true,
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "intervalo",
+      "iteraciones",
+      "pid",
+      "usuario"
+    ],
+    "validaciones": [
+      "En automatización, especificar -b y un límite -n para evitar ejecución indefinida.",
+      "No enviar teclas de señalización o renice sin validar el proceso seleccionado."
+    ],
     "rollback": null
   }
 }

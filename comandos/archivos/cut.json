@@ -1,7 +1,7 @@
 {
   "id": "cut",
   "nombre": "cut",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Extrae secciones seleccionadas de cada línea de archivos o de la entrada estándar, por posición de bytes, caracteres o campos delimitados.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "cut",
+    "principal": "cut [opciones] [archivo...], cut -c lista [archivo...], cut -f lista [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-b", "argumento": "lista", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona posiciones de bytes indicadas por una lista de rangos.", "conflictos": ["-c", "-f"], "requiere": []},
+    {"flag": "-c", "argumento": "lista", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona posiciones de caracteres indicadas por una lista.", "conflictos": ["-b", "-f"], "requiere": []},
+    {"flag": "-f", "argumento": "lista", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona campos; los campos se separan por tabulador salvo que se use -d.", "conflictos": ["-b", "-c"], "requiere": []},
+    {"flag": "-d", "argumento": "delimitador", "tipo": "string", "requerido": false, "default": "tabulador", "valores": [], "descripcion": "Usa el carácter indicado como delimitador de campos junto con -f.", "conflictos": [], "requiere": ["-f"]},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Omite líneas que no contienen el delimitador, al seleccionar campos.", "conflictos": [], "requiere": ["-f"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos de entrada."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["cut trabaja con delimitadores simples, no con CSV entrecomillado ni separadores de longitud arbitraria.", "La numeración de bytes puede separar caracteres multibyte; prefiera -c para texto en locales multibyte."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Extraer una columna delimitada", "comando": "cut -d: -f1 /etc/passwd", "descripcion": "Extrae el primer campo separado por dos puntos de cada línea.", "resultado_esperado": "Imprime los nombres de usuario del archivo."},
+    {"nombre": "Seleccionar un rango de caracteres", "comando": "cut -c1-8 nombres.txt", "descripcion": "Imprime los ocho primeros caracteres de cada línea.", "resultado_esperado": "Cada línea queda reducida a sus posiciones 1 a 8."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "delimitador", "campos"],
+    "validaciones": ["Verificar que el formato de entrada use un delimitador simple compatible.", "Probar los rangos en líneas con casos límite."],
     "rollback": null
   }
 }

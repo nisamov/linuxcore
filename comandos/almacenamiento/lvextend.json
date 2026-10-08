@@ -1,7 +1,7 @@
 {
   "id": "lvextend",
   "nombre": "lvextend",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Amplía un volumen lógico LVM utilizando espacio libre del VG o PV; opcionalmente solicita ampliar también el sistema de archivos.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvextend",
+    "principal": "lvextend [opciones] LV|VG/LV [PV...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-L","argumento":"tamaño","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el tamaño final o el incremento del LV, según se use un valor absoluto o prefijo +.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":"extents","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el tamaño en extents o mediante porcentajes como +100%FREE.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Redimensiona también el sistema de archivos subyacente si la herramienta correspondiente lo permite.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de prueba sin actualizar metadatos.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Responde afirmativamente a preguntas de confirmación.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2; herramientas del sistema de archivos si se usa -r"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La ampliación modifica metadatos y reserva espacio del VG; un destino o tamaño incorrecto puede afectar la distribución del almacenamiento.",
+      "-r intenta redimensionar además el sistema de archivos, pero el soporte y requisitos dependen de su tipo. Confirme respaldo y espacio disponible."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular ampliación","comando":"sudo lvextend --test -L +5G /dev/vg_datos/archivos","descripcion":"Comprueba si se pueden añadir 5 GiB al LV sin actualizar metadatos.","resultado_esperado":"LVM informa si la operación sería posible."},
+    {"nombre":"Ampliar LV y sistema de archivos","comando":"sudo lvextend -r -L +5G /dev/vg_datos/archivos","descripcion":"Añade 5 GiB al LV y solicita ampliar el sistema de archivos compatible.","resultado_esperado":"Aumentan el LV y, si se admite, el tamaño del sistema de archivos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["lv", "incremento"],
+    "validaciones": ["Verificar el VG, espacio libre, sistema de archivos y tamaño final esperado.","Asegurar copia de seguridad y revisar salida de prueba antes de modificar."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "dmesg",
   "nombre": "dmesg",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lee y muestra mensajes del búfer de anillo del kernel, útiles para diagnosticar hardware, controladores y arranque.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,85 @@
     ]
   },
   "sintaxis": {
-    "principal": "dmesg",
+    "principal": "dmesg [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-T",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Intenta convertir marcas de tiempo a fechas legibles usando la hora actual; la conversión puede ser imprecisa.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Espera nuevos mensajes y los muestra a medida que aparecen.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-H",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa formato legible para humanos y paginación si está disponible.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-l",
+      "argumento": "nivel",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "emerg",
+        "alert",
+        "crit",
+        "err",
+        "warn",
+        "notice",
+        "info",
+        "debug"
+      ],
+      "descripcion": "Filtra por niveles de registro indicados por la implementación de util-linux.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra solo mensajes del kernel, opción disponible en versiones actuales de util-linux.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "La lectura puede estar restringida por kernel.dmesg_restrict; en tal caso se requieren privilegios."
+    ],
+    "dependencias": [
+      "Búfer de mensajes del kernel"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +96,44 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los mensajes pueden revelar detalles de hardware, rutas o información operativa; controle la difusión.",
+      "El contenido del búfer es limitado y puede no conservar mensajes antiguos; dmesg -C/-c modifica o limpia el búfer y no se incluye aquí."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Mostrar mensajes legibles",
+      "comando": "dmesg -T -H",
+      "descripcion": "Presenta mensajes con marcas de tiempo legibles y formato amigable si la terminal lo permite.",
+      "resultado_esperado": "Mensajes del kernel con nivel y marcas de tiempo convertidas cuando sea posible."
+    },
+    {
+      "nombre": "Seguir mensajes nuevos",
+      "comando": "dmesg -w",
+      "descripcion": "Mantiene la lectura abierta y muestra nuevos mensajes del kernel.",
+      "resultado_esperado": "Los mensajes nuevos aparecen hasta interrumpir el comando."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "nivel"
+    ],
+    "validaciones": [
+      "Manejar errores de acceso restringido sin asumir que la falta de salida indica ausencia de eventos.",
+      "Filtrar salida y no registrar mensajes sensibles innecesarios."
+    ],
     "rollback": null
   }
 }

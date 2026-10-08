@@ -1,7 +1,7 @@
 {
   "id": "nice",
   "nombre": "nice",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta un comando con un valor nice determinado, que influye en su prioridad relativa de CPU.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,32 @@
     ]
   },
   "sintaxis": {
-    "principal": "nice",
+    "principal": "nice [-n ajuste] comando [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-n",
+      "argumento": "ajuste",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 10,
+      "valores": [],
+      "descripcion": "Añade el ajuste al valor nice heredado; un ajuste positivo suele reducir la prioridad de CPU y uno negativo requiere privilegios adecuados.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Ejecutar el comando indicado; elevar prioridad mediante un ajuste negativo suele requerir root o CAP_SYS_NICE."
+    ],
+    "dependencias": [
+      "Planificador de procesos del kernel"
+    ],
+    "paquetes": [
+      "coreutils"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +43,46 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambia la prioridad de planificación del proceso iniciado y puede afectar el rendimiento de la carga.",
+      "No garantiza prioridad en tiempo real ni límites de CPU; los permisos restringen ajustes más favorables."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "normalmente_incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Ejecutar con prioridad reducida",
+      "comando": "nice -n 10 tar -cf archivo.tar directorio/",
+      "descripcion": "Inicia tar con un ajuste nice positivo para ceder prioridad relativa a otras tareas.",
+      "resultado_esperado": "Se ejecuta tar; el valor nice aplicado depende del valor heredado y la política del sistema."
+    },
+    {
+      "nombre": "Ejecutar una tarea ligera con ajuste predeterminado",
+      "comando": "nice comando_demo",
+      "descripcion": "Inicia el comando con el ajuste predeterminado de nice, habitualmente 10.",
+      "resultado_esperado": "El comando comienza con prioridad relativa menor que la normal si la implementación aplica ese valor."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "ajuste",
+      "comando",
+      "argumentos"
+    ],
+    "validaciones": [
+      "Comprobar que el comando existe y que el ajuste se encuentra dentro del rango permitido.",
+      "Capturar y verificar el código de salida del comando iniciado."
+    ],
     "rollback": null
   }
 }

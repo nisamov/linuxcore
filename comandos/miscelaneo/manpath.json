@@ -1,7 +1,7 @@
 {
   "id": "manpath",
   "nombre": "manpath",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra la lista de directorios donde las herramientas man buscan páginas de manual según la configuración y las variables de entorno.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,16 @@
     ]
   },
   "sintaxis": {
-    "principal": "manpath",
+    "principal": "manpath [-q] [-d] [-c] [-g] [-m sistema]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No muestra advertencias sobre rutas inexistentes o no legibles.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra información de diagnóstico sobre las rutas calculadas.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No usa la caché de rutas y recalcula el resultado.", "conflictos": [], "requiere": []},
+    {"flag": "-g", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Incluye rutas configuradas globalmente donde la implementación man-db lo admite.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": "sistema", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Incluye rutas de páginas para el sistema indicado en instalaciones multiarquitectura.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +30,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las opciones disponibles varían según la implementación de man-db y el archivo de configuración local."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Se instala como parte de man-db en la mayoría de las distribuciones.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "man-db",
+      "arch_linux": "man-db",
+      "rhel_centos": "man-db"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar rutas de manual", "comando": "manpath", "descripcion": "Calcula los directorios donde man busca páginas en la configuración actual.", "resultado_esperado": "Una lista de rutas separadas por dos puntos."},
+    {"nombre": "Consultar documentación de manpath", "comando": "man manpath", "descripcion": "Abre la página del manual instalada con detalles de las opciones de la implementación local.", "resultado_esperado": "Documentación mostrada en el paginador configurado, si la página está instalada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique opciones con manpath --help o la página de manual instalada; las banderas no son idénticas en todas las implementaciones."],
     "rollback": null
   }
 }

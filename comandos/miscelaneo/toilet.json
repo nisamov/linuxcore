@@ -1,7 +1,7 @@
 {
   "id": "toilet",
   "nombre": "toilet",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra texto grande en arte ASCII mediante fuentes FIGlet, con soporte adicional para filtros visuales de libcaca.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "toilet",
+    "principal": "toilet [-f fuente] [-d directorio] [-w ancho] [-F filtro] [texto ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-f", "argumento": "fuente", "tipo": "string", "requerido": false, "default": "default", "valores": [], "descripcion": "Selecciona una fuente FIGlet disponible.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": "directorio", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Busca fuentes en el directorio especificado.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": "ancho", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el ancho de salida en columnas.", "conflictos": [], "requiere": []},
+    {"flag": "-F", "argumento": "filtro", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Aplica uno o más filtros de libcaca (por ejemplo, gay o metal); la lista depende de la compilación.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra las fuentes disponibles.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "texto", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Texto que se convertirá en caracteres grandes.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los filtros disponibles y las opciones varían según la compilación de toilet y libcaca; consulte toilet --help en el sistema local."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución; algunas compilaciones incluyen libcaca.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "toilet",
+      "arch_linux": "toilet",
+      "rhel_centos": "toilet (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar texto grande", "comando": "toilet Linux", "descripcion": "Convierte el texto con la fuente predeterminada.", "resultado_esperado": "Representación ASCII grande de Linux."},
+    {"nombre": "Aplicar fuente y filtro", "comando": "toilet -f term -F metal 'Linux Core'", "descripcion": "Usa la fuente term y solicita el filtro visual metal si está compilado.", "resultado_esperado": "Texto grande con el filtro aplicado cuando la versión local admite ese filtro."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Consulte la lista de fuentes y filtros de la instalación local antes de automatizar opciones dependientes de la compilación."],
     "rollback": null
   }
 }

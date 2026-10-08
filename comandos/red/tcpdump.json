@@ -1,7 +1,7 @@
 {
   "id": "tcpdump",
   "nombre": "tcpdump",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Captura y analiza paquetes que atraviesan una interfaz de red o lee archivos pcap, con filtros BPF para limitar trafico observado.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "tcpdump",
+    "principal": "tcpdump [opciones] [expresion_BPF]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-i","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Captura en la interfaz indicada; any selecciona interfaces disponibles en Linux.","conflictos":[],"requiere":[]},
+    {"flag":"-n/-nn","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desactiva resolucion de nombres; -nn evita tambien convertir puertos a nombres de servicio.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"cuenta","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Termina tras capturar el numero indicado de paquetes.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"archivo_pcap","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Guarda paquetes capturados en un archivo pcap.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":"archivo_pcap","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee paquetes de un archivo pcap en vez de capturar en vivo.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"snaplen","tipo":"integer","requerido":false,"default":262144,"valores":[],"descripcion":"Define la cantidad maxima de bytes capturados por paquete.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Aumenta detalle de salida; puede repetirse.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_RAW para captura; CAP_NET_ADMIN puede ser necesario para modo promiscuo"],
+    "dependencias": ["libpcap"],
+    "paquetes": ["tcpdump"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las capturas pueden incluir credenciales, datos personales y contenido interno; capture solo redes propias/autorizadas y aplique filtros/minimizacion.",
+      "Proteja archivos pcap con permisos restrictivos y elimínelos de forma segura cuando ya no se necesiten."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install tcpdump",
+      "arch_linux": "sudo pacman -S tcpdump",
+      "rhel_centos": "sudo dnf install tcpdump"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Capturar trafico SSH local limitado","comando":"sudo tcpdump -i lo -nn -c 10 'tcp port 22'","descripcion":"Captura como maximo diez paquetes TCP del puerto 22 en loopback del propio equipo.","resultado_esperado":"Imprime paquetes que coinciden con el filtro y finaliza al alcanzar la cuenta."},
+    {"nombre":"Leer captura de laboratorio","comando":"tcpdump -nn -r laboratorio.pcap 'tcp port 443'","descripcion":"Inspecciona en modo lectura solo paquetes TCP/443 de un archivo propio.","resultado_esperado":"Decodifica encabezados coincidentes sin iniciar captura en vivo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz","filtro_BPF","cuenta","archivo_pcap"],
+    "validaciones": ["Verificar autorizacion, interfaz/filtro y espacio disponible; limitar duracion y permisos del archivo de captura."],
     "rollback": null
   }
 }

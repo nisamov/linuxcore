@@ -1,7 +1,7 @@
 {
   "id": "nl",
   "nombre": "nl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Numera líneas de archivos de texto con reglas configurables para numerar todas las líneas o solo las que no estén vacías.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "nl",
+    "principal": "nl [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-b", "argumento": "estilo", "tipo": "string", "requerido": false, "default": "t", "valores": ["a", "t", "n", "pREGEX"], "descripcion": "Define qué líneas se numeran: todas, no vacías, ninguna o las que coincidan con una expresión regular.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": "formato", "tipo": "string", "requerido": false, "default": "rn", "valores": ["ln", "rn", "rz"], "descripcion": "Alinea los números a la izquierda, derecha o derecha con ceros iniciales.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": "ancho", "tipo": "integer", "requerido": false, "default": 6, "valores": [], "descripcion": "Establece el ancho reservado para el número de línea.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": "separador", "tipo": "string", "requerido": false, "default": "tabulador", "valores": [], "descripcion": "Establece la cadena entre el número y el contenido de la línea.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre el archivo."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["nl genera una representación nueva en la salida estándar; no redirija sobre la entrada original.", "El formato de numeración se puede reiniciar según separadores de página especiales; consulte nl --help si requiere esos controles."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Numerar todas las líneas", "comando": "nl -b a notas.txt", "descripcion": "Añade un número a cada línea, incluidas las vacías.", "resultado_esperado": "El contenido aparece precedido por números de línea."},
+    {"nombre": "Numerar con ceros iniciales", "comando": "nl -b a -n rz -w 4 datos.txt", "descripcion": "Numera todas las líneas con un campo de cuatro caracteres alineado a la derecha y rellenado con ceros.", "resultado_esperado": "Los números aparecen con ancho fijo, por ejemplo 0001."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "estilo_numeración", "ancho"],
+    "validaciones": ["Comprobar legibilidad de la entrada.", "Elegir explícitamente si deben numerarse líneas vacías."],
     "rollback": null
   }
 }

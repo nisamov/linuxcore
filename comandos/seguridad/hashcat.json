@@ -1,7 +1,7 @@
 {
   "id": "hashcat",
   "nombre": "hashcat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Realiza pruebas de recuperación de contraseñas sobre hashes autorizados, usando modos, listas y recursos de cómputo configurables; utilícese solo para auditorías propias.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,7 +13,13 @@
     "principal": "hashcat",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-m", "argumento": "tipo_hash", "tipo": "integer", "requerido": true, "default": null, "valores": [], "descripcion": "Selecciona el modo de hash documentado por hashcat.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": "modo_ataque", "tipo": "integer", "requerido": true, "default": null, "valores": ["0", "1", "3", "6", "7"], "descripcion": "Selecciona modo de diccionario, combinación, máscara u otros modos soportados.", "conflictos": [], "requiere": []},
+    {"flag": "--show", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra resultados ya recuperados para el archivo de hashes indicado.", "conflictos": [], "requiere": []},
+    {"flag": "--potfile-path", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Usa un archivo potfile específico para resultados recuperados.", "conflictos": [], "requiere": []},
+    {"flag": "--session", "argumento": "nombre", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Asigna un nombre a la sesión para reanudarla posteriormente.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +30,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Use exclusivamente hashes propios o con autorización explícita; los archivos de hashes son credenciales sensibles.", "Una prueba intensiva puede consumir mucha energía y recursos o calentar hardware; establezca límites operativos adecuados."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install hashcat",
+      "arch_linux": "sudo pacman -S hashcat",
+      "rhel_centos": "sudo dnf install hashcat"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar resultados de laboratorio", "comando": "hashcat --show -m 0 ./hashes-propios.txt", "descripcion": "Muestra resultados previamente recuperados para hashes MD5 de un laboratorio propio.", "resultado_esperado": "Muestra coincidencias guardadas en el potfile si existen."},
+    {"nombre": "Ensayo acotado con lista local", "comando": "hashcat -m 0 -a 0 ./hashes-propios.txt ./lista-prueba.txt --session auditoria-local", "descripcion": "Ejecuta un ensayo solo contra hashes generados para pruebas propias y una lista local ficticia.", "resultado_esperado": "Muestra progreso y resultados de la sesión local; puede pausarse o reanudarse."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_hash_autorizado", "modo_hash", "lista_prueba", "sesion"],
+    "validaciones": ["Verificar autorización y formato de hashes de laboratorio, limitar duración/carga y proteger potfile y archivos de credenciales."],
     "rollback": null
   }
 }

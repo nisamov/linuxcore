@@ -1,7 +1,7 @@
 {
   "id": "unshare",
   "nombre": "unshare",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta un programa en nuevos espacios de nombres Linux, aislando selectivamente recursos como montaje, red, PID, usuario o UTS.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,160 @@
     ]
   },
   "sintaxis": {
-    "principal": "unshare",
+    "principal": "unshare [opciones] [programa [argumentos...]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "--mount",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Crea un espacio de nombres de montajes.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--uts",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Crea un espacio de nombres UTS para nombre de host y dominio NIS.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--net",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Crea un espacio de nombres de red separado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--pid",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Crea un espacio de nombres PID; para que el programa sea su PID 1 suele combinarse con --fork.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--fork",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Crea un proceso hijo antes de ejecutar el programa, útil junto con --pid.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--user",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Crea un espacio de nombres de usuario; las asignaciones de UID/GID requieren configuración compatible.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--map-root-user",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Mapea el usuario actual como UID 0 dentro del nuevo espacio de nombres de usuario.",
+      "conflictos": [],
+      "requiere": [
+        "--user"
+      ]
+    },
+    {
+      "flag": "--mount-proc",
+      "argumento": "directorio",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Monta procfs en el directorio indicado; se usa normalmente dentro de un nuevo espacio PID.",
+      "conflictos": [],
+      "requiere": [
+        "--pid"
+      ]
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Crear espacios de nombres depende de capacidades, configuración del kernel y restricciones de usuario no privilegiado; algunas combinaciones requieren root/CAP_SYS_ADMIN."
+    ],
+    "dependencias": [
+      "Kernel Linux con soporte de namespaces; util-linux"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambia el contexto de ejecución del comando y puede aislar red o montajes; el aislamiento no equivale por sí solo a un contenedor seguro.",
+      "Un namespace puede obtener privilegios aparentes dentro de su ámbito; evite ejecutar cargas no confiables sin controles adicionales."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Probar nombre de host aislado",
+      "comando": "unshare --uts sh -c 'hostname demo-aislado; hostname'",
+      "descripcion": "Ejecuta una shell en un namespace UTS y cambia el nombre de host solo dentro de ese contexto, si se permite crear el namespace.",
+      "resultado_esperado": "La shell muestra demo-aislado; el hostname del host permanece sin cambios."
+    },
+    {
+      "nombre": "Crear namespace de usuario no privilegiado",
+      "comando": "unshare --user --map-root-user id",
+      "descripcion": "Intenta ejecutar id en un namespace de usuario con el usuario actual mapeado a UID 0 dentro del namespace.",
+      "resultado_esperado": "Se muestra UID 0 dentro del namespace, o un error si el kernel/distribución lo prohíbe."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "opciones_namespace",
+      "programa",
+      "argumentos"
+    ],
+    "validaciones": [
+      "Consultar soporte y política de namespaces del kernel; manejar errores por falta de privilegios.",
+      "Limitar capacidades, montajes, red y sistema de archivos del proceso según el modelo de amenaza."
+    ],
     "rollback": null
   }
 }

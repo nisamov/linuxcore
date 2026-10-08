@@ -1,7 +1,7 @@
 {
   "id": "dig",
   "nombre": "dig",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Realiza consultas DNS y muestra respuestas, registros, servidores autoritativos y datos de depuracion del resolutor.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "dig",
+    "principal": "dig [@servidor] nombre [tipo] [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"@servidor","argumento":"host_o_IP","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Consulta al servidor DNS indicado en lugar del configurado localmente.","conflictos":[],"requiere":[]},
+    {"flag":"+short","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra una respuesta abreviada, normalmente solo los datos del registro.","conflictos":[],"requiere":[]},
+    {"flag":"+noall","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desactiva las secciones de salida; suele combinarse con +answer.","conflictos":[],"requiere":[]},
+    {"flag":"+answer","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la seccion de respuesta DNS.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":"direccion_IP","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Realiza una consulta DNS inversa para la direccion IP indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":"A","valores":["A","AAAA","MX","NS","TXT","CNAME","PTR"],"descripcion":"Selecciona el tipo de registro DNS que se consultara.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red al servidor DNS"],
+    "dependencias": ["bind-utils / dnsutils"],
+    "paquetes": ["dnsutils (Debian/Ubuntu), bind-utils (RHEL), bind (Arch)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las consultas generan trafico DNS y los servidores pueden registrar las solicitudes; limite las pruebas a nombres necesarios.",
+      "Los tipos admitidos dependen de la implementacion y del servidor DNS."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install dnsutils",
+      "arch_linux": "sudo pacman -S bind",
+      "rhel_centos": "sudo dnf install bind-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar registro A","comando":"dig example.com A +short","descripcion":"Obtiene direcciones IPv4 publicadas para el dominio de ejemplo.","resultado_esperado":"Muestra una o mas direcciones IPv4, o salida vacia si no hay registro A."},
+    {"nombre":"Consulta inversa local autorizada","comando":"dig -x 192.0.2.10 +noall +answer","descripcion":"Consulta el registro PTR para una direccion de documentacion reservada.","resultado_esperado":"Muestra la respuesta PTR si existe."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre","tipo","servidor_DNS"],
+    "validaciones": ["Validar nombre, tipo de consulta y disponibilidad del servidor DNS; manejar respuestas NXDOMAIN y timeout."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "scp",
   "nombre": "scp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Copia archivos entre sistemas locales y remotos mediante SSH; las versiones actuales usan normalmente el protocolo SFTP sobre la conexion SSH.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "scp",
+    "principal": "scp [opciones] origen destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Copia directorios recursivamente.","conflictos":[],"requiere":[]},
+    {"flag":"-P","argumento":"puerto","tipo":"integer","requerido":false,"default":22,"valores":[],"descripcion":"Selecciona el puerto SSH remoto (mayuscula P).","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Conserva tiempos de modificacion, acceso y modos del archivo fuente.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":"archivo_clave","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Usa el archivo de identidad SSH indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-C","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa compresion durante la transferencia.","conflictos":[],"requiere":[]},
+    {"flag":"-J","argumento":"host_salto","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Conecta al host destino a traves de un host de salto SSH.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso SSH, permisos de lectura en origen y escritura en destino"],
+    "dependencias": ["OpenSSH cliente en origen y servidor SSH en el remoto"],
+    "paquetes": ["openssh-client (Debian/Ubuntu), openssh (Arch), openssh-clients (RHEL)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Verifique cuidadosamente origen y destino; scp puede sobrescribir archivos del destino.",
+      "Autentique la clave del host remoto y proteja claves privadas; no desactive la verificacion de host para evitar errores."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_con_openssh_cliente",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install openssh-client",
+      "arch_linux": "sudo pacman -S openssh",
+      "rhel_centos": "sudo dnf install openssh-clients"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Copiar archivo a servidor propio","comando":"scp ./reporte.txt usuario@servidor-propio:/tmp/reporte.txt","descripcion":"Copia un archivo local a una ruta de un servidor administrado por el usuario.","resultado_esperado":"Tras autenticar y verificar la clave host, el archivo queda en la ruta remota."},
+    {"nombre":"Descargar archivo de host autorizado","comando":"scp usuario@servidor-propio:/var/tmp/salida.log ./salida.log","descripcion":"Copia un archivo remoto de una cuenta autorizada al directorio local.","resultado_esperado":"El archivo se guarda localmente si la autenticacion y permisos son correctos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["origen","destino","usuario","host","puerto"],
+    "validaciones": ["Validar rutas remotas, espacio/permisos, identidad del host y manejo seguro de claves; evitar sobrescritura involuntaria."],
     "rollback": null
   }
 }

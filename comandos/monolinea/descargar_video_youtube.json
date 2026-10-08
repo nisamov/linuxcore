@@ -1,7 +1,7 @@
 {
   "id": "descargar_video_youtube",
   "nombre": "Descargar video de YouTube",
-  "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
+  "descripcion": "Solicita a yt-dlp el video indicado de YouTube y guarda los medios descargados en el directorio actual. Requiere acceso de red y puede depender de herramientas externas disponibles en el sistema.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "yt-dlp https://...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "url_video",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "URL del video de YouTube que yt-dlp debe consultar y descargar.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +39,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Realiza conexiones de red con YouTube y descarga contenido al directorio actual; descargue únicamente material que tenga derecho a conservar y respete las condiciones del servicio."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Requiere que yt-dlp esté instalado y disponible; instálelo únicamente desde una fuente de confianza adecuada a su sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "yt-dlp https://...",
       "descripcion": "Descarga un video de YouTube utilizando yt-dlp",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Descargar un video autorizado con nombre basado en metadatos",
+      "comando": "yt-dlp -o '%(title)s.%(ext)s' 'https://www.youtube.com/watch?v=VIDEO_ID'",
+      "descripcion": "Descarga el video indicado y construye el nombre del archivo a partir de los metadatos disponibles.",
+      "resultado_esperado": "yt-dlp guarda el contenido autorizado con un nombre basado en su título y extensión."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique que yt-dlp proviene de una fuente confiable y está actualizado.", "Confirme que la URL pertenece al sitio esperado, que el contenido es de una fuente confiable y que tiene autorización para descargarlo.", "Compruebe el directorio de salida, el espacio libre y que el nombre generado no sobrescriba archivos importantes."] ,
     "rollback": null
   }
 }

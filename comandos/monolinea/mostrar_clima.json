@@ -1,7 +1,7 @@
 {
   "id": "mostrar_clima",
   "nombre": "Mostrar clima",
-  "descripcion": "Muestra la informacion del clima para la ubicacion actual",
+  "descripcion": "Consulta wttr.in mediante HTTPS/curl y muestra en la terminal el pronóstico asociado a la ubicación inferida por el servicio a partir de la conexión. Necesita conectividad de red.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "curl wttr.in",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "ubicacion",
+      "tipo": "string",
+      "requerido": false,
+      "default": "ubicación inferida por wttr.in",
+      "valores": [],
+      "descripcion": "Ciudad o ubicación opcional que puede añadirse a la URL del servicio; sin ella wttr.in determina una ubicación aproximada a partir de la conexión.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +39,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Realiza una solicitud de red a wttr.in y el servicio puede inferir la ubicación aproximada a partir de la dirección IP pública; no envíe ubicaciones sensibles."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Requiere curl instalado y acceso de red al servicio wttr.in; use la implementación curl disponible en el sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "curl wttr.in",
       "descripcion": "Muestra la informacion del clima para la ubicacion actual",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Consultar el clima para una ubicación indicada",
+      "comando": "curl 'https://wttr.in/Madrid?format=3'",
+      "descripcion": "Solicita un resumen del clima para la ubicación configurada explícitamente como Madrid.",
+      "resultado_esperado": "El servicio devuelve un resumen meteorológico breve para Madrid si está disponible."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que curl está disponible y que hay conectividad HTTPS con wttr.in.", "Configure una ciudad o ubicación válida en la URL; no dependa de geolocalización implícita si el servicio no puede determinar la ubicación.", "Considere que la consulta revela al servicio remoto la ubicación solicitada y no envíe datos sensibles."] ,
     "rollback": null
   }
 }

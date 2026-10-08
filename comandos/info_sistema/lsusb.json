@@ -1,7 +1,7 @@
 {
   "id": "lsusb",
   "nombre": "lsusb",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista los dispositivos USB conectados y permite mostrar descriptores, jerarquía de buses y datos identificativos disponibles.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsusb",
+    "principal": "lsusb [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la jerarquía física de buses USB en forma de árbol.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra descriptores detallados de los dispositivos.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"[vendor]:[product]","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la lista a un identificador hexadecimal de fabricante y, opcionalmente, producto.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"[[bus]:][device]","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona un dispositivo por número de bus y/o dispositivo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Interfaz USB del kernel y base usb.ids para nombres descriptivos"],
+    "paquetes": ["usbutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los identificadores y descriptores disponibles dependen de permisos de acceso y de la base de datos usb.ids instalada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en usbutils (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "usbutils",
+      "arch_linux": "usbutils",
+      "rhel_centos": "usbutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar dispositivos USB","comando":"lsusb","descripcion":"Lista los dispositivos USB detectados con sus identificadores de bus y dispositivo.","resultado_esperado":"Una línea por dispositivo con ID de fabricante/producto y descripción disponible."},
+    {"nombre":"Ver topología de buses","comando":"lsusb -t","descripcion":"Muestra puertos, hubs y dispositivos organizados por bus USB.","resultado_esperado":"Árbol de buses con clases, velocidades e identificadores de puerto."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ID_FABRICANTE (opcional)", "ID_PRODUCTO (opcional)", "BUS (opcional)", "DISPOSITIVO (opcional)"],
+    "validaciones": ["Para automatización, comparar identificadores numéricos y no depender solo de los nombres descriptivos."],
     "rollback": null
   }
 }

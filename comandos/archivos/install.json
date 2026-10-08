@@ -1,7 +1,7 @@
 {
   "id": "install",
   "nombre": "install",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Copia archivos a destinos aplicando permisos, propietario y grupo especificados; también puede crear directorios con dichos atributos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "install",
+    "principal": "install [opciones] origen... destino, install -d [opciones] directorio...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Crea directorios en vez de copiar archivos.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": "modo", "tipo": "mode", "requerido": false, "default": "755", "valores": [], "descripcion": "Establece los permisos del destino usando modo simbólico u octal.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "usuario", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el propietario del destino; normalmente requiere privilegios adecuados.", "conflictos": [], "requiere": []},
+    {"flag": "-g", "argumento": "grupo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el grupo del destino.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra información de cada directorio o archivo creado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura del origen y escritura en destino; root o capacidades adecuadas para asignar propietarios arbitrarios."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["install puede sobrescribir un destino existente; verifique las rutas.", "Establecer permisos amplios o propietarios incorrectos puede exponer datos o romper servicios."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Instalar archivo con permisos", "comando": "install -m 0644 plantilla.conf /etc/miapp.conf", "descripcion": "Copia la plantilla al destino aplicando permisos de lectura para todos y escritura para el propietario.", "resultado_esperado": "Se crea /etc/miapp.conf con modo 0644 si hay permisos suficientes."},
+    {"nombre": "Crear jerarquía de directorios", "comando": "install -d -m 0750 /srv/miapp/datos", "descripcion": "Crea los directorios padres que falten y aplica el modo indicado.", "resultado_esperado": "La jerarquía existe con permisos 0750 en el directorio creado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["origen", "destino", "modo", "usuario", "grupo"],
+    "validaciones": ["Validar origen, destino y modo antes de copiar.", "Comprobar privilegios y existencia de usuario/grupo al fijar propietario.", "No asumir que la operación es reversible si se sobrescribe un archivo."],
     "rollback": null
   }
 }

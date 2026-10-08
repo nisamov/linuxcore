@@ -1,7 +1,7 @@
 {
   "id": "mput",
   "nombre": "mput",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Instruccion del cliente FTP que envia varios archivos locales al directorio remoto actual, admitiendo patrones segun el cliente; no es un ejecutable independiente.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "mput",
+    "principal": "ftp> mput patron [patron ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"patron","argumento":"glob_local","tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Patron o nombre local de archivos que se enviaran; puede repetirse.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["sesion FTP activa, lectura local y permiso de escritura remoto"],
+    "dependencias": ["cliente FTP interactivo"],
+    "paquetes": ["ftp o inetutils-ftp, segun distribucion"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La transferencia FTP clasica no cifra archivos ni credenciales; prefiera SFTP/FTPS.",
+      "mput puede crear o sobrescribir muchos archivos remotos; confirme el destino y el patron antes de ejecutarlo."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (parte del cliente FTP)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ftp",
+      "arch_linux": "sudo pacman -S inetutils",
+      "rhel_centos": "sudo dnf install ftp"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Enviar archivos de laboratorio","comando":"ftp> mput informe-*.txt","descripcion":"Sube archivos locales coincidentes al directorio remoto de una cuenta autorizada.","resultado_esperado":"El cliente transfiere los archivos seleccionados y muestra el progreso/resultado."},
+    {"nombre":"Subir archivo con confirmacion","comando":"ftp> put reporte.txt","descripcion":"Desde la sesion FTP envia un unico archivo local de forma controlada.","resultado_esperado":"Se informa de la transferencia y del nombre remoto resultante."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["patron_local","directorio_remoto"],
+    "validaciones": ["Revisar archivos seleccionados, destino remoto y riesgo de sobrescritura; limitar la sesion a un servidor autorizado."],
     "rollback": null
   }
 }

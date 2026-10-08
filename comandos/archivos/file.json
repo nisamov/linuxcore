@@ -1,7 +1,7 @@
 {
   "id": "file",
   "nombre": "file",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Determina el tipo de uno o más archivos inspeccionando su contenido y metadatos, sin depender únicamente de la extensión del nombre.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "file",
+    "principal": "file [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Omite los nombres de archivo en la salida.", "conflictos": [], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra el tipo MIME en vez de una descripción textual habitual.", "conflictos": [], "requiere": []},
+    {"flag": "-L", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Sigue enlaces simbólicos y clasifica el archivo al que apuntan.", "conflictos": ["-h"], "requiere": []},
+    {"flag": "-h", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Clasifica el enlace simbólico en lugar de seguirlo.", "conflictos": ["-L"], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura para inspeccionar el contenido; acceso a la ruta."],
+    "dependencias": ["File y su base de firmas magic."],
+    "paquetes": ["file"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La clasificación es heurística y no demuestra que el archivo sea seguro ni que su contenido coincida con la extensión.", "La opción -i puede revelar tipos de datos al registrar la salida."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar el paquete file mediante el gestor de paquetes de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "file",
+      "arch_linux": "file",
+      "rhel_centos": "file"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Identificar formato", "comando": "file respaldo.tar", "descripcion": "Inspecciona el archivo y presenta una descripción del tipo detectado.", "resultado_esperado": "Muestra el nombre y una clasificación probable del contenido."},
+    {"nombre": "Consultar tipo MIME", "comando": "file -i imagen.png", "descripcion": "Solicita el tipo MIME y la codificación detectada del archivo.", "resultado_esperado": "Imprime un valor similar a image/png; charset=binary."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo"],
+    "validaciones": ["Comprobar el estado de salida para archivos inaccesibles.", "No usar la clasificación como única validación de seguridad."],
     "rollback": null
   }
 }

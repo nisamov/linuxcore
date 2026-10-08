@@ -1,7 +1,7 @@
 {
   "id": "zgrep",
   "nombre": "zgrep",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca patrones en archivos comprimidos gzip sin requerir descompresión manual previa; pertenece al conjunto de herramientas gzip y acepta opciones comunes de búsqueda.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "zgrep",
+    "principal": "zgrep [opciones_grep] patrón [archivo.gz...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ignora diferencias entre mayúsculas y minúsculas.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra números de línea para las coincidencias.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra líneas que no coinciden con el patrón.", "conflictos": [], "requiere": []},
+    {"flag": "-E", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Interpreta el patrón como expresión regular extendida cuando la versión de zgrep lo admite.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": "patrón", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Indica explícitamente el patrón que se buscará.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura de archivos comprimidos."],
+    "dependencias": ["gzip y la implementación grep usada por el wrapper zgrep."],
+    "paquetes": ["gzip"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La compatibilidad de opciones varía entre implementaciones de zgrep; consulte zgrep --help.", "Algunas implementaciones pueden crear archivos temporales al buscar; use entradas confiables y permisos restrictivos.", "La salida puede revelar datos sensibles del contenido comprimido."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar gzip desde el gestor de paquetes; zgrep suele incluirse en ese paquete.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "gzip",
+      "arch_linux": "gzip",
+      "rhel_centos": "gzip"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar texto con números de línea", "comando": "zgrep -n 'ERROR' aplicación.log.gz", "descripcion": "Busca ERROR dentro del archivo gzip e imprime los números de línea de coincidencia.", "resultado_esperado": "Muestra cada línea comprimida que contiene el patrón, junto con su número."},
+    {"nombre": "Buscar ignorando mayúsculas", "comando": "zgrep -i 'timeout' *.gz", "descripcion": "Busca timeout sin distinguir mayúsculas en los archivos gzip coincidentes.", "resultado_esperado": "Imprime las líneas coincidentes y, para varios archivos, sus nombres según la implementación."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["patrón", "archivo_comprimido"],
+    "validaciones": ["Confirmar opciones compatibles con la versión de zgrep.", "Distinguir ausencia de coincidencias de errores de lectura.", "Controlar exposición de contenido en la salida y registros."],
     "rollback": null
   }
 }

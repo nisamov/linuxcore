@@ -1,7 +1,7 @@
 {
   "id": "httrack",
   "nombre": "httrack",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Copia sitios web para navegacion sin conexion siguiendo enlaces y recursos permitidos, con opciones de alcance, filtros, destino y limites de transferencia.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,20 @@
     ]
   },
   "sintaxis": {
-    "principal": "httrack",
+    "principal": "httrack URL [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-O","argumento":"ruta_base nombre_proyecto","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Define el directorio base y nombre del proyecto de copia local.","conflictos":[],"requiere":[]},
+    {"flag":"-rN","argumento":"profundidad","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita la profundidad de recursividad a N niveles.","conflictos":[],"requiere":[]},
+    {"flag":"-AN","argumento":"bytes_por_segundo","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita la tasa maxima de transferencia en bytes por segundo.","conflictos":[],"requiere":[]},
+    {"flag":"-w, --mirror","argumento":null,"tipo":"boolean","requerido":false,"default":true,"valores":[],"descripcion":"Realiza una copia espejo del sitio; es la accion predeterminada.","conflictos":[],"requiere":[]},
+    {"flag":"+*.ext","argumento":"patron","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Incluye patrones de URL/archivo segun la sintaxis de filtros de HTTrack.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["salida de red y permisos de escritura en el directorio del proyecto"],
+    "dependencias": ["httrack"],
+    "paquetes": ["httrack"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +31,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Copiar un sitio puede generar carga y descargar grandes cantidades de contenido; obtenga autorizacion y respete robots.txt, terminos y derechos aplicables.",
+      "Restrinja alcance y velocidad; no intente eludir autenticacion, controles de acceso o limites del sitio."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install httrack",
+      "arch_linux": "sudo pacman -S httrack",
+      "rhel_centos": "sudo dnf install httrack"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Copiar sitio propio con profundidad limitada","comando":"httrack https://example.com -O ./copias sitio-ejemplo -r2","descripcion":"Guarda una copia limitada a dos niveles en el directorio local indicado.","resultado_esperado":"HTTrack crea un proyecto local y descarga recursos accesibles dentro del alcance limitado."},
+    {"nombre":"Comprobar enlaces de sitio propio","comando":"httrack --spider https://sitio-propio.example","descripcion":"Ejecuta el modo spider de HTTrack sobre un sitio de ejemplo que debe sustituirse por un sitio propio autorizado.","resultado_esperado":"Informa de enlaces/errores encontrados y guarda el registro de la comprobacion."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["URL_autorizada","ruta_salida","profundidad"],
+    "validaciones": ["Confirmar propiedad/autorizacion del sitio, fijar limite de profundidad y velocidad, revisar espacio en disco y alcance de URLs."],
     "rollback": null
   }
 }

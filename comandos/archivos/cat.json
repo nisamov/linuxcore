@@ -1,7 +1,7 @@
 {
   "id": "cat",
   "nombre": "cat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Concatena archivos y los escribe en la salida estándar; se usa para mostrar texto breve o alimentar otras herramientas por tuberías.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "cat",
+    "principal": "cat [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Numera todas las líneas de salida, incluidas las vacías.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Numera solo las líneas no vacías.", "conflictos": [], "requiere": []},
+    {"flag": "-A", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra caracteres no imprimibles y marca finales de línea y tabulaciones.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime líneas vacías repetidas consecutivas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos de entrada."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No redirija la salida al mismo archivo de entrada: la redirección puede truncarlo antes de que cat lo lea.", "No es adecuado para mostrar archivos binarios sensibles o enormes en una terminal."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar un archivo", "comando": "cat notas.txt", "descripcion": "Escribe el contenido del archivo en la salida estándar.", "resultado_esperado": "El texto de notas.txt aparece en la terminal."},
+    {"nombre": "Numerar líneas no vacías", "comando": "cat -b configuracion.conf", "descripcion": "Muestra el archivo y numera únicamente las líneas con contenido.", "resultado_esperado": "Cada línea no vacía aparece precedida por su número."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada"],
+    "validaciones": ["Verificar que el archivo exista y sea legible.", "Evitar redirigir al archivo de entrada."] ,
     "rollback": null
   }
 }

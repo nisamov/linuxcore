@@ -1,7 +1,7 @@
 {
   "id": "generar_clave_segura",
   "nombre": "Generar clave segura",
-  "descripcion": "Genera una clave segura de 32 caracteres.",
+  "descripcion": "Genera 32 bytes aleatorios criptográficamente mediante OpenSSL y los imprime codificados en Base64; la salida tiene más de 32 caracteres y debe tratarse como un secreto.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "openssl rand -base64 32",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "bytes_aleatorios",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 32,
+      "valores": [],
+      "descripcion": "Cantidad de bytes aleatorios que OpenSSL codifica en Base64; esta receta solicita 32 bytes (la salida codificada tiene más de 32 caracteres).",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -31,7 +43,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Requiere que OpenSSL esté instalado y disponible en el sistema; no se prescribe un comando de instalación específico.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +56,12 @@
       "comando": "openssl rand -base64 32",
       "descripcion": "Genera una clave segura de 32 caracteres.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Generar una clave aleatoria en hexadecimal",
+      "comando": "openssl rand -hex 32",
+      "descripcion": "Genera 32 bytes aleatorios codificados como 64 caracteres hexadecimales.",
+      "resultado_esperado": "Se imprime una cadena hexadecimal aleatoria de 64 caracteres."
     }
   ],
   "automatizacion": {
@@ -51,7 +69,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que OpenSSL está disponible y use una fuente aleatoria del sistema adecuada.", "Evite mostrar o guardar la clave en registros, historial de shell o ubicaciones accesibles por otros usuarios; proteja el canal de salida."] ,
     "rollback": null
   }
 }

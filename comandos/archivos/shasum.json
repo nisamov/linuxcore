@@ -1,7 +1,7 @@
 {
   "id": "shasum",
   "nombre": "shasum",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Calcula o verifica sumas SHA mediante el módulo Digest::SHA de Perl; el algoritmo predeterminado suele ser SHA-1, por lo que debe elegirse uno fuerte para nuevos usos de integridad.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "shasum",
+    "principal": "shasum [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": "algoritmo", "tipo": "integer", "requerido": false, "default": 1, "valores": ["1", "224", "256", "384", "512"], "descripcion": "Selecciona la variante SHA indicada.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": "archivo_checksum", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Lee sumas y nombres de archivo del manifiesto y comprueba los archivos.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lee los archivos en modo binario al calcular sumas.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lee los archivos en modo texto; es el modo predeterminado en algunas plataformas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de archivos que se van a resumir; lectura del manifiesto y archivos al verificar."],
+    "dependencias": ["Perl y Digest::SHA."],
+    "paquetes": ["perl"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["SHA-1 no se recomienda para resistencia a colisiones; elija -a 256 o superior en usos nuevos.", "Un checksum detecta cambios solo si el manifiesto es confiable y no ha sido sustituido junto con el archivo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar Perl con Digest::SHA; shasum suele incluirse en la distribución de Perl.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "perl",
+      "arch_linux": "perl",
+      "rhel_centos": "perl"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Calcular SHA-256", "comando": "shasum -a 256 imagen.iso", "descripcion": "Calcula el resumen SHA-256 del archivo indicado.", "resultado_esperado": "Imprime el hash hexadecimal y el nombre de imagen.iso."},
+    {"nombre": "Verificar manifiesto", "comando": "shasum -a 256 -c SHA256SUMS", "descripcion": "Comprueba las sumas SHA-256 listadas en el manifiesto frente a los archivos disponibles.", "resultado_esperado": "Cada entrada se marca OK o FAILED; el estado de salida refleja errores de verificación."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "manifiesto", "algoritmo"],
+    "validaciones": ["Seleccionar algoritmo moderno adecuado y proteger la procedencia del manifiesto.", "Comprobar estado de salida y entradas FAILED al verificar."],
     "rollback": null
   }
 }

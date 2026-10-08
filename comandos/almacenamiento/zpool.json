@@ -1,7 +1,7 @@
 {
   "id": "zpool",
   "nombre": "zpool",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra pools de almacenamiento ZFS, incluidos estado, propiedades, dispositivos virtuales y operaciones de creación, expansión y retirada.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "zpool",
+    "principal": "zpool subcomando [opciones] [pool] [vdevs...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"list","argumento":"pool","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra capacidad, espacio usado y libre de pools disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"status","argumento":"pool","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra estado, errores y configuración de dispositivos virtuales del pool.","conflictos":[],"requiere":[]},
+    {"flag":"get","argumento":"propiedad pool","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Consulta propiedades de uno o más pools.","conflictos":[],"requiere":[]},
+    {"flag":"create","argumento":"pool vdev...","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Crea un pool ZFS y escribe etiquetas/metadata en los dispositivos especificados.","conflictos":[],"requiere":[]},
+    {"flag":"destroy","argumento":"pool","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Destruye el pool y hace inaccesibles sus datasets y datos.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"En subcomandos compatibles, muestra información detallada o progreso.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consultas; root o delegación ZFS para modificar pools"],
+    "dependencias": ["OpenZFS userland y módulo del kernel"],
+    "paquetes": ["zfsutils-linux (Debian/Ubuntu); OpenZFS según distribución"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Crear un pool puede sobrescribir etiquetas y metadatos en los dispositivos; destruirlo hace inaccesibles todos sus datasets. Confirme cada dispositivo por identificador estable y obtenga respaldo completo.",
+      "No combine dispositivos de datos, caché, log o repuesto sin comprender la topología y redundancia resultantes.",
+      "Los ejemplos son de consulta; no use comandos create/destroy en almacenamiento con datos que deban conservarse."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "paquete_openzfs_especifico_de_distribucion",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "zfsutils-linux (repositorios compatibles; disponibilidad depende de versión/kernel)",
+      "arch_linux": "zfs-utils (repositorio compatible con el kernel)",
+      "rhel_centos": "OpenZFS desde repositorio compatible con la versión del kernel (no suele estar en repositorios base)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar pools","comando":"sudo zpool list","descripcion":"Muestra pools importados y su uso de espacio.","resultado_esperado":"Tabla con tamaño, asignación, espacio libre, fragmentación y estado."},
+    {"nombre":"Inspeccionar estado del pool","comando":"sudo zpool status -v tank","descripcion":"Muestra topología, estado de salud y errores detallados del pool tank.","resultado_esperado":"Informe del pool y sus vdevs, indicando ONLINE/DEGRADED u otro estado detectado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["nombre_pool", "dispositivos"],
+    "validaciones": ["Confirmar la topología completa y la identidad estable de cada dispositivo antes de modificar.","Verificar estado y respaldo antes de scrub, replace, remove, create o destroy.","No automatizar operaciones destructivas sin aprobación y procedimiento de recuperación."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "traceroute",
   "nombre": "traceroute",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra saltos intermedios de la ruta IP hacia un destino mediante sondas TTL crecientes y presenta tiempos de respuesta por salto.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "traceroute",
+    "principal": "traceroute [opciones] destino [tamaño_paquete]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No resuelve direcciones de salto a nombres.","conflictos":[],"requiere":[]},
+    {"flag":"-m","argumento":"saltos","tipo":"integer","requerido":false,"default":30,"valores":[],"descripcion":"Establece el TTL maximo (limite de saltos).","conflictos":[],"requiere":[]},
+    {"flag":"-q","argumento":"sondas","tipo":"integer","requerido":false,"default":3,"valores":[],"descripcion":"Define sondas por salto.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"segundos","tipo":"number","requerido":false,"default":5,"valores":[],"descripcion":"Establece el tiempo de espera por sonda.","conflictos":[],"requiere":[]},
+    {"flag":"-I","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa sondas ICMP Echo en vez de UDP predeterminado en implementaciones compatibles.","conflictos":["-T"],"requiere":[]},
+    {"flag":"-T","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa sondas TCP SYN en implementaciones compatibles.","conflictos":["-I"],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red; ciertos metodos pueden requerir root o capacidades"],
+    "dependencias": ["traceroute y permisos/protocolo de sondas segun implementacion"],
+    "paquetes": ["traceroute (Debian/Ubuntu, Arch y RHEL en repositorios habituales)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las sondas pueden ser filtradas o limitadas por routers; asteriscos no demuestran por si solos una interrupcion de ruta.",
+      "Use limites moderados y consulte solo destinos propios o autorizados; el tipo de sonda predeterminado varia entre implementaciones."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install traceroute",
+      "arch_linux": "sudo pacman -S traceroute",
+      "rhel_centos": "sudo dnf install traceroute"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Ruta local con ICMP limitada","comando":"traceroute -I -n -m 5 127.0.0.1","descripcion":"Muestra la ruta por ICMP al loopback con nombres desactivados y limite de cinco saltos.","resultado_esperado":"Normalmente muestra el host local como destino en el primer salto."},
+    {"nombre":"Diagnostico TCP local","comando":"traceroute -T -p 22 -n -m 5 127.0.0.1","descripcion":"Prueba la ruta TCP hacia el puerto SSH local usando un limite reducido.","resultado_esperado":"Muestra respuesta local o falta de respuesta del puerto/protocolo, segun el servicio y la implementacion."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["destino_autorizado","metodo_sonda","limite_saltos"],
+    "validaciones": ["Limitar saltos/sondas/espera y considerar filtrado ICMP/UDP/TCP al interpretar resultados."],
     "rollback": null
   }
 }

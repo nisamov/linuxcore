@@ -1,7 +1,7 @@
 {
   "id": "numactl",
   "nombre": "numactl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta la topología NUMA y controla la afinidad de CPU y la política de asignación de memoria para un proceso o comando ejecutado.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "numactl",
+    "principal": "numactl [OPCIÓN]... [COMANDO [ARG]...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--hardware","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra nodos NUMA disponibles, CPU por nodo y tamaños de memoria.","conflictos":[],"requiere":[]},
+    {"flag":"--show","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la política NUMA actual del proceso.","conflictos":[],"requiere":[]},
+    {"flag":"--cpunodebind","argumento":"nodos","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Restringe la ejecución del comando a las CPU de los nodos NUMA indicados.","conflictos":[],"requiere":[]},
+    {"flag":"--membind","argumento":"nodos","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Solicita asignar memoria únicamente desde los nodos NUMA indicados.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Soporte NUMA visible en el kernel; las políticas dependen de los nodos permitidos al proceso"],
+    "paquetes": ["numactl"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La topología y las políticas NUMA disponibles dependen del hardware, del kernel y de las restricciones del contenedor."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install numactl",
+      "arch_linux": "sudo pacman -S numactl",
+      "rhel_centos": "sudo dnf install numactl"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar topología NUMA","comando":"numactl --hardware","descripcion":"Muestra los nodos NUMA y la distribución de CPU y memoria que detecta el sistema.","resultado_esperado":"Listado de nodos, CPU asociadas y memoria total/disponible por nodo."},
+    {"nombre":"Ejecutar una carga limitada a un nodo","comando":"numactl --cpunodebind=0 --membind=0 comando","descripcion":"Ejecuta el comando indicado con CPU y asignación de memoria limitadas al nodo NUMA 0.","resultado_esperado":"El proceso se inicia con las políticas solicitadas si el nodo existe y está permitido."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["NODOS_NUMA", "COMANDO", "ARGUMENTOS (opcional)"],
+    "validaciones": ["Comprobar que los nodos especificados existan y estén permitidos por cpuset/cgroups; sustituir 'comando' por un ejecutable real."],
     "rollback": null
   }
 }

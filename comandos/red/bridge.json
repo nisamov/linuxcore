@@ -1,7 +1,7 @@
 {
   "id": "bridge",
   "nombre": "bridge",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra y consulta dispositivos puente Ethernet del kernel Linux, incluidos puertos asociados, estado y tabla de reenvío de direcciones MAC.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "bridge",
+    "principal": "bridge [opciones] {link|fdb|mdb|vlan} {show|add|delete|set} ...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"link show","argumento":"[dev dispositivo]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra los puertos asociados a puentes y sus estados.","conflictos":[],"requiere":[]},
+    {"flag":"fdb show","argumento":"[br puente]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra entradas de la base de datos de reenvio (FDB).","conflictos":[],"requiere":[]},
+    {"flag":"vlan show","argumento":"[dev dispositivo]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra la configuracion VLAN de los puertos puente.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra entradas dinamicas de la FDB; el detalle depende del subcomando.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_ADMIN para modificar enlaces y tablas"],
+    "dependencias": ["iproute2"],
+    "paquetes": ["iproute2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los subcomandos add, delete y set alteran el reenvio de capa 2 y pueden causar una interrupcion o exposicion de trafico.",
+      "Verifique cuidadosamente el puente y el dispositivo antes de aplicar cambios; los ejemplos solo consultan estado."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iproute2",
+      "arch_linux": "sudo pacman -S iproute2",
+      "rhel_centos": "sudo dnf install iproute"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar puertos de puente","comando":"bridge link show","descripcion":"Consulta los enlaces que participan en puentes Linux.","resultado_esperado":"Se muestran interfaces esclavas, puente asociado y estado del enlace."},
+    {"nombre":"Consultar tabla FDB","comando":"bridge fdb show br br0","descripcion":"Muestra direcciones MAC aprendidas para el puente local br0.","resultado_esperado":"Se listan las entradas FDB visibles para el puente, si existen."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["puente","dispositivo"],
+    "validaciones": ["Comprobar nombres de interfaces y guardar la configuracion actual antes de operaciones modificadoras."],
     "rollback": null
   }
 }

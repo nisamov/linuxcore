@@ -45,7 +45,6 @@ Ejemplo de estructura `.json` de los comandos:
   "id": "badblocks",
   "nombre": "badblocks",
   "descripcion": "Busca bloques defectuosos en un dispositivo mediante pruebas de lectura, escritura o lectura-escritura no destructiva.",
-
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "discos",
@@ -55,12 +54,10 @@ Ejemplo de estructura `.json` de los comandos:
       "filesystem"
     ]
   },
-
   "sintaxis": {
     "principal": "badblocks [opciones] dispositivo [ultimo_bloque] [primer_bloque]",
     "alternativas": []
   },
-
   "parametros": [
     {
       "flag": "-b",
@@ -85,7 +82,6 @@ Ejemplo de estructura `.json` de los comandos:
       "requiere": []
     }
   ],
-
   "requisitos": {
     "permisos": [
       "root"
@@ -95,7 +91,6 @@ Ejemplo de estructura `.json` de los comandos:
       "e2fsprogs"
     ]
   },
-
   "seguridad": {
     "nivel": "critico",
     "destructivo": true,
@@ -106,7 +101,6 @@ Ejemplo de estructura `.json` de los comandos:
       "El uso de -f sobre un dispositivo montado puede provocar destruccion."
     ]
   },
-
   "instalacion": {
     "instalable": true,
     "metodo": "gestor_paquetes",
@@ -116,7 +110,6 @@ Ejemplo de estructura `.json` de los comandos:
       "rhel_centos": "sudo dnf install e2fsprogs -y"
     }
   },
-
   "ejemplos": [
     {
       "nombre": "prueba_lectura",
@@ -131,7 +124,6 @@ Ejemplo de estructura `.json` de los comandos:
       "resultado_esperado": "Archivo con los bloques defectuosos encontrados."
     }
   ],
-
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,

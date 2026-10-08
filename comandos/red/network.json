@@ -1,7 +1,7 @@
 {
   "id": "network",
   "nombre": "network",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Controla el servicio de red heredado denominado network en distribuciones que proporcionan un script SysV compatible; no existe una sintaxis universal del comando network en Linux moderno.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "network",
+    "principal": "service network {status|start|stop|restart}  (SysV heredado)",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"status","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Consulta el estado del servicio network si el script init existe.","conflictos":[],"requiere":[]},
+    {"flag":"start","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Inicia el servicio heredado de red si esta instalado.","conflictos":[],"requiere":[]},
+    {"flag":"stop","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Detiene el servicio heredado de red y puede interrumpir conectividad.","conflictos":[],"requiere":[]},
+    {"flag":"restart","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Reinicia el servicio heredado de red.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para controlar servicios"],
+    "dependencias": ["script SysV network y wrapper service, solo en sistemas heredados"],
+    "paquetes": ["No hay paquete universal; depende de la distribucion y su gestor de red"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Detener o reiniciar la red puede cortar una sesion remota. La unidad network es especifica de sistemas heredados y puede no existir.",
+      "En sistemas actuales identifique primero el gestor activo (NetworkManager, systemd-networkd u otro) y use su interfaz documentada."
     ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No es un comando universal; lo proporciona la distribucion como script de servicio heredado",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "No universal; depende de configuracion/paquetes heredados instalados",
+      "arch_linux": "No es servicio estandar de Arch Linux",
+      "rhel_centos": "En versiones antiguas, proporcionado por initscripts/network-scripts segun version"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar servicio heredado","comando":"sudo service network status","descripcion":"Consulta el estado del servicio network en un sistema que incluya el script SysV correspondiente.","resultado_esperado":"Muestra estado del servicio o informa que el servicio no existe."},
+    {"nombre":"Revisar unidad moderna sin alterar red","comando":"systemctl status NetworkManager","descripcion":"Consulta el estado de NetworkManager en un sistema systemd moderno, sin reiniciarlo.","resultado_esperado":"Muestra estado y registros recientes de la unidad, si esta instalada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["servicio_gestor_red","accion"],
+    "validaciones": ["Detectar sistema init y gestor activo antes de operar; evitar stop/restart por SSH sin consola o recuperacion."],
     "rollback": null
   }
 }

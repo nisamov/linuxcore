@@ -1,7 +1,7 @@
 {
   "id": "ln",
   "nombre": "ln",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea enlaces duros o simbólicos entre nombres de archivo; la forma simbólica permite apuntar a rutas que todavía no existen.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "ln",
+    "principal": "ln [opciones] destino_enlace, ln [opciones] objetivo... directorio",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Crea un enlace simbólico en lugar de un enlace duro.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Elimina destinos existentes para reemplazarlos; requiere cuidado.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Trata un enlace simbólico a directorio existente como archivo al reemplazarlo, en GNU ln.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Crea enlaces simbólicos con un objetivo relativo a la ubicación del enlace.", "conflictos": [], "requiere": ["-s"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en el directorio que contendrá el enlace; para enlaces duros, el objetivo debe existir y estar en el mismo sistema de archivos."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["-f puede eliminar o reemplazar una entrada existente; revise el destino y no lo use a ciegas.", "Los enlaces simbólicos pueden quedar colgantes y el acceso al objetivo depende de sus permisos.", "Los enlaces duros no cruzan sistemas de archivos y no suelen admitirse para directorios."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente viene preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear enlace simbólico", "comando": "ln -s /opt/app/config.yml config.yml", "descripcion": "Crea config.yml como enlace simbólico al objetivo absoluto indicado.", "resultado_esperado": "config.yml apunta a /opt/app/config.yml."},
+    {"nombre": "Crear enlace relativo", "comando": "ln -sr ../datos/entrada.csv trabajo/entrada.csv", "descripcion": "Crea un enlace simbólico cuyo objetivo queda expresado relativamente desde el directorio del enlace.", "resultado_esperado": "trabajo/entrada.csv referencia ../datos/entrada.csv desde su ubicación."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["objetivo", "enlace"],
+    "validaciones": ["Comprobar que no se sobrescriba una ruta importante.", "Verificar objetivo y ubicación del enlace, especialmente para rutas relativas.", "Confirmar mismo sistema de archivos para enlaces duros."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "lshw",
   "nombre": "lshw",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista la configuración de hardware detectada por el sistema, organizada en clases como CPU, memoria, almacenamiento, red y pantalla.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "lshw",
+    "principal": "lshw [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-short","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra un inventario compacto del hardware.","conflictos":[],"requiere":[]},
+    {"flag":"-class, -C","argumento":"clase","tipo":"string","requerido":false,"default":null,"valores":["processor","memory","disk","network","display"],"descripcion":"Limita la salida a la clase de hardware indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-json","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite el inventario en formato JSON.","conflictos":[],"requiere":[]},
+    {"flag":"-sanitize","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina información potencialmente sensible, como números de serie, de la salida.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Algunos detalles del inventario solo son visibles con privilegios elevados; ejecutar sin root puede producir una salida parcial."],
+    "dependencias": ["Interfaces de inventario del kernel, principalmente /sys y /proc"],
+    "paquetes": ["lshw"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida completa puede incluir números de serie y otros identificadores; usa -sanitize antes de compartirla."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lshw",
+      "arch_linux": "sudo pacman -S lshw",
+      "rhel_centos": "sudo dnf install lshw"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Inventario compacto","comando":"sudo lshw -short","descripcion":"Muestra un resumen compacto de los dispositivos detectados.","resultado_esperado":"Tabla breve con clase, dispositivo, descripción y capacidad o bus disponible."},
+    {"nombre":"Información de red saneada","comando":"sudo lshw -class network -sanitize","descripcion":"Filtra el inventario a interfaces de red y omite identificadores sensibles conocidos.","resultado_esperado":"Detalles de los adaptadores de red sin números de serie identificables."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["CLASE_HARDWARE"],
+    "validaciones": ["Usar -sanitize antes de guardar o compartir la salida; tener en cuenta que sin privilegios puede ser incompleta."],
     "rollback": null
   }
 }

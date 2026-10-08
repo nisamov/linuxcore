@@ -1,7 +1,7 @@
 {
   "id": "wall",
   "nombre": "wall",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Envía un mensaje a las terminales de usuarios conectados que permiten recibir mensajes; el texto puede proceder de argumentos o de la entrada estándar.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,14 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "wall",
+    "principal": "wall [opciones] [mensaje | archivo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Suprime el encabezado del mensaje en implementaciones util-linux compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Especifica un tiempo máximo de espera para escribir en terminales en implementaciones compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-g","argumento":"grupo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita destinatarios a miembros del grupo indicado cuando la versión de util-linux lo admite.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en terminales destinatarias; root suele poder enviar a todas"],
+    "dependencias": ["terminales de usuarios conectados y configuración mesg"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +29,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El mensaje se difunde a usuarios conectados y puede incluir información visible en pantallas compartidas; no envíes secretos ni datos personales.",
+      "La recepción puede estar deshabilitada por usuario y opciones como -g/-t dependen de la versión de util-linux."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido normalmente en util-linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Enviar aviso de mantenimiento","comando":"echo 'Mantenimiento a las 22:00; guarde su trabajo.' | wall","descripcion":"Difunde un aviso operativo breve a las terminales que aceptan mensajes.","resultado_esperado":"El texto aparece en las terminales destinatarias disponibles."},
+    {"nombre":"Enviar mensaje explícito","comando":"wall 'El sistema se reiniciará en cinco minutos.'","descripcion":"Envía un mensaje corto a los usuarios conectados.","resultado_esperado":"Los usuarios autorizados para recibir wall ven el mensaje en sus terminales."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["mensaje", "grupo_destino"],
+    "validaciones": ["Revisar destinatarios, momento y contenido para evitar interrumpir sesiones o revelar información.", "Comprobar opciones de la versión local antes de usar filtros de grupo o timeout."],
     "rollback": null
   }
 }

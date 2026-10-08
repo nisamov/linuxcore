@@ -1,7 +1,7 @@
 {
   "id": "tree",
   "nombre": "tree",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra una representación jerárquica de directorios y archivos en forma de árbol; es una utilidad externa, no parte de GNU coreutils.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "tree",
+    "principal": "tree [opciones] [directorio...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-L", "argumento": "niveles", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Limita la profundidad máxima del árbol mostrado.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Incluye archivos ocultos que comienzan con punto.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra solo directorios.", "conflictos": [], "requiere": []},
+    {"flag": "-h", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra tamaños en formato legible para humanos cuando se listan tamaños.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura de directorios y búsqueda en las rutas recorridas."],
+    "dependencias": ["Utilidad tree de terceros."],
+    "paquetes": ["tree"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un árbol profundo puede generar mucha salida y recorrer muchos archivos; limite con -L cuando sea apropiado.", "Las opciones pueden variar entre implementaciones de tree."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar el paquete tree desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "tree",
+      "arch_linux": "tree",
+      "rhel_centos": "tree"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar árbol limitado", "comando": "tree -L 2 proyecto/", "descripcion": "Muestra la jerarquía de proyecto hasta dos niveles de profundidad.", "resultado_esperado": "Presenta directorios y archivos con conectores de árbol hasta el límite indicado."},
+    {"nombre": "Listar solo directorios", "comando": "tree -d -L 3 /etc", "descripcion": "Muestra únicamente directorios bajo /etc hasta tres niveles.", "resultado_esperado": "La salida contiene jerarquía de directorios sin archivos regulares."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["directorio", "profundidad"],
+    "validaciones": ["Limitar profundidad en árboles extensos.", "No usar salida de presentación como formato estructurado estable."],
     "rollback": null
   }
 }

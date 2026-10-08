@@ -1,7 +1,7 @@
 {
   "id": "fold",
   "nombre": "fold",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Pliega líneas de entrada para que no superen un ancho determinado, opcionalmente solo en límites de palabra.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "fold",
+    "principal": "fold [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-w", "argumento": "ancho", "tipo": "integer", "requerido": false, "default": 80, "valores": [], "descripcion": "Usa el ancho de línea indicado en columnas.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Prefiere cortar en espacios en blanco cuando sea posible.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cuenta bytes en lugar de columnas al determinar el ancho.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre la entrada."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El plegado agrega saltos de línea en la salida; no redirija directamente al archivo de entrada.", "-b puede partir secuencias multibyte; use el conteo de columnas predeterminado para texto localizado."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Limitar salida a 40 columnas", "comando": "fold -w 40 texto.txt", "descripcion": "Inserta saltos de línea para plegar la entrada a un máximo de 40 columnas.", "resultado_esperado": "La salida contiene líneas de hasta 40 columnas."},
+    {"nombre": "Plegar en espacios", "comando": "fold -s -w 72 informe.txt", "descripcion": "Pliega las líneas largas procurando no dividir palabras.", "resultado_esperado": "La salida se divide preferentemente en límites de espacio."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "ancho"],
+    "validaciones": ["Comprobar legibilidad de la entrada.", "Elegir un ancho coherente con el consumidor de la salida."],
     "rollback": null
   }
 }

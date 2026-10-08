@@ -1,7 +1,7 @@
 {
   "id": "uname",
   "nombre": "uname",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Imprime información del sistema operativo y del kernel, como nombre del kernel, versión, arquitectura y nombre de host.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "uname",
+    "principal": "uname [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a, --all","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra toda la información disponible en el orden definido por uname.","conflictos":[],"requiere":[]},
+    {"flag":"-r, --kernel-release","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la versión de publicación del kernel.","conflictos":[],"requiere":[]},
+    {"flag":"-m, --machine","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el nombre de la arquitectura de hardware.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --kernel-name","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el nombre del kernel.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["uname informa el kernel y la arquitectura de ejecución, no necesariamente la versión o arquitectura de la distribución instalada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en coreutils (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar versión de kernel","comando":"uname -r","descripcion":"Imprime la versión de publicación del kernel en ejecución.","resultado_esperado":"Una cadena de versión, por ejemplo 6.x.y-..."},
+    {"nombre":"Resumen completo del sistema","comando":"uname -a","descripcion":"Muestra todos los campos de sistema que uname tiene disponibles.","resultado_esperado":"Nombre del kernel, hostname, versión, fecha de compilación y arquitectura, según la plataforma."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Para decisiones sobre distribución, complementar uname con archivos de identificación como /etc/os-release."],
     "rollback": null
   }
 }

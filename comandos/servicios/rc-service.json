@@ -1,7 +1,7 @@
 {
   "id": "rc-service",
   "nombre": "rc-service",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Controla servicios administrados por OpenRC mediante sus scripts de init, con acciones como start, stop, restart y status. No administra unidades systemd.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "rc-service",
+    "principal": "rc-service [opciones] servicio acción",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"servicio","argumento":null,"tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Nombre de un servicio/script registrado por OpenRC.","conflictos":[],"requiere":[]},
+    {"flag":"acción","argumento":null,"tipo":"subcomando","requerido":true,"default":null,"valores":["start","stop","restart","reload","status","zap"],"descripcion":"Acción solicitada al script OpenRC; las acciones concretas dependen del script. zap limpia estado registrado y debe usarse con precaución.","conflictos":[],"requiere":[]},
+    {"flag":"-e, --exists","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Comprueba si el servicio existe.","conflictos":[],"requiere":[]},
+    {"flag":"-l, --list","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista los servicios disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"-i, --ifexists","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No trata como error que el servicio no exista.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --ifstarted","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ejecuta la acción solo si el servicio está iniciado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Consultar o listar puede ser posible como usuario normal; modificar servicios del sistema normalmente requiere root o sudo."],
+    "dependencias": ["OpenRC y scripts de servicio registrados"],
+    "paquetes": ["openrc"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["start, stop, restart y zap cambian estado del sistema; revise dependencias antes de actuar.", "Use rc-service únicamente en hosts gestionados por OpenRC."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Gestor de paquetes de la distribución; OpenRC no debe instalarse para reemplazar init sin una migración planificada.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "openrc (disponibilidad según versión)",
+      "arch_linux": "openrc (paquete/repositorio según variante de Arch)",
+      "rhel_centos": "No suele ofrecerse como gestor init soportado"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar estado de sshd","comando":"rc-service sshd status","descripcion":"Consulta el estado del script sshd registrado en OpenRC.","resultado_esperado":"Indica si el servicio está iniciado o detenido, o un error si no existe con ese nombre."},
+    {"nombre":"Iniciar NTP","comando":"sudo rc-service ntpd start","descripcion":"Inicia el servicio ntpd mediante OpenRC.","resultado_esperado":"El script ejecuta el inicio y devuelve un código de salida que permite verificar el resultado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["servicio", "acción"],
+    "validaciones": ["Verificar que OpenRC es el init activo y que el servicio está registrado.", "Comprobar privilegios y código de salida; validar estado después de la acción."],
     "rollback": null
   }
 }

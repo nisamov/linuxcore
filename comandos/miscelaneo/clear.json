@@ -1,7 +1,7 @@
 {
   "id": "clear",
   "nombre": "clear",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Limpia la pantalla del terminal mediante la secuencia definida para el tipo de terminal indicado por TERM.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,13 @@
     ]
   },
   "sintaxis": {
-    "principal": "clear",
+    "principal": "clear [-T tipo_terminal] [-x]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-T", "argumento": "tipo_terminal", "tipo": "string", "requerido": false, "default": "TERM", "valores": [], "descripcion": "Usa la descripción de terminal indicada en lugar del valor de la variable TERM.", "conflictos": [], "requiere": []},
+    {"flag": "-x", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No intenta borrar el búfer de desplazamiento del terminal.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +27,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["clear solo envía secuencias al terminal; la apariencia depende de TERM, terminfo y del emulador. No borra el historial de órdenes ni los datos de la terminal."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Utilidad de ncurses en la mayoría de las distribuciones.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "ncurses-bin (normalmente instalado)",
+      "arch_linux": "ncurses (normalmente instalado)",
+      "rhel_centos": "ncurses (normalmente instalado)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Limpiar la pantalla", "comando": "clear", "descripcion": "Limpia la vista del terminal usando su tipo configurado.", "resultado_esperado": "La pantalla queda visualmente limpia y aparece el prompt en la parte superior."},
+    {"nombre": "Conservar búfer de desplazamiento", "comando": "clear -x", "descripcion": "Limpia la pantalla sin borrar el contenido desplazable del terminal.", "resultado_esperado": "La vista se limpia y el contenido anterior puede seguir consultándose al desplazarse."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Ejecute en una terminal compatible y compruebe que TERM esté configurada correctamente."],
     "rollback": null
   }
 }

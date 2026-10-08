@@ -1,7 +1,7 @@
 {
   "id": "zfs",
   "nombre": "zfs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra conjuntos de datos ZFS (sistemas de archivos, volúmenes y snapshots), sus propiedades y operaciones de ciclo de vida.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "zfs",
+    "principal": "zfs subcomando [opciones] dataset|snapshot [argumentos]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"list","argumento":"dataset","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Enumera conjuntos de datos, snapshots y uso de espacio según las opciones indicadas.","conflictos":[],"requiere":[]},
+    {"flag":"get","argumento":"propiedad dataset","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Consulta el valor y origen de una o varias propiedades ZFS.","conflictos":[],"requiere":[]},
+    {"flag":"create","argumento":"dataset","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Crea un sistema de archivos o volumen ZFS dentro de un pool existente.","conflictos":[],"requiere":[]},
+    {"flag":"snapshot","argumento":"dataset@snapshot","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Crea un snapshot del dataset indicado.","conflictos":[],"requiere":[]},
+    {"flag":"destroy","argumento":"dataset|snapshot","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Destruye el dataset o snapshot indicado; puede ser irreversible y afectar descendientes según las opciones.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"En subcomandos compatibles, incluye datasets descendientes; confirme el alcance antes de usarlo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consultas; root o delegación ZFS para cambios"],
+    "dependencias": ["OpenZFS userland y módulo del kernel"],
+    "paquetes": ["zfsutils-linux (Debian/Ubuntu); OpenZFS según distribución"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "ZFS incluye operaciones que destruyen datasets, snapshots o datos. No ejecute destroy, rollback u operaciones recursivas sin revisar dependencias, snapshots y respaldo restaurable.",
+      "Las propiedades y opciones pueden variar según versión de OpenZFS y distribución. Los ejemplos de esta ficha son consultas de solo lectura.",
+      "Cambiar propiedades como mountpoint, encryption o compression puede afectar montaje, acceso o rendimiento."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "paquete_openzfs_especifico_de_distribucion",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "zfsutils-linux (repositorios compatibles; disponibilidad depende de versión/kernel)",
+      "arch_linux": "zfs-utils (repositorio compatible con el kernel)",
+      "rhel_centos": "OpenZFS desde repositorio compatible con la versión del kernel (no suele estar en repositorios base)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar datasets","comando":"sudo zfs list","descripcion":"Muestra datasets ZFS visibles junto con espacio usado, disponible y punto de montaje.","resultado_esperado":"Tabla con nombre, uso, disponibilidad, referenciado y montaje."},
+    {"nombre":"Consultar propiedad de montaje","comando":"sudo zfs get mountpoint tank/datos","descripcion":"Consulta la propiedad mountpoint y su origen para el dataset tank/datos.","resultado_esperado":"Fila con dataset, propiedad, valor actual y origen de la propiedad."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dataset", "propiedad"],
+    "validaciones": ["Verificar que el pool y dataset sean los previstos con zpool list y zfs list.","Antes de cambios, revisar snapshots, clones, datasets descendientes y estrategia de respaldo.","No automatizar destroy, rollback ni acciones recursivas sin aprobación explícita."],
     "rollback": null
   }
 }

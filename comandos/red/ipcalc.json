@@ -1,7 +1,7 @@
 {
   "id": "ipcalc",
   "nombre": "ipcalc",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Calcula y presenta datos de una direccion IPv4 y su mascara/prefijo, como red, broadcast, rango de hosts y representaciones binarias.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "ipcalc",
+    "principal": "ipcalc [opciones] direccion[/prefijo] [mascara]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-b, --nobinary","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Suprime la representacion binaria de la direccion y la mascara en la implementacion Jodies ipcalc.","conflictos":[],"requiere":[]},
+    {"flag":"-n, --nocolor","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desactiva codigos de color ANSI en la salida de la implementacion Jodies ipcalc.","conflictos":[],"requiere":[]},
+    {"flag":"-c, --class","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra unicamente la longitud de prefijo/máscara de clase segun ipcalc.","conflictos":[],"requiere":[]},
+    {"flag":"direccion/prefijo","argumento":"IPv4/CIDR","tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Direccion IPv4 opcionalmente seguida del prefijo de red.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["ipcalc"],
+    "paquetes": ["ipcalc"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +30,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Existen implementaciones distintas de ipcalc con opciones diferentes; consulte ipcalc --help para la variante instalada.",
+      "La herramienta calcula valores, no verifica que una red o direccion sea alcanzable o asignable en la infraestructura real."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ipcalc",
+      "arch_linux": "sudo pacman -S ipcalc",
+      "rhel_centos": "sudo dnf install ipcalc"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Calcular una subred IPv4","comando":"ipcalc 192.168.10.34/24","descripcion":"Calcula los datos de red para una direccion privada y prefijo /24.","resultado_esperado":"Muestra red, mascara, broadcast y rango de hosts segun la implementacion."},
+    {"nombre":"Calcular desde mascara","comando":"ipcalc 10.20.30.40 255.255.255.0","descripcion":"Calcula los parametros IPv4 usando una mascara decimal explicita.","resultado_esperado":"Se muestra la red correspondiente y su rango calculado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["direccion_IP","prefijo_o_mascara"],
+    "validaciones": ["Validar direccion IPv4 y prefijo/máscara; comprobar que la implementacion instalada acepta la sintaxis usada."],
     "rollback": null
   }
 }

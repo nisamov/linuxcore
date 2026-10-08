@@ -1,7 +1,7 @@
 {
   "id": "pwd",
   "nombre": "pwd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Imprime el directorio de trabajo actual; la forma lógica conserva enlaces simbólicos y la forma física resuelve la ruta real.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "pwd",
+    "principal": "pwd [-L|-P]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-L", "argumento": null, "tipo": "boolean", "requerido": false, "default": "-L", "valores": [], "descripcion": "Muestra el directorio lógico usando PWD cuando coincide con el directorio actual.", "conflictos": ["-P"], "requiere": []},
+    {"flag": "-P", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la ruta física, resolviendo los componentes de enlaces simbólicos.", "conflictos": ["-L"], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": []
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Builtin habitual del shell; también existe la utilidad de GNU coreutils.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bash y coreutils (normalmente instalados)",
+      "arch_linux": "bash y coreutils (normalmente instalados)",
+      "rhel_centos": "bash y coreutils (normalmente instalados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar directorio actual", "comando": "pwd", "descripcion": "Imprime el directorio de trabajo según el comportamiento lógico predeterminado del shell.", "resultado_esperado": "Una ruta absoluta terminada en salto de línea."},
+    {"nombre": "Resolver enlaces simbólicos", "comando": "pwd -P", "descripcion": "Solicita la ruta física del directorio actual, resolviendo enlaces simbólicos.", "resultado_esperado": "La ruta absoluta real del directorio actual."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["La ruta depende del directorio de trabajo del proceso que ejecuta pwd."],
     "rollback": null
   }
 }

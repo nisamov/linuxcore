@@ -1,7 +1,7 @@
 {
   "id": "fsck",
   "nombre": "fsck",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz genérica para comprobar sistemas de archivos; delega en el comprobador específico del tipo detectado o indicado y puede realizar reparaciones.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "fsck",
+    "principal": "fsck [opciones] [-t tipo] [dispositivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-A","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Comprueba los sistemas de archivos listados en /etc/fstab, sujeto a sus opciones y orden.","conflictos":[],"requiere":[]},
+    {"flag":"-N","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra qué comprobador se ejecutaría sin ejecutarlo.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Para muchos comprobadores responde no a las reparaciones; el comportamiento exacto depende del comprobador delegado.","conflictos":["-y"],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Para muchos comprobadores responde sí a las reparaciones; puede aceptar cambios no deseados.","conflictos":["-n"],"requiere":[]},
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Indica el tipo de sistema de archivos que debe comprobarse.","conflictos":[],"requiere":[]},
+    {"flag":"-V","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra las órdenes que se ejecutarían.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o acceso requerido por el comprobador específico"],
+    "dependencias": ["util-linux y comprobador correspondiente al sistema de archivos"],
+    "paquetes": ["util-linux", "e2fsprogs (para ext)"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El comportamiento de reparación y las opciones pueden variar según el comprobador específico. No ejecute una reparación sobre un sistema de archivos montado; respalde los datos antes de modificarlo.",
+      "-A puede comprobar varios volúmenes según /etc/fstab; revise cuidadosamente el alcance antes de usarlo."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_util_linux_y_paquetes_de_sistema_de_archivos",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux e2fsprogs (ext); instale xfsprogs u otras herramientas para otros tipos",
+      "arch_linux": "sudo pacman -S util-linux e2fsprogs (ext); instale xfsprogs u otras herramientas para otros tipos",
+      "rhel_centos": "sudo dnf install util-linux e2fsprogs (ext); instale xfsprogs u otras herramientas para otros tipos"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Previsualizar comprobador para un volumen","comando":"sudo fsck -N /dev/sdb1","descripcion":"Muestra el programa que se seleccionaría para el dispositivo sin ejecutar la comprobación.","resultado_esperado":"Nombre de la utilidad específica que se invocaría, sin cambios en el volumen."},
+    {"nombre":"Comprobar un volumen ext de forma conservadora","comando":"sudo fsck -n -t ext4 /dev/sdb1","descripcion":"Solicita una comprobación ext4 contestando no a las reparaciones, si el comprobador delegado admite la opción.","resultado_esperado":"Diagnóstico sin aceptar reparaciones; confirme que el volumen esté desmontado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo", "tipo"],
+    "validaciones": ["Determinar el tipo y comprobador efectivo antes de pasar opciones específicas.","Verificar que el dispositivo esté desmontado y que exista respaldo reciente.","No usar -A en automatización sin auditar previamente /etc/fstab."],
     "rollback": null
   }
 }

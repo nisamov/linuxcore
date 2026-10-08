@@ -1,7 +1,7 @@
 {
   "id": "copia_seguridad_rapida",
   "nombre": "Copia de seguridad rapida",
-  "descripcion": "Crea una copia de seguridad de un archivo con una marca de tiempo.",
+  "descripcion": "Copia un archivo a otro en el mismo directorio, añadiendo al nombre un sufijo .bak con fecha y hora para identificar la copia. Si el nombre de destino ya existe, cp puede sobrescribirlo.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "cp ejemplo.txt{,.bak_$(date +%F_%T)}",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "archivo_origen",
+      "tipo": "string",
+      "requerido": false,
+      "default": "ejemplo.txt",
+      "valores": [],
+      "descripcion": "Ruta del archivo que se copia; la receta usa ejemplo.txt y crea a su lado una copia con sufijo .bak_ y fecha/hora.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -24,14 +36,16 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "La copia se crea en el mismo directorio; si el nombre fechado ya existe, cp puede sobrescribirlo."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza cp y expansión de llaves del shell Bash.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "cp ejemplo.txt{,.bak_$(date +%F_%T)}",
       "descripcion": "Crea una copia de seguridad de un archivo (personalizado) con una marca de tiempo.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Respaldar la configuración de Bash",
+      "comando": "cp --preserve=mode,timestamps -- \"$HOME/.bashrc\" \"$HOME/.bashrc.bak\"",
+      "descripcion": "Crea una copia de respaldo de .bashrc conservando permisos y marcas de tiempo habituales.",
+      "resultado_esperado": "Se crea .bashrc.bak con el contenido del archivo de configuración."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que el archivo de origen existe, es el que desea respaldar y se puede leer.", "Compruebe la ruta de destino y si ya existe .bashrc.bak; evite sobrescribir una copia necesaria.", "Verifique espacio libre y permisos de escritura en el directorio de destino."] ,
     "rollback": null
   }
 }

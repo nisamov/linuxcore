@@ -1,7 +1,7 @@
 {
   "id": "chgrp",
   "nombre": "chgrp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia el grupo propietario de archivos o directorios; puede recorrer árboles con -R y seguir o no enlaces simbólicos según las opciones usadas.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "chgrp",
+    "principal": "chgrp [opciones] grupo archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cambia recursivamente el grupo de directorios y su contenido.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Informa de cada archivo procesado.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Informa únicamente de los archivos cuyo grupo realmente cambia.", "conflictos": [], "requiere": []},
+    {"flag": "-h", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Actúa sobre el enlace simbólico en vez del archivo referenciado, cuando es posible.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El propietario puede cambiar el grupo a uno del que sea miembro; root puede asignar cualquier grupo."],
+    "dependencias": ["GNU coreutils y una cuenta/grupo existente."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un grupo incorrecto puede exponer o impedir el acceso a datos; compruebe previamente el grupo y los permisos.", "Use -R con cuidado para no cambiar archivos ajenos dentro del árbol."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Cambiar grupo de un archivo", "comando": "chgrp equipo informe.txt", "descripcion": "Asigna al archivo informe.txt el grupo equipo, si el usuario tiene autorización.", "resultado_esperado": "El grupo propietario pasa a ser equipo."},
+    {"nombre": "Cambiar grupo recursivamente", "comando": "sudo chgrp -R www-data /srv/sitio", "descripcion": "Cambia el grupo del árbol indicado para que pertenezca a www-data.", "resultado_esperado": "Los archivos y directorios procesados quedan con el grupo www-data."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["grupo", "ruta"],
+    "validaciones": ["Comprobar que el grupo existe y que el usuario tiene permiso para asignarlo.", "Revisar el alcance antes de usar -R."],
     "rollback": null
   }
 }

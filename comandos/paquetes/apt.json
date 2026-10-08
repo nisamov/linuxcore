@@ -1,7 +1,7 @@
 {
   "id": "apt",
   "nombre": "apt",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz de alto nivel para buscar, instalar, actualizar y eliminar paquetes Debian desde repositorios APT. Está orientada al uso interactivo; para scripts con interfaz estable se suele preferir apt-get.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "apt",
+    "principal": "apt [opciones] <comando> [paquetes...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "update", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Descarga los índices de paquetes de los repositorios configurados; no instala actualizaciones.", "conflictos": [], "requiere": []},
+    {"flag": "install", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala o actualiza los paquetes indicados y resuelve sus dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "upgrade", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza los paquetes instalados sin eliminar paquetes ni instalar otros nuevos para resolver cambios de dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "full-upgrade", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza el sistema y puede instalar o eliminar paquetes para resolver cambios de dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "remove", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los paquetes pero conserva normalmente sus archivos de configuración.", "conflictos": [], "requiere": []},
+    {"flag": "purge", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los paquetes y sus archivos de configuración administrados por dpkg.", "conflictos": [], "requiere": []},
+    {"flag": "-y, --yes", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Responde afirmativamente a las preguntas; úsalo solo cuando la operación y sus cambios estén revisados.", "conflictos": [], "requiere": []},
+    {"flag": "--no-install-recommends", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No instala paquetes recomendados, aunque sí instala las dependencias necesarias.", "conflictos": [], "requiere": ["install"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, actualizar o eliminar paquetes"],
+    "dependencias": ["repositorios APT configurados", "conectividad de red para actualizar índices o descargar paquetes"],
+    "paquetes": ["apt"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las operaciones de instalación, actualización y eliminación cambian el sistema; revisa el resumen antes de confirmar.", "full-upgrade puede eliminar paquetes para resolver dependencias.", "apt está pensado principalmente para uso interactivo; usa apt-get en automatización que requiera una interfaz más estable."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Gestor de paquetes de Debian y Ubuntu; normalmente viene instalado en esas distribuciones.",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "apt (normalmente preinstalado)",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Actualizar índices e instalar curl", "comando": "sudo apt update && sudo apt install curl", "descripcion": "Sincroniza los índices de APT e instala curl con las dependencias necesarias.", "resultado_esperado": "curl queda instalado desde los repositorios configurados."},
+    {"nombre": "Actualizar paquetes instalados", "comando": "sudo apt upgrade", "descripcion": "Aplica actualizaciones disponibles sin eliminar paquetes ni incorporar dependencias nuevas para resolver cambios.", "resultado_esperado": "APT presenta los paquetes que actualizará y solicita confirmación antes de realizar los cambios."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirmar que el sistema usa Debian o Ubuntu y que sus repositorios son válidos.", "Revisar la lista de cambios y el espacio disponible antes de aceptar.", "En scripts, preferir apt-get para una interfaz de automatización más estable."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "chmod",
   "nombre": "chmod",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia los bits de permisos de archivos y directorios mediante modo octal o simbólico; puede operar de forma recursiva.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "chmod",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cambia permisos recursivamente en directorios y su contenido.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Informa de cada archivo procesado.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Informa solo cuando se realiza un cambio.", "conflictos": [], "requiere": []},
+    {"flag": "--reference", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el modo del archivo de referencia en lugar de un modo explícito.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Propietario del archivo o CAP_FOWNER; root puede cambiar permisos de cualquier archivo"],
+    "dependencias": ["Coreutils; sistema de archivos con soporte POSIX de permisos"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un modo demasiado permisivo expone datos; uno demasiado restrictivo puede impedir el funcionamiento.", "La opción -R puede cambiar muchos archivos, incluidos enlaces según el comportamiento de la implementación; revise el alcance."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Proteger archivo propio", "comando": "chmod 600 ./credenciales-prueba.txt", "descripcion": "Restringe lectura y escritura al propietario del archivo de prueba.", "resultado_esperado": "El modo queda como 600; comprobar con stat -c '%a %n' ./credenciales-prueba.txt."},
+    {"nombre": "Permisos de directorio compartido", "comando": "chmod u=rwx,go=rx ./datos-publicables", "descripcion": "Asigna permisos explícitos a un directorio de ensayo sin afectar otros archivos.", "resultado_esperado": "Propietario con rwx y grupo/otros con rx."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["modo", "ruta", "recursivo"],
+    "validaciones": ["Verificar propietario, permisos actuales y ruta exacta antes de cambiar; evite -R en rutas amplias."],
     "rollback": null
   }
 }

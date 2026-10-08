@@ -1,7 +1,7 @@
 {
   "id": "snmpwalk",
   "nombre": "snmpwalk",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Recorre lexicográficamente un subárbol de OID mediante solicitudes SNMP sucesivas y muestra las variables devueltas por el agente. No es equivalente a una consulta puntual snmpget.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,53 @@
     ]
   },
   "sintaxis": {
-    "principal": "snmpwalk",
+    "principal": "snmpwalk [opciones] agente [OID_inicio]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-v","argumento":"versión","tipo":"string","requerido":false,"default":"1","valores":["1","2c","3"],"descripcion":"Selecciona la versión SNMP.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"comunidad","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Comunidad para SNMPv1/v2c; se transmite sin cifrado y puede quedar expuesta en argv.","conflictos":[],"requiere":["-v 1 o 2c"]},
+    {"flag":"-u","argumento":"usuario","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Nombre de seguridad SNMPv3.","conflictos":[],"requiere":["-v 3"]},
+    {"flag":"-l","argumento":"nivel","tipo":"string","requerido":false,"default":null,"valores":["noAuthNoPriv","authNoPriv","authPriv"],"descripcion":"Nivel de seguridad SNMPv3 acordado con el agente.","conflictos":[],"requiere":["-v 3"]},
+    {"flag":"-a","argumento":"protocolo_autenticación","tipo":"string","requerido":false,"default":null,"valores":["MD5","SHA"],"descripcion":"Protocolo de autenticación SNMPv3 disponible en la compilación.","conflictos":[],"requiere":["nivel authNoPriv o authPriv"]},
+    {"flag":"-A","argumento":"frase_autenticación","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Frase de autenticación; pasarla como argumento puede exponerla a otros usuarios locales.","conflictos":[],"requiere":["-a"]},
+    {"flag":"-x","argumento":"protocolo_privacidad","tipo":"string","requerido":false,"default":null,"valores":["DES","AES"],"descripcion":"Protocolo de privacidad SNMPv3 soportado por cliente y agente.","conflictos":[],"requiere":["nivel authPriv"]},
+    {"flag":"-X","argumento":"frase_privacidad","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Frase de privacidad; pasarla como argumento puede exponerla a otros usuarios locales.","conflictos":[],"requiere":["-x"]},
+    {"flag":"-t","argumento":"segundos","tipo":"number","requerido":false,"default":1,"valores":[],"descripcion":"Tiempo de espera por solicitud SNMP.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":"reintentos","tipo":"integer","requerido":false,"default":5,"valores":[],"descripcion":"Número de reintentos para solicitudes sin respuesta.","conflictos":[],"requiere":[]},
+    {"flag":"-On","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Imprime los OID en formato numérico.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No requiere root; la identidad SNMP necesita permiso de lectura del subárbol consultado."],
+    "dependencias": ["Agente SNMP remoto accesible; MIBs opcionales si se usan OID numéricos"],
+    "paquetes": ["snmp / net-snmp-utils / net-snmp"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un recorrido amplio puede generar muchas consultas y carga en el agente; comience por un OID acotado.", "SNMPv1/v2c no cifra tráfico; prefiera SNMPv3 authPriv.", "Las credenciales pasadas con -A/-X o -c pueden exponerse en argumentos; proteja secretos y resultados potencialmente sensibles."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Herramienta cliente del proyecto Net-SNMP, disponible en los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "snmp",
+      "arch_linux": "net-snmp",
+      "rhel_centos": "net-snmp-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Recorrer system MIB con SNMPv3","comando":"snmpwalk -v 3 -l authPriv -u $SNMP_USER -a SHA -A $SNMP_AUTH_PASS -x AES -X $SNMP_PRIV_PASS 192.0.2.10 .1.3.6.1.2.1.1","descripcion":"Recorre el grupo system MIB de un agente mediante SNMPv3 con autenticación y privacidad.","resultado_esperado":"Lista OID y valores accesibles del grupo system, o un error de credenciales, autorización o conectividad."},
+    {"nombre":"Enumerar interfaces por subárbol","comando":"snmpwalk -v 2c -c $SNMP_COMMUNITY -On 192.0.2.10 .1.3.6.1.2.1.2.2","descripcion":"Recorre la tabla estándar de interfaces y devuelve OID numéricos; SNMPv2c no cifra ni protege la comunidad.","resultado_esperado":"Emite una línea por cada variable accesible bajo el subárbol ifTable; limite la consulta si el agente tiene muchas interfaces."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["agente", "oid_inicio", "SNMP_USER", "SNMP_AUTH_PASS", "SNMP_PRIV_PASS"],
+    "validaciones": ["Acotar el subárbol OID y comprobar permisos antes de iniciar un recorrido.", "Configurar timeout/reintentos; proteger secretos, salida y límites de carga del agente."],
     "rollback": null
   }
 }

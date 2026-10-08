@@ -1,7 +1,7 @@
 {
   "id": "lynis",
   "nombre": "lynis",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta auditorías de seguridad del sistema y genera sugerencias de endurecimiento, hallazgos y un índice; no aplica automáticamente la mayoría de las recomendaciones.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,9 +13,14 @@
     "principal": "lynis",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "audit system", "argumento": null, "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Audita el sistema local y produce hallazgos y recomendaciones.", "conflictos": [], "requiere": []},
+    {"flag": "--quick", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ejecuta una auditoría rápida omitiendo algunas pruebas extensas.", "conflictos": [], "requiere": ["audit system"]},
+    {"flag": "--no-colors", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Desactiva colores en la salida.", "conflictos": [], "requiere": []},
+    {"flag": "--log-file", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Guarda salida de registro en el archivo indicado, según la versión instalada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
+    "permisos": ["La auditoría básica puede ejecutarse como usuario normal; algunas pruebas requieren root para consultar toda la configuración"],
     "dependencias": [],
     "paquetes": []
   },
@@ -24,26 +29,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las recomendaciones deben revisarse antes de aplicarlas: algunas pueden cambiar servicios, configuración o disponibilidad.", "Proteja informes porque pueden exponer detalles de configuración del sistema."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lynis",
+      "arch_linux": "sudo pacman -S lynis",
+      "rhel_centos": "sudo dnf install lynis"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditoría de sistema administrado", "comando": "sudo lynis audit system", "descripcion": "Ejecuta auditoría local autorizada; analiza y reporta sin aplicar por sí misma la mayoría de las correcciones.", "resultado_esperado": "Informe de pruebas, hallazgos y sugerencias con índice final."},
+    {"nombre": "Auditoría rápida", "comando": "lynis audit system --quick --no-colors", "descripcion": "Realiza una revisión rápida en una máquina propia y produce salida legible para guardar.", "resultado_esperado": "Resumen de pruebas y recomendaciones sin formato de color."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["modo_auditoria", "archivo_informe"],
+    "validaciones": ["Revisar la versión instalada y ejecutar en un sistema autorizado; evaluar cada sugerencia en staging antes de endurecer producción."],
     "rollback": null
   }
 }

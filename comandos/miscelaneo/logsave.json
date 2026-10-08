@@ -1,7 +1,7 @@
 {
   "id": "logsave",
   "nombre": "logsave",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Guarda la salida estándar y el error estándar de un comando en un archivo de registro, con opciones para añadir y sincronizar datos.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,16 @@
     ]
   },
   "sintaxis": {
-    "principal": "logsave",
+    "principal": "logsave [-asv] archivo comando [argumentos ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Añade la salida al archivo existente en lugar de sobrescribirlo.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Sincroniza el archivo después de cada escritura para reducir la pérdida ante una caída.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra información detallada de la operación.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "archivo", "tipo": "path", "requerido": true, "default": null, "valores": [], "descripcion": "Archivo donde se registrará la salida del comando.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "comando [argumentos]", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Programa y argumentos que se ejecutarán y cuya salida será guardada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -21,29 +27,30 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Sin -a, el archivo de registro se crea o trunca; la salida puede contener información sensible. Revise propietario y permisos del destino."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Parte del paquete e2fsprogs en muchas distribuciones Linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "e2fsprogs (normalmente instalado)",
+      "arch_linux": "e2fsprogs (normalmente instalado)",
+      "rhel_centos": "e2fsprogs (normalmente instalado)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Guardar salida de una orden", "comando": "logsave /tmp/estado.log uname -a", "descripcion": "Ejecuta uname y guarda su salida estándar y error estándar en el archivo indicado.", "resultado_esperado": "El archivo /tmp/estado.log contiene la salida registrada del comando."},
+    {"nombre": "Añadir salida a un registro", "comando": "logsave -a /tmp/estado.log df -h", "descripcion": "Añade al registro el resultado de df sin reemplazar la captura anterior.", "resultado_esperado": "Se agregan las líneas de df -h al final del archivo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que el directorio destino exista y tenga espacio y permisos de escritura; preserve el código de salida del comando si el flujo lo requiere."],
     "rollback": null
   }
 }

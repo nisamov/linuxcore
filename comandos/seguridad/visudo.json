@@ -1,7 +1,7 @@
 {
   "id": "visudo",
   "nombre": "visudo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Edita de forma segura la política sudoers usando el editor configurado y valida la sintaxis antes de instalar cambios; también puede comprobar archivos sin editarlos.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "visudo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Comprueba sintaxis y sale sin editar.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo", "tipo": "string", "requerido": false, "default": "/etc/sudoers", "valores": [], "descripcion": "Edita o verifica el archivo sudoers indicado en lugar del archivo principal.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Activa comprobaciones estrictas de alias y nombres no definidos.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime mensajes de éxito al comprobar; errores siguen informándose.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Leer el archivo para comprobarlo; root normalmente es necesario para editar /etc/sudoers y archivos protegidos"],
+    "dependencias": ["sudo instalado; usa el editor configurado para el sistema"],
+    "paquetes": ["sudo"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un error puede bloquear la administración privilegiada o conceder acceso excesivo; use siempre visudo, nunca edite sudoers directamente.", "Compruebe que la configuración conserva al menos un administrador autorizado antes de guardar."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install sudo",
+      "arch_linux": "sudo pacman -S sudo",
+      "rhel_centos": "sudo dnf install sudo"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Validar política principal", "comando": "sudo visudo -c", "descripcion": "Comprueba la sintaxis de sudoers sin modificarlo.", "resultado_esperado": "Indica que la sintaxis es correcta o señala el archivo y línea del error."},
+    {"nombre": "Validar archivo de política de prueba", "comando": "visudo -cf ./sudoers-prueba", "descripcion": "Valida un archivo de prueba propio antes de instalarlo en configuración del sistema.", "resultado_esperado": "Confirma sintaxis o informa errores sin cambiar políticas activas."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo_sudoers", "modo_comprobacion"],
+    "validaciones": ["Hacer copia protegida previa, usar visudo para editar, ejecutar visudo -c y comprobar acceso sudo antes de cerrar la sesión administrativa."],
     "rollback": null
   }
 }

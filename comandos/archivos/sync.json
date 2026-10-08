@@ -1,7 +1,7 @@
 {
   "id": "sync",
   "nombre": "sync",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Solicita vaciar búferes de escritura pendientes hacia el almacenamiento; puede sincronizar todo el sistema o archivos y sistemas de archivos concretos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "sync",
+    "principal": "sync [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Sincroniza los datos del archivo especificado sin requerir toda la sincronización de metadatos.", "conflictos": ["-f"], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Sincroniza también el sistema de archivos que contiene el archivo especificado.", "conflictos": ["-d"], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No suele requerir privilegios para sincronización general; el acceso a archivos concretos puede variar."],
+    "dependencias": ["GNU coreutils y soporte del sistema operativo."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["sync puede tardar si hay muchas escrituras pendientes; no garantiza integridad frente a fallos de hardware ni sustituye a copias de seguridad.", "La semántica de opciones y del vaciado físico depende del kernel, sistema de archivos y dispositivo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Sincronizar escrituras pendientes", "comando": "sync", "descripcion": "Solicita sincronizar al almacenamiento las escrituras pendientes del sistema.", "resultado_esperado": "El comando termina cuando la petición de sincronización general se completa según la plataforma."},
+    {"nombre": "Sincronizar datos de un archivo", "comando": "sync -d salida.dat", "descripcion": "Solicita sincronizar los datos pendientes del archivo indicado.", "resultado_esperado": "El comando retorna tras completar la sincronización solicitada o informa un error."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo"],
+    "validaciones": ["Comprobar el estado de salida.", "No tratar sync como sustituto de backup, verificación de integridad o protección ante pérdida de energía."],
     "rollback": null
   }
 }

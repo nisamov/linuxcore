@@ -1,7 +1,7 @@
 {
   "id": "aureport",
   "nombre": "aureport",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Genera informes resumidos a partir de los registros de Linux Audit, como eventos de autenticación, usuarios, ejecutables y periodos de tiempo.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,44 @@
     "principal": "aureport",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-au", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Genera un informe de autenticaciones.", "conflictos": [], "requiere": []},
+    {"flag": "-x", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Genera un informe de ejecutables.", "conflictos": [], "requiere": []},
+    {"flag": "-ts", "argumento": "fecha_hora", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Limita el informe a eventos desde la fecha y hora indicadas.", "conflictos": [], "requiere": []},
+    {"flag": "-te", "argumento": "fecha_hora", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Limita el informe hasta la fecha y hora indicadas.", "conflictos": [], "requiere": []},
+    {"flag": "-if", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lee los registros del archivo de auditoría indicado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura del registro audit.log; los registros del sistema suelen requerir root o pertenencia a un grupo autorizado"],
+    "dependencias": ["Registros generados por auditd"],
+    "paquetes": ["audit"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los informes pueden contener nombres de usuario, rutas y otros datos sensibles; gestione su salida como información de auditoría."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install auditd",
+      "arch_linux": "sudo pacman -S audit",
+      "rhel_centos": "sudo dnf install audit"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Informe de autenticaciones", "comando": "sudo aureport -au", "descripcion": "Resume autenticaciones registradas localmente.", "resultado_esperado": "Tabla de eventos de autenticación encontrados."},
+    {"nombre": "Informe de ejecutables", "comando": "sudo aureport -x --summary", "descripcion": "Resume ejecutables presentes en el registro de auditoría.", "resultado_esperado": "Resumen estadístico de ejecutables auditados."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["tipo_informe", "fecha_inicio", "fecha_fin", "archivo_registro"],
+    "validaciones": ["Verificar que auditd haya generado registros para el periodo consultado y restringir acceso a informes exportados."],
     "rollback": null
   }
 }

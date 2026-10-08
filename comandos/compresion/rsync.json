@@ -250,7 +250,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Compruebe primero `command -v rsync`; si falta, instale el paquete rsync con el gestor de paquetes de su distribución (Debian/Ubuntu: `sudo apt install rsync`; Arch: `sudo pacman -S rsync`; RHEL/CentOS: `sudo dnf install rsync`). Para transferencias remotas también se necesita un servicio/conexión SSH funcional si se usa `-e ssh`.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -272,7 +272,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que el origen exista y sea legible, que el destino corresponda al host/ruta previstos y que tenga permisos y espacio suficientes; valide conectividad y autenticación SSH si el destino es remoto.", "Revise cuidadosamente las barras finales de las rutas para confirmar si se copia el directorio o su contenido; cite o escape rutas y argumentos para evitar expansión accidental del shell.", "Ejecute primero una simulación con `-n` y revise los cambios propuestos. `--delete` elimina archivos del destino que no estén en el origen: confirme el sentido origen/destino y el alcance antes de habilitarlo, y asegure un respaldo recuperable."],
     "rollback": null
   }
 }

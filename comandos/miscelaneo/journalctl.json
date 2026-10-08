@@ -1,7 +1,7 @@
 {
   "id": "journalctl",
   "nombre": "journalctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y filtra registros almacenados por systemd-journald, incluidos registros del sistema, servicios, arranque y kernel.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,12 +10,23 @@
     ]
   },
   "sintaxis": {
-    "principal": "journalctl",
+    "principal": "journalctl [opciones] [coincidencias ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-u", "argumento": "unidad", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Filtra los mensajes asociados a una unidad systemd.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": "[id|desplazamiento]", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra registros del arranque actual o del arranque identificado/relativo.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Sigue los registros nuevos, como tail -f.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": "cantidad", "tipo": "integer", "requerido": false, "default": "10", "valores": [], "descripcion": "Limita la salida a las últimas entradas indicadas.", "conflictos": [], "requiere": []},
+    {"flag": "-p", "argumento": "prioridad", "tipo": "string", "requerido": false, "default": null, "valores": ["emerg", "alert", "crit", "err", "warning", "notice", "info", "debug"], "descripcion": "Filtra por la prioridad indicada o por prioridades más graves.", "conflictos": [], "requiere": []},
+    {"flag": "--since", "argumento": "fecha", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra entradas desde una fecha o expresión temporal admitida.", "conflictos": [], "requiere": []},
+    {"flag": "--until", "argumento": "fecha", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Limita la salida hasta la fecha o expresión temporal indicada.", "conflictos": [], "requiere": []},
+    {"flag": "-k", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra mensajes del kernel.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": "formato", "tipo": "string", "requerido": false, "default": "short", "valores": ["short", "short-iso", "json", "json-pretty", "cat", "verbose"], "descripcion": "Selecciona el formato de presentación de las entradas.", "conflictos": [], "requiere": []},
+    {"flag": "--no-pager", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No canaliza la salida al paginador.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
+    "permisos": ["Lectura del journal; puede requerir pertenecer a systemd-journal/adm o usar root según la política del sistema"],
     "dependencias": [],
     "paquetes": []
   },
@@ -24,26 +35,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los registros pueden contener datos personales, direcciones IP o secretos expuestos por servicios; el acceso a registros de sistema puede requerir permisos de grupo o root."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Viene con systemd; solo está disponible en sistemas que usan journald.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "systemd (incluido en sistemas compatibles)",
+      "arch_linux": "systemd (incluido en el sistema)",
+      "rhel_centos": "systemd (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Ver últimos mensajes de un servicio", "comando": "journalctl -u ssh.service -n 50 --no-pager", "descripcion": "Muestra hasta 50 entradas recientes de la unidad SSH sin abrir paginador.", "resultado_esperado": "Registros de ssh.service en orden cronológico de presentación."},
+    {"nombre": "Seguir registros del arranque actual", "comando": "journalctl -b -f", "descripcion": "Muestra registros desde el arranque actual y sigue las nuevas entradas.", "resultado_esperado": "Flujo continuo de mensajes; termine con Ctrl+C."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que el sistema use systemd-journald y tenga permisos para consultar el ámbito requerido; use --no-pager en automatizaciones."],
     "rollback": null
   }
 }

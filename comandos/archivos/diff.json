@@ -1,7 +1,7 @@
 {
   "id": "diff",
   "nombre": "diff",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Compara archivos de texto línea por línea y presenta las diferencias; admite formatos de salida unificados, contextuales y recursivos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "diff",
+    "principal": "diff [opciones] archivo1 archivo2, diff -r [opciones] directorio1 directorio2",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Genera diferencias en formato unificado con contexto alrededor de los cambios.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Genera diferencias en formato contextual.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Compara recursivamente los árboles de directorios.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Solo indica si los archivos difieren, sin mostrar las líneas cambiadas.", "conflictos": [], "requiere": []},
+    {"flag": "-N", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Trata los archivos ausentes como vacíos al comparar directorios.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre ambos archivos o árboles."],
+    "dependencias": ["GNU diffutils."],
+    "paquetes": ["diffutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El código de salida 1 significa que se encontraron diferencias; un valor mayor indica error.", "La salida puede contener datos sensibles del contenido comparado si se registra o comparte."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar diffutils mediante el gestor de paquetes.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "diffutils",
+      "arch_linux": "diffutils",
+      "rhel_centos": "diffutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar cambios unificados", "comando": "diff -u config.old config.new", "descripcion": "Presenta las diferencias con contexto en el formato común de parches.", "resultado_esperado": "Las líneas eliminadas y añadidas aparecen marcadas en una salida unificada."},
+    {"nombre": "Comparar directorios", "comando": "diff -r -q copia-a/ copia-b/", "descripcion": "Busca recursivamente archivos distintos y limita la salida a avisos breves.", "resultado_esperado": "Informa los archivos que difieren o existen solo en un árbol."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta_original", "ruta_nueva"],
+    "validaciones": ["Distinguir los estados de salida 0, 1 y error.", "Verificar que las rutas comparadas sean las esperadas."],
     "rollback": null
   }
 }

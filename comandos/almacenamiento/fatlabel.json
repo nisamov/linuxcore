@@ -1,7 +1,7 @@
 {
   "id": "fatlabel",
   "nombre": "fatlabel",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o cambia la etiqueta de un sistema de archivos FAT; las operaciones de cambio actualizan metadatos del volumen.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,14 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "fatlabel",
+    "principal": "fatlabel [opciones] dispositivo [etiqueta]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-i","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Interpreta el argumento de dispositivo como una imagen FAT en un archivo regular.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Con un único dispositivo, muestra la etiqueta actual en vez de cambiarla.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Convierte la etiqueta proporcionada a mayúsculas antes de escribirla.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la versión de la utilidad y finaliza.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consulta; root o escritura sobre el volumen para cambiar etiqueta"],
+    "dependencias": ["dosfstools"],
+    "paquetes": ["dosfstools"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +30,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar la etiqueta escribe metadatos; desmonte el volumen y verifique el dispositivo antes de modificarlo.",
+      "La longitud y caracteres admitidos dependen del tipo FAT y de la versión de dosfstools."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install dosfstools",
+      "arch_linux": "sudo pacman -S dosfstools",
+      "rhel_centos": "sudo dnf install dosfstools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar etiqueta FAT","comando":"sudo fatlabel -s /dev/sdb1","descripcion":"Lee la etiqueta del sistema de archivos FAT en la partición indicada.","resultado_esperado":"Imprime la etiqueta actual si el volumen es FAT legible."},
+    {"nombre":"Cambiar etiqueta FAT","comando":"sudo fatlabel /dev/sdb1 DATOS","descripcion":"Escribe DATOS como etiqueta del volumen FAT; la partición debe estar desmontada.","resultado_esperado":"La etiqueta queda actualizada si el dispositivo y la etiqueta son válidos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo", "etiqueta"],
+    "validaciones": ["Verificar que el dispositivo sea realmente FAT y esté desmontado para escribir.","Validar longitud y caracteres de la etiqueta según la variante FAT."],
     "rollback": null
   }
 }

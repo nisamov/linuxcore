@@ -1,7 +1,7 @@
 {
   "id": "lsscsi",
   "nombre": "lsscsi",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista dispositivos SCSI y dispositivos que usan la capa SCSI del kernel, incluidos algunos discos SATA, USB y dispositivos virtuales.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsscsi",
+    "principal": "lsscsi [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-g, --generic","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Añade el nombre del dispositivo genérico asociado, como /dev/sgN, cuando existe.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --size","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el tamaño de los dispositivos de bloque cuando puede determinarse.","conflictos":[],"requiere":[]},
+    {"flag":"-t, --transport","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información de transporte asociada al dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-v, --verbose","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Aumenta el detalle de la salida.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Interfaz SCSI del kernel y dispositivos publicados en sysfs"],
+    "paquetes": ["lsscsi"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La presencia de un dispositivo en la lista no garantiza que esté accesible o montado."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lsscsi",
+      "arch_linux": "sudo pacman -S lsscsi",
+      "rhel_centos": "sudo dnf install lsscsi"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar dispositivos SCSI","comando":"lsscsi","descripcion":"Muestra los dispositivos reconocidos por la capa SCSI.","resultado_esperado":"Dirección host/canal/id/lun, tipo y ruta de dispositivo disponible."},
+    {"nombre":"Mostrar tamaño y dispositivos genéricos","comando":"lsscsi -sg","descripcion":"Añade tamaño y nodos genéricos SCSI a la lista cuando estén disponibles.","resultado_esperado":"Inventario con columnas adicionales de tamaño y ruta /dev/sgN."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que el paquete lsscsi está instalado y que el kernel expone los dispositivos correspondientes."],
     "rollback": null
   }
 }

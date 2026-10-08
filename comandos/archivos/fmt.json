@@ -1,7 +1,7 @@
 {
   "id": "fmt",
   "nombre": "fmt",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Reformatea párrafos de texto para ajustarlos a un ancho de línea, con opciones para unir o dividir líneas y controlar la indentación.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "fmt",
+    "principal": "fmt [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-w", "argumento": "ancho", "tipo": "integer", "requerido": false, "default": 75, "valores": [], "descripcion": "Ajusta la salida al ancho indicado en columnas.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Uniforma los espacios entre palabras y los espacios entre párrafos.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Divide líneas largas, pero no une líneas cortas consecutivas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos de entrada."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["fmt escribe el resultado en la salida estándar y no conserva necesariamente el diseño original; redirigir sobre el archivo fuente puede truncarlo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Ajustar texto a 60 columnas", "comando": "fmt -w 60 borrador.txt", "descripcion": "Refluye los párrafos del archivo para que las líneas no excedan aproximadamente 60 columnas.", "resultado_esperado": "Imprime el texto reformateado en la salida estándar."},
+    {"nombre": "Dividir sin unir líneas", "comando": "fmt -s -w 72 notas.txt", "descripcion": "Ajusta líneas demasiado largas respetando en lo posible los cortes ya existentes.", "resultado_esperado": "Muestra líneas de hasta 72 columnas sin unir líneas cortas."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "ancho"],
+    "validaciones": ["Comprobar legibilidad del archivo.", "Guardar la salida en un archivo distinto si se necesita conservar el original."],
     "rollback": null
   }
 }

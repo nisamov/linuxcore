@@ -1,7 +1,7 @@
 {
   "id": "nftables",
   "nombre": "nftables",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra reglas del framework nftables para filtrado de paquetes, NAT y otros usos netfilter; las órdenes modificadoras alteran la política del kernel.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,44 @@
     "principal": "nftables",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "list ruleset", "argumento": null, "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el conjunto de reglas activo.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Con list, muestra handles de reglas que pueden usarse para operaciones específicas.", "conflictos": [], "requiere": ["list"]},
+    {"flag": "-f", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lee comandos nft desde un archivo de reglas.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Comprueba la validez de comandos sin aplicar cambios.", "conflictos": [], "requiere": []},
+    {"flag": "-j", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Produce salida JSON para operaciones de listado compatibles.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_NET_ADMIN (normalmente root) para modificar reglas; el listado puede estar restringido por sistema"],
+    "dependencias": ["Kernel con soporte nf_tables"],
+    "paquetes": ["nftables"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un ruleset puede bloquear conexiones o dejar el equipo expuesto; respalde el estado y disponga de consola alternativa.", "No cargue rulesets ajenos sin revisión; la operación puede reemplazar o alterar reglas activas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install nftables",
+      "arch_linux": "sudo pacman -S nftables",
+      "rhel_centos": "sudo dnf install nftables"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar ruleset", "comando": "sudo nft list ruleset", "descripcion": "Consulta reglas activas para una auditoría local.", "resultado_esperado": "Imprime tablas, cadenas y reglas actualmente cargadas."},
+    {"nombre": "Validar archivo de prueba", "comando": "sudo nft -c -f ./ruleset-laboratorio.nft", "descripcion": "Valida sintaxis de un ruleset propio sin aplicar los cambios.", "resultado_esperado": "Informa errores de análisis o finaliza sin cambiar reglas."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo_ruleset", "tabla", "cadena"],
+    "validaciones": ["Usar nft -c para validar, respaldar el ruleset activo y planificar rollback y acceso alternativo antes de cargar cambios."],
     "rollback": null
   }
 }

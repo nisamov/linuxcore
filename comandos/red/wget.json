@@ -1,7 +1,7 @@
 {
   "id": "wget",
   "nombre": "wget",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Descarga contenido desde URL mediante HTTP, HTTPS y FTP, con soporte para reintentos, continuacion, limites de velocidad y escritura a archivos.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,22 @@
     ]
   },
   "sintaxis": {
-    "principal": "wget",
+    "principal": "wget [opciones] URL...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-O, --output-document","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Escribe la respuesta en el archivo indicado; '-' dirige a stdout.","conflictos":[],"requiere":[]},
+    {"flag":"-c, --continue","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Intenta continuar una descarga parcial existente.","conflictos":[],"requiere":[]},
+    {"flag":"-q, --quiet","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Suprime la salida informativa.","conflictos":[],"requiere":[]},
+    {"flag":"--limit-rate","argumento":"velocidad","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la velocidad de descarga, por ejemplo 500k o 2m.","conflictos":[],"requiere":[]},
+    {"flag":"--timeout","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Define el tiempo de espera de red.","conflictos":[],"requiere":[]},
+    {"flag":"--spider","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Comprueba disponibilidad de URL sin descargar el contenido localmente.","conflictos":[],"requiere":[]},
+    {"flag":"--https-only","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Sigue solo enlaces HTTPS al recuperar recursivamente, donde aplica.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red y permisos de escritura para el archivo de destino"],
+    "dependencias": ["wget"],
+    "paquetes": ["wget"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +33,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Descargar sobrescribe el destino segun opciones; valide URL, nombre/ruta y espacio disponible antes de ejecutar.",
+      "No use --no-check-certificate en conexiones reales; preserve validacion TLS y evite descargar/ejecutar contenido no confiable."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install wget",
+      "arch_linux": "sudo pacman -S wget",
+      "rhel_centos": "sudo dnf install wget"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Comprobar URL sin descargar","comando":"wget --spider https://example.com/","descripcion":"Solicita comprobar la URL del dominio de ejemplo sin guardar su contenido.","resultado_esperado":"Informa si la URL parece accesible y termina con codigo de estado."},
+    {"nombre":"Descargar con velocidad limitada","comando":"wget --limit-rate=500k -O pagina.html https://example.com/","descripcion":"Descarga una URL HTTPS y guarda la respuesta en pagina.html limitando la tasa aproximada.","resultado_esperado":"Se escribe el contenido en el archivo de destino y se muestra progreso, salvo modo quiet."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["URL","archivo_destino","limite_velocidad"],
+    "validaciones": ["Validar esquema/host, certificado TLS, espacio/permisos y codigo de salida; evitar ejecutar automaticamente lo descargado."],
     "rollback": null
   }
 }

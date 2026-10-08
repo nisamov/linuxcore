@@ -1,7 +1,7 @@
 {
   "id": "ltrace",
   "nombre": "ltrace",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Traza llamadas a funciones de bibliotecas dinámicas realizadas por un programa o proceso, mostrando argumentos y valores de retorno cuando puede decodificarlos.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,78 @@
     ]
   },
   "sintaxis": {
-    "principal": "ltrace",
-    "alternativas": []
+    "principal": "ltrace [opciones] comando [argumentos...]",
+    "alternativas": [
+      "ltrace -p PID"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Cuenta llamadas y tiempo por función en lugar de listar cada llamada individual.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Sigue procesos hijo creados por fork en implementaciones compatibles.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Se conecta a un proceso existente para trazarlo.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-o",
+      "argumento": "archivo",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe el rastro en el archivo indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-e",
+      "argumento": "filtro",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Filtra llamadas/trazas según la expresión aceptada por ltrace.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Adjuntar a procesos está sujeto a ptrace, propietario, Yama/LSM y configuración del sistema."
+    ],
+    "dependencias": [
+      "Arquitectura y ABI compatibles; el trazado de binarios estáticos o código no dinámico puede no mostrar llamadas de biblioteca"
+    ],
+    "paquetes": [
+      "ltrace"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +89,48 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El trazado puede alterar temporización y rendimiento; los argumentos/retornos pueden contener secretos.",
+      "Adjuntarse a un proceso puede detenerlo brevemente y está sujeto a controles de depuración."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ltrace",
+      "arch_linux": "sudo pacman -S ltrace",
+      "rhel_centos": "sudo dnf install ltrace"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Trazar una orden",
+      "comando": "ltrace -c comando_demo",
+      "descripcion": "Ejecuta la orden y resume las llamadas a bibliotecas interceptadas.",
+      "resultado_esperado": "Resumen de llamadas y recuentos al finalizar, si la ABI y el binario son compatibles."
+    },
+    {
+      "nombre": "Adjuntar a proceso",
+      "comando": "ltrace -p 1234 -o /tmp/ltrace.log",
+      "descripcion": "Intenta trazar llamadas de biblioteca del PID 1234 y guarda la salida en un archivo.",
+      "resultado_esperado": "El registro se escribe mientras el proceso continúa; puede fallar por permisos o incompatibilidad."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "comando",
+      "argumentos",
+      "pid",
+      "archivo_salida",
+      "filtro"
+    ],
+    "validaciones": [
+      "Limitar duración/salida y proteger registros que puedan contener datos sensibles.",
+      "Comprobar que el proceso objetivo sea propio o que exista autorización de depuración."
+    ],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "fortune",
   "nombre": "fortune",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Selecciona y muestra una cita aleatoria de las bases de datos fortune instaladas; puede filtrar por longitud, tipo o patrón.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "fortune",
+    "principal": "fortune [-a] [-s|-l] [-o] [-c] [-f] [-m patron] [-n longitud] [archivo ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona citas cortas.", "conflictos": ["-l"], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona citas largas.", "conflictos": ["-s"], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Incluye todas las bases de datos, incluso las marcadas como ofensivas por la instalación.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona citas de bases etiquetadas como ofensivas, si existen.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la ruta de la base y la posición de la cita seleccionada.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Lista las bases de datos disponibles en lugar de mostrar una cita.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": "patron", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra citas que coincidan con el patrón indicado, normalmente una expresión regular.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": "longitud", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Limita la longitud máxima de la cita seleccionada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +33,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El contenido depende de las bases de datos instaladas y puede incluir material marcado como ofensivo si se solicita con -a o -o."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instale fortune-mod y, si se desea, un paquete de bases de datos de citas.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "fortune-mod; fortunes-min o fortunes (bases adicionales)",
+      "arch_linux": "fortune-mod",
+      "rhel_centos": "fortune-mod (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Elegir una cita corta", "comando": "fortune -s", "descripcion": "Selecciona una cita corta de las bases instaladas.", "resultado_esperado": "Una cita aleatoria breve seguida de un salto de línea."},
+    {"nombre": "Listar bases disponibles", "comando": "fortune -f", "descripcion": "Muestra los directorios o bases de datos que fortune puede consultar.", "resultado_esperado": "Lista de bases instaladas y sus pesos relativos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que haya bases de datos instaladas y no use -a/-o si se requiere contenido apto para todo público."],
     "rollback": null
   }
 }

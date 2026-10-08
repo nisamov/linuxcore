@@ -1,7 +1,7 @@
 {
   "id": "ethtool",
   "nombre": "ethtool",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y configura propiedades de interfaces Ethernet, como enlace, velocidad, duplex, autonegociacion, estadisticas y capacidades del controlador.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "ethtool",
+    "principal": "ethtool [opciones] interfaz",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-i","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra informacion del controlador y firmware de la interfaz.","conflictos":[],"requiere":[]},
+    {"flag":"-k","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra caracteristicas de descarga y otras funciones del dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-S","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra estadisticas de la interfaz y el controlador.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"interfaz parametros","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Cambia parametros del dispositivo, por ejemplo speed, duplex o autoneg.","conflictos":[],"requiere":[]},
+    {"flag":"--show-eee","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra configuracion Energy Efficient Ethernet cuando es compatible.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consultas; root o CAP_NET_ADMIN para cambiar parametros"],
+    "dependencias": ["ethtool y controlador compatible"],
+    "paquetes": ["ethtool"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar velocidad, duplex o autonegociacion puede desconectar la interfaz; las opciones disponibles dependen del hardware y controlador.",
+      "Los ejemplos son de consulta y no alteran la configuracion del enlace."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ethtool",
+      "arch_linux": "sudo pacman -S ethtool",
+      "rhel_centos": "sudo dnf install ethtool"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar enlace","comando":"ethtool enp0s3","descripcion":"Muestra el estado y capacidades Ethernet de la interfaz local enp0s3.","resultado_esperado":"Se imprimen velocidad, duplex, autonegociacion y estado de enlace cuando el controlador informa esos datos."},
+    {"nombre":"Consultar controlador","comando":"ethtool -i enp0s3","descripcion":"Muestra nombre y version del controlador asociado a la interfaz.","resultado_esperado":"Se listan controlador, version y firmware disponibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz","parametros_enlace"],
+    "validaciones": ["Comprobar que la interfaz existe y que el controlador admite cada funcion antes de cambiar parametros."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "swapoff",
   "nombre": "swapoff",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Desactiva áreas de intercambio activas por dispositivo/archivo o todas las definidas, liberando sus páginas de la memoria swap.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "swapoff",
+    "principal": "swapoff [opciones] [dispositivo|archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desactiva todas las áreas de intercambio activas que pueda identificar.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra mensajes detallados durante la desactivación.","conflictos":[],"requiere":[]},
+    {"flag":"-h","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra ayuda y finaliza.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["util-linux"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Desactivar swap puede exigir que el kernel recupere páginas en RAM; si no hay memoria suficiente, la operación puede fallar o provocar presión severa de memoria.",
+      "Antes de usar -a, revise todas las áreas activas y el impacto en la carga del sistema."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Desactivar un área swap","comando":"sudo swapoff /dev/sdb2","descripcion":"Desactiva únicamente la partición de intercambio indicada.","resultado_esperado":"El dispositivo deja de aparecer como activo en swapon --show si había memoria suficiente para completar la operación."},
+    {"nombre":"Desactivar áreas listadas en fstab","comando":"sudo swapoff -a","descripcion":"Solicita desactivar las áreas swap activas configuradas en /etc/fstab, salvo las noauto.","resultado_esperado":"Las áreas seleccionadas dejan de estar activas; la operación puede fallar si no puede liberar sus páginas."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo_swap"],
+    "validaciones": ["Consultar uso de memoria y swap antes de desactivar.","Comprobar que haya RAM suficiente y que el sistema soporte la operación.","Evitar -a en servidores sin revisión de todas las áreas configuradas."],
     "rollback": null
   }
 }

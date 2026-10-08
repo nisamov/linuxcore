@@ -1,7 +1,7 @@
 {
   "id": "sha256sum",
   "nombre": "sha256sum",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Calcula o verifica hashes SHA-256 de archivos, útil para comparar integridad; la autenticidad requiere obtener el digest por un canal confiable.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "sha256sum",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-c", "argumento": "archivo_sumas", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Verifica archivos enumerados en un manifiesto de hashes.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lee archivos en modo binario donde se distinguen modos texto/binario.", "conflictos": [], "requiere": []},
+    {"flag": "--tag", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Emite salida en formato BSD.", "conflictos": [], "requiere": []},
+    {"flag": "--status", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime salida normal durante verificación; evaluar el código de salida.", "conflictos": [], "requiere": ["-c"]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Coreutils"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El digest por sí solo no demuestra quién creó el archivo; compare con un valor firmado o recibido por canal confiable.", "Los manifiestos pueden sobrescribirse si se redirigen sobre archivos existentes; elija el destino cuidadosamente."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Calcular hash de archivo propio", "comando": "sha256sum ./archivo-prueba.bin", "descripcion": "Calcula SHA-256 para comprobar una copia de prueba.", "resultado_esperado": "Imprime digest hexadecimal SHA-256 y la ruta."},
+    {"nombre": "Crear y verificar manifiesto", "comando": "sha256sum ./archivo-prueba.bin > ./SHA256SUMS.prueba && sha256sum -c ./SHA256SUMS.prueba", "descripcion": "Guarda y verifica un manifiesto de laboratorio para detectar cambios.", "resultado_esperado": "Muestra OK cuando el contenido coincide."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "manifiesto"],
+    "validaciones": ["Comprobar el código de salida de sha256sum -c y obtener el digest esperado de una fuente confiable."],
     "rollback": null
   }
 }

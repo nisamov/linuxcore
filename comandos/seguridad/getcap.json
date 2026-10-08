@@ -1,7 +1,7 @@
 {
   "id": "getcap",
   "nombre": "getcap",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra las capacidades Linux asignadas a archivos ejecutables, con opción de recorrido recursivo; es una herramienta de auditoría de solo lectura.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "getcap",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Recorre directorios recursivamente.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra valores numéricos de usuarios en nombres de archivo cuando aplica.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra la versión de las capacidades en el formato de salida.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Sistema de archivos con soporte de atributos extendidos"],
+    "paquetes": ["libcap2-bin", "libcap"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La visibilidad puede depender de permisos de lectura y montaje; investigue cuidadosamente capacidades inesperadas en binarios privilegiados."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install libcap2-bin",
+      "arch_linux": "sudo pacman -S libcap",
+      "rhel_centos": "sudo dnf install libcap"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar capacidades de binario", "comando": "getcap /usr/bin/ping", "descripcion": "Consulta las capacidades asignadas al binario del sistema.", "resultado_esperado": "Muestra las capacidades si existen; no modifica el archivo."},
+    {"nombre": "Buscar capacidades en árbol de pruebas", "comando": "sudo getcap -r ./arbol-auditoria", "descripcion": "Inspecciona recursivamente un árbol propio de auditoría.", "resultado_esperado": "Lista archivos bajo esa ruta que tengan capacidades."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta", "recursivo"],
+    "validaciones": ["Limitar el recorrido a árboles autorizados y revisar el código de salida y capacidades inesperadas."],
     "rollback": null
   }
 }

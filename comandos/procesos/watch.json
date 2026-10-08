@@ -1,7 +1,7 @@
 {
   "id": "watch",
   "nombre": "watch",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta periódicamente un comando y muestra su salida en pantalla para observar cambios a lo largo del tiempo.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "watch",
+    "principal": "watch [opciones] comando [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": "segundos", "tipo": "number", "requerido": false, "default": 2, "valores": [], "descripcion": "Intervalo entre ejecuciones, en segundos; puede admitir fracciones según la versión.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": "[cambios]", "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Resalta los cambios entre la salida actual y la anterior; con cambios limita el resaltado a los que persisten.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Desactiva la cabecera que muestra el comando, el intervalo y la hora.", "conflictos": [], "requiere": []},
+    {"flag": "-p", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Intenta calcular el intervalo desde el inicio de una ejecución hasta el inicio de la siguiente.", "conflictos": [], "requiere": []},
+    {"flag": "-x", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ejecuta el comando directamente en vez de pasarlo a una shell; limita el uso de sintaxis propia de shell.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permisos necesarios para ejecutar el comando observado."],
+    "dependencias": ["Un terminal interactivo para mostrar la salida."],
+    "paquetes": ["procps o procps-ng"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El comando especificado se ejecuta repetidamente; no lo use para operaciones que no sean seguras de repetir.",
+      "La salida se actualiza en pantalla y puede revelar datos sensibles del comando observado."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Observar uso de memoria", "comando": "watch -n 2 free -h", "descripcion": "Actualiza cada dos segundos el resumen de memoria.", "resultado_esperado": "La salida de free se refresca periódicamente en el terminal."},
+    {"nombre": "Vigilar procesos y resaltar cambios", "comando": "watch -n 1 -d 'ps -eo pid,comm,%cpu --sort=-%cpu | head'", "descripcion": "Muestra cada segundo los procesos con mayor uso de CPU y resalta diferencias.", "resultado_esperado": "Una tabla refrescada con los procesos principales y los valores que han cambiado."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["intervalo", "comando", "argumentos"],
+    "validaciones": ["Verificar que el comando exista y que sea seguro repetirlo.", "Elegir un intervalo que no sobrecargue el sistema ni el servicio consultado."],
     "rollback": null
   }
 }

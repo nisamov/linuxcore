@@ -1,7 +1,7 @@
 {
   "id": "chown",
   "nombre": "chown",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia el propietario y, opcionalmente, el grupo de archivos o directorios; admite cambios recursivos y referencia de propietario/grupo.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "chown",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cambia propietario/grupo recursivamente.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Informa de cada archivo procesado.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Informa solo cuando se realiza un cambio.", "conflictos": [], "requiere": []},
+    {"flag": "--reference", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Usa propietario y grupo del archivo de referencia.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El propietario puede ceder propiedad solo bajo restricciones del sistema; root o CAP_CHOWN puede asignar propietarios arbitrarios"],
+    "dependencias": ["Coreutils; nombres de usuario/grupo resolubles en el sistema"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un cambio incorrecto puede hacer inaccesibles datos o servicios; revise especialmente las operaciones recursivas.", "El uso de usuario:grupo asigna ambos; usuario: cambia el grupo a vacío solo donde la implementación lo permita."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar propiedad", "comando": "stat -c '%U:%G %n' ./archivo-prueba.txt", "descripcion": "Audita propietario y grupo antes de una eventual corrección.", "resultado_esperado": "Muestra propietario, grupo y ruta."},
+    {"nombre": "Asignar grupo a archivo de ensayo", "comando": "sudo chown :auditoria ./informe-prueba.txt", "descripcion": "Cambia solo el grupo de un archivo propio de pruebas a un grupo existente.", "resultado_esperado": "El grupo del archivo pasa a auditoria; verificar con stat."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["propietario", "grupo", "ruta", "recursivo"],
+    "validaciones": ["Confirmar que el usuario y grupo existen y que la ruta está acotada antes de usar -R."],
     "rollback": null
   }
 }

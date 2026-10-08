@@ -1,7 +1,7 @@
 {
   "id": "xargs",
   "nombre": "xargs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Construye y ejecuta comandos con argumentos leídos de la entrada estándar, agrupándolos para evitar límites de longitud de línea de comandos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "xargs",
+    "principal": "xargs [opciones] [comando [argumentos_iniciales...]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-0", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Separa entradas por byte NUL, apropiado con find -print0.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": "cantidad", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Pasa como máximo el número indicado de argumentos por ejecución del comando.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": "procesos", "tipo": "integer", "requerido": false, "default": 1, "valores": [], "descripcion": "Ejecuta hasta el número indicado de procesos en paralelo.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No ejecuta el comando si la entrada está vacía (GNU xargs).", "conflictos": [], "requiere": []},
+    {"flag": "-I", "argumento": "marcador", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Sustituye el marcador en los argumentos con cada línea de entrada y ejecuta una vez por línea.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Dependen del comando ejecutado y de los archivos/rutas incluidos en la entrada."],
+    "dependencias": ["GNU findutils; el comando que se invocará debe estar disponible."],
+    "paquetes": ["findutils"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "requiere_confirmacion": true,
+    "advertencias": ["xargs ejecuta el comando resultante: revise cuidadosamente la entrada y la acción, especialmente con rm, chmod, chown o comandos privilegiados.", "Use find -print0 | xargs -0 para manejar espacios, comillas, barras invertidas y saltos de línea en nombres.", "-P puede alterar el orden y aumentar carga; compruebe que la operación soporte concurrencia."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar findutils mediante el gestor de paquetes; xargs suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "findutils",
+      "arch_linux": "findutils",
+      "rhel_centos": "findutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Procesar rutas con nombres seguros", "comando": "find ./documentos -type f -print0 | xargs -0 -r file", "descripcion": "Pasa a file las rutas encontradas delimitadas por NUL y no ejecuta si no hay resultados.", "resultado_esperado": "file identifica cada ruta encontrada, incluso si contiene espacios o saltos de línea."},
+    {"nombre": "Aplicar operación por lotes", "comando": "printf '%s\\n' uno dos tres | xargs -n 1 printf 'elemento: %s\\n'", "descripcion": "Invoca printf una vez por cada argumento recibido.", "resultado_esperado": "Imprime una línea elemento: ... para cada valor."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["entrada", "comando", "argumentos"],
+    "validaciones": ["Usar delimitación NUL para nombres arbitrarios de archivo.", "Probar primero con un comando inocuo y revisar argumentos.", "Limitar concurrencia y validar código de salida de los procesos hijos."],
     "rollback": null
   }
 }

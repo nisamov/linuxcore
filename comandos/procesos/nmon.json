@@ -1,7 +1,7 @@
 {
   "id": "nmon",
   "nombre": "nmon",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Monitor interactivo de rendimiento que presenta estadísticas de CPU, memoria, discos, red y procesos, y puede capturar datos para análisis posterior.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,112 @@
     ]
   },
   "sintaxis": {
-    "principal": "nmon",
+    "principal": "nmon [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Activa captura en archivo para análisis posterior en versiones comunes de nmon.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": "segundos",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el intervalo entre muestras durante la captura.",
+      "conflictos": [],
+      "requiere": ["-f"]
+    },
+    {
+      "flag": "-c",
+      "argumento": "cantidad",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el número de muestras de captura.",
+      "conflictos": [],
+      "requiere": ["-f"]
+    },
+    {
+      "flag": "-F",
+      "argumento": "archivo",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Especifica el nombre de archivo de salida para captura en implementaciones que admiten esta opción.",
+      "conflictos": [],
+      "requiere": ["-f"]
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso de lectura a estadísticas del sistema y procesos visibles."
+    ],
+    "dependencias": [
+      "Terminal interactivo; herramientas de análisis compatibles si se procesa la captura"
+    ],
+    "paquetes": [
+      "nmon"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los archivos capturados pueden incluir nombres de procesos y métricas del host; protege su acceso.",
+      "Las opciones y capacidades varían entre versiones de nmon y plataformas; verifica la ayuda local."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install nmon",
+      "arch_linux": "sudo pacman -S nmon (si está disponible en los repositorios habilitados)",
+      "rhel_centos": "sudo dnf install nmon (si está disponible en los repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Abrir monitor interactivo",
+      "comando": "nmon",
+      "descripcion": "Inicia la vista interactiva; las teclas disponibles seleccionan las métricas mostradas.",
+      "resultado_esperado": "Pantalla con ayuda de teclas y métricas del sistema."
+    },
+    {
+      "nombre": "Capturar diez muestras",
+      "comando": "nmon -f -s 5 -c 10",
+      "descripcion": "Solicita captura a intervalos de cinco segundos durante diez muestras en versiones compatibles.",
+      "resultado_esperado": "Archivo de captura con métricas; el nombre se genera según la versión o configuración."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "idempotente": true,
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "intervalo",
+      "cantidad",
+      "archivo_salida"
+    ],
+    "validaciones": [
+      "Confirmar compatibilidad de opciones en la versión instalada.",
+      "Comprobar espacio, permisos y tratamiento de los datos de captura."
+    ],
     "rollback": null
   }
 }

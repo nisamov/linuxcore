@@ -1,7 +1,7 @@
 {
   "id": "quota",
   "nombre": "quota",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra el uso de espacio y de inodos y los límites de cuota de usuarios o grupos en sistemas de archivos con cuotas habilitadas.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "quota",
+    "principal": "quota [opciones] [usuario|grupo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra cuotas de usuario (comportamiento habitual si no se indica -g).","conflictos":[],"requiere":[]},
+    {"flag":"-g","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra cuotas de grupo.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra cuotas en sistemas de archivos donde no hay uso registrado.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra tamaños en unidades legibles para humanos.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":"sistema_archivos","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita el informe al sistema de archivos especificado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["consulta propia; root puede consultar cuotas de otros usuarios"],
+    "dependencias": ["quota y soporte de cuotas habilitado en el sistema de archivos"],
+    "paquetes": ["quota"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El comando informa límites solo si el sistema de archivos tiene cuotas habilitadas y actualizadas.",
+      "Las cuotas y sus unidades pueden variar según sistema de archivos y configuración local."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install quota",
+      "arch_linux": "sudo pacman -S quota-tools",
+      "rhel_centos": "sudo dnf install quota"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar cuota del usuario actual","comando":"quota -s","descripcion":"Muestra en unidades legibles el uso y límites de cuota del usuario que ejecuta el comando.","resultado_esperado":"Resumen por sistema de archivos, incluidos bloques e inodos cuando hay cuotas activas."},
+    {"nombre":"Consultar cuotas de grupo","comando":"sudo quota -g -v equipo","descripcion":"Muestra información detallada de cuota del grupo equipo, incluso en sistemas de archivos sin uso registrado.","resultado_esperado":"Cuota de grupo por sistema de archivos con uso y límites disponibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["usuario_o_grupo", "tipo"],
+    "validaciones": ["Comprobar que cuotas estén habilitadas y que se consulte el usuario/grupo correcto.","Interpretar límites y unidades según el sistema de archivos."],
     "rollback": null
   }
 }

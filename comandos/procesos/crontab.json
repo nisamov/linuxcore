@@ -1,7 +1,7 @@
 {
   "id": "crontab",
   "nombre": "crontab",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista, instala, edita o elimina la tabla de tareas cron de un usuario.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,128 @@
     ]
   },
   "sintaxis": {
-    "principal": "crontab",
-    "alternativas": []
+    "principal": "crontab [opciones] [archivo]",
+    "alternativas": [
+      "crontab -l",
+      "crontab -e",
+      "crontab -r"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-l",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Lista la tabla cron del usuario seleccionado.",
+      "conflictos": [
+        "-e",
+        "-r",
+        "archivo"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-e",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Edita la tabla mediante el editor configurado y la instala si se guarda correctamente.",
+      "conflictos": [
+        "-l",
+        "-r",
+        "archivo"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Elimina la tabla cron del usuario; acción destructiva y sin confirmación en muchas implementaciones.",
+      "conflictos": [
+        "-l",
+        "-e",
+        "archivo"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona el usuario cuya tabla se lista, edita o instala; normalmente requiere privilegios adecuados.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso permitido por configuración cron.allow/cron.deny; administrar tablas de otros usuarios normalmente requiere root."
+    ],
+    "dependencias": [
+      "Demonio cron/crond activo para ejecutar las entradas"
+    ],
+    "paquetes": [
+      "cron o cronie"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Editar o instalar una tabla cambia tareas que se ejecutarán automáticamente; -r elimina todas las entradas del usuario.",
+      "Las tareas suelen ejecutarse con entorno limitado; use rutas absolutas, permisos mínimos y proteja secretos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_y_servicio_cron",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install cron",
+      "arch_linux": "sudo pacman -S cronie",
+      "rhel_centos": "sudo dnf install cronie"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Listar tabla actual",
+      "comando": "crontab -l",
+      "descripcion": "Muestra las entradas cron del usuario actual.",
+      "resultado_esperado": "Contenido de la tabla o mensaje de que no existe una tabla instalada."
+    },
+    {
+      "nombre": "Editar tabla del usuario",
+      "comando": "crontab -e",
+      "descripcion": "Abre la tabla actual en el editor configurado para revisión y edición.",
+      "resultado_esperado": "Al guardar una sintaxis válida, crontab instala la tabla actualizada."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "usuario",
+      "archivo_crontab"
+    ],
+    "validaciones": [
+      "Respaldar la tabla con crontab -l antes de modificarla.",
+      "Validar la sintaxis, rutas absolutas, usuario de ejecución y frecuencia de cada entrada.",
+      "Evitar -r salvo que la eliminación completa haya sido confirmada."
+    ],
+    "rollback": "Restaurar un respaldo revisado mediante crontab archivo_respaldo."
   }
 }

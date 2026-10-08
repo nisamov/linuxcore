@@ -1,7 +1,7 @@
 {
   "id": "teamd",
   "nombre": "teamd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Daemon de libteam que crea y administra interfaces de equipo (teaming) con configuracion JSON y runners para agregar redundancia o distribuir trafico entre puertos.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "teamd",
+    "principal": "teamd [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t, --team-device","argumento":"dispositivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Nombre de la interfaz team que administrara el daemon.","conflictos":[],"requiere":[]},
+    {"flag":"-f, --config-file","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee configuracion JSON desde el archivo indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-c, --config","argumento":"JSON","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Proporciona configuracion JSON directamente en la linea de comandos.","conflictos":[],"requiere":[]},
+    {"flag":"-d, --daemonize","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ejecuta como daemon en segundo plano.","conflictos":[],"requiere":[]},
+    {"flag":"-n, --no-ports","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Inicia el equipo sin agregar los puertos enumerados en la configuracion.","conflictos":[],"requiere":[]},
+    {"flag":"-D, --debug","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa mensajes de depuracion.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_ADMIN para crear equipo y administrar puertos"],
+    "dependencias": ["libteam, teamd y controlador/driver compatible"],
+    "paquetes": ["libteam-utils o teamd, segun distribucion"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Crear o modificar un equipo puede quitar puertos del gestor de red y cortar conectividad; respalde configuracion y opere con acceso de consola.",
+      "NetworkManager puede ofrecer teamd como backend, pero la disponibilidad de teaming varia y algunas plataformas lo han desaprobado en favor de bonding."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (si esta disponible en la distribucion)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install libteam-utils",
+      "arch_linux": "Verificar disponibilidad del paquete libteam en repositorios habilitados",
+      "rhel_centos": "sudo dnf install teamd"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar ayuda sin cambios","comando":"teamd --help","descripcion":"Muestra opciones de invocacion y no crea ni modifica interfaces.","resultado_esperado":"Se imprime la ayuda de la version instalada."},
+    {"nombre":"Iniciar equipo de laboratorio con diagnostico","comando":"sudo teamd -t team0 -f /etc/teamd/team0.conf -g","descripcion":"Inicia el daemon para la interfaz de laboratorio team0 con configuracion revisada y mensajes de depuracion; teamd permanece en primer plano salvo -d.","resultado_esperado":"El daemon intenta crear/administrar team0 y emite diagnosticos; finalizarlo puede afectar interfaces y conectividad."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["interfaz_team","archivo_configuracion"],
+    "validaciones": ["Validar JSON y puertos miembros, coordinar con NetworkManager/systemd y disponer de consola/rollback antes de iniciar o detener el equipo."],
     "rollback": null
   }
 }

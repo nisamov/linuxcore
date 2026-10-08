@@ -1,7 +1,7 @@
 {
   "id": "chfn",
   "nombre": "chfn",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia los datos GECOS de una cuenta local (nombre completo, oficina, teléfonos y otra información), que se muestran en listados de usuarios.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,14 +10,20 @@
     ]
   },
   "sintaxis": {
-    "principal": "chfn",
+    "principal": "chfn [opciones] [usuario]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-f","argumento":"nombre","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el nombre completo (campo GECOS).","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":"oficina","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el número de habitación/oficina.","conflictos":[],"requiere":[]},
+    {"flag":"-w","argumento":"teléfono","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el teléfono del trabajo.","conflictos":[],"requiere":[]},
+    {"flag":"-h","argumento":"teléfono","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el teléfono del domicilio.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"otro","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece otra información GECOS.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El usuario puede modificar sus propios datos; root puede modificar los de otros, sujeto a la configuración local"],
+    "dependencias": ["base de datos local de cuentas"],
+    "paquetes": ["passwd/shadow-utils, según la distribución"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +31,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los datos GECOS pueden ser visibles para otros usuarios locales; no introduzcas información personal sensible.",
+      "El usuario solo puede modificar sus propios campos permitidos; la política y opciones exactas dependen de la implementación instalada."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en el paquete de utilidades de cuentas de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Actualizar el nombre completo propio","comando":"chfn -f 'Ana Pérez'","descripcion":"Establece el nombre completo de la cuenta actual.","resultado_esperado":"El campo GECOS queda actualizado y puede comprobarse con getent passwd \"$USER\"."},
+    {"nombre":"Actualizar datos de otra cuenta","comando":"sudo chfn -w 555-0100 ana","descripcion":"Cambia el teléfono laboral registrado para ana.","resultado_esperado":"Se actualiza el campo correspondiente si la política local permite la operación."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["usuario", "datos_gecos"],
+    "validaciones": ["Verificar que los datos no contengan información sensible ni caracteres inesperados.", "Confirmar autorización para modificar cuentas ajenas."],
     "rollback": null
   }
 }

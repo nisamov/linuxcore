@@ -1,7 +1,7 @@
 {
   "id": "journalctl",
   "nombre": "journalctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta los registros almacenados por systemd-journald y permite filtrarlos por unidad, arranque, prioridad o tiempo. No es una herramienta genérica para registros SysV/OpenRC.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "journalctl",
+    "principal": "journalctl [opciones] [coincidencias...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-u, --unit","argumento":"unidad","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Filtra los registros asociados a una unidad systemd; puede repetirse.","conflictos":[],"requiere":[]},
+    {"flag":"-b, --boot","argumento":"id_o_desplazamiento","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra registros del arranque actual o del arranque indicado por índice/identificador.","conflictos":[],"requiere":[]},
+    {"flag":"-f, --follow","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Sigue mostrando entradas nuevas, como tail -f.","conflictos":[],"requiere":[]},
+    {"flag":"-n, --lines","argumento":"cantidad","tipo":"integer","requerido":false,"default":10,"valores":[],"descripcion":"Limita la salida a las entradas más recientes indicadas.","conflictos":[],"requiere":[]},
+    {"flag":"--since","argumento":"fecha_hora","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra entradas posteriores al instante indicado; acepta expresiones de tiempo admitidas por systemd.","conflictos":[],"requiere":[]},
+    {"flag":"--until","argumento":"fecha_hora","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra entradas anteriores al instante indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-p, --priority","argumento":"prioridad","tipo":"string","requerido":false,"default":null,"valores":["emerg","alert","crit","err","warning","notice","info","debug","0..7"],"descripcion":"Filtra por prioridad syslog, incluidas las prioridades más graves hasta la indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-o, --output","argumento":"formato","tipo":"string","requerido":false,"default":"short","valores":["short","short-iso","json","json-pretty","cat"],"descripcion":"Selecciona la representación de las entradas; existen más formatos según la versión.","conflictos":[],"requiere":[]},
+    {"flag":"--no-pager","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Imprime directamente sin abrir un paginador.","conflictos":[],"requiere":[]},
+    {"flag":"--vacuum-time","argumento":"duración","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Elimina archivos de diario archivados más antiguos que la duración indicada; modifica los registros persistentes.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El acceso a todos los registros puede requerir root, sudo o pertenencia a grupos autorizados como systemd-journal/adm según distribución."],
+    "dependencias": ["systemd-journald; registros persistentes solo si están habilitados"],
+    "paquetes": ["systemd"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El contenido puede incluir datos sensibles, rutas, nombres de usuario o información operativa; proteja las salidas exportadas.", "--vacuum-time elimina registros archivados y no se puede deshacer; no equivale a una consulta de solo lectura.", "Disponible solo cuando systemd-journald mantiene el diario consultado."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Incluido con systemd en distribuciones que utilizan ese gestor init.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "systemd",
+      "arch_linux": "systemd",
+      "rhel_centos": "systemd"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Ver errores del arranque actual","comando":"journalctl -b -p err --no-pager","descripcion":"Consulta mensajes de prioridad error o más grave desde el arranque actual sin paginador.","resultado_esperado":"Entradas del diario que cumplen el filtro, o salida vacía si no hay coincidencias."},
+    {"nombre":"Seguir el diario de SSH","comando":"sudo journalctl -u ssh.service -f","descripcion":"Muestra y sigue en tiempo real las entradas de la unidad SSH; algunas distribuciones usan sshd.service.","resultado_esperado":"Se imprimen eventos existentes recientes y luego las nuevas entradas hasta interrumpir con Ctrl+C."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["unidad", "desde", "hasta", "prioridad"],
+    "validaciones": ["Confirmar disponibilidad de journalctl y existencia de la unidad indicada.", "En scripts, usar --no-pager y un formato estable como json; tratar --vacuum-time como operación destructiva."],
     "rollback": null
   }
 }

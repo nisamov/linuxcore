@@ -1,7 +1,7 @@
 {
   "id": "groupadd",
   "nombre": "groupadd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea un grupo local con el nombre y los atributos opcionales especificados.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "groupadd",
+    "principal": "groupadd [opciones] grupo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-g","argumento":"GID","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Asigna un GID explícito.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Permite un GID no único; normalmente se usa junto con -g.","conflictos":[],"requiere":["-g"]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Crea un grupo de sistema con GID dentro del rango configurado.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Finaliza con éxito si el grupo ya existe y ajusta conflictos de GID en implementaciones shadow compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-K","argumento":"clave=valor","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Sobrescribe un valor de configuración de login.defs para esta invocación.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios administrativos"],
+    "dependencias": ["base de datos local de grupos y configuración de shadow"],
+    "paquetes": ["shadow en Debian/Ubuntu/Arch; shadow-utils en RHEL/Fedora"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Crear grupos altera la asignación de permisos; revisa nombre, GID y política de grupos de sistema.",
+      "Las opciones disponibles pueden variar entre versiones de shadow; consulta man groupadd antes de usar opciones de configuración."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades shadow.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Crear grupo ordinario","comando":"sudo groupadd desarrollo","descripcion":"Crea el grupo local desarrollo con un GID asignado automáticamente.","resultado_esperado":"El grupo aparece en la base local, consultable con getent group desarrollo."},
+    {"nombre":"Crear grupo con GID concreto","comando":"sudo groupadd -g 2500 proyecto","descripcion":"Crea proyecto con GID 2500 si dicho identificador está disponible.","resultado_esperado":"El grupo queda asociado al GID solicitado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["grupo", "GID"],
+    "validaciones": ["Comprobar que el nombre y GID no estén ya asignados y que el rango sea válido.", "Aplicar cambios solo con privilegios administrativos y conforme a la política de cuentas."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "screenfetch",
   "nombre": "screenfetch",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra un resumen visual del sistema operativo, kernel, hardware y entorno de escritorio junto a un logotipo ASCII de la distribución.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "screenfetch",
+    "principal": "screenfetch [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite la presentación del logotipo ASCII de la distribución.","conflictos":[],"requiere":[]},
+    {"flag":"-N","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Desactiva el uso de colores en la salida.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Entorno Linux con interfaces de detección de sistema disponibles"],
+    "paquetes": ["screenfetch (si está disponible en los repositorios configurados)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Proyecto y paquetes no están disponibles en todas las distribuciones; la detección de escritorio puede ser parcial en sesiones remotas o minimalistas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (disponibilidad variable)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
+      "debian_ubuntu": "sudo apt install screenfetch",
+      "arch_linux": "sudo pacman -S screenfetch",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar resumen visual","comando":"screenfetch","descripcion":"Detecta el sistema y muestra el resumen con el logotipo de distribución.","resultado_esperado":"Datos generales del equipo acompañados de arte ASCII, si la detección está soportada."},
+    {"nombre":"Mostrar información sin logotipo","comando":"screenfetch -n","descripcion":"Imprime el resumen del sistema omitiendo el bloque de arte ASCII.","resultado_esperado":"Texto con la información detectada sin el logotipo."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que screenfetch esté disponible en los repositorios de la distribución y no depender de su salida para interfaces de máquina."],
     "rollback": null
   }
 }

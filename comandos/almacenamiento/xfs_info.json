@@ -1,7 +1,7 @@
 {
   "id": "xfs_info",
   "nombre": "xfs_info",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra geometría y parámetros del sistema de archivos XFS que contiene el punto de montaje indicado.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "xfs_info",
+    "principal": "xfs_info punto_de_montaje",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"punto_de_montaje","argumento":null,"tipo":"posicional","requerido":true,"default":null,"valores":[],"descripcion":"Ruta dentro del sistema de archivos XFS que se desea inspeccionar; habitualmente se indica su punto de montaje.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de información del montaje"],
+    "dependencias": ["xfsprogs"],
+    "paquetes": ["xfsprogs"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El comando consulta un sistema XFS montado; las características mostradas dependen de la versión y configuración del sistema de archivos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install xfsprogs",
+      "arch_linux": "sudo pacman -S xfsprogs",
+      "rhel_centos": "sudo dnf install xfsprogs"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar parámetros de XFS","comando":"xfs_info /mnt/datos","descripcion":"Muestra geometría y parámetros del XFS que contiene /mnt/datos.","resultado_esperado":"Salida con bloques, grupos de asignación y características del sistema de archivos."},
+    {"nombre":"Consultar XFS mediante una ruta interior","comando":"xfs_info /mnt/datos/proyectos","descripcion":"Identifica y muestra la información del XFS que contiene la ruta indicada.","resultado_esperado":"Información del punto de montaje XFS correspondiente."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["punto_de_montaje"],
+    "validaciones": ["Comprobar que la ruta pertenece a un sistema XFS montado."],
     "rollback": null
   }
 }

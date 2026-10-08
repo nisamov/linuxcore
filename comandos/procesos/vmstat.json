@@ -1,7 +1,7 @@
 {
   "id": "vmstat",
   "nombre": "vmstat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Informa sobre memoria virtual, paginación, procesos, interrupciones, CPU y, con opciones, estadísticas de dispositivos.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,146 @@
     ]
   },
   "sintaxis": {
-    "principal": "vmstat",
+    "principal": "vmstat [opciones] [retardo [repeticiones]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra memoria activa e inactiva en vez de campos tradicionales de memoria libre/búferes.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra estadísticas de actividad de discos/dispositivos.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra contadores de eventos y estadísticas de memoria desde el arranque.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa salida ancha para campos extensos.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Añade una marca de tiempo a cada línea de informe.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "retardo",
+      "argumento": "segundos",
+      "tipo": "number",
+      "requerido": false,
+      "default": 0,
+      "valores": [],
+      "descripcion": "Intervalo entre muestras; sin retardo, muestra un informe y termina.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "repeticiones",
+      "argumento": "cantidad",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Número de informes cuando se indica un retardo.",
+      "conflictos": [],
+      "requiere": [
+        "retardo"
+      ]
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso de lectura a estadísticas del kernel."
+    ],
+    "dependencias": [
+      "/proc y estadísticas de dispositivos expuestas por el kernel"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los datos son muestras agregadas; la primera fila con intervalo suele resumir el tiempo desde el arranque y no es directamente comparable con las filas posteriores.",
+      "Las columnas disponibles dependen del kernel y de la versión de procps."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Muestrear actividad cada segundo",
+      "comando": "vmstat 1 5",
+      "descripcion": "Emite cinco informes con un segundo de intervalo después de la muestra inicial.",
+      "resultado_esperado": "Columnas de procesos, memoria, swap, E/S, sistema y CPU para cada muestra."
+    },
+    {
+      "nombre": "Consultar estadísticas de dispositivos",
+      "comando": "vmstat -d",
+      "descripcion": "Muestra contadores de actividad de dispositivos de bloque reconocidos.",
+      "resultado_esperado": "Tabla con lecturas/escrituras y tiempos acumulados, si la plataforma los expone."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "retardo",
+      "repeticiones"
+    ],
+    "validaciones": [
+      "Interpretar correctamente la primera fila y los campos específicos de la versión.",
+      "Mantener una cantidad de muestras finita en scripts si no se requiere monitorización continua."
+    ],
     "rollback": null
   }
 }

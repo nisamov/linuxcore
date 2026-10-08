@@ -1,7 +1,7 @@
 {
   "id": "hollywood",
   "nombre": "hollywood",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Inicia una demostración visual de terminal con varias ventanas y herramientas de texto para simular una consola cinematográfica; no realiza monitorización real.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -13,7 +13,9 @@
     "principal": "hollywood",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "terminal_interactiva (entorno)", "tipo": "string", "requerido": false, "default": "terminal actual", "valores": [], "descripcion": "Entorno de terminal donde se dibuja la demostración; hollywood no necesita un operando posicional en la sintaxis documentada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +26,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Es una utilidad de entretenimiento que puede abrir varias ventanas o procesos y ocupar la sesión de terminal; no debe interpretarse como diagnóstico del sistema."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable como paquete hollywood en distribuciones que lo ofrecen; algunas dependencias abren interfaces terminales adicionales.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "hollywood (disponible en versiones/repositorios concretos)",
+      "arch_linux": "hollywood (AUR o repositorio comunitario, según disponibilidad)",
+      "rhel_centos": "No suele estar en repositorios base; consultar repositorios comunitarios"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Iniciar la demostración", "comando": "hollywood", "descripcion": "Ejecuta la presentación visual interactiva en la terminal actual.", "resultado_esperado": "Se muestra una composición de paneles de terminal decorativos hasta salir de la sesión."},
+    {"nombre": "Ejecutar en una terminal dedicada", "comando": "tmux new-session 'hollywood'", "descripcion": "Aísla la presentación en una sesión tmux separada para poder salir de ella sin cerrar otras tareas.", "resultado_esperado": "La animación aparece dentro de una nueva sesión tmux; salga de hollywood y cierre la sesión cuando termine."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que el terminal sea interactivo y que las dependencias estén instaladas; no use la salida como telemetría real."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "rev",
   "nombre": "rev",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Invierte el orden de los caracteres de cada línea de entrada y escribe el resultado en la salida estándar.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,43 @@
     ]
   },
   "sintaxis": {
-    "principal": "rev",
+    "principal": "rev [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "archivo...", "tipo": "string", "requerido": false, "default": "entrada estándar", "valores": [], "descripcion": "Cero o más archivos cuyas líneas se invertirán carácter por carácter; si no se especifican, rev lee de la entrada estándar.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos de entrada."],
+    "dependencias": ["Implementación rev, comúnmente incluida en util-linux."],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La transformación se aplica por línea y no equivale a invertir el orden de todas las líneas del archivo.", "No redirija sobre el mismo archivo de entrada porque podría truncarlo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar util-linux mediante el gestor de paquetes; rev suele incluirse en el paquete.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux",
+      "arch_linux": "util-linux",
+      "rhel_centos": "util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Invertir texto de entrada", "comando": "printf 'linux\\n' | rev", "descripcion": "Invierte los caracteres de cada línea recibida por la entrada estándar.", "resultado_esperado": "Imprime xunil."},
+    {"nombre": "Procesar un archivo", "comando": "rev claves.txt", "descripcion": "Escribe cada línea de claves.txt con sus caracteres en orden inverso.", "resultado_esperado": "La salida contiene una línea transformada por cada línea de entrada."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada"],
+    "validaciones": ["Comprobar legibilidad de los archivos.", "Guardar la salida en un destino diferente del origen."],
     "rollback": null
   }
 }

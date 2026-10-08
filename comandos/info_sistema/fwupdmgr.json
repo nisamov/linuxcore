@@ -1,7 +1,7 @@
 {
   "id": "fwupdmgr",
   "nombre": "fwupdmgr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cliente de fwupd para consultar dispositivos con firmware actualizable, obtener metadatos y gestionar actualizaciones de firmware compatibles.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "fwupdmgr",
+    "principal": "fwupdmgr [OPCIÓN]... COMANDO",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"get-devices","argumento":null,"tipo":"command","requerido":false,"default":null,"valores":[],"descripcion":"Muestra dispositivos detectados por fwupd y los identificadores de firmware disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"get-updates","argumento":null,"tipo":"command","requerido":false,"default":null,"valores":[],"descripcion":"Consulta las actualizaciones disponibles para dispositivos reconocidos.","conflictos":[],"requiere":[]},
+    {"flag":"refresh","argumento":null,"tipo":"command","requerido":false,"default":null,"valores":[],"descripcion":"Descarga metadatos de actualización de los remotos configurados.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Consultar dispositivos y actualizaciones suele poder hacerse sin root; instalar firmware requiere autorización administrativa, normalmente mediante polkit."],
+    "dependencias": ["Servicio fwupd y metadatos de un remoto configurado; conexión de red para actualizar metadatos"],
+    "paquetes": ["fwupd"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Instalar firmware solo para el dispositivo correcto y con alimentación estable; una interrupción puede dejarlo inoperativo.","La actualización puede requerir reiniciar el equipo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install fwupd",
+      "arch_linux": "sudo pacman -S fwupd",
+      "rhel_centos": "sudo dnf install fwupd"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Enumerar dispositivos compatibles","comando":"fwupdmgr get-devices","descripcion":"Consulta los dispositivos que fwupd puede administrar.","resultado_esperado":"Lista de dispositivos detectados, versiones instaladas y posibles identificadores."},
+    {"nombre":"Comprobar actualizaciones","comando":"fwupdmgr get-updates","descripcion":"Muestra las actualizaciones publicadas para los dispositivos detectados usando los metadatos locales.","resultado_esperado":"Lista de versiones disponibles o indicación de que no hay actualizaciones."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["DISPOSITIVO"],
+    "validaciones": ["Verificar que fwupd esté activo, que el dispositivo sea compatible y que la fuente de firmware sea confiable.","Revisar notas de versión y mantener alimentación estable antes de instalar firmware."],
     "rollback": null
   }
 }

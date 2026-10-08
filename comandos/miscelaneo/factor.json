@@ -1,7 +1,7 @@
 {
   "id": "factor",
   "nombre": "factor",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Descompone cada entero positivo indicado en sus factores primos; pertenece a GNU coreutils.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,14 @@
     ]
   },
   "sintaxis": {
-    "principal": "factor",
+    "principal": "factor [opcion] [entero ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--help", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la ayuda de GNU coreutils y finaliza.", "conflictos": [], "requiere": []},
+    {"flag": "--version", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la versión instalada y finaliza.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "entero", "tipo": "integer", "requerido": true, "default": null, "valores": [], "descripcion": "Entero positivo que se desea factorizar; se pueden proporcionar varios valores.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +28,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La factorización de enteros grandes puede consumir tiempo y CPU; utilice entradas de tamaño razonable en servicios compartidos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Utilidad de GNU coreutils, normalmente instalada en Linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils (incluido en el sistema)",
+      "arch_linux": "coreutils (incluido en el sistema)",
+      "rhel_centos": "coreutils (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Factorizar un entero", "comando": "factor 360", "descripcion": "Calcula la factorización prima del número 360.", "resultado_esperado": "360: 2 2 2 3 3 5"},
+    {"nombre": "Factorizar varios valores", "comando": "factor 17 100", "descripcion": "Procesa cada entero y muestra su descomposición por separado.", "resultado_esperado": "17: 17 y 100: 2 2 5 5"}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Valide que cada argumento sea un entero aceptado por la versión instalada de coreutils."],
     "rollback": null
   }
 }

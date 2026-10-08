@@ -1,7 +1,7 @@
 {
   "id": "actualizacion_con_instalacion_de_paquetes",
   "nombre": "Actualizacion de sistema con instalacion de actualizacion de los paquetes disponibles",
-  "descripcion": "Actualiza el sistema e instala las ultimas actualizaciones de los paquetes disponibles.",
+  "descripcion": "Actualiza los índices de paquetes de APT y luego instala las versiones disponibles mediante una actualización del sistema. Contacta los repositorios configurados y, por el uso de -y, acepta automáticamente los cambios propuestos.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "sudo apt update && sudo apt upgrade -y",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "sistema_objetivo",
+      "tipo": "string",
+      "requerido": false,
+      "default": "sistema local con APT",
+      "valores": [],
+      "descripcion": "Sistema Debian/Ubuntu local cuyos índices y paquetes se actualizan; es el destino fijo de esta receta.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -25,13 +37,16 @@
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Realiza conexiones de red a los repositorios APT configurados.",
+      "Modifica los paquetes instalados y acepta automáticamente la actualización con -y; revise los cambios y disponga de espacio y respaldo adecuados."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalar una utilidad adicional; necesita APT y acceso a los repositorios configurados del sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +59,12 @@
       "comando": "sudo apt update && sudo apt upgrade -y",
       "descripcion": "Actualiza el sistema e instala las ultimas actualizaciones de los paquetes disponibles.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Actualizar índices de paquetes",
+      "comando": "sudo apt update",
+      "descripcion": "Actualiza únicamente los índices locales de los repositorios APT, sin actualizar los paquetes instalados.",
+      "resultado_esperado": "APT consulta los repositorios configurados y actualiza sus índices locales."
     }
   ],
   "automatizacion": {
@@ -51,7 +72,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que el sistema usa APT y que /etc/apt/sources.list o los archivos de /etc/apt/sources.list.d contienen repositorios válidos.", "Compruebe conectividad con los repositorios y espacio disponible antes de actualizar paquetes.", "Revise los cambios propuestos y confirme que dispone de respaldo antes de aceptar una actualización automática."] ,
     "rollback": null
   }
 }

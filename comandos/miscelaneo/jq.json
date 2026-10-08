@@ -1,7 +1,7 @@
 {
   "id": "jq",
   "nombre": "jq",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Procesador JSON de línea de comandos que filtra, transforma y consulta flujos JSON mediante expresiones jq.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "jq",
+    "principal": "jq [opciones] filtro [archivo ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Emite cadenas JSON como texto sin comillas ni escapes JSON.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Emite cada resultado JSON en una sola línea compacta.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Acumula todas las entradas de entrada en un arreglo antes de aplicar el filtro.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Ajusta el estado de salida según el último resultado: es distinto de cero si no hay resultado o si el resultado final es false o null.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No lee entrada estándar; útil con filtros que construyen valores desde argumentos.", "conflictos": [], "requiere": []},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Interpreta cada línea de entrada como una cadena sin analizarla como JSON.", "conflictos": [], "requiere": []},
+    {"flag": "--arg", "argumento": "nombre valor", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Pasa un argumento de texto al filtro como variable jq $nombre.", "conflictos": [], "requiere": []},
+    {"flag": "--argjson", "argumento": "nombre JSON", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Pasa un valor JSON analizado al filtro como variable jq $nombre.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +33,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["jq transforma datos y puede emitir texto sin escape con -r; valide y cite correctamente los valores antes de usarlos en comandos o consultas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "jq",
+      "arch_linux": "jq",
+      "rhel_centos": "jq"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Extraer un campo", "comando": "printf '{\"nombre\":\"Ada\"}\\n' | jq -r '.nombre'", "descripcion": "Lee JSON desde la entrada estándar y extrae nombre como texto plano.", "resultado_esperado": "Ada"},
+    {"nombre": "Filtrar elementos de un arreglo", "comando": "printf '[1,2,3,4]\\n' | jq '[.[] | select(. > 2)]'", "descripcion": "Conserva los valores del arreglo mayores que 2 y los reúne en un nuevo arreglo.", "resultado_esperado": "[3,4]"}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe el JSON de entrada y pruebe el filtro; use --arg para texto externo en vez de interpolarlo dentro del programa jq."],
     "rollback": null
   }
 }

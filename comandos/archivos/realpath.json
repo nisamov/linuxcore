@@ -1,7 +1,7 @@
 {
   "id": "realpath",
   "nombre": "realpath",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Imprime rutas absolutas canonicalizadas, resolviendo componentes . y .. y enlaces simbólicos según las opciones seleccionadas.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "realpath",
+    "principal": "realpath [opciones] ruta...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-e", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Requiere que todos los componentes de la ruta existan.", "conflictos": ["-m"], "requiere": []},
+    {"flag": "-m", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No requiere que los componentes de la ruta existan.", "conflictos": ["-e"], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No resuelve enlaces simbólicos; canonicaliza componentes léxicos de la ruta.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime la mayoría de mensajes de error.", "conflictos": [], "requiere": []},
+    {"flag": "-z", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Termina las rutas de salida con byte NUL.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de búsqueda en directorios y acceso a componentes que deban resolverse."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La canonicalización puede resolver enlaces fuera del árbol esperado; no la use como única defensa contra ataques de ruta.", "Las opciones y reglas de existencia dependen de la implementación instalada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Canonicalizar ruta existente", "comando": "realpath /var/log/../tmp", "descripcion": "Convierte la ruta a forma absoluta y resuelve enlaces simbólicos de los componentes existentes.", "resultado_esperado": "Imprime la ruta absoluta resultante."},
+    {"nombre": "Resolver ruta que todavía no existe", "comando": "realpath -m ./salida/nueva.txt", "descripcion": "Canonicaliza la ruta sin exigir que todos los componentes existan, en GNU coreutils.", "resultado_esperado": "Imprime una ruta absoluta normalizada para el destino futuro."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta"],
+    "validaciones": ["Elegir si la ruta debe existir usando -e o -m.", "Comprobar errores y validar autorización de acceso aparte de canonicalizar."],
     "rollback": null
   }
 }

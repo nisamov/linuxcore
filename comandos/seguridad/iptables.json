@@ -1,7 +1,7 @@
 {
   "id": "iptables",
   "nombre": "iptables",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra reglas del cortafuegos netfilter IPv4 mediante tablas, cadenas y objetivos; los cambios se aplican inmediatamente al kernel.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,45 @@
     "principal": "iptables",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-L", "argumento": "cadena", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lista reglas de una cadena o todas las cadenas.", "conflictos": [], "requiere": []},
+    {"flag": "-A", "argumento": "cadena", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una regla al final de la cadena indicada.", "conflictos": [], "requiere": ["regla"]},
+    {"flag": "-I", "argumento": "cadena [número]", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Inserta una regla al principio o en la posición indicada.", "conflictos": [], "requiere": ["regla"]},
+    {"flag": "-D", "argumento": "cadena regla", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina una regla coincidente o numerada.", "conflictos": [], "requiere": []},
+    {"flag": "-F", "argumento": "cadena", "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Vacía reglas de una cadena o todas si se omite.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": "cadena política", "tipo": "string", "requerido": false, "default": null, "valores": ["ACCEPT", "DROP", "REJECT"], "descripcion": "Establece política predeterminada de una cadena integrada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_NET_ADMIN (normalmente root) para consultar o cambiar reglas"],
+    "dependencias": ["Kernel con netfilter IPv4"],
+    "paquetes": ["iptables"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cambiar política o vaciar reglas puede interrumpir tráfico, SSH y servicios; mantenga consola alternativa y plan de reversión.", "En muchas distribuciones iptables es una interfaz de compatibilidad sobre nftables; confirme qué gestor controla las reglas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iptables",
+      "arch_linux": "sudo pacman -S iptables",
+      "rhel_centos": "sudo dnf install iptables-nft"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar reglas IPv4", "comando": "sudo iptables -L -n -v", "descripcion": "Lista políticas y reglas activas sin alterarlas.", "resultado_esperado": "Cadenas, objetivos y contadores IPv4."},
+    {"nombre": "Respaldar reglas", "comando": "sudo iptables-save > ./iptables-auditoria.txt", "descripcion": "Guarda el conjunto actual para revisión local y recuperación planificada.", "resultado_esperado": "Archivo con la configuración exportada; protegerlo según política del sistema."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["cadena", "regla", "politica", "familia_ipv4"],
+    "validaciones": ["Respaldar reglas, verificar el backend activo y conservar acceso alternativo antes de cambiar políticas."],
     "rollback": null
   }
 }

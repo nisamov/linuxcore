@@ -1,7 +1,7 @@
 {
   "id": "lvresize",
   "nombre": "lvresize",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Establece o modifica el tamaño de un volumen lógico LVM y, opcionalmente, redimensiona el sistema de archivos subyacente.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvresize",
+    "principal": "lvresize [opciones] LV",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-L","argumento":"tamaño","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Especifica un tamaño absoluto o un incremento/decremento relativo del LV.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":"extents","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Especifica el tamaño mediante extensiones lógicas o porcentajes admitidos.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Redimensiona también el sistema de archivos subyacente si es compatible.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de prueba sin actualizar metadatos.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Responde afirmativamente a preguntas de confirmación.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2; herramienta del sistema de archivos si se usa -r"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Aumentar o reducir el LV cambia la capacidad disponible; una reducción por debajo del espacio usado por el sistema de archivos destruye datos. Verifique dirección del cambio y respaldo.",
+      "El soporte de -r depende del sistema de archivos. No todas las variantes permiten reducción, incluso cuando el tamaño del LV puede cambiarse."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular ajuste de tamaño","comando":"sudo lvresize --test -L +2G /dev/vg_datos/archivos","descripcion":"Comprueba el incremento propuesto de 2 GiB sin escribir metadatos.","resultado_esperado":"LVM informa si el cambio del volumen lógico sería posible."},
+    {"nombre":"Ampliar volumen y sistema de archivos","comando":"sudo lvresize -r -L +2G /dev/vg_datos/archivos","descripcion":"Añade 2 GiB y solicita ajustar el sistema de archivos compatible.","resultado_esperado":"El volumen lógico y sistema de archivos aumentan cuando ambos admiten la operación."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["lv", "tamaño", "direccion"],
+    "validaciones": ["Determinar explícitamente si se ampliará o reducirá y validar sistema de archivos y tamaño final.","Verificar VG, respaldos y uso del sistema de archivos antes de cualquier reducción."],
     "rollback": null
   }
 }

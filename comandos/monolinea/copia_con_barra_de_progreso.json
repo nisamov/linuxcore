@@ -1,7 +1,7 @@
 {
   "id": "copia_con_barra_de_progreso",
   "nombre": "Copia con barra de progreso",
-  "descripcion": "Realiza una copia de archivos mostrando el progreso",
+  "descripcion": "Copia el origen al destino con rsync en modo archivo y legible, mostrando el progreso. El destino puede ser una ruta local o remota; los archivos existentes con el mismo nombre pueden actualizarse.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,30 @@
     "principal": "rsync -ah --progress $1 $2",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "origen",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Archivo, directorio o especificación remota de origen (primer argumento posicional, $1).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "",
+      "argumento": "destino",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Ruta o especificación remota de destino (segundo argumento posicional, $2).",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -24,14 +47,16 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Verifique origen y destino: rsync puede sobrescribir archivos homónimos en el destino. Si se usan especificaciones remotas, realiza tráfico de red con el host indicado; no elimina archivos extra del destino al no incluir --delete."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Requiere que rsync esté instalado y disponible en el sistema; no se prescribe un comando de instalación específico.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +69,12 @@
       "comando": "rsync -ah --progress $1 $2",
       "descripcion": "Realiza una copia de archivos mostrando el progreso",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Copiar documentos a un destino de respaldo",
+      "comando": "rsync -ah --progress \"$HOME/Documents/\" /mnt/backup/Documents/",
+      "descripcion": "Copia el contenido de Documents a un destino de respaldo mostrando el progreso y conservando atributos habituales.",
+      "resultado_esperado": "rsync copia los archivos accesibles y muestra el avance de la transferencia."
     }
   ],
   "automatizacion": {
@@ -51,7 +82,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que la ruta de origen existe y es el directorio correcto.", "Verifique el destino y el montaje del disco de respaldo, el espacio libre y los permisos antes de copiar.", "Revise las rutas y las barras finales para confirmar si se copiará el directorio o su contenido."] ,
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "getfacl",
   "nombre": "getfacl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra las listas de control de acceso (ACL) y la máscara ACL de archivos o directorios; no modifica permisos.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "getfacl",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra ACL recursivamente para directorios y contenido.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra ACL predeterminadas de directorios.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Incluye el número de inode en la salida.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Soporte ACL del sistema de archivos"],
+    "paquetes": ["acl"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Solo se muestran ACL accesibles al usuario; una ACL extendida puede hacer que los permisos efectivos difieran de la lectura simple de rwx."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install acl",
+      "arch_linux": "sudo pacman -S acl",
+      "rhel_centos": "sudo dnf install acl"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Inspeccionar ACL", "comando": "getfacl ./archivo-prueba.txt", "descripcion": "Audita permisos ACL de un archivo propio.", "resultado_esperado": "Muestra propietario, grupo, permisos base y entradas ACL."},
+    {"nombre": "Ver ACL predeterminada", "comando": "getfacl -d ./directorio-prueba", "descripcion": "Consulta ACL predeterminada de un directorio de pruebas.", "resultado_esperado": "Muestra entradas ACL predeterminadas si están definidas."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta", "recursivo", "acl_predeterminada"],
+    "validaciones": ["Confirmar legibilidad de rutas y proteger la salida de ACL, que revela controles de acceso."],
     "rollback": null
   }
 }

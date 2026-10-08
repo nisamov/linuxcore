@@ -1,7 +1,7 @@
 {
   "id": "xrandr",
   "nombre": "xrandr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y modifica la configuración de las salidas de pantalla de una sesión X, incluyendo resolución, frecuencia, orientación y conexión.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "xrandr",
+    "principal": "xrandr [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--query","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Consulta las salidas, modos disponibles y estado de la configuración actual.","conflictos":[],"requiere":[]},
+    {"flag":"--current","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Devuelve la configuración actual del servidor X sin consultar posibles cambios pendientes del hardware.","conflictos":[],"requiere":[]},
+    {"flag":"--output","argumento":"salida","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona la salida a configurar; se combina con opciones como --mode, --rate o --rotate.","conflictos":[],"requiere":[]},
+    {"flag":"--mode","argumento":"modo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece un modo disponible para la salida seleccionada.","conflictos":[],"requiere":["--output"]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Servidor X con extensión RandR y autorización de conexión"],
+    "paquetes": ["x11-xserver-utils (Debian/Ubuntu)", "xorg-xrandr (Arch Linux)", "xrandr (RHEL/CentOS)"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cambiar resolución, orientación o salidas afecta la sesión gráfica activa; un modo no compatible puede dejar la pantalla sin imagen temporalmente."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install x11-xserver-utils",
+      "arch_linux": "sudo pacman -S xorg-xrandr",
+      "rhel_centos": "sudo dnf install xrandr"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar pantallas y modos disponibles","comando":"xrandr --query","descripcion":"Lista las salidas detectadas, su conexión y los modos disponibles.","resultado_esperado":"Salidas como eDP-1 o HDMI-1 con estado connected/disconnected y modos compatibles."},
+    {"nombre":"Establecer modo en una salida","comando":"xrandr --output HDMI-1 --mode 1920x1080","descripcion":"Solicita el modo 1920x1080 para la salida HDMI-1 si el servidor lo anuncia como compatible.","resultado_esperado":"La salida cambia al modo solicitado o xrandr informa que no es compatible/disponible."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["DISPLAY", "SALIDA", "MODO"],
+    "validaciones": ["Consultar primero los modos con --query, confirmar el nombre de salida y comprobar acceso al servidor X; tener un plan de recuperación si la pantalla queda ilegible."],
     "rollback": null
   }
 }

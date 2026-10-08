@@ -1,7 +1,7 @@
 {
   "id": "service",
   "nombre": "service",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz de compatibilidad para invocar scripts de servicio con acciones tradicionales como start, stop, restart y status. Su implementación y acciones dependen de la distribución y del sistema init; no es equivalente a systemctl.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "service",
+    "principal": "service nombre_servicio acción [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"nombre_servicio","argumento":null,"tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Nombre del script de servicio instalado, por ejemplo cron, ssh o apache2 según distribución.","conflictos":[],"requiere":[]},
+    {"flag":"acción","argumento":null,"tipo":"subcomando","requerido":true,"default":null,"valores":["start","stop","restart","reload","status"],"descripcion":"Acción tradicional aceptada por el script concreto; no todos los servicios implementan todas las acciones.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Consultar estado puede ser posible sin privilegios; cambiar servicios del sistema normalmente requiere root o sudo."],
+    "dependencias": ["Script de servicio compatible y capa de compatibilidad provista por la distribución/init"],
+    "paquetes": ["init-system-helpers o paquete equivalente de la distribución; puede ser provisto por OpenRC"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La resolución de nombre y las acciones varían entre SysV, OpenRC y capas de compatibilidad; compruebe el script local.", "Detener o reiniciar puede interrumpir conexiones y procesos dependientes."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Suele instalarse como utilidad de compatibilidad junto con el sistema init o sus herramientas; el paquete varía por distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "init-system-helpers",
+      "arch_linux": "openrc (si se usa OpenRC; no es comando del paquete systemd)",
+      "rhel_centos": "initscripts (en sistemas SysV heredados; la disponibilidad varía)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar estado de cron","comando":"service cron status","descripcion":"Solicita al script de servicio cron que informe su estado en distribuciones donde ese nombre sea válido.","resultado_esperado":"Estado del servicio o mensaje de que la acción no está soportada; en algunas distribuciones el servicio se llama crond."},
+    {"nombre":"Reiniciar un servicio web","comando":"sudo service apache2 restart","descripcion":"Reinicia el servicio apache2 mediante la interfaz de compatibilidad disponible en el sistema.","resultado_esperado":"El script confirma la operación o devuelve un error; el nombre del servicio puede variar."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_servicio", "acción"],
+    "validaciones": ["Detectar el sistema init y verificar que exista el script/servicio con el nombre correcto.", "Comprobar código de salida y estado posterior; no asumir que las acciones son portables."],
     "rollback": null
   }
 }

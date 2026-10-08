@@ -1,7 +1,7 @@
 {
   "id": "cp",
   "nombre": "cp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Copia archivos o directorios; admite copias recursivas, preservación de atributos y distintos comportamientos ante destinos existentes.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "cp",
+    "principal": "cp [opciones] origen... destino, cp -r [opciones] directorio... destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Copia directorios recursivamente; GNU recomienda -R para uso general.", "conflictos": [], "requiere": []},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Copia directorios y su contenido de forma recursiva.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Modo archivo: recursivo y conserva, en lo posible, atributos, enlaces y metadatos.", "conflictos": [], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Pregunta antes de sobrescribir un destino existente.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No sobrescribe archivos existentes.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Copia solo cuando el origen es más reciente que el destino o este falta.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura del origen y permiso de escritura en el directorio de destino; búsqueda en las rutas implicadas."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Puede sobrescribir datos del destino; compruebe rutas y opciones antes de ejecutar.", "La copia no garantiza por sí sola una instantánea coherente de archivos que cambian durante la operación.", "Evite elevar privilegios sin necesidad y tenga cuidado al combinar -R con rutas amplias."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils con el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Copiar un archivo sin sobrescribir", "comando": "cp -n informe.txt respaldo/informe.txt", "descripcion": "Copia el archivo al destino y conserva el existente si ya estaba creado.", "resultado_esperado": "Se crea la copia si no existe; un destino existente permanece intacto."},
+    {"nombre": "Copiar árbol preservando atributos", "comando": "cp -a proyecto/ respaldo/proyecto/", "descripcion": "Copia el directorio y su contenido intentando conservar permisos, marcas de tiempo y enlaces.", "resultado_esperado": "El árbol queda replicado debajo de respaldo/proyecto."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["origen", "destino"],
+    "validaciones": ["Verificar explícitamente origen y destino antes de copiar.", "Confirmar espacio disponible y comportamiento de sobrescritura.", "Registrar el estado de salida y errores."],
     "rollback": null
   }
 }

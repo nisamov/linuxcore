@@ -1,7 +1,7 @@
 {
   "id": "glxinfo",
   "nombre": "glxinfo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta la información de la implementación GLX y OpenGL disponible a través del servidor gráfico X, incluida la GPU o el renderizador en uso.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "glxinfo",
+    "principal": "glxinfo [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-B","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra un resumen de la información OpenGL, incluyendo proveedor, renderizador y versión.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Intenta ignorar el control de acceso X (solo aplica a compilaciones que lo admiten).","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Servidor X accesible con extensión GLX"],
+    "paquetes": ["mesa-utils", "mesa-utils (Arch Linux)", "glx-utils (RHEL/CentOS)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Necesita acceso a un servidor X; la disponibilidad de GLX y el resultado dependen del controlador gráfico y de la sesión."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install mesa-utils",
+      "arch_linux": "sudo pacman -S mesa-utils",
+      "rhel_centos": "sudo dnf install glx-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Resumen del renderizador OpenGL","comando":"glxinfo -B","descripcion":"Consulta el proveedor y renderizador OpenGL activo sin volcar toda la lista de extensiones.","resultado_esperado":"Resumen con versión de OpenGL y nombre del renderer, por ejemplo la GPU o llvmpipe."},
+    {"nombre":"Consultar cadena de versión","comando":"glxinfo | grep -E 'OpenGL vendor|OpenGL renderer|OpenGL version'","descripcion":"Filtra la salida para mostrar fabricante, renderer y versión OpenGL.","resultado_esperado":"Las líneas disponibles de proveedor, renderer y versión."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["DISPLAY"],
+    "validaciones": ["Comprobar que DISPLAY apunte a un servidor X accesible y que exista soporte GLX."],
     "rollback": null
   }
 }

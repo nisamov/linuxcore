@@ -1,7 +1,7 @@
 {
   "id": "ufw",
   "nombre": "ufw",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz simplificada de administración de reglas netfilter para definir políticas de cortafuegos, aplicaciones, direcciones y servicios.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,45 @@
     "principal": "ufw",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "status", "argumento": "verbose|numbered", "tipo": "string", "requerido": false, "default": null, "valores": ["verbose", "numbered"], "descripcion": "Muestra estado, política y reglas activas; numbered añade índices a reglas.", "conflictos": [], "requiere": []},
+    {"flag": "app list", "argumento": null, "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lista perfiles de aplicación disponibles.", "conflictos": [], "requiere": []},
+    {"flag": "allow", "argumento": "puerto|servicio|regla", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una regla de permiso.", "conflictos": [], "requiere": []},
+    {"flag": "deny", "argumento": "puerto|servicio|regla", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una regla de denegación.", "conflictos": [], "requiere": []},
+    {"flag": "enable|disable", "argumento": null, "tipo": "string", "requerido": false, "default": null, "valores": ["enable", "disable"], "descripcion": "Activa o desactiva el cortafuegos UFW.", "conflictos": [], "requiere": []},
+    {"flag": "delete", "argumento": "regla|número", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina una regla existente por especificación o número.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_NET_ADMIN (normalmente root) para administrar reglas; el estado puede ser legible con privilegios según distribución"],
+    "dependencias": ["Backend netfilter compatible y servicio UFW"],
+    "paquetes": ["ufw"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Activar UFW o cambiar políticas puede cortar SSH y otros accesos; permita el canal administrativo necesario y conserve consola alternativa antes de habilitarlo.", "Eliminar o restablecer reglas altera la política de seguridad del host."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ufw",
+      "arch_linux": "sudo pacman -S ufw",
+      "rhel_centos": "sudo dnf install ufw"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar estado y reglas", "comando": "sudo ufw status verbose", "descripcion": "Consulta si UFW está activo y resume políticas sin cambiarlas.", "resultado_esperado": "Estado activo/inactivo, registro y políticas predeterminadas."},
+    {"nombre": "Revisar perfiles disponibles", "comando": "sudo ufw app list", "descripcion": "Lista perfiles de aplicación instalados antes de considerar una regla.", "resultado_esperado": "Nombres de perfiles UFW disponibles en el sistema."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["accion", "servicio_o_puerto", "origen"],
+    "validaciones": ["Inspeccionar estado y reglas actuales, confirmar acceso administrativo y validar el perfil/puerto requerido antes de cambios."],
     "rollback": null
   }
 }

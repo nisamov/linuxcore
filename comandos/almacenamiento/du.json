@@ -1,7 +1,7 @@
 {
   "id": "du",
   "nombre": "du",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Resume el espacio en disco ocupado por archivos y directorios, con totales por ruta y opciones para controlar unidades, profundidad y formato.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "du",
+    "principal": "du [opciones] [archivo|directorio...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-h","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra tamaños legibles para humanos con unidades binarias.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra solo un total por cada argumento, sin listar cada subdirectorio.","conflictos":[],"requiere":[]},
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye también archivos individuales en la salida.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"N","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita la salida a directorios hasta la profundidad N.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite directorios ubicados en sistemas de archivos distintos al del argumento inicial.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura sobre los archivos y directorios examinados"],
+    "dependencias": ["GNU coreutils"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El resultado puede omitir contenido al que el usuario no tenga permiso de acceso."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install coreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Total legible de un directorio","comando":"du -sh /var/log","descripcion":"Calcula el espacio ocupado por /var/log y sus descendientes y muestra un único total legible.","resultado_esperado":"Una línea con el tamaño total aproximado de /var/log."},
+    {"nombre":"Uso por directorio inmediato","comando":"du -h -d 1 /home","descripcion":"Muestra tamaños legibles de /home y de sus subdirectorios hasta un nivel de profundidad.","resultado_esperado":"Una lista de tamaños por directorio y un total al final."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta"],
+    "validaciones": ["Comprobar que la ruta existe y que el usuario puede leerla.","Evitar analizar árboles enormes sin limitar la profundidad cuando no se requiera."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "steghide",
   "nombre": "steghide",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Inserta o extrae datos ocultos en formatos portadores compatibles como JPEG, BMP, WAV y AU, con cifrado opcional; úsese solo en archivos propios o autorizados.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,7 +13,15 @@
     "principal": "steghide",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--info", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra información de capacidad del portador y, opcionalmente, intenta informar sobre datos incrustados.", "conflictos": [], "requiere": []},
+    {"flag": "--embed", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Incrusta un archivo dentro de un portador compatible.", "conflictos": ["--extract"], "requiere": ["-cf", "-ef"]},
+    {"flag": "--extract", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Extrae datos de un archivo portador.", "conflictos": ["--embed"], "requiere": ["-sf"]},
+    {"flag": "-cf", "argumento": "portador", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona archivo portador para inserción.", "conflictos": [], "requiere": ["--embed"]},
+    {"flag": "-ef", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona el archivo que se incrustará.", "conflictos": [], "requiere": ["--embed"]},
+    {"flag": "-sf", "argumento": "portador", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Selecciona el portador desde el que se extraerán datos.", "conflictos": [], "requiere": ["--extract"]},
+    {"flag": "-xf", "argumento": "archivo_salida", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Especifica destino del archivo extraído.", "conflictos": [], "requiere": ["--extract"]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +32,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La incrustación modifica el archivo portador y puede hacerlo detectable o inutilizable; trabaje con copias propias.", "No proporcione frases de paso en argumentos ni historial; use la solicitud interactiva cuando esté disponible."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install steghide",
+      "arch_linux": "sudo pacman -S steghide",
+      "rhel_centos": "sudo dnf install steghide"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Inspeccionar portador propio", "comando": "steghide --info ./portador-prueba.jpg", "descripcion": "Consulta un JPEG propio de laboratorio sin crear datos ocultos.", "resultado_esperado": "Muestra formato y capacidad estimada; puede solicitar frase de paso al comprobar contenido."},
+    {"nombre": "Extraer muestra autorizada", "comando": "steghide --extract -sf ./portador-laboratorio.jpg -xf ./extraido-prueba.bin", "descripcion": "Extrae datos de un portador creado para la prueba; ingrese la frase de paso de forma interactiva si se solicita.", "resultado_esperado": "Escribe el archivo extraído en el destino indicado si la frase y el contenido son válidos."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo_portador", "archivo_datos", "archivo_salida"],
+    "validaciones": ["Usar copias de archivos propios, comprobar espacio y no colocar frase de paso en argumentos, entorno o logs."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "virt-what",
   "nombre": "virt-what",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Detecta si el sistema se está ejecutando dentro de una máquina virtual e imprime uno o más indicadores del hipervisor reconocido.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -13,37 +13,40 @@
     "principal": "virt-what",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "indicadores_de_virtualizacion (entrada implícita)", "tipo": "string", "requerido": false, "default": "interfaces del kernel y del hipervisor disponibles", "valores": [], "descripcion": "Señales del sistema que consultan los detectores incluidos; es una entrada implícita, no un argumento posicional aceptado por virt-what.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Interfaces del kernel y del hipervisor necesarias para identificar el entorno"],
+    "paquetes": ["virt-what"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La detección puede no identificar hipervisores nuevos, configuraciones anidadas o entornos que ocultan información; una salida vacía no prueba que sea hardware físico."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install virt-what",
+      "arch_linux": "sudo pacman -S virt-what",
+      "rhel_centos": "sudo dnf install virt-what"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Detectar virtualización","comando":"virt-what","descripcion":"Ejecuta los detectores disponibles y muestra el tipo de entorno virtual reconocido.","resultado_esperado":"Uno o más nombres de hipervisores, o salida vacía si no se detecta ninguno."},
+    {"nombre":"Usar la detección en una condición","comando":"if virt-what | grep -q .; then echo 'entorno virtual detectado'; else echo 'sin detección'; fi","descripcion":"Comprueba si virt-what devolvió al menos una identificación.","resultado_esperado":"Imprime una de las dos etiquetas según haya salida detectada."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Tratar salida vacía como 'no detectado' y no como confirmación concluyente de hardware físico."],
     "rollback": null
   }
 }

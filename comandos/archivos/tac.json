@@ -1,7 +1,7 @@
 {
   "id": "tac",
   "nombre": "tac",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Concatena archivos en la salida estándar invirtiendo el orden de sus líneas, de modo que la última línea aparece primero.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "tac",
+    "principal": "tac [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Coloca el separador antes de cada registro de salida en vez de después.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Interpreta el separador especificado como expresión regular.", "conflictos": [], "requiere": ["-s"]},
+    {"flag": "-s", "argumento": "separador", "tipo": "string", "requerido": false, "default": "salto de línea", "valores": [], "descripcion": "Usa el separador indicado entre registros, en vez del salto de línea.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre las entradas."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida invierte registros completos y puede requerir memoria proporcional al tamaño de la entrada.", "No redirija la salida sobre el mismo archivo que se está leyendo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar últimas líneas primero", "comando": "tac cambios.log", "descripcion": "Imprime las líneas del archivo en orden inverso.", "resultado_esperado": "La última línea de cambios.log aparece al principio de la salida."},
+    {"nombre": "Invertir registros separados por punto y coma", "comando": "tac -s ';' registros.txt", "descripcion": "Usa el punto y coma como separador de registros y los emite en orden inverso.", "resultado_esperado": "Los registros separados por punto y coma aparecen en orden contrario."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "separador"],
+    "validaciones": ["Comprobar tamaño de entrada y formato del separador.", "Escribir la salida en un destino distinto de la entrada."],
     "rollback": null
   }
 }

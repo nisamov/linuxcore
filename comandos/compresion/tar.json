@@ -195,7 +195,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "`tar` suele venir instalado en sistemas Linux; compruebe `command -v tar`. Si falta, instale el paquete tar (Debian/Ubuntu: `sudo apt install tar`; Arch: `sudo pacman -S tar`; RHEL/CentOS: `sudo dnf install tar`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -217,7 +217,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Al crear un archivo, compruebe que todas las entradas existan y sean legibles, que el destino de salida sea correcto y que no se encuentre dentro del árbol que se está archivando; verifique espacio y permisos.", "Al listar o extraer, confirme que el archivo exista, sea legible y tenga el formato esperado; liste primero su contenido con `tar -tf` y revise rutas absolutas o componentes `..` antes de extraer.", "Extraiga en un directorio de destino dedicado y verifique su ruta y permisos; compruebe posibles colisiones/sobrescrituras y haga respaldo de los archivos existentes antes de reemplazarlos."],
     "rollback": null
   }
 }

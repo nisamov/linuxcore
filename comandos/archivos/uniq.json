@@ -1,7 +1,7 @@
 {
   "id": "uniq",
   "nombre": "uniq",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Filtra líneas repetidas que aparecen de forma consecutiva; suele combinarse con sort para agrupar duplicados antes de contarlos o eliminarlos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "uniq",
+    "principal": "uniq [opciones] [entrada [salida]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Prefija cada línea con el número de repeticiones consecutivas.", "conflictos": ["-d", "-u"], "requiere": []},
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra solo líneas repetidas.", "conflictos": ["-c", "-u"], "requiere": []},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra solo líneas que no están repetidas en grupos consecutivos.", "conflictos": ["-c", "-d"], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Compara sin distinguir mayúsculas y minúsculas.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "campos", "tipo": "integer", "requerido": false, "default": 0, "valores": [], "descripcion": "Omite el número indicado de campos iniciales al comparar.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": "caracteres", "tipo": "integer", "requerido": false, "default": 0, "valores": [], "descripcion": "Omite el número indicado de caracteres iniciales al comparar.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de la entrada y escritura en el archivo de salida si se indica."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["uniq solo detecta duplicados consecutivos; ordene primero con sort si necesita agrupar todo el conjunto.", "No redirija a una salida que pueda truncar la entrada antes de leerla."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; generalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Eliminar duplicados consecutivos", "comando": "uniq lista-ordenada.txt", "descripcion": "Conserva una sola línea de cada grupo de duplicados adyacentes.", "resultado_esperado": "La salida contiene una instancia por cada grupo consecutivo."},
+    {"nombre": "Contar repeticiones", "comando": "sort nombres.txt | uniq -c", "descripcion": "Ordena las entradas para agrupar iguales y muestra el número de apariciones consecutivas.", "resultado_esperado": "Cada nombre único aparece precedido por su cantidad."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "archivo_salida"],
+    "validaciones": ["Ordenar previamente si los duplicados pueden estar separados.", "Verificar entrada y destino para evitar truncamiento accidental."],
     "rollback": null
   }
 }

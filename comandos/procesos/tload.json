@@ -1,7 +1,7 @@
 {
   "id": "tload",
   "nombre": "tload",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra gráficamente la carga media del sistema en el terminal, actualizando una representación de texto de forma continua.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,90 @@
     ]
   },
   "sintaxis": {
-    "principal": "tload",
+    "principal": "tload [opciones] [terminal]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-d",
+      "argumento": "segundos",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 5,
+      "valores": [],
+      "descripcion": "Establece el intervalo de actualización en segundos.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": "escala",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece la escala vertical máxima del gráfico; el valor aceptado depende de la implementación.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso de lectura a la carga media del sistema."
+    ],
+    "dependencias": [
+      "Terminal compatible y /proc/loadavg en Linux"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La carga media refleja procesos ejecutables o en espera ininterrumpible y no equivale directamente a porcentaje de CPU.",
+      "El comando permanece activo hasta interrumpirlo con la terminal."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Mostrar carga en la terminal",
+      "comando": "tload",
+      "descripcion": "Dibuja la carga media con escala e intervalo predeterminados.",
+      "resultado_esperado": "Gráfico de texto que se actualiza continuamente."
+    },
+    {
+      "nombre": "Ajustar refresco del gráfico",
+      "comando": "tload -d 2",
+      "descripcion": "Actualiza el gráfico aproximadamente cada dos segundos.",
+      "resultado_esperado": "Vista de carga media con refresco configurado."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
+    "idempotente": true,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": [
+      "intervalo",
+      "escala",
+      "terminal"
+    ],
+    "validaciones": [
+      "Usar un terminal con dimensiones suficientes.",
+      "Detener el monitor al finalizar la observación."
+    ],
     "rollback": null
   }
 }

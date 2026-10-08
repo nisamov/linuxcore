@@ -1,7 +1,7 @@
 {
   "id": "groups",
   "nombre": "groups",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra los grupos suplementarios a los que pertenece cada usuario indicado; sin argumentos, informa sobre el usuario actual.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "groups",
+    "principal": "groups [usuario ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--help","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la ayuda de la implementación GNU cuando está disponible.","conflictos":[],"requiere":[]},
+    {"flag":"--version","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la versión de la implementación GNU cuando está disponible.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Acceso de lectura a la información de identidad consultada"],
+    "dependencias": ["base de datos NSS configurada (por ejemplo, archivos locales o LDAP)"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La información depende de NSS y puede no reflejar cambios de grupo aún no incorporados a sesiones existentes.",
+      "La visibilidad de otros usuarios puede estar limitada por la configuración del sistema."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Suele formar parte de GNU coreutils o del paquete básico de herramientas del sistema.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install coreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar grupos propios","comando":"groups","descripcion":"Muestra los grupos efectivos del usuario que ejecuta el comando.","resultado_esperado":"Imprime el nombre del usuario y sus grupos conocidos por NSS."},
+    {"nombre":"Consultar grupos de una cuenta","comando":"groups ana","descripcion":"Consulta los grupos asociados a la cuenta ana.","resultado_esperado":"Imprime los grupos suplementarios que NSS reporta para ana."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario"],
+    "validaciones": ["Comprobar que el usuario existe en el proveedor NSS esperado.", "No usar la salida como autorización final sin verificar la configuración de identidad y sesión."],
     "rollback": null
   }
 }

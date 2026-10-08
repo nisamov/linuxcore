@@ -1,7 +1,7 @@
 {
   "id": "ifconfig",
   "nombre": "ifconfig",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o configura interfaces de red con la utilidad tradicional net-tools; para administracion actual se recomienda iproute2.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "ifconfig",
+    "principal": "ifconfig [-a] [interfaz [familia] [opciones]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra todas las interfaces, incluidas las que estan inactivas.","conflictos":[],"requiere":[]},
+    {"flag":"interfaz","argumento":"nombre","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la consulta o configuracion a la interfaz indicada.","conflictos":[],"requiere":[]},
+    {"flag":"up","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Activa administrativamente la interfaz especificada.","conflictos":[],"requiere":[]},
+    {"flag":"down","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Desactiva administrativamente la interfaz especificada.","conflictos":[],"requiere":[]},
+    {"flag":"netmask","argumento":"mascara","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece la mascara IPv4 al configurar una interfaz.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consulta; root o CAP_NET_ADMIN para cambiar estado/configuracion"],
+    "dependencias": ["net-tools"],
+    "paquetes": ["net-tools"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar direcciones o bajar una interfaz puede interrumpir sesiones y conectividad; los cambios manuales pueden ser revertidos por el gestor de red.",
+      "La herramienta esta obsoleta en muchas distribuciones; use ip addr/ip link para administracion nueva."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install net-tools",
+      "arch_linux": "sudo pacman -S net-tools",
+      "rhel_centos": "sudo dnf install net-tools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar interfaces activas","comando":"ifconfig","descripcion":"Consulta las interfaces que la implementacion muestra por defecto.","resultado_esperado":"Se imprimen interfaces activas con direcciones y contadores disponibles."},
+    {"nombre":"Listar todas las interfaces","comando":"ifconfig -a","descripcion":"Incluye interfaces inactivas en la consulta local.","resultado_esperado":"Se muestran todas las interfaces conocidas por el sistema."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz","direccion_IP","mascara"],
+    "validaciones": ["Respaldar configuracion y confirmar acceso alternativo antes de modificar una interfaz remota."],
     "rollback": null
   }
 }

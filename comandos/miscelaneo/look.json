@@ -1,7 +1,7 @@
 {
   "id": "look",
   "nombre": "look",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca palabras que comienzan con una cadena dada en un archivo ordenado, normalmente el diccionario del sistema.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,16 @@
     ]
   },
   "sintaxis": {
-    "principal": "look",
+    "principal": "look [-d] [-f] [-t caracter] cadena [archivo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Compara únicamente letras y dígitos (modo diccionario).", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Ignora las diferencias entre mayúsculas y minúsculas.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": "caracter", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Detiene la comparación de prefijo al encontrar el carácter indicado.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "cadena", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Prefijo que se buscará al inicio de las palabras.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "archivo", "tipo": "path", "requerido": false, "default": "/usr/share/dict/words", "valores": [], "descripcion": "Archivo ordenado donde buscar; el archivo predeterminado puede no estar instalado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +30,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El resultado depende de que el diccionario exista y esté ordenado según las reglas esperadas por la implementación."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Parte de util-linux en muchas distribuciones; el diccionario suele instalarse por separado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux; wamerican o paquete de diccionario equivalente (opcional)",
+      "arch_linux": "util-linux; words (opcional)",
+      "rhel_centos": "util-linux y paquete de diccionario disponible (opcional)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar prefijo en el diccionario", "comando": "look net /usr/share/dict/words", "descripcion": "Busca entradas que comiencen con net en el archivo indicado.", "resultado_esperado": "Lista ordenada de palabras que tienen el prefijo net, si hay diccionario disponible."},
+    {"nombre": "Búsqueda sin distinguir mayúsculas", "comando": "look -f linux /usr/share/dict/words", "descripcion": "Compara el prefijo sin diferenciar capitalización.", "resultado_esperado": "Entradas que empiezan por linux sin importar mayúsculas/minúsculas."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe la existencia y ordenación del archivo de palabras antes de ejecutar la búsqueda."],
     "rollback": null
   }
 }

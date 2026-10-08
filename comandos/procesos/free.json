@@ -1,7 +1,7 @@
 {
   "id": "free",
   "nombre": "free",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra el uso de memoria física y swap, incluidos memoria disponible y caché según los datos del sistema.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,168 @@
     ]
   },
   "sintaxis": {
-    "principal": "free",
+    "principal": "free [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-b",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra cantidades en bytes.",
+      "conflictos": [
+        "-k",
+        "-m",
+        "-g",
+        "-h"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra cantidades en kibibytes (unidad predeterminada habitual).",
+      "conflictos": [
+        "-b",
+        "-m",
+        "-g",
+        "-h"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-m",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra cantidades en mebibytes.",
+      "conflictos": [
+        "-b",
+        "-k",
+        "-g",
+        "-h"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-g",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra cantidades en gibibytes.",
+      "conflictos": [
+        "-b",
+        "-k",
+        "-m",
+        "-h"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-h",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra unidades legibles por humanos.",
+      "conflictos": [
+        "-b",
+        "-k",
+        "-m",
+        "-g"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa salida ancha para evitar recortar columnas.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": "segundos",
+      "tipo": "number",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Actualiza la salida cada intervalo indicado, en segundos.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Lectura de estadísticas de memoria del sistema."
+    ],
+    "dependencias": [
+      "/proc/meminfo en Linux"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los valores son una instantánea y pueden cambiar rápidamente; disponibles no equivale a memoria totalmente libre."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Resumen legible",
+      "comando": "free -h",
+      "descripcion": "Muestra memoria y swap en unidades legibles para humanos.",
+      "resultado_esperado": "Tabla Mem/Swap con total, usada, libre, compartida, buff/cache y disponible según versión."
+    },
+    {
+      "nombre": "Actualizar cada segundo",
+      "comando": "free -h -s 1",
+      "descripcion": "Refresca el resumen de memoria una vez por segundo.",
+      "resultado_esperado": "Líneas repetidas con estadísticas de memoria mientras el comando sigue ejecutándose."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "unidad",
+      "intervalo"
+    ],
+    "validaciones": [
+      "Interpretar unidades y campos según la versión instalada.",
+      "Para intervalos, detener el proceso de monitorización cuando ya no sea necesario."
+    ],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "iwconfig",
   "nombre": "iwconfig",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o configura parametros de interfaces inalambricas con la herramienta heredada Wireless Extensions; se recomienda iw en sistemas actuales.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "iwconfig",
+    "principal": "iwconfig [interfaz [opciones]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"interfaz","argumento":"nombre","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra o configura la interfaz inalambrica especificada.","conflictos":[],"requiere":[]},
+    {"flag":"essid","argumento":"SSID","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Asocia o selecciona el nombre de red (SSID) indicado, si el controlador admite la operacion.","conflictos":[],"requiere":[]},
+    {"flag":"channel","argumento":"numero","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona el canal de radio, sujeto a capacidades y regulacion local.","conflictos":[],"requiere":[]},
+    {"flag":"txpower","argumento":"valor","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Configura potencia de transmision cuando el controlador lo admite.","conflictos":[],"requiere":[]},
+    {"flag":"ap","argumento":"direccion_MAC","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra o selecciona el punto de acceso segun la sintaxis de la implementacion.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consulta; root/CAP_NET_ADMIN para configurar"],
+    "dependencias": ["wireless-tools y controlador con Wireless Extensions"],
+    "paquetes": ["wireless-tools"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambios de SSID, canal o potencia pueden desconectar la interfaz e infringir limites regulatorios; los controladores modernos pueden no admitir esta herramienta.",
+      "No incluya contrasenas de red en argumentos visibles; use el gestor de red del sistema."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install wireless-tools",
+      "arch_linux": "sudo pacman -S wireless_tools",
+      "rhel_centos": "sudo dnf install wireless-tools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar parametros inalambricos","comando":"iwconfig","descripcion":"Consulta el estado de interfaces que exponen Wireless Extensions.","resultado_esperado":"Se muestran ESSID, modo, frecuencia y calidad de enlace cuando estan disponibles."},
+    {"nombre":"Consultar una interfaz","comando":"iwconfig wlan0","descripcion":"Muestra estado de la interfaz wlan0 sin aplicar cambios.","resultado_esperado":"Se imprime su configuracion inalambrica o se indica que no admite extensiones wireless."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz_wifi"],
+    "validaciones": ["Verificar soporte Wireless Extensions y guardar el estado antes de cualquier cambio; preferir iw/NetworkManager."],
     "rollback": null
   }
 }

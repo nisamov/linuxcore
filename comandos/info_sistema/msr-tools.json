@@ -1,7 +1,7 @@
 {
   "id": "msr-tools",
   "nombre": "msr-tools",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Conjunto de utilidades rdmsr y wrmsr para leer o escribir registros específicos del procesador x86 mediante la interfaz MSR del kernel.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "msr-tools",
+    "principal": "rdmsr [OPCIÓN]... MSR; wrmsr [OPCIÓN]... MSR VALOR",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Aplica la lectura o escritura a todos los procesadores lógicos (rdmsr/wrmsr).","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"CPU","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona el procesador lógico en el que operar (rdmsr/wrmsr).","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el valor leído por rdmsr en hexadecimal.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el valor leído por rdmsr en decimal.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El acceso a /dev/cpu/*/msr suele requerir root o permisos explícitos; wrmsr modifica registros del procesador."],
+    "dependencias": ["Procesador x86 compatible, módulo del kernel msr y acceso a /dev/cpu/*/msr"],
+    "paquetes": ["msr-tools"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No escribas MSR sin conocer la documentación específica de la CPU: un valor incorrecto puede alterar el funcionamiento del procesador o del sistema.","La disponibilidad depende de la arquitectura x86 y del módulo msr del kernel."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install msr-tools",
+      "arch_linux": "sudo pacman -S msr-tools",
+      "rhel_centos": "sudo dnf install msr-tools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Leer el identificador de fabricante","comando":"sudo rdmsr -x 0x10","descripcion":"Lee el MSR 0x10 de la CPU lógica predeterminada y muestra el valor en hexadecimal; úsese solo si el registro está definido para el modelo de CPU.","resultado_esperado":"Un valor hexadecimal de 64 bits si el MSR está disponible y permitido."},
+    {"nombre":"Comprobar la utilidad sin escribir","comando":"rdmsr --help","descripcion":"Consulta las opciones de lectura disponibles sin acceder a registros ni modificar el procesador.","resultado_esperado":"Ayuda de rdmsr con sintaxis y opciones admitidas."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["CPU (opcional)", "MSR"],
+    "validaciones": ["Confirmar arquitectura x86, el módulo msr y el número de CPU; no automatizar wrmsr salvo que el MSR y el valor estén documentados para el procesador concreto."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "inxi",
   "nombre": "inxi",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra un resumen configurable de información del sistema, hardware, red y dispositivos; el detalle se controla con opciones de selección de secciones.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "inxi",
+    "principal": "inxi [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-F","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información completa del sistema, incluyendo CPU, gráficos, audio, red, discos y particiones.","conflictos":[],"requiere":[]},
+    {"flag":"-b","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información básica del sistema y evita algunos detalles sensibles.","conflictos":[],"requiere":[]},
+    {"flag":"-G","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información del sistema gráfico, tarjetas y controladores detectados.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Añade información extendida a las secciones solicitadas.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["inxi"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La opción -F puede incluir identificadores o detalles del hardware; revisa la salida antes de publicarla."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install inxi",
+      "arch_linux": "sudo pacman -S inxi",
+      "rhel_centos": "sudo dnf install inxi"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Resumen básico del equipo","comando":"inxi -b","descripcion":"Muestra un resumen básico del sistema y del hardware detectado.","resultado_esperado":"Resumen legible con versión del sistema, CPU, memoria y componentes principales."},
+    {"nombre":"Información completa del sistema","comando":"inxi -F","descripcion":"Solicita el conjunto amplio de secciones de información de hardware y sistema.","resultado_esperado":"Informe por secciones con componentes y versiones disponibles."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que inxi y las utilidades de detección disponibles estén instaladas."],
     "rollback": null
   }
 }

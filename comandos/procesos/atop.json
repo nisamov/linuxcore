@@ -1,7 +1,7 @@
 {
   "id": "atop",
   "nombre": "atop",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Monitoriza recursos del sistema y procesos de forma interactiva; también puede registrar muestras para analizarlas posteriormente.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,118 @@
     ]
   },
   "sintaxis": {
-    "principal": "atop",
-    "alternativas": []
+    "principal": "atop [opciones] [intervalo [muestras]]",
+    "alternativas": [
+      "atop -r archivo [opciones]"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-r",
+      "argumento": "archivo",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Lee un archivo de registro atop para análisis o reproducción de muestras.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": "archivo",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe registros de actividad en el archivo indicado; verifica sintaxis en la versión instalada.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-b",
+      "argumento": "hora",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "En modo de lectura, selecciona el comienzo del intervalo de reproducción cuando la versión lo admite.",
+      "conflictos": [],
+      "requiere": [
+        "-r"
+      ]
+    },
+    {
+      "flag": "-e",
+      "argumento": "hora",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "En modo de lectura, selecciona el final del intervalo cuando la versión lo admite.",
+      "conflictos": [],
+      "requiere": [
+        "-r"
+      ]
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso a contadores del sistema; el detalle por proceso puede depender de privilegios."
+    ],
+    "dependencias": [
+      "/proc y terminal para modo interactivo; espacio de disco si se registran muestras"
+    ],
+    "paquetes": [
+      "atop"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los registros pueden contener nombres de usuario, procesos y líneas de órdenes sensibles.",
+      "El registro persistente consume espacio y algunas opciones cambian entre versiones; confirme la ayuda local antes de programar captura."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install atop",
+      "arch_linux": "sudo pacman -S atop",
+      "rhel_centos": "sudo dnf install atop"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Monitorizar con refresco de 5 segundos",
+      "comando": "atop 5",
+      "descripcion": "Actualiza la vista interactiva cada cinco segundos.",
+      "resultado_esperado": "Informes periódicos de CPU, memoria, disco, red y procesos disponibles."
+    },
+    {
+      "nombre": "Reproducir archivo de registro",
+      "comando": "atop -r /var/log/atop/atop_20261008",
+      "descripcion": "Abre el archivo indicado para revisar muestras previamente registradas.",
+      "resultado_esperado": "Vista de reproducción del registro si el archivo existe y es legible."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "idempotente": true,
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "intervalo",
+      "muestras",
+      "archivo_registro"
+    ],
+    "validaciones": [
+      "Verificar que el archivo de lectura exista y que el usuario pueda accederlo.",
+      "Dimensionar retención y espacio para registros que incluyan datos sensibles."
+    ],
     "rollback": null
   }
 }

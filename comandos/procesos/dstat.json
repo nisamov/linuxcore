@@ -1,7 +1,7 @@
 {
   "id": "dstat",
   "nombre": "dstat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Presenta estadísticas actualizadas de recursos como CPU, disco, red, paginación y memoria en una sola vista.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,134 @@
     ]
   },
   "sintaxis": {
-    "principal": "dstat",
+    "principal": "dstat [opciones] [intervalo [cantidad]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-c",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Incluye estadísticas de CPU.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Incluye actividad de disco.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Incluye tráfico de red.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-m",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Incluye estadísticas de memoria.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--time",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Añade fecha y hora a la salida en implementaciones que ofrecen esta opción.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--output",
+      "argumento": "archivo",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Escribe la salida en formato CSV en el archivo indicado en versiones compatibles.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Lectura de estadísticas del sistema y dispositivos visibles."
+    ],
+    "dependencias": [
+      "La versión de dstat y sus complementos disponibles varían; algunas distribuciones sustituyen o retiran el paquete original."
+    ],
+    "paquetes": [
+      "dstat, si está disponible en la distribución"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La captura continua puede generar salida extensa y consumir espacio si se registra a archivo.",
+      "Compruebe la versión y ayuda local; dstat original y alternativas compatibles pueden ofrecer opciones distintas."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_si_disponible",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install dstat (si está disponible en la versión de la distribución)",
+      "arch_linux": "sudo pacman -S dstat (si está disponible en repositorios habilitados)",
+      "rhel_centos": "sudo dnf install dstat (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Vista combinada de recursos",
+      "comando": "dstat -cdnm 1 5",
+      "descripcion": "Muestra CPU, disco, red y memoria cada segundo durante cinco muestras.",
+      "resultado_esperado": "Columnas de uso de CPU, E/S de disco, tráfico de red y memoria."
+    },
+    {
+      "nombre": "Guardar salida CSV",
+      "comando": "dstat --time --output /tmp/dstat.csv 2 3",
+      "descripcion": "Registra tres muestras separadas por dos segundos en formato CSV en versiones compatibles.",
+      "resultado_esperado": "Archivo CSV con marcas de tiempo y estadísticas, si la opción existe y se puede escribir el archivo."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "intervalo",
+      "cantidad",
+      "archivo_salida"
+    ],
+    "validaciones": [
+      "Validar sintaxis mediante dstat --help en la versión presente.",
+      "Comprobar espacio y permisos del archivo de registro."
+    ],
     "rollback": null
   }
 }

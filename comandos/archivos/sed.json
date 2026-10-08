@@ -1,7 +1,7 @@
 {
   "id": "sed",
   "nombre": "sed",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Edita y filtra flujos de texto mediante un lenguaje de comandos; permite seleccionar líneas, sustituir patrones y escribir transformaciones en la salida estándar.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "sed",
+    "principal": "sed [opciones] 'script' [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime la impresión automática de cada línea; use p para imprimir selecciones.", "conflictos": [], "requiere": []},
+    {"flag": "-E", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Usa expresiones regulares extendidas en el script.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": "script", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade un comando de edición al programa; se puede repetir.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo_script", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Lee los comandos de edición desde un archivo.", "conflictos": [], "requiere": []},
+    {"flag": "-i", "argumento": "sufijo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Edita archivos en el lugar; GNU sed permite sufijo de respaldo opcional y la sintaxis varía entre implementaciones.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de las entradas y escritura en el destino; -i requiere permiso para reemplazar los archivos editados."],
+    "dependencias": ["GNU sed o implementación compatible POSIX."],
+    "paquetes": ["sed"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["-i modifica archivos; haga copia de seguridad o pruebe primero sin esa opción.", "En GNU sed, la orden e puede ejecutar comandos del sistema; no ejecute scripts sed no confiables.", "La sintaxis de expresiones y edición in-place puede variar entre GNU sed y BSD sed."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar sed mediante el gestor de paquetes; GNU sed suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sed",
+      "arch_linux": "sed",
+      "rhel_centos": "sed"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Sustituir la primera coincidencia por línea", "comando": "sed 's/antiguo/nuevo/' archivo.txt", "descripcion": "Imprime el archivo con la primera coincidencia de antiguo sustituida en cada línea, sin modificar el origen.", "resultado_esperado": "La salida contiene las sustituciones y el archivo original queda intacto."},
+    {"nombre": "Imprimir líneas coincidentes", "comando": "sed -n '/ERROR/p' aplicación.log", "descripcion": "Suprime la salida automática y muestra solo líneas que contienen ERROR.", "resultado_esperado": "Aparecen las líneas coincidentes en la salida estándar."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["script_sed", "archivo_entrada"],
+    "validaciones": ["Probar el script sin -i y revisar una muestra de salida.", "Confirmar implementación GNU/BSD antes de usar extensiones específicas.", "Respaldar entradas antes de editar en el lugar."],
     "rollback": null
   }
 }

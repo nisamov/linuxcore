@@ -1,7 +1,7 @@
 {
   "id": "cmatrix",
   "nombre": "cmatrix",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Dibuja en la terminal una animación decorativa de caracteres verdes inspirada en la película Matrix; no es una herramienta de diagnóstico.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "cmatrix",
+    "principal": "cmatrix [-abBflohnsVx] [-C color] [-u retardo] [-s velocidad]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Activa desplazamiento asíncrono de líneas.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Activa caracteres en negrita aleatorios.", "conflictos": [], "requiere": []},
+    {"flag": "-B", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra todos los caracteres en negrita.", "conflictos": [], "requiere": []},
+    {"flag": "-C", "argumento": "color", "tipo": "string", "requerido": false, "default": "green", "valores": ["green", "red", "blue", "white", "yellow", "cyan", "magenta"], "descripcion": "Selecciona un color admitido por la versión instalada.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Activa el modo de salvapantallas y sale al pulsar una tecla.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": "retardo", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Ajusta la frecuencia de actualización; la escala depende de la implementación.", "conflictos": [], "requiere": []},
+    {"flag": "-x", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el modo xterm, que puede dibujar caracteres en los bordes de la pantalla.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +32,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Es una aplicación interactiva que ocupa la terminal hasta recibir una tecla de salida; puede no funcionar correctamente en terminales limitados."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "cmatrix",
+      "arch_linux": "cmatrix",
+      "rhel_centos": "cmatrix (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Iniciar la animación", "comando": "cmatrix", "descripcion": "Ejecuta la animación de forma interactiva usando el color predeterminado.", "resultado_esperado": "La terminal muestra caracteres animados hasta pulsar una tecla de salida."},
+    {"nombre": "Elegir color y modo salvapantallas", "comando": "cmatrix -s -C cyan", "descripcion": "Inicia la animación en modo salvapantallas con color cian si está admitido.", "resultado_esperado": "Animación interactiva en la terminal; se cierra con una tecla."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que la sesión tenga una terminal interactiva y soporte de colores."],
     "rollback": null
   }
 }

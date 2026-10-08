@@ -1,7 +1,7 @@
 {
   "id": "mkfs",
   "nombre": "mkfs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea un sistema de archivos en un dispositivo o archivo mediante el creador específico del tipo indicado; normalmente destruye los datos preexistentes del destino.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "mkfs",
+    "principal": "mkfs -t tipo [opciones] dispositivo [tamaño]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":true,"default":null,"valores":["ext2","ext3","ext4","xfs","vfat"],"descripcion":"Indica el tipo de sistema de archivos y selecciona el creador correspondiente.","conflictos":[],"requiere":[]},
+    {"flag":"-V","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra las órdenes que se invocarían sin ejecutarlas.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Solicita al creador compatible que busque bloques defectuosos antes de crear el sistema de archivos.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o permisos de escritura sobre el destino"],
+    "dependencias": ["mkfs del tipo seleccionado"],
+    "paquetes": ["util-linux y herramientas del sistema de archivos seleccionado"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La creación de un sistema de archivos sobrescribe estructuras del destino y puede destruir datos existentes. Verifique dos veces el dispositivo y su montaje; obtenga respaldo y no use un dispositivo ocupado.",
+      "mkfs es una interfaz a utilidades específicas; las opciones admitidas dependen del tipo solicitado."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "util-linux_y_paquete_del_sistema_de_archivos",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux; e2fsprogs para ext, dosfstools para FAT, xfsprogs para XFS",
+      "arch_linux": "util-linux; e2fsprogs para ext, dosfstools para FAT, xfsprogs para XFS",
+      "rhel_centos": "util-linux; e2fsprogs para ext, dosfstools para FAT, xfsprogs para XFS"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Previsualizar creación ext4","comando":"sudo mkfs -V -t ext4 /dev/sdb1","descripcion":"Muestra la orden específica que se ejecutaría para crear ext4, sin ejecutarla.","resultado_esperado":"Imprime la invocación de la herramienta mkfs.ext4; no se crea ni modifica el sistema de archivos."},
+    {"nombre":"Crear ext4 en partición vacía","comando":"sudo mkfs -t ext4 /dev/sdb1","descripcion":"Crea ext4 en la partición indicada; utilizar únicamente tras confirmar que está vacía, respaldada y desmontada.","resultado_esperado":"La utilidad informa de la creación del sistema de archivos y de su UUID."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo", "tipo"],
+    "validaciones": ["Exigir una lista permitida de dispositivos y una confirmación explícita del destino.","Confirmar que no está montado ni contiene datos que deban conservarse.","Comprobar disponibilidad de respaldo y espacio antes de ejecutar."],
     "rollback": null
   }
 }

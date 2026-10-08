@@ -1,7 +1,7 @@
 {
   "id": "lsmod",
   "nombre": "lsmod",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra los módulos del kernel que están cargados actualmente, junto con su tamaño y el recuento de referencias cuando está disponible.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -13,37 +13,40 @@
     "principal": "lsmod",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "modulos_cargados (entrada implícita)", "tipo": "string", "requerido": false, "default": "/proc/modules", "valores": [], "descripcion": "Estado actual de los módulos del kernel leído desde /proc/modules; es una entrada implícita y no un argumento posicional.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Interfaz /proc/modules del kernel"],
+    "paquetes": ["kmod"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida representa el estado actual de /proc/modules y puede variar mientras se cargan o descargan módulos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido con kmod (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "kmod",
+      "arch_linux": "kmod",
+      "rhel_centos": "kmod"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar módulos cargados","comando":"lsmod","descripcion":"Muestra la lista de módulos del kernel actualmente cargados.","resultado_esperado":"Tabla con nombre, tamaño y dependencias/referencias de cada módulo."},
+    {"nombre":"Filtrar módulos de red","comando":"lsmod | grep '^cfg80211'","descripcion":"Comprueba si el módulo cfg80211 aparece cargado.","resultado_esperado":"La fila del módulo si está cargado; ninguna coincidencia si no lo está."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que /proc/modules esté disponible y no asumir que la lista permanece estática durante la lectura."],
     "rollback": null
   }
 }

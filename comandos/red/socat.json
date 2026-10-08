@@ -1,7 +1,7 @@
 {
   "id": "socat",
   "nombre": "socat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Conecta dos flujos de datos mediante direcciones de socket, archivos, tuberias o procesos, con soporte para TCP, UDP, Unix sockets y otras direcciones.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "socat",
+    "principal": "socat [opciones] direccion1 direccion2",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-d","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Aumenta el nivel de mensajes de diagnostico; puede repetirse.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Vuelca datos transferidos a stderr en modo legible.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa transferencia unidireccional en las direcciones donde aplica.","conflictos":[],"requiere":[]},
+    {"flag":"-T","argumento":"segundos","tipo":"number","requerido":false,"default":null,"valores":[],"descripcion":"Define un limite de tiempo de inactividad antes de cerrar la conexion.","conflictos":[],"requiere":[]},
+    {"flag":"direccion1/direccion2","argumento":"tipo:opciones","tipo":"string","requerido":true,"default":null,"valores":["TCP","TCP-LISTEN","UDP","UNIX-CONNECT","UNIX-LISTEN","STDIO"],"descripcion":"Extremos de flujo que socat conecta; cada direccion puede llevar opciones especificas.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["permisos sobre archivos/sockets y root o capacidades para puertos privilegiados"],
+    "dependencias": ["socat"],
+    "paquetes": ["socat"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "socat puede enlazar servicios, redirigir trafico o ejecutar procesos; una direccion mal configurada puede exponer servicios o datos.",
+      "No cree listeners publicos ni use EXEC/SYSTEM con datos no confiables; limite ejemplos a loopback y endpoints propios."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install socat",
+      "arch_linux": "sudo pacman -S socat",
+      "rhel_centos": "sudo dnf install socat"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Probar conexion TCP local","comando":"socat -T3 - TCP:127.0.0.1:22,connect-timeout=2","descripcion":"Conecta stdin/stdout al servicio SSH local con limites de tiempo para una prueba autorizada.","resultado_esperado":"Si el servicio escucha, puede verse su banner; al cerrar stdin o vencer el limite termina la conexion."},
+    {"nombre":"Consultar ayuda del programa","comando":"socat -h","descripcion":"Muestra un resumen de opciones y direcciones admitidas sin abrir conexiones.","resultado_esperado":"Se imprime la ayuda de la version instalada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["direccion_local","direccion_remota","timeout"],
+    "validaciones": ["Revisar ambos extremos, enlazar listeners solo a direcciones necesarias, limitar tiempo y evitar ejecutar procesos con entrada remota no confiable."],
     "rollback": null
   }
 }

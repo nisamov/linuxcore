@@ -1,7 +1,7 @@
 {
   "id": "modprobe",
   "nombre": "modprobe",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Añade o elimina módulos del kernel y resuelve automáticamente sus dependencias conforme a la configuración de modprobe.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "modprobe",
+    "principal": "modprobe [OPCIÓN]... MÓDULO [PARÁMETROS...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-r, --remove","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina el módulo indicado y, si procede, módulos dependientes no utilizados.","conflictos":[],"requiere":[]},
+    {"flag":"-n, --dry-run","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Simula la operación e informa qué se haría sin cargar ni eliminar módulos.","conflictos":[],"requiere":[]},
+    {"flag":"-v, --verbose","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra mensajes sobre las acciones realizadas o simuladas.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Cargar o retirar módulos del kernel requiere privilegios de superusuario."],
+    "dependencias": ["Árbol de módulos del kernel en ejecución y configuración de modprobe"],
+    "paquetes": ["kmod"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cargar o retirar módulos puede interrumpir dispositivos, conectividad o servicios; verifica el módulo y sus dependencias antes de actuar."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido con kmod (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "kmod",
+      "arch_linux": "kmod",
+      "rhel_centos": "kmod"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular carga de un módulo","comando":"sudo modprobe -n -v loop","descripcion":"Muestra las acciones que modprobe realizaría al cargar loop sin modificar el estado del kernel.","resultado_esperado":"Mensajes de simulación con dependencias o indicación de que no se requiere ninguna acción."},
+    {"nombre":"Cargar módulo de almacenamiento","comando":"sudo modprobe loop","descripcion":"Solicita cargar el módulo loop y las dependencias configuradas si no están ya activas.","resultado_esperado":"El módulo queda disponible si está instalado y la operación tiene éxito."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["MODULO", "PARAMETROS_MODULO (opcional)"],
+    "validaciones": ["Probar primero con -n -v; confirmar que el módulo corresponde al hardware y está disponible para el kernel en ejecución."],
     "rollback": null
   }
 }

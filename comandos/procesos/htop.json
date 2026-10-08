@@ -1,7 +1,7 @@
 {
   "id": "htop",
   "nombre": "htop",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Monitor interactivo de procesos que presenta uso de CPU y memoria, permite ordenar y filtrar procesos y ofrece controles de gestión.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,76 @@
     ]
   },
   "sintaxis": {
-    "principal": "htop",
+    "principal": "htop [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-d",
+      "argumento": "décimas",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 15,
+      "valores": [],
+      "descripcion": "Establece el retardo de actualización en décimas de segundo en versiones que admiten esta opción.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra procesos del usuario indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID[,PID...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra los PID especificados, si la versión instalada admite esta opción.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-t",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Inicia con vista de árbol.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-C",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa modo monocromo.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso a los procesos visibles; para controlar procesos ajenos se requieren permisos apropiados."
+    ],
+    "dependencias": [
+      "Terminal interactivo y /proc en Linux"
+    ],
+    "paquetes": [
+      "htop"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +87,45 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La interfaz permite enviar señales y modificar prioridades; esas acciones cambian o terminan procesos.",
+      "Verifique PID y propietario antes de usar las acciones de control; opciones disponibles varían según versión."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install htop",
+      "arch_linux": "sudo pacman -S htop",
+      "rhel_centos": "sudo dnf install htop"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Abrir vista interactiva",
+      "comando": "htop",
+      "descripcion": "Inicia el monitor interactivo con la configuración predeterminada.",
+      "resultado_esperado": "Interfaz de terminal con procesos, medidores y controles interactivos."
+    },
+    {
+      "nombre": "Filtrar procesos de usuario",
+      "comando": "htop -u $USER",
+      "descripcion": "Inicia htop mostrando procesos asociados al usuario actual, si la versión admite -u.",
+      "resultado_esperado": "Vista interactiva limitada a procesos de ese usuario."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
+    "idempotente": true,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": [
+      "usuario",
+      "pid"
+    ],
+    "validaciones": [
+      "Comprobar opciones con htop --help en la versión instalada.",
+      "No automatizar teclas de terminación o cambio de prioridad sin verificación explícita."
+    ],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "mostrar_directorios_archivos_mas_grandes_del_sistema",
   "nombre": "Mostrar directorios y archivos mas grandes del sistema",
-  "descripcion": "Muestra los 10 directorios y archivos mas grandes del sistema.",
+  "descripcion": "Calcula tamaños bajo el directorio actual con du, los ordena de mayor a menor y muestra diez entradas; no recorre necesariamente todo el sistema de archivos.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,30 @@
     "principal": "du -a . | sort -n -r | head -n 10",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "directorio_inicial",
+      "tipo": "string",
+      "requerido": false,
+      "default": ".",
+      "valores": [],
+      "descripcion": "Árbol que du recorre; la receta inspecciona el directorio actual y sus elementos, sujeto a permisos de lectura.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "",
+      "argumento": "cantidad_resultados",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 10,
+      "valores": [],
+      "descripcion": "Número de entradas que head conserva de la lista ordenada; la receta muestra diez.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -31,7 +54,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza du, sort y head proporcionados habitualmente por el sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +67,12 @@
       "comando": "du -a . | sort -n -r | head -n 10",
       "descripcion": "Muestra los 10 directorios y archivos mas grandes del sistema.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Mostrar los diez elementos más grandes del directorio personal",
+      "comando": "du -ah \"$HOME\" 2>/dev/null | sort -h -r | head -n 10",
+      "descripcion": "Resume el uso de espacio de archivos y directorios del usuario y muestra los diez tamaños mayores.",
+      "resultado_esperado": "Se muestran hasta diez rutas ordenadas de mayor a menor tamaño legible."
     }
   ],
   "automatizacion": {
@@ -51,7 +80,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que la ruta objetivo existe y corresponde al ámbito que se desea inspeccionar.", "Asegure permisos de lectura y considere el tiempo y la carga al recorrer árboles de directorios grandes.", "Interprete los resultados como uso por ruta; no elimine archivos automáticamente basándose solo en el tamaño."] ,
     "rollback": null
   }
 }

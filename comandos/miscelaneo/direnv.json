@@ -1,7 +1,7 @@
 {
   "id": "direnv",
   "nombre": "direnv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra variables de entorno por directorio leyendo .envrc al entrar en un árbol configurado; requiere instalar un hook en el shell y autorizar cada archivo.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "direnv",
+    "principal": "direnv [allow|deny|edit|exec|hook|export|status|reload|version] [argumentos]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "allow", "argumento": "[ruta]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Autoriza el .envrc del directorio actual o la ruta indicada tras verificarlo.", "conflictos": [], "requiere": []},
+    {"flag": "deny", "argumento": "[ruta]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Revoca la autorización del .envrc asociado al directorio indicado.", "conflictos": [], "requiere": []},
+    {"flag": "edit", "argumento": "[ruta]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Abre el .envrc con el editor configurado.", "conflictos": [], "requiere": []},
+    {"flag": "exec", "argumento": "directorio comando [argumentos]", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Ejecuta un comando con el entorno de direnv cargado para el directorio indicado.", "conflictos": [], "requiere": []},
+    {"flag": "hook", "argumento": "shell", "tipo": "subcomando", "requerido": false, "default": null, "valores": ["bash", "zsh", "fish", "tcsh"], "descripcion": "Emite código de integración para añadir al archivo de inicio del shell.", "conflictos": [], "requiere": []},
+    {"flag": "status", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el estado de autorización y carga del .envrc actual.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
+    "dependencias": ["Hook de integración cargado en el shell", "Archivo .envrc revisado y autorizado por directorio"],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Un .envrc autorizado ejecuta código de shell al cambiar de directorio. Revise su contenido antes de ejecutar direnv allow y no autorice archivos modificables por terceros."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instale direnv y configure el hook correspondiente en el archivo de inicio del shell (por ejemplo, eval \"$(direnv hook bash)\").",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "direnv",
+      "arch_linux": "direnv",
+      "rhel_centos": "direnv (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar el estado", "comando": "direnv status", "descripcion": "Inspecciona el entorno y el estado del archivo .envrc del directorio actual.", "resultado_esperado": "Información de la ruta, autorización y entorno cargado."},
+    {"nombre": "Autorizar archivo revisado", "comando": "direnv allow", "descripcion": "Autoriza el .envrc actual; ejecútelo únicamente después de revisar el código que contiene.", "resultado_esperado": "El archivo queda permitido y sus variables se cargan al entrar al directorio mediante el hook."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique el hook del shell, revise el .envrc antes de autorizarlo y compruebe el estado con direnv status."],
     "rollback": null
   }
 }

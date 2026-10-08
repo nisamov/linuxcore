@@ -1,7 +1,7 @@
 {
   "id": "limpiar_historial_de_terminal_de_sesion_actuall",
   "nombre": "Limpiar historial de terminal de sesion actual",
-  "descripcion": "Limpia el historial de comandos de la sesion actual.",
+  "descripcion": "Borra la lista de historial de la shell actual y luego la escribe en el archivo de historial configurado por la shell. En Bash normalmente vacía el historial persistente correspondiente a HISTFILE; no elimina registros de auditoría ni garantiza borrado seguro del almacenamiento.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "history -c && history -w",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "historial_shell",
+      "tipo": "string",
+      "requerido": false,
+      "default": "historial de la shell interactiva actual",
+      "valores": [],
+      "descripcion": "Historial en memoria que history -c vacía y archivo seleccionado por la configuración de la shell al ejecutar history -w; no se proporciona como argumento al comando.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +39,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Elimina el historial disponible en la sesión y puede sobrescribir el archivo de historial configurado. No borra logs del sistema ni constituye una eliminación forense segura."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza las funciones de historial del shell Bash interactivo.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "history -c && history -w",
       "descripcion": "Limpia el historial de comandos de la sesion actual.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Eliminar la entrada más reciente del historial",
+      "comando": "history -d $((HISTCMD-1))",
+      "descripcion": "Elimina del historial de la sesión la entrada más reciente, sin borrar todo el historial.",
+      "resultado_esperado": "La entrada seleccionada deja de aparecer en el historial actual del shell."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Ejecute solo en una sesión interactiva del shell cuyo historial desea modificar y confirme qué archivo de historial utiliza.", "Compruebe que se pretende borrar el historial de la sesión actual; la eliminación puede ser irreversible y afectar auditoría o depuración."] ,
     "rollback": null
   }
 }

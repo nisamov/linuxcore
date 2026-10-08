@@ -1,7 +1,7 @@
 {
   "id": "time",
   "nombre": "time",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Mide la duración y el uso de recursos de un comando; en Bash es una palabra reservada que también puede medir tuberías completas.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,13 @@
     ]
   },
   "sintaxis": {
-    "principal": "time",
+    "principal": "time [-p] comando [argumentos ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-p", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el formato portátil con tiempo real, de usuario y de sistema (forma común de la palabra reservada del shell).", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "comando [argumentos]", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Comando externo, función o tubería cuya duración se medirá; GNU /usr/bin/time tiene opciones adicionales distintas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +27,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La palabra reservada del shell y el ejecutable externo /usr/bin/time no aceptan necesariamente las mismas opciones. La medición es aproximada y puede verse afectada por carga del sistema."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Palabra reservada de Bash/POSIX shell; GNU time puede instalarse como utilidad externa.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bash (builtin); time (utilidad GNU externa, normalmente disponible)",
+      "arch_linux": "bash (builtin); time (utilidad GNU externa)",
+      "rhel_centos": "bash (builtin); time (utilidad GNU externa, normalmente disponible)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Medir una orden", "comando": "time -p sleep 1", "descripcion": "Mide el tiempo real, de usuario y de sistema de la orden sleep.", "resultado_esperado": "La orden termina y se imprimen valores aproximados en segundos."},
+    {"nombre": "Medir una tubería en Bash", "comando": "time printf 'dato\\n' | wc -l", "descripcion": "La palabra reservada de Bash mide la tubería completa, no solo el último proceso.", "resultado_esperado": "Se muestra el conteo 1 y, después, información de duración de la tubería."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme con type time si está usando la palabra reservada o /usr/bin/time; use el formato local apropiado para analizar la salida."],
     "rollback": null
   }
 }

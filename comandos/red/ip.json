@@ -1,7 +1,7 @@
 {
   "id": "ip",
   "nombre": "ip",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra interfaces, direcciones, rutas, vecinos y otros objetos de red del kernel Linux mediante subcomandos especializados de iproute2.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "ip",
+    "principal": "ip [opciones] {address|link|route|neigh|rule|netns} [subcomando] ...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-br, -brief","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa salida resumida para objetos compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-4","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Limita la operacion a IPv4.","conflictos":["-6"],"requiere":[]},
+    {"flag":"-6","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Limita la operacion a IPv6.","conflictos":["-4"],"requiere":[]},
+    {"flag":"address show","argumento":"[dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra direcciones configuradas en interfaces.","conflictos":[],"requiere":[]},
+    {"flag":"link show","argumento":"[dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra enlaces de red y su estado administrativo.","conflictos":[],"requiere":[]},
+    {"flag":"route show","argumento":"[tabla]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra rutas del kernel.","conflictos":[],"requiere":[]},
+    {"flag":"neigh show","argumento":"[dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra la tabla de vecinos IPv4/IPv6.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consultas; root o CAP_NET_ADMIN para operaciones modificadoras"],
+    "dependencias": ["iproute2 y soporte de red del kernel"],
+    "paquetes": ["iproute2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Operaciones address/link/route/neigh add, change, delete o set alteran conectividad y pueden desconectar sesiones remotas.",
+      "Los ejemplos son consultas de solo lectura; conserve configuracion previa antes de cambios."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iproute2",
+      "arch_linux": "sudo pacman -S iproute2",
+      "rhel_centos": "sudo dnf install iproute"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar direcciones","comando":"ip -brief address show","descripcion":"Muestra direcciones IPv4/IPv6 de interfaces en formato resumido.","resultado_esperado":"Cada interfaz aparece con estado y direcciones asignadas."},
+    {"nombre":"Consultar rutas IPv4","comando":"ip -4 route show","descripcion":"Lista las rutas IPv4 instaladas en el sistema local.","resultado_esperado":"Se muestran prefijos, gateways e interfaces de salida disponibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["objeto_red","interfaz","prefijo_o_gateway"],
+    "validaciones": ["Distinguir subcomandos de consulta y cambio; validar interfaz, prefijo y gateway y mantener una via de recuperacion."],
     "rollback": null
   }
 }

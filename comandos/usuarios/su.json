@@ -1,7 +1,7 @@
 {
   "id": "su",
   "nombre": "su",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta una shell o un comando con la identidad de otro usuario; si no se indica usuario, intenta cambiar a root. La autenticación y el entorno dependen de la implementación y la configuración local.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "su",
+    "principal": "su [opciones] [-] [usuario [argumentos...]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Inicia una shell de tipo login e inicializa el entorno del usuario objetivo.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"comando","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Ejecuta un comando a través de la shell del usuario objetivo y finaliza.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"shell","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Usa la shell indicada en vez de la configurada para la cuenta.","conflictos":[],"requiere":[]},
+    {"flag":"-m","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Conserva el entorno actual; suele ser equivalente a -p en implementaciones compatibles.","conflictos":["-"],"requiere":[]},
+    {"flag":"-p","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Conserva el entorno actual en implementaciones compatibles.","conflictos":["-"],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Autenticación válida para la cuenta objetivo; acceso root puede depender de PAM y políticas locales"],
+    "dependencias": ["PAM, base de datos de cuentas y shell del usuario objetivo"],
+    "paquetes": ["util-linux en Debian/Ubuntu/Arch; util-linux o shadow-utils según distribución"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Una shell privilegiada hereda capacidad de modificar el sistema; verifica cuidadosamente el usuario y el comando antes de ejecutarlos.",
+      "Evita conservar el entorno al cambiar de identidad salvo que sea necesario; variables como PATH pueden permitir ejecutar binarios no confiables.",
+      "No automatices contraseñas pasando secretos por argumentos o tuberías."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Suele venir instalado como parte de las herramientas base.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Abrir shell de login de otro usuario","comando":"su - ana","descripcion":"Solicita autenticación y abre una shell de login como ana.","resultado_esperado":"Se inicia una shell con la identidad y el entorno de login de ana; exit vuelve a la shell anterior."},
+    {"nombre":"Ejecutar comando como root","comando":"su -c 'id -u' root","descripcion":"Ejecuta id -u como root tras la autenticación requerida por la política local.","resultado_esperado":"Imprime 0 si la transición de identidad tuvo éxito."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "comando", "shell"],
+    "validaciones": ["Confirmar usuario objetivo, privilegios solicitados y origen confiable del entorno.", "No incluir credenciales en argumentos, código fuente o logs; preferir mecanismos de elevación auditables según la política local."],
     "rollback": null
   }
 }

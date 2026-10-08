@@ -1,7 +1,7 @@
 {
   "id": "sysfsutils",
   "nombre": "sysfsutils",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "sysfsutils proporciona systool, una utilidad para consultar dispositivos, buses, clases y módulos expuestos por sysfs.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "sysfsutils",
+    "principal": "systool [OPCIÓN]... [DISPOSITIVO]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-c","argumento":"clase","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la consulta a la clase sysfs indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-b","argumento":"bus","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita la consulta al bus sysfs indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra atributos adicionales de los objetos seleccionados.","conflictos":[],"requiere":[]},
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra todos los atributos disponibles para los objetos seleccionados.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["sysfs montado en /sys"],
+    "paquetes": ["sysfsutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los objetos y atributos disponibles dependen de los controladores cargados y de la versión del kernel."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "sudo apt install sysfsutils",
       "arch_linux": "",
-      "rhel_centos": ""
+      "rhel_centos": "sudo dnf install sysfsutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar dispositivos de bloque","comando":"systool -c block","descripcion":"Enumera los objetos de la clase block visibles en sysfs.","resultado_esperado":"Dispositivos de bloque detectados, como sda o nvme0n1, si están presentes."},
+    {"nombre":"Consultar atributos detallados de un bus","comando":"systool -b pci -v","descripcion":"Muestra el bus PCI y los atributos detallados que sysfs publica.","resultado_esperado":"Lista de dispositivos PCI y sus atributos accesibles."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["CLASE_SYSFS (opcional)", "BUS_SYSFS (opcional)", "DISPOSITIVO (opcional)"],
+    "validaciones": ["Comprobar que sysfs esté montado en /sys y que systool esté instalado; los atributos pueden estar restringidos."],
     "rollback": null
   }
 }

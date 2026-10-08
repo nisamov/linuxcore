@@ -1,7 +1,7 @@
 {
   "id": "put",
   "nombre": "put",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Instruccion del cliente FTP que envia un archivo local al directorio remoto actual, opcionalmente con otro nombre; no es un ejecutable independiente.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "put",
+    "principal": "ftp> put archivo_local [archivo_remoto]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"archivo_local","argumento":"ruta","tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Ruta del archivo local que se enviara.","conflictos":[],"requiere":[]},
+    {"flag":"archivo_remoto","argumento":"ruta","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Nombre opcional para crear el archivo en el servidor remoto.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["sesion FTP activa, lectura local y permiso de escritura remoto"],
+    "dependencias": ["cliente FTP interactivo"],
+    "paquetes": ["ftp o inetutils-ftp, segun distribucion"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "FTP clasico no cifra credenciales ni contenido; prefiera SFTP/FTPS.",
+      "La carga puede sobrescribir archivos remotos; confirme destino y permisos antes de transferir."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (parte del cliente FTP)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ftp",
+      "arch_linux": "sudo pacman -S inetutils",
+      "rhel_centos": "sudo dnf install ftp"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Enviar archivo autorizado","comando":"ftp> put reporte.txt","descripcion":"Sube reporte.txt al directorio remoto actual de una cuenta FTP autorizada.","resultado_esperado":"El cliente informa de la transferencia y del nombre de archivo remoto."},
+    {"nombre":"Subir con nombre remoto distinto","comando":"ftp> put reporte.txt reporte-final.txt","descripcion":"Transfiere el archivo local asignandole el nombre remoto indicado.","resultado_esperado":"El servidor recibe reporte-final.txt si la cuenta tiene permiso de escritura."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo_local","archivo_remoto"],
+    "validaciones": ["Verificar servidor autorizado, permisos y destino; revisar riesgo de sobrescritura y no transmitir secretos sin cifrado."],
     "rollback": null
   }
 }

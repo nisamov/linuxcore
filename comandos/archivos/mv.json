@@ -1,7 +1,7 @@
 {
   "id": "mv",
   "nombre": "mv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Mueve o renombra archivos y directorios; dentro del mismo sistema de archivos suele ser una operación de renombrado y entre sistemas puede implicar copia y eliminación.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "mv",
+    "principal": "mv [opciones] origen... destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Pregunta antes de sobrescribir un destino existente.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No sobrescribe un destino existente.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No solicita confirmación antes de sobrescribir; úsese con cuidado.", "conflictos": ["-i", "-n"], "requiere": []},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Mueve solo si el origen es más reciente que el destino o este no existe.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra cada movimiento realizado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en los directorios de origen y destino; búsqueda en las rutas."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Puede sobrescribir o reemplazar entradas y hacer inaccesibles datos previos; verifique las rutas antes de ejecutar.", "Al mover entre sistemas de archivos puede no conservarse atomicidad y la operación puede fallar parcialmente.", "No use comodines sin comprobar primero qué rutas expande la shell."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Renombrar un archivo", "comando": "mv -i borrador.txt final.txt", "descripcion": "Renombra el archivo y pregunta antes de reemplazar un final.txt ya existente.", "resultado_esperado": "El archivo aparece con el nombre final.txt si se confirma la operación."},
+    {"nombre": "Mover un directorio", "comando": "mv proyecto/ archivo/", "descripcion": "Mueve el directorio proyecto dentro del directorio archivo.", "resultado_esperado": "El árbol queda en archivo/proyecto si la operación se completa."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "interactivo": true,
+    "apto_script": true,
+    "variables": ["origen", "destino"],
+    "validaciones": ["Comprobar origen, destino y existencia de colisiones.", "Preferir -n o -i cuando no se deba sobrescribir.", "Registrar errores y considerar movimientos entre sistemas de archivos."],
     "rollback": null
   }
 }

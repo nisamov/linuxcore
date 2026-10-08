@@ -1,7 +1,7 @@
 {
   "id": "sudo",
   "nombre": "sudo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta un comando con los privilegios permitidos por la política sudoers o consulta esos permisos; la autenticación y alcance dependen de la configuración del sistema.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,45 @@
     "principal": "sudo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista comandos permitidos para el usuario invocante en el host actual.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": "usuario", "tipo": "string", "requerido": false, "default": "root", "valores": [], "descripcion": "Ejecuta el comando como el usuario indicado, sujeto a sudoers.", "conflictos": [], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Inicia un shell de inicio de sesión como el usuario objetivo.", "conflictos": ["-s"], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ejecuta el shell especificado por la configuración como shell privilegiado.", "conflictos": ["-i"], "requiere": []},
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Falla en lugar de solicitar autenticación interactiva.", "conflictos": [], "requiere": []},
+    {"flag": "-k", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Invalida credenciales almacenadas para que la siguiente autenticación vuelva a solicitarlas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Cuenta local habilitada en sudoers; privilegios efectivos limitados por la política del host"],
+    "dependencias": ["sudo instalado y configurado; autenticación/PAM según sistema"],
+    "paquetes": ["sudo"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["sudo no valida que un comando sea seguro: revise cada programa ejecutado con privilegios elevados.", "Evite shells privilegiados y reglas NOPASSWD amplias; no comparta credenciales ni salida sensible de sudo -l."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install sudo",
+      "arch_linux": "sudo pacman -S sudo",
+      "rhel_centos": "sudo dnf install sudo"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar privilegios efectivos", "comando": "sudo -l", "descripcion": "Consulta qué comandos puede ejecutar la cuenta actual en el host.", "resultado_esperado": "Lista permisos aplicables o indica que no hay privilegios sudo."},
+    {"nombre": "Probar ejecución no interactiva de lectura", "comando": "sudo -n id", "descripcion": "Ejecuta una consulta de identidad solo si la política permite sudo sin solicitar contraseña; no abre un shell.", "resultado_esperado": "Muestra identidad efectiva o falla sin pedir interacción."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["comando_autorizado", "usuario_objetivo"],
+    "validaciones": ["Verificar comando exacto y política sudoers; usar -n para automatización no interactiva y no pasar secretos en argumentos."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "comm",
   "nombre": "comm",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Compara dos archivos de texto ordenados línea por línea y muestra las líneas exclusivas de cada archivo y las comunes en tres columnas.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "comm",
+    "principal": "comm [opciones] archivo1 archivo2",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-1", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime la columna de líneas exclusivas del primer archivo.", "conflictos": [], "requiere": []},
+    {"flag": "-2", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime la columna de líneas exclusivas del segundo archivo.", "conflictos": [], "requiere": []},
+    {"flag": "-3", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime la columna de líneas presentes en ambos archivos.", "conflictos": [], "requiere": []},
+    {"flag": "--check-order", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Comprueba que ambos archivos estén correctamente ordenados.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre ambos archivos."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Ambas entradas deben estar ordenadas según la misma configuración regional; de otro modo la comparación puede ser incorrecta.", "Para entradas sin archivo, use - como nombre de archivo una sola vez."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente viene preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar líneas exclusivas y comunes", "comando": "comm lista-a.txt lista-b.txt", "descripcion": "Compara dos listas ordenadas conservando la salida en las tres columnas predeterminadas.", "resultado_esperado": "Muestra líneas exclusivas de cada lista y las compartidas."},
+    {"nombre": "Obtener solo líneas comunes", "comando": "comm -12 lista-a.txt lista-b.txt", "descripcion": "Suprime las columnas exclusivas y deja únicamente las líneas presentes en ambos archivos.", "resultado_esperado": "Imprime la intersección de las dos listas ordenadas."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo1", "archivo2"],
+    "validaciones": ["Verificar que ambos archivos estén ordenados con el mismo locale.", "Comprobar legibilidad de las entradas."],
     "rollback": null
   }
 }

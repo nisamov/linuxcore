@@ -1,7 +1,7 @@
 {
   "id": "lsattr",
   "nombre": "lsattr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra atributos extendidos de archivos en sistemas de archivos compatibles, especialmente los atributos administrados por e2fsprogs.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsattr",
+    "principal": "lsattr [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista atributos recursivamente para directorios y su contenido.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Incluye archivos ocultos que comienzan con punto.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista el directorio como archivo, en vez de enumerar su contenido.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra nombres largos de atributos en vez de letras abreviadas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de búsqueda y lectura de atributos según el sistema de archivos y sus permisos."],
+    "dependencias": ["e2fsprogs; soporte del sistema de archivos."],
+    "paquetes": ["e2fsprogs"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida refleja atributos soportados por el sistema de archivos y no equivale a los permisos Unix.", "Con -R puede producir una salida extensa; revise el alcance antes de analizarla."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar e2fsprogs mediante el gestor de paquetes de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "e2fsprogs",
+      "arch_linux": "e2fsprogs",
+      "rhel_centos": "e2fsprogs"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar atributos de archivo", "comando": "lsattr documento.txt", "descripcion": "Muestra las banderas de atributos reconocidas para el archivo.", "resultado_esperado": "Imprime una cadena de atributos y el nombre del archivo."},
+    {"nombre": "Listar atributos incluyendo ocultos", "comando": "lsattr -a directorio/", "descripcion": "Incluye las entradas ocultas del directorio en el listado.", "resultado_esperado": "Se muestra una línea por cada entrada, incluidos nombres iniciados por punto."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta"],
+    "validaciones": ["Comprobar que la implementación admita las opciones usadas.", "No asumir que atributos no listados sean equivalentes a permisos."],
     "rollback": null
   }
 }

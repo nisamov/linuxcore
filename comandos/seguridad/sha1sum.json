@@ -1,7 +1,7 @@
 {
   "id": "sha1sum",
   "nombre": "sha1sum",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Calcula o verifica hashes SHA-1 de archivos; SHA-1 está obsoleto para usos criptográficos sensibles por debilidades conocidas.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "sha1sum",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-c", "argumento": "archivo_sumas", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Verifica archivos a partir de un manifiesto de hashes previamente generado.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lee archivos en modo binario cuando el sistema distingue modos de archivo.", "conflictos": [], "requiere": []},
+    {"flag": "--tag", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Emite salida en formato BSD.", "conflictos": [], "requiere": []},
+    {"flag": "--status", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime salida normal durante verificación; usar el código de salida para determinar éxito.", "conflictos": [], "requiere": ["-c"]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Coreutils"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No use SHA-1 para firmas, autenticación ni verificación adversaria; prefiera SHA-256 o superior. Puede servir solo para compatibilidad o detectar cambios no maliciosos en contextos heredados."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Calcular hash heredado de prueba", "comando": "sha1sum ./archivo-prueba.txt", "descripcion": "Calcula SHA-1 de un archivo propio para comparación no adversarial o compatibilidad heredada.", "resultado_esperado": "Imprime el digest hexadecimal y el nombre del archivo."},
+    {"nombre": "Verificar manifiesto local", "comando": "sha1sum -c ./manifiesto-prueba.sha1", "descripcion": "Comprueba integridad accidental frente a un manifiesto local de laboratorio.", "resultado_esperado": "Indica OK o FAILED para cada archivo del manifiesto."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "manifiesto"],
+    "validaciones": ["Comprobar código de salida y no usar SHA-1 para seguridad criptográfica sensible."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "tune2fs",
   "nombre": "tune2fs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ajusta parámetros de sistemas de archivos ext2, ext3 y ext4, como etiqueta, intervalo de comprobación y opciones de características.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "tune2fs",
+    "principal": "tune2fs [opciones] dispositivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista el superbloque y otros atributos del sistema de archivos.","conflictos":[],"requiere":[]},
+    {"flag":"-L","argumento":"etiqueta","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece la etiqueta del volumen ext.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":"recuento","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Establece el número máximo de montajes entre comprobaciones; 0 desactiva la comprobación por recuento.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":"intervalo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el intervalo entre comprobaciones, expresado con sufijos de tiempo admitidos por la utilidad.","conflictos":[],"requiere":[]},
+    {"flag":"-U","argumento":"UUID","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el UUID del sistema de archivos; cambiarlo puede afectar referencias externas.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consulta; root o acceso de escritura para cambiar metadatos"],
+    "dependencias": ["e2fsprogs"],
+    "paquetes": ["e2fsprogs"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las opciones que escriben modifican metadatos del sistema de archivos; confirme el dispositivo y mantenga una copia de seguridad.",
+      "No cambie características con -O sin conocer compatibilidad de kernel, cargador de arranque y herramientas de recuperación. Evite operar sobre un volumen montado salvo que la opción concreta lo permita."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install e2fsprogs",
+      "arch_linux": "sudo pacman -S e2fsprogs",
+      "rhel_centos": "sudo dnf install e2fsprogs"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar parámetros ext","comando":"sudo tune2fs -l /dev/sdb1","descripcion":"Lee y presenta los atributos del superbloque ext de la partición.","resultado_esperado":"Informe con etiqueta, UUID, estado, características y parámetros de montaje."},
+    {"nombre":"Establecer etiqueta ext","comando":"sudo tune2fs -L ARCHIVO /dev/sdb1","descripcion":"Cambia la etiqueta del sistema de archivos ext; confirme el destino antes de ejecutar.","resultado_esperado":"Actualiza la etiqueta, que puede consultarse con tune2fs -l o blkid."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo", "etiqueta"],
+    "validaciones": ["Verificar el tipo ext del dispositivo y preservar el UUID salvo que exista un plan de actualización de referencias.","Revisar el estado de montaje antes de aplicar cambios y guardar metadatos relevantes."],
     "rollback": null
   }
 }

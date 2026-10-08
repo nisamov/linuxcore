@@ -1,7 +1,7 @@
 {
   "id": "lastlog",
   "nombre": "lastlog",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra el último inicio de sesión registrado por cuenta en el archivo lastlog; las opciones de escritura dependen de la implementación instalada.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "lastlog",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-u", "argumento": "usuario|UID", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el registro de una cuenta o UID específico.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": "días", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "En implementaciones que lo admiten, informa cuentas cuyo último acceso fue anterior al número de días indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": "días", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "En implementaciones que lo admiten, filtra accesos más recientes que el intervalo indicado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["La lectura del archivo lastlog suele requerir root o acceso de lectura autorizado"],
+    "dependencias": ["Almacén lastlog y módulo de autenticación que lo actualice; disponibilidad depende de la distribución"],
+    "paquetes": ["shadow-utils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El archivo puede ser disperso y muy grande; evite leerlo directamente con herramientas que fuercen la expansión de huecos.", "lastlog está obsoleto o ausente en algunas distribuciones; sus datos pueden no cubrir todos los métodos de autenticación."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_shadow_utils_si_disponible",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en login/shadow-utils según versión",
+      "arch_linux": "incluido en shadow",
+      "rhel_centos": "incluido en shadow-utils según versión"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar última actividad de una cuenta", "comando": "sudo lastlog -u usuario_prueba", "descripcion": "Audita el último acceso registrado para una cuenta de prueba autorizada.", "resultado_esperado": "Muestra terminal, origen y fecha si el registro está disponible."},
+    {"nombre": "Informe de cuentas", "comando": "sudo lastlog", "descripcion": "Consulta el informe lastlog local para revisar cuentas.", "resultado_esperado": "Tabla de cuentas y último acceso conocido."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["usuario"],
+    "validaciones": ["Confirmar que la distribución mantiene lastlog y proteger informes que exponen datos de actividad."],
     "rollback": null
   }
 }

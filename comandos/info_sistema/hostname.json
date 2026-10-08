@@ -1,7 +1,7 @@
 {
   "id": "hostname",
   "nombre": "hostname",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o establece el nombre del sistema. Sin opciones presenta el nombre configurado; el cambio del nombre persistente suele gestionarse con hostnamectl o con la configuración propia de la distribución.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "hostname",
+    "principal": "hostname [OPCIÓN]... [NOMBRE]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-s, --short","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la primera parte del nombre antes del primer punto.","conflictos":[],"requiere":[]},
+    {"flag":"-f, --fqdn, --long","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el nombre de dominio completo según la resolución del sistema.","conflictos":[],"requiere":[]},
+    {"flag":"-I, --all-ip-addresses","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra las direcciones configuradas en las interfaces del equipo, excepto loopback.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
+    "permisos": ["Cambiar el nombre del sistema requiere privilegios administrativos; las consultas no suelen requerirlos."],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["hostname (Debian/Ubuntu)", "inetutils (Arch Linux)", "hostname (RHEL/CentOS)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La resolución de un nombre FQDN depende de la configuración DNS y de /etc/hosts."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install hostname",
+      "arch_linux": "sudo pacman -S inetutils",
+      "rhel_centos": "sudo dnf install hostname"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar nombre corto","comando":"hostname -s","descripcion":"Muestra el nombre de host sin el sufijo de dominio.","resultado_esperado":"El nombre corto configurado para el sistema."},
+    {"nombre":"Consultar direcciones del equipo","comando":"hostname -I","descripcion":"Imprime las direcciones IP asociadas a interfaces no loopback.","resultado_esperado":"Una lista separada por espacios de las direcciones disponibles."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["NOMBRE_HOST (solo al establecer un nombre)"],
+    "validaciones": ["Si se pretende establecer un nombre, validar previamente el formato y usar privilegios administrativos."],
     "rollback": null
   }
 }

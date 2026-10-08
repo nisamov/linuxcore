@@ -1,7 +1,7 @@
 {
   "id": "logger",
   "nombre": "logger",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Añade mensajes al registro del sistema mediante syslog o journald, con prioridad, etiqueta y opciones de transporte.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "logger",
+    "principal": "logger [opciones] [mensaje ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-p", "argumento": "facilidad.prioridad", "tipo": "string", "requerido": false, "default": "user.notice", "valores": [], "descripcion": "Establece la facilidad y prioridad syslog del mensaje.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": "etiqueta", "tipo": "string", "requerido": false, "default": "nombre del usuario", "valores": [], "descripcion": "Añade la etiqueta indicada al mensaje.", "conflictos": [], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Incluye el identificador de proceso en cada línea (compatibilidad histórica).", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Lee las líneas del archivo y las envía como mensajes separados.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Escribe el mensaje en el error estándar además de enviarlo al registro.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": "servidor", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Envía el mensaje al servidor syslog remoto indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": "puerto", "tipo": "integer", "requerido": false, "default": "514", "valores": [], "descripcion": "Selecciona el puerto del servidor remoto en implementaciones util-linux.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +32,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los mensajes pueden quedar almacenados centralmente y ser visibles a operadores con acceso al registro; no incluya secretos ni datos personales innecesarios."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Parte de util-linux en la mayoría de distribuciones Linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux (normalmente instalado)",
+      "arch_linux": "util-linux (normalmente instalado)",
+      "rhel_centos": "util-linux (normalmente instalado)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Registrar un mensaje informativo", "comando": "logger -t mantenimiento -p user.notice 'Tarea completada'", "descripcion": "Envía el mensaje al registro con la etiqueta mantenimiento y prioridad notice.", "resultado_esperado": "El mensaje aparece en el sistema de registro configurado, por ejemplo journald/syslog."},
+    {"nombre": "Registrar líneas de un archivo", "comando": "logger -t importacion -f resultado.log", "descripcion": "Envía cada línea de resultado.log como mensaje del sistema.", "resultado_esperado": "Las líneas del archivo quedan registradas con la etiqueta importacion."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["No registre secretos; compruebe con journalctl o el visor syslog correspondiente y verifique las opciones de transporte de la versión local."],
     "rollback": null
   }
 }

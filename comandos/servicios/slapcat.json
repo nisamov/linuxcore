@@ -1,7 +1,7 @@
 {
   "id": "slapcat",
   "nombre": "slapcat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Exporta el contenido de una base de datos local de slapd en formato LDIF. A diferencia de ldapsearch, lee directamente el backend local y no realiza una consulta LDAP al servidor remoto.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "slapcat",
+    "principal": "slapcat [-v] [-b sufijo | -n número_base] [-a filtro] [-l archivo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-b","argumento":"sufijo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona la base de datos que contiene el sufijo DN indicado.","conflictos":["-n"],"requiere":[]},
+    {"flag":"-n","argumento":"número_base","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona la base por su número de base de datos configurado en slapd.","conflictos":["-b"],"requiere":[]},
+    {"flag":"-a","argumento":"filtro","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Exporta solo las entradas que coinciden con el filtro LDAP indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":"archivo","tipo":"string","requerido":false,"default":"stdout","valores":[],"descripcion":"Escribe el LDIF en el archivo indicado en lugar de la salida estándar.","conflictos":[],"requiere":[]},
+    {"flag":"-F","argumento":"directorio_configuración","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Indica el directorio de configuración slapd.d que se utilizará para localizar bases.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Activa salida detallada durante la exportación.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Acceso de lectura a la configuración y archivos del backend; suele ejecutarse como root o usuario del servicio LDAP."],
+    "dependencias": ["OpenLDAP slapd y backend local configurado"],
+    "paquetes": ["slapd / openldap"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida puede contener todos los datos del directorio; guarde el LDIF con permisos restrictivos y cifre/controle su transferencia.", "La exportación accede al backend local; detenga slapd cuando el backend o la operación requieran acceso exclusivo y siga el procedimiento de backup de la distribución.", "Para consultar un servidor remoto use ldapsearch, no slapcat."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Forma parte de las herramientas del servidor OpenLDAP; instale el paquete del servidor, no solo el cliente LDAP.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "slapd",
+      "arch_linux": "openldap",
+      "rhel_centos": "openldap-servers"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Exportar una base seleccionada a LDIF","comando":"sudo slapcat -b 'dc=example,dc=org' -l /var/backups/ldap-example.ldif","descripcion":"Exporta la base local cuyo sufijo es dc=example,dc=org al archivo de respaldo indicado.","resultado_esperado":"Se crea un LDIF con las entradas seleccionadas; el archivo debe quedar protegido y verificarse antes de considerarlo un backup válido."},
+    {"nombre":"Inspeccionar exportación filtrada","comando":"sudo slapcat -b 'dc=example,dc=org' -a '(objectClass=posixGroup)'","descripcion":"Vuelca a la salida estándar solo entradas de la base local que coincidan con el filtro de grupos POSIX.","resultado_esperado":"Salida LDIF con las entradas coincidentes; no se modifica la base de datos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["sufijo", "archivo_salida", "directorio_configuración"],
+    "validaciones": ["Verificar la configuración y backend seleccionados, permisos y condición de ejecución offline requerida.", "Asegurar espacio libre, permisos restrictivos y código de salida; comprobar tamaño e integridad del LDIF exportado."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "rm",
   "nombre": "rm",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Elimina entradas de directorio; con opciones recursivas puede borrar árboles completos sin posibilidad sencilla de recuperación.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "rm",
+    "principal": "rm [opciones] archivo..., rm -r [opciones] directorio...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Pregunta antes de cada eliminación.", "conflictos": ["-f"], "requiere": []},
+    {"flag": "-I", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Solicita una confirmación única antes de eliminar más de tres archivos o al borrar recursivamente.", "conflictos": ["-f"], "requiere": []},
+    {"flag": "-f", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ignora archivos inexistentes y no pregunta; fuerza la eliminación cuando sea posible.", "conflictos": ["-i", "-I"], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Elimina directorios y su contenido recursivamente.", "conflictos": [], "requiere": []},
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Elimina directorios vacíos.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en el directorio padre; los controles ACL, sticky bit y permisos del sistema pueden limitar la eliminación."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "requiere_confirmacion": true,
+    "advertencias": ["La eliminación normalmente no mueve los archivos a la papelera y puede ser irreversible.", "Revise rutas y expansiones de comodines antes de ejecutar; evite combinar -r con rutas no verificadas.", "No use sudo ni -f salvo que sean imprescindibles; no existe una opción universal de deshacer."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Eliminar con confirmación", "comando": "rm -i borrador.txt", "descripcion": "Solicita confirmación interactiva antes de eliminar el archivo indicado.", "resultado_esperado": "El archivo se elimina solo si se confirma y el usuario tiene permiso."},
+    {"nombre": "Eliminar directorio vacío", "comando": "rm -d directorio-vacío", "descripcion": "Elimina el directorio únicamente si está vacío.", "resultado_esperado": "El directorio desaparece si no contiene entradas y la operación está permitida."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["ruta_objetivo"],
+    "validaciones": ["Mostrar y revisar la lista exacta de objetivos antes de borrar.", "Comprobar copias de seguridad y directorio de trabajo.", "Usar -i o -I en operaciones manuales de riesgo; registrar resultado y errores."],
     "rollback": null
   }
 }

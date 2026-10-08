@@ -1,7 +1,7 @@
 {
   "id": "updatedb",
   "nombre": "updatedb",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Actualiza la base de datos consultada por locate al indexar rutas del sistema de archivos; su alcance, opciones y política de permisos dependen de la implementación instalada.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,43 @@
     ]
   },
   "sintaxis": {
-    "principal": "updatedb",
+    "principal": "updatedb [opciones] (opciones dependientes de plocate/mlocate)",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--help", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra ayuda si la implementación instalada admite esta opción.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["La actualización de la base global suele requerir root o un servicio/timer del sistema; una base privada puede usar permisos distintos."],
+    "dependencias": ["Implementación locate/updatedb y configuración de directorios incluidos y excluidos."],
+    "paquetes": ["plocate o mlocate, según distribución"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La base puede revelar nombres y estructura de archivos; configure permisos y exclusiones para proteger privacidad.", "El recorrido puede consumir CPU y E/S; use el servicio programado de la distribución en vez de lanzarlo repetidamente.", "No asuma que las opciones de updatedb son iguales entre plocate y mlocate."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar plocate o mlocate según el proveedor de locate de la distribución; la actualización puede gestionarse con un timer del sistema.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "plocate o mlocate",
+      "arch_linux": "plocate",
+      "rhel_centos": "mlocate o plocate, según versión"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Actualizar índice global", "comando": "sudo updatedb", "descripcion": "Solicita regenerar la base de datos global según la configuración de la implementación instalada.", "resultado_esperado": "La base de locate se actualiza si la configuración, permisos y espacio son adecuados."},
+    {"nombre": "Consultar opciones de la implementación", "comando": "updatedb --help", "descripcion": "Muestra las opciones admitidas localmente antes de configurar rutas o bases alternativas.", "resultado_esperado": "Se presenta ayuda si la versión instalada admite --help; consulte man updatedb si no."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["rutas_incluidas", "rutas_excluidas", "base_datos"],
+    "validaciones": ["Identificar implementación y consultar su manual local.", "Revisar exclusiones y permisos de la base.", "Evitar reconstrucciones frecuentes fuera de la planificación del sistema."],
     "rollback": null
   }
 }

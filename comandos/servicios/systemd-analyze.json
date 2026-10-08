@@ -1,7 +1,7 @@
 {
   "id": "systemd-analyze",
   "nombre": "systemd-analyze",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Analiza el arranque y la configuración de systemd: mide tiempos, identifica unidades lentas y valida archivos de unidad. Es una herramienta de diagnóstico, no un sustituto de systemctl.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "systemd-analyze",
+    "principal": "systemd-analyze [opciones] subcomando [argumentos...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"time","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra el tiempo empleado por el kernel y el espacio de usuario durante el arranque medido.","conflictos":[],"requiere":[]},
+    {"flag":"blame","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Ordena las unidades por el tiempo de inicialización registrado.","conflictos":[],"requiere":[]},
+    {"flag":"critical-chain","argumento":"unidad","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Representa la cadena crítica de unidades y sus tiempos; puede limitarse a una unidad.","conflictos":[],"requiere":[]},
+    {"flag":"verify","argumento":"archivo_unidad...","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Comprueba archivos de unidad indicados y busca errores de configuración; no garantiza por sí solo el comportamiento correcto del servicio.","conflictos":[],"requiere":[]},
+    {"flag":"security","argumento":"unidad...","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Evalúa opciones de aislamiento de una o más unidades systemd y presenta una puntuación orientativa.","conflictos":[],"requiere":[]},
+    {"flag":"--user","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Analiza el gestor systemd de usuario en lugar del gestor del sistema.","conflictos":["--system"],"requiere":[]},
+    {"flag":"--no-pager","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Evita abrir un paginador para la salida.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de unidades y datos de arranque; algunos detalles pueden requerir root o pertenencia a grupos autorizados."],
+    "dependencias": ["systemd; los datos de arranque deben estar disponibles para obtener análisis útiles"],
+    "paquetes": ["systemd"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La puntuación de security es una heurística y no constituye una auditoría de seguridad.", "verify valida sintaxis y dependencias detectables, pero no reemplaza pruebas funcionales."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Incluido en el paquete systemd de las distribuciones que usan systemd; no suele distribuirse por separado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "systemd",
+      "arch_linux": "systemd",
+      "rhel_centos": "systemd"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Detectar servicios lentos","comando":"systemd-analyze blame","descripcion":"Ordena las unidades por el tiempo de inicialización medido durante el arranque.","resultado_esperado":"Lista de unidades con duraciones; las primeras son las que más tardaron individualmente."},
+    {"nombre":"Validar una unidad local","comando":"systemd-analyze verify ./mi-servicio.service","descripcion":"Analiza el archivo de unidad local para detectar errores de sintaxis o referencias inválidas.","resultado_esperado":"No informa errores si la validación pasa; en caso contrario muestra advertencias y errores con referencias al archivo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_unidad", "unidad"],
+    "validaciones": ["Confirmar que el host utiliza systemd.", "Comprobar código de salida y revisar advertencias; los subcomandos disponibles dependen de la versión instalada."],
     "rollback": null
   }
 }

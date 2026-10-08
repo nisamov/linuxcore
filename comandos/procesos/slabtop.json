@@ -1,7 +1,7 @@
 {
   "id": "slabtop",
   "nombre": "slabtop",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra estadísticas en tiempo real de las cachés de objetos slab del kernel, ordenadas por consumo u otro criterio.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,111 @@
     ]
   },
   "sintaxis": {
-    "principal": "slabtop",
+    "principal": "slabtop [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-o",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra una sola salida y termina, en lugar de actualizar continuamente.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": "criterio",
+      "tipo": "string",
+      "requerido": false,
+      "default": "c",
+      "valores": [
+        "a",
+        "b",
+        "c",
+        "l",
+        "v",
+        "n",
+        "o",
+        "p",
+        "s",
+        "u"
+      ],
+      "descripcion": "Ordena por criterio admitido por procps-ng; los valores exactos se describen en la ayuda local.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-d",
+      "argumento": "segundos",
+      "tipo": "number",
+      "requerido": false,
+      "default": 3,
+      "valores": [],
+      "descripcion": "Establece el intervalo de actualización en modo interactivo.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso de lectura a información slab expuesta por el kernel; puede estar restringida."
+    ],
+    "dependencias": [
+      "/proc/slabinfo o interfaz equivalente del kernel; terminal para modo continuo"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La disponibilidad y el detalle dependen de la configuración del kernel y permisos de /proc.",
+      "La vista es de diagnóstico y no modifica las cachés ni los procesos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Vista interactiva de cachés slab",
+      "comando": "slabtop",
+      "descripcion": "Muestra y refresca estadísticas de cachés slab.",
+      "resultado_esperado": "Tabla de cachés con objetos activos, totales y memoria según la versión."
+    },
+    {
+      "nombre": "Informe de una sola vez",
+      "comando": "slabtop -o",
+      "descripcion": "Imprime un informe y finaliza, útil para redirección o captura.",
+      "resultado_esperado": "Tabla estática de cachés slab y totales disponibles."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "idempotente": true,
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "criterio",
+      "intervalo"
+    ],
+    "validaciones": [
+      "Usar -o para obtener salida finita en scripts.",
+      "Interpretar los campos conforme a la versión del kernel/procps."
+    ],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "pidstat",
   "nombre": "pidstat",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Informa estadísticas de actividad de procesos y tareas, como CPU, memoria, E/S y cambios de contexto.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,135 @@
     ]
   },
   "sintaxis": {
-    "principal": "pidstat",
+    "principal": "pidstat [opciones] [intervalo [repeticiones]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-u",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra utilización de CPU por proceso (informe predeterminado habitual).",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra estadísticas de memoria y fallos de página.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-d",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra actividad de E/S de procesos.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra cambios de contexto voluntarios e involuntarios.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID[,PID...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Limita la recopilación a los PID indicados; algunas versiones admiten ALL.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-U",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Filtra por usuario en versiones de sysstat que lo admiten.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso a estadísticas de procesos visibles para el usuario."
+    ],
+    "dependencias": [
+      "/proc; el paquete sysstat"
+    ],
+    "paquetes": [
+      "sysstat"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los datos son muestreados y pueden omitir procesos muy breves; algunas estadísticas dependen del kernel y configuración.",
+      "La visibilidad de información de otros usuarios puede estar restringida."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install sysstat",
+      "arch_linux": "sudo pacman -S sysstat",
+      "rhel_centos": "sudo dnf install sysstat"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Muestrear CPU de procesos",
+      "comando": "pidstat -u 1 5",
+      "descripcion": "Muestra actividad de CPU por proceso cada segundo durante cinco informes.",
+      "resultado_esperado": "Uso de CPU de los procesos observados en cada intervalo."
+    },
+    {
+      "nombre": "Consultar memoria por proceso",
+      "comando": "pidstat -r -p 1234 2 3",
+      "descripcion": "Muestrea estadísticas de memoria del PID 1234 cada dos segundos, tres veces.",
+      "resultado_esperado": "Tres informes de memoria del proceso, si existe y es visible."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "intervalo",
+      "repeticiones",
+      "pid",
+      "usuario"
+    ],
+    "validaciones": [
+      "Usar intervalo y número de repeticiones positivos.",
+      "Confirmar opciones disponibles en la versión de sysstat instalada."
+    ],
     "rollback": null
   }
 }

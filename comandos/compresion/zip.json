@@ -184,7 +184,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Compruebe primero `command -v zip`; si falta, instale el paquete zip con el gestor de paquetes de su distribución (Debian/Ubuntu: `sudo apt install zip`; Arch: `sudo pacman -S zip`; RHEL/CentOS: `sudo dnf install zip`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -206,7 +206,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que cada archivo o directorio de entrada exista y sea legible, que el archivo ZIP de destino sea la ruta prevista y que haya permisos y espacio suficientes.", "Revise si el archivo ZIP ya existe: `zip` puede actualizarlo; confirme que la actualización sea intencional y verifique el resultado con `unzip -t`. Evite incluir el archivo ZIP de salida dentro del árbol que se agrega recursivamente.", "No use `-m` sin confirmar que las entradas se eliminarán del disco tras comprimirse; evite `-P` porque expone la contraseña en argumentos y registros, y prefiera el ingreso interactivo cuando se requiera cifrado."],
     "rollback": null
   }
 }

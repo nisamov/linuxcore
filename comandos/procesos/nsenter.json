@@ -1,7 +1,7 @@
 {
   "id": "nsenter",
   "nombre": "nsenter",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta un programa dentro de uno o varios espacios de nombres de un proceso existente, por ejemplo un contenedor.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,168 @@
     ]
   },
   "sintaxis": {
-    "principal": "nsenter",
+    "principal": "nsenter [opciones] [programa [argumentos...]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-t",
+      "argumento": "PID",
+      "tipo": "integer",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona el proceso objetivo cuyos espacios de nombres se usarán.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-m",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Entra en el espacio de nombres de montajes del proceso objetivo.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Entra en el espacio de nombres UTS.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-i",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Entra en el espacio de nombres IPC.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Entra en el espacio de nombres de red.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Entra en el espacio de nombres PID; afecta a procesos hijos creados después de entrar.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Hace fork antes de ejecutar el programa, necesario en algunos usos de namespace PID.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-r",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Establece el directorio raíz al del proceso objetivo.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-w",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Establece el directorio de trabajo al del proceso objetivo.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Las operaciones suelen requerir root/CAP_SYS_ADMIN en los namespaces de destino y permiso para inspeccionar el proceso."
+    ],
+    "dependencias": [
+      "Namespaces Linux y directorio /proc/<pid>/ns disponible"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "El programa ejecutado puede operar en el entorno del proceso objetivo, acceder a sus montajes/red y alterar recursos compartidos; no es una operación aislada por defecto.",
+      "Verifique PID, namespaces, usuario y comando antes de entrar; use privilegios mínimos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Ejecutar shell en namespaces de proceso",
+      "comando": "sudo nsenter -t 1234 -m -u -i -n -p -- sh",
+      "descripcion": "Abre una shell entrando en namespaces seleccionados del PID 1234; requiere privilegios apropiados.",
+      "resultado_esperado": "Shell con contexto de namespaces objetivo, o error si permisos/namespace no lo permiten."
+    },
+    {
+      "nombre": "Ejecutar comando con raíz y directorio de trabajo del objetivo",
+      "comando": "sudo nsenter -t 1234 -r -w -- pwd",
+      "descripcion": "Ejecuta pwd usando la raíz y directorio de trabajo del proceso 1234.",
+      "resultado_esperado": "Ruta del directorio de trabajo en el contexto del proceso, si accesible."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "pid_objetivo",
+      "namespaces",
+      "programa",
+      "argumentos"
+    ],
+    "validaciones": [
+      "Confirmar identidad del PID y el contexto de contenedor/host antes de ejecutar.",
+      "Limitar las capacidades y el comando; no pasar entrada no confiable a una shell privilegiada."
+    ],
     "rollback": null
   }
 }

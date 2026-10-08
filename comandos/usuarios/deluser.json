@@ -1,7 +1,7 @@
 {
   "id": "deluser",
   "nombre": "deluser",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Elimina una cuenta de usuario; en Debian y derivados, deluser ofrece una interfaz de alto nivel con opciones propias para retirar cuentas y grupos.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "deluser",
+    "principal": "deluser [opciones] usuario | deluser --group grupo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--remove-home","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina también el directorio personal y el buzón de correo (variante Debian).","conflictos":[],"requiere":[]},
+    {"flag":"--remove-all-files","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina archivos propiedad del usuario en el sistema de archivos (variante Debian); operación de alto riesgo.","conflictos":[],"requiere":[]},
+    {"flag":"--backup","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Realiza una copia de seguridad antes de eliminar archivos con opciones de borrado compatibles (variante Debian).","conflictos":[],"requiere":["--remove-home o --remove-all-files"]},
+    {"flag":"--group","argumento":"grupo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Elimina un grupo; la sintaxis y el alcance dependen de la variante Debian.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root"],
+    "dependencias": ["base de datos local de cuentas"],
+    "paquetes": ["adduser en Debian/Ubuntu; shadow o shadow-utils para userdel en otras distribuciones"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La eliminación de una cuenta puede impedir el acceso y, con opciones de borrado, destruir archivos. Verifica copias, procesos, tareas y propiedad de archivos antes de continuar.",
+      "Las opciones --remove-home y --remove-all-files son específicas de deluser de Debian; no las supongas disponibles en userdel ni en otras implementaciones."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades de cuentas de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install adduser",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Eliminar solo la cuenta","comando":"sudo deluser ana","descripcion":"Retira la cuenta ana sin solicitar explícitamente la eliminación de su directorio personal.","resultado_esperado":"La cuenta se elimina de la base local; archivos propiedad de ana pueden permanecer."},
+    {"nombre":"Eliminar cuenta y directorio personal (Debian)","comando":"sudo deluser --remove-home ana","descripcion":"Elimina la cuenta y su directorio personal en sistemas con deluser de Debian.","resultado_esperado":"La cuenta y los datos de home se eliminan; comprueba el respaldo y el destino antes de ejecutar."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "opciones_borrado"],
+    "validaciones": ["Confirmar identidad del usuario, procesos activos, archivos propios y respaldo recuperable.", "Comprobar que se está usando la implementación correcta y revisar exactamente qué rutas serán eliminadas."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "wc",
   "nombre": "wc",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cuenta líneas, palabras, bytes, caracteres o longitud máxima de línea en archivos o entrada estándar.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "wc",
+    "principal": "wc [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cuenta líneas delimitadas por salto de línea.", "conflictos": [], "requiere": []},
+    {"flag": "-w", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cuenta palabras separadas por espacios en blanco.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cuenta bytes.", "conflictos": ["-m"], "requiere": []},
+    {"flag": "-m", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Cuenta caracteres según la codificación y locale actuales.", "conflictos": ["-c"], "requiere": []},
+    {"flag": "-L", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra la longitud de la línea más larga.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre las entradas."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["-l cuenta caracteres de nueva línea, no necesariamente registros lógicos de formatos estructurados.", "Los resultados de -m dependen del locale y de la codificación válida de entrada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente está preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Contar líneas", "comando": "wc -l acceso.log", "descripcion": "Cuenta los caracteres de nueva línea del registro.", "resultado_esperado": "Imprime el número de líneas seguido del nombre del archivo."},
+    {"nombre": "Contar palabras y caracteres", "comando": "wc -wm notas.txt", "descripcion": "Muestra el recuento de palabras y caracteres según el locale actual.", "resultado_esperado": "Imprime ambos recuentos y el nombre del archivo."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "locale"],
+    "validaciones": ["Elegir entre bytes y caracteres según la necesidad.", "Fijar locale cuando se requieran resultados de caracteres reproducibles."],
     "rollback": null
   }
 }

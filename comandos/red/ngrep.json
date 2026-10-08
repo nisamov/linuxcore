@@ -1,7 +1,7 @@
 {
   "id": "ngrep",
   "nombre": "ngrep",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca patrones de texto o expresiones regulares en paquetes de red capturados en vivo o desde un archivo, con filtros tipo BPF y salida contextual.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "ngrep",
+    "principal": "ngrep [opciones] patron [filtro_BPF]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-d","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Captura en la interfaz indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-I","argumento":"archivo_pcap","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee paquetes desde el archivo de captura indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-W","argumento":"formato","tipo":"string","requerido":false,"default":"normal","valores":["normal","byline","single","none"],"descripcion":"Selecciona el formato de salida de los paquetes.","conflictos":[],"requiere":[]},
+    {"flag":"-q","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Suprime informacion adicional de resumen.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra marcas de tiempo para paquetes coincidentes.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":"archivo_pcap","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee paquetes de un archivo pcap en versiones que usan -i para entrada de archivo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_RAW para captura en vivo; lectura para pcap"],
+    "dependencias": ["libpcap"],
+    "paquetes": ["ngrep"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La captura puede exponer contraseñas, cookies o datos personales en protocolos sin cifrar; capture solo trafico propio/autorizado.",
+      "El trafico TLS no es legible como texto de aplicacion; proteja y elimine los archivos pcap al terminar."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install ngrep",
+      "arch_linux": "sudo pacman -S ngrep",
+      "rhel_centos": "sudo dnf install ngrep"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Buscar solicitud HTTP en loopback","comando":"sudo ngrep -d lo -W byline 'GET|POST' 'tcp port 80'","descripcion":"Observa en loopback de laboratorio solo solicitudes HTTP locales en puerto 80.","resultado_esperado":"Se muestran lineas de paquetes que coinciden mientras exista trafico local compatible."},
+    {"nombre":"Buscar patron en captura propia","comando":"ngrep -I laboratorio.pcap -W byline 'Host:'","descripcion":"Busca cabeceras Host en un pcap de laboratorio propio.","resultado_esperado":"Se imprimen los paquetes coincidentes, si el trafico capturado contiene ese texto en claro."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["interfaz_o_pcap","patron","filtro_BPF"],
+    "validaciones": ["Autorizar la captura, minimizar interfaz/filtro y no registrar datos sensibles; asegurar almacenamiento del pcap."],
     "rollback": null
   }
 }

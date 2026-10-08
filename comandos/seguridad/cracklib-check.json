@@ -1,7 +1,7 @@
 {
   "id": "cracklib-check",
   "nombre": "cracklib-check",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Evalúa contraseñas recibidas por la entrada estándar con la biblioteca CrackLib y devuelve un diagnóstico de calidad; no cambia contraseñas.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,40 @@
     "principal": "cracklib-check",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "(sin opciones)", "argumento": "contraseña por línea", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Lee una o más contraseñas desde stdin, una por línea, y muestra el resultado de CrackLib.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["No requiere privilegios para analizar entrada; instalar/verificar diccionarios según la distribución"],
+    "dependencias": ["CrackLib y su diccionario"],
+    "paquetes": ["libcrack2", "cracklib-runtime"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No incluya contraseñas reales en argumentos, historial de shell, registros ni ejemplos; use valores ficticios en pruebas.", "La salida revela si una entrada supera reglas de diccionario, no garantiza que sea segura."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install libcrack2 cracklib-runtime",
+      "arch_linux": "sudo pacman -S cracklib",
+      "rhel_centos": "sudo dnf install cracklib cracklib-dicts"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Evaluar contraseña ficticia", "comando": "printf '%s\\n' 'Ejemplo-Ficticio-7!' | cracklib-check", "descripcion": "Prueba el evaluador con una cadena inventada, nunca con una credencial activa.", "resultado_esperado": "Imprime la cadena de prueba y el diagnóstico de CrackLib."},
+    {"nombre": "Evaluar un lote de prueba", "comando": "printf '%s\\n' 'password' 'LagoAzul-41-Ficticio' | cracklib-check", "descripcion": "Compara dos valores ficticios para observar los mensajes de validación.", "resultado_esperado": "Una línea de resultado por cada entrada."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["entrada_de_prueba"],
+    "validaciones": ["Enviar solo contraseñas ficticias por stdin; no almacenar ni registrar entradas reales."],
     "rollback": null
   }
 }

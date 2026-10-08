@@ -1,7 +1,7 @@
 {
   "id": "pgrep",
   "nombre": "pgrep",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca procesos en ejecución cuyo nombre o línea de órdenes coincide con una expresión regular y muestra sus PID o nombres.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,137 @@
     ]
   },
   "sintaxis": {
-    "principal": "pgrep",
+    "principal": "pgrep [opciones] patrón",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra el nombre del proceso junto con cada PID.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Compara el patrón con la línea de órdenes completa y no solo con el nombre del proceso.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario[,usuario...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Limita la búsqueda a procesos propiedad de los usuarios indicados.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-x",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Exige que el nombre del proceso coincida exactamente con el patrón.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra únicamente el proceso iniciado más recientemente que coincida.",
+      "conflictos": [
+        "-o"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-o",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra únicamente el proceso iniciado hace más tiempo que coincida.",
+      "conflictos": [
+        "-n"
+      ],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso de lectura a la información de procesos visible para el usuario."
+    ],
+    "dependencias": [
+      "/proc en sistemas Linux procfs"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los procesos de otros usuarios pueden quedar ocultos por permisos o configuración de /proc.",
+      "El patrón es una expresión regular extendida; revise los resultados antes de usar sus PID en acciones posteriores."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Buscar procesos sshd",
+      "comando": "pgrep -a sshd",
+      "descripcion": "Lista PID y nombre de los procesos cuyo nombre coincide con sshd.",
+      "resultado_esperado": "Una línea por proceso coincidente, o ninguna si no hay coincidencias."
+    },
+    {
+      "nombre": "Buscar por línea de órdenes",
+      "comando": "pgrep -af 'python.*worker'",
+      "descripcion": "Busca procesos cuya línea de órdenes coincide con la expresión indicada.",
+      "resultado_esperado": "PID y línea de órdenes de los procesos encontrados."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "patron",
+      "usuario"
+    ],
+    "validaciones": [
+      "Citar y validar el patrón como expresión regular.",
+      "Tratar la ausencia de coincidencias (código de salida 1) como un resultado posible."
+    ],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "banner",
   "nombre": "banner",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Representa texto en letras grandes de arte ASCII; banner es una utilidad pequeña cuya sintaxis y disponibilidad dependen de la distribución.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,12 @@
     ]
   },
   "sintaxis": {
-    "principal": "banner",
+    "principal": "banner [texto ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "texto", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Texto que se desea mostrar en caracteres grandes; la implementación clásica no define un conjunto portable de opciones.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +26,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La utilidad banner no está presente en todas las distribuciones y existen implementaciones con diferencias de formato; no tiene opciones portables documentadas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instale el paquete que proporciona banner; el nombre y la implementación dependen de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sysvbanner (si está disponible en la versión de Ubuntu/Debian)",
+      "arch_linux": "No suele incluirse como banner clásico; puede usarse figlet",
+      "rhel_centos": "Consultar repositorios habilitados; disponibilidad variable"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar un rótulo", "comando": "banner HOLA", "descripcion": "Pasa una palabra a la utilidad para su representación ASCII grande.", "resultado_esperado": "Una figura de texto en varias líneas; el diseño depende de la implementación instalada."},
+    {"nombre": "Mostrar texto con espacios", "comando": "banner 'LINUX CORE'", "descripcion": "Entrega el texto como un único argumento para intentar representarlo como rótulo.", "resultado_esperado": "Texto ASCII grande cuando la implementación admite espacios en el argumento."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe si banner está instalado y consulte su ayuda o manual local porque las implementaciones no son uniformes."],
     "rollback": null
   }
 }

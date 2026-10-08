@@ -1,7 +1,7 @@
 {
   "id": "userdel",
   "nombre": "userdel",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Elimina una cuenta local; de forma predeterminada no borra el directorio personal ni los archivos propiedad del usuario.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "userdel",
+    "principal": "userdel [-f] [-r] usuario",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina el directorio personal y el buzón de correo asociados a la cuenta.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la eliminación incluso en situaciones que normalmente causarían rechazo; su uso puede ser peligroso.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios administrativos"],
+    "dependencias": ["base de datos local de cuentas"],
+    "paquetes": ["shadow en Debian/Ubuntu/Arch; shadow-utils en RHEL/Fedora"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Eliminar la cuenta puede interrumpir servicios y dejar archivos huérfanos; con -r se borran datos del home. Realiza inventario y respaldo antes.",
+      "No uses -f como solución rutinaria. Finaliza o migra procesos, tareas programadas, claves y propiedad de archivos antes de retirar la cuenta."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades shadow.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Eliminar cuenta conservando sus archivos","comando":"sudo userdel ana","descripcion":"Elimina ana de la base local sin solicitar la eliminación de su home.","resultado_esperado":"La cuenta deja de resolverse localmente; los archivos propiedad de su UID pueden permanecer."},
+    {"nombre":"Eliminar cuenta y home","comando":"sudo userdel -r ana","descripcion":"Elimina ana y su directorio personal/buzón asociados tras confirmar que existe respaldo.","resultado_esperado":"Se retira la cuenta y se borran los datos asociados que cubre la opción -r."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "eliminar_home"],
+    "validaciones": ["Confirmar cuenta objetivo, sesiones/procesos activos, servicios, tareas, claves y archivos propiedad del UID.", "Respaldar los datos necesarios y comprobar exactamente si se utilizará -r; evitar -f."],
     "rollback": null
   }
 }

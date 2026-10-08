@@ -1,7 +1,7 @@
 {
   "id": "gpg",
   "nombre": "gpg",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Gestiona claves OpenPGP y realiza cifrado, descifrado y firmas digitales; su modo depende del subcomando y puede solicitar interacción con el agente.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,7 +13,13 @@
     "principal": "gpg",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--list-keys", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista claves públicas del llavero seleccionado.", "conflictos": [], "requiere": []},
+    {"flag": "--list-secret-keys", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista claves secretas disponibles.", "conflictos": [], "requiere": []},
+    {"flag": "--verify", "argumento": "firma [archivo]", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Verifica una firma y, opcionalmente, el archivo firmado.", "conflictos": [], "requiere": []},
+    {"flag": "--decrypt", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Descifra el archivo usando una clave adecuada o frase de paso.", "conflictos": [], "requiere": []},
+    {"flag": "--output", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Especifica el destino de salida para operaciones compatibles.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +30,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Proteja copias de seguridad de claves secretas y no comparta frases de paso.", "La validez criptográfica de una firma no demuestra por sí sola la identidad de una clave: verifique su huella por un canal confiable."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install gnupg",
+      "arch_linux": "sudo pacman -S gnupg",
+      "rhel_centos": "sudo dnf install gnupg2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Listar llaves públicas", "comando": "gpg --list-keys", "descripcion": "Audita las claves públicas del llavero del usuario actual.", "resultado_esperado": "Lista claves públicas sin modificarlas."},
+    {"nombre": "Verificar firma de archivo propio", "comando": "gpg --verify ./archivo-prueba.sig ./archivo-prueba.txt", "descripcion": "Verifica una firma de prueba obtenida de una fuente controlada.", "resultado_esperado": "Informa resultado criptográfico y la identidad de la clave firmante; comprobar la huella por separado."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "interactivo": true,
+    "apto_script": true,
+    "variables": ["archivo", "firma", "identificador_clave"],
+    "validaciones": ["Comprobar código de salida, huella de clave por canal confiable y mantener claves secretas fuera de logs y argumentos."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "truncate",
   "nombre": "truncate",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ajusta el tamaño de un archivo a una longitud especificada; al ampliar puede crear un archivo disperso y al reducir descarta datos del final.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "truncate",
+    "principal": "truncate [opciones] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-s", "argumento": "tamaño", "tipo": "size", "requerido": true, "default": null, "valores": [], "descripcion": "Establece el tamaño objetivo; admite sufijos de tamaño y desplazamientos relativos con + o -.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No crea archivos inexistentes.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": "archivo_referencia", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el tamaño del archivo de referencia como tamaño objetivo.", "conflictos": ["-s"], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en el archivo o en el directorio padre si se crea."],
+    "dependencias": ["GNU coreutils y soporte del sistema de archivos."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
-    "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "requiere_confirmacion": true,
+    "advertencias": ["Reducir el tamaño descarta inmediatamente los datos que quedan más allá del nuevo final y no se puede deshacer.", "Ampliar el archivo no garantiza reserva física de espacio; puede producirse un error de espacio al escribir después.", "Verifique ruta y tamaño antes de operar sobre archivos existentes."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear archivo disperso de 1 GiB", "comando": "truncate -s 1G imagen-vacia.img", "descripcion": "Crea el archivo si falta y establece su longitud aparente a 1 GiB.", "resultado_esperado": "El archivo tiene tamaño aparente de 1 GiB; los bloques pueden no estar físicamente asignados."},
+    {"nombre": "Reducir archivo a 100 MiB", "comando": "truncate -s 100M archivo-temporal.bin", "descripcion": "Establece el tamaño del archivo a 100 MiB y descarta cualquier contenido posterior.", "resultado_esperado": "El archivo queda con tamaño aparente de 100 MiB; los bytes finales anteriores se pierden."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo", "tamaño"],
+    "validaciones": ["Confirmar ruta y tamaño objetivo; respaldar antes de reducir.", "Comprobar espacio y soporte del sistema de archivos al ampliar.", "Verificar que el archivo no contenga datos que deban conservarse."],
     "rollback": null
   }
 }

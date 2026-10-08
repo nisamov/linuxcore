@@ -1,7 +1,7 @@
 {
   "id": "head",
   "nombre": "head",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Escribe las primeras líneas o bytes de cada archivo en la salida estándar, o lee desde la entrada estándar.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "head",
+    "principal": "head [opciones] [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": "cantidad", "tipo": "integer", "requerido": false, "default": 10, "valores": [], "descripcion": "Muestra el número indicado de líneas; con signo + comienza desde esa línea.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": "cantidad", "tipo": "size", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el número indicado de bytes en vez de líneas.", "conflictos": [], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No imprime encabezados con nombres de archivo al procesar varios archivos.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Imprime siempre encabezados con nombres de archivo.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre los archivos de entrada."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los bytes mostrados pueden incluir datos binarios o secretos; tenga cuidado al imprimir en terminales y registros."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente ya está instalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar las primeras líneas", "comando": "head -n 20 sistema.log", "descripcion": "Imprime las veinte primeras líneas del registro.", "resultado_esperado": "La salida contiene como máximo las primeras veinte líneas."},
+    {"nombre": "Inspeccionar prefijo en bytes", "comando": "head -c 16 archivo.bin", "descripcion": "Escribe los primeros 16 bytes del archivo binario.", "resultado_esperado": "La salida contiene hasta 16 bytes iniciales."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "cantidad"],
+    "validaciones": ["Comprobar que el archivo sea legible.", "Evitar mostrar datos sensibles o binarios directamente en terminal."],
     "rollback": null
   }
 }

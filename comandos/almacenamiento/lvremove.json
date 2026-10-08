@@ -1,7 +1,7 @@
 {
   "id": "lvremove",
   "nombre": "lvremove",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Elimina uno o varios volúmenes lógicos LVM y libera sus extensiones para que el VG pueda reutilizarlas.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvremove",
+    "principal": "lvremove [opciones] LV...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la eliminación y omite algunas comprobaciones y confirmaciones.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Responde sí a todas las preguntas de confirmación.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de prueba sin actualizar metadatos.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "critico",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Eliminar un LV hace que sus datos sean inaccesibles y normalmente no pueden recuperarse desde LVM. Desmonte y detenga todos sus usuarios; respalde los datos antes de eliminarlo.",
+      "No use -f ni -y para omitir avisos salvo que el destino esté confirmado y exista un plan de recuperación."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular eliminación de LV","comando":"sudo lvremove --test /dev/vg_pruebas/temporal","descripcion":"Valida en modo de prueba la eliminación del volumen temporal indicado.","resultado_esperado":"LVM informa de la operación prevista sin eliminar el LV."},
+    {"nombre":"Eliminar LV respaldado","comando":"sudo lvremove /dev/vg_pruebas/temporal","descripcion":"Elimina el LV después de confirmar respaldo, punto de montaje y ausencia de procesos que lo utilicen.","resultado_esperado":"El dispositivo lógico deja de existir y sus extents quedan disponibles en el VG."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["lv"],
+    "validaciones": ["Confirmar nombre y VG mediante lvs/lvdisplay y comprobar el montaje exacto.","Respaldar los datos y verificar que no haya procesos consumidores.","No automatizar el borrado ni aceptar confirmaciones por defecto."],
     "rollback": null
   }
 }

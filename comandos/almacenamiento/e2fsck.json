@@ -1,7 +1,7 @@
 {
   "id": "e2fsck",
   "nombre": "e2fsck",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Comprueba y, opcionalmente, repara sistemas de archivos ext2, ext3 y ext4; la reparación puede modificar metadatos y debe realizarse con el sistema de archivos desmontado.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "e2fsck",
+    "principal": "e2fsck [opciones] dispositivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la comprobación incluso si el sistema de archivos parece limpio.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Abre en solo lectura y responde no a las reparaciones; útil para comprobación sin cambios.","conflictos":["-y"],"requiere":[]},
+    {"flag":"-p","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Repara automáticamente problemas que puedan corregirse sin intervención del operador.","conflictos":["-n","-y"],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Responde sí a todas las preguntas de reparación; puede aceptar cambios no deseados.","conflictos":["-n","-p"],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información detallada durante la comprobación.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o acceso de lectura/escritura al dispositivo"],
+    "dependencias": ["e2fsprogs"],
+    "paquetes": ["e2fsprogs"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "No ejecute sobre un sistema de archivos montado. La reparación puede modificar metadatos y perder archivos dañados; asegure una copia de seguridad o imagen antes de intervenir.",
+      "-y acepta todas las reparaciones automáticamente; úselo únicamente cuando se haya decidido aceptar cualquier cambio propuesto."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install e2fsprogs",
+      "arch_linux": "sudo pacman -S e2fsprogs",
+      "rhel_centos": "sudo dnf install e2fsprogs"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Comprobación de solo lectura","comando":"sudo e2fsck -n /dev/sdb1","descripcion":"Examina un sistema de archivos ext sin aplicar reparaciones.","resultado_esperado":"Informe de errores encontrados y estado final, sin modificar intencionalmente el sistema de archivos."},
+    {"nombre":"Comprobación forzada con reparación interactiva","comando":"sudo e2fsck -f /dev/sdb1","descripcion":"Fuerza una comprobación del sistema ext desmontado y pregunta antes de corregir problemas.","resultado_esperado":"Diagnóstico y preguntas de reparación para el operador."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo"],
+    "validaciones": ["Confirmar tipo ext2/ext3/ext4 y que el volumen esté desmontado.","Crear o verificar una copia de seguridad antes de permitir cambios.","No automatizar respuestas afirmativas sin una política de recuperación aprobada."],
     "rollback": null
   }
 }

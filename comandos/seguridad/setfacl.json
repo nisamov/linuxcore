@@ -1,7 +1,7 @@
 {
   "id": "setfacl",
   "nombre": "setfacl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Establece, modifica o elimina ACL de archivos y directorios, incluidas ACL predeterminadas heredables; permite expresar permisos por usuario y grupo.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,44 @@
     "principal": "setfacl",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-m", "argumento": "ACL", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade o modifica entradas ACL en las rutas indicadas.", "conflictos": [], "requiere": []},
+    {"flag": "-x", "argumento": "ACL", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina entradas ACL especificadas.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Elimina todas las entradas ACL extendidas; conserva permisos base.", "conflictos": [], "requiere": []},
+    {"flag": "-k", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Elimina ACL predeterminadas del directorio especificado.", "conflictos": [], "requiere": []},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Aplica operación recursivamente a directorios y su contenido.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Propietario del archivo o CAP_FOWNER; root puede administrar ACL de cualquier archivo"],
+    "dependencias": ["Soporte ACL del sistema de archivos"],
+    "paquetes": ["acl"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cambiar o borrar ACL puede conceder o revocar acceso a datos; verifique permisos efectivos y documente el estado previo.", "La máscara ACL limita permisos efectivos de usuarios/grupos nombrados."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install acl",
+      "arch_linux": "sudo pacman -S acl",
+      "rhel_centos": "sudo dnf install acl"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Dar lectura a usuario de prueba", "comando": "setfacl -m u:usuario_prueba:r ./informe-prueba.txt", "descripcion": "Concede lectura de un archivo de ensayo a una cuenta local autorizada.", "resultado_esperado": "getfacl muestra una entrada para usuario_prueba y su máscara efectiva."},
+    {"nombre": "Retirar ACL específica", "comando": "setfacl -x u:usuario_prueba ./informe-prueba.txt", "descripcion": "Elimina la entrada agregada en la prueba; ejecutar solo sobre el archivo de ensayo.", "resultado_esperado": "La entrada del usuario deja de aparecer en getfacl."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta", "entrada_acl", "operacion", "recursivo"],
+    "validaciones": ["Guardar salida de getfacl antes del cambio, comprobar usuario/ruta y revisar ACL efectiva después; evite -R salvo necesidad explícita."],
     "rollback": null
   }
 }

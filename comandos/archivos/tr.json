@@ -1,7 +1,7 @@
 {
   "id": "tr",
   "nombre": "tr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Traduce, elimina o comprime caracteres de la entrada estándar según conjuntos de caracteres y escribe el resultado en la salida estándar.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "tr",
+    "principal": "tr [opciones] conjunto1 [conjunto2]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-d", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Elimina de la entrada los caracteres indicados por conjunto1.", "conflictos": ["-s"], "requiere": []},
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Comprime secuencias repetidas de caracteres indicados en conjunto1 o conjunto2 según el modo.", "conflictos": ["-d"], "requiere": []},
+    {"flag": "-c", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Opera sobre el complemento de conjunto1.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura en la entrada redirigida; escritura para el destino si se redirige la salida."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["tr trabaja con caracteres/bytes según la implementación y locale; no es un conversor general de codificaciones.", "La redirección puede sobrescribir el archivo de destino; no dirija la salida al mismo archivo de entrada."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente viene preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Convertir minúsculas a mayúsculas", "comando": "printf 'linux\\n' | tr '[:lower:]' '[:upper:]'", "descripcion": "Traduce las letras minúsculas de la entrada a mayúsculas.", "resultado_esperado": "Imprime LINUX."},
+    {"nombre": "Eliminar retornos de carro", "comando": "tr -d '\\r' < archivo-dos.txt", "descripcion": "Elimina caracteres CR de la entrada, útil para normalizar ciertos archivos con finales CRLF.", "resultado_esperado": "Escribe el contenido sin bytes CR en la salida estándar."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["conjunto1", "conjunto2", "archivo_entrada"],
+    "validaciones": ["Probar conjuntos de caracteres y locale con una muestra representativa.", "Guardar la salida en un destino separado y revisar cambios antes de sustituir datos."],
     "rollback": null
   }
 }

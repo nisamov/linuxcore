@@ -1,7 +1,7 @@
 {
   "id": "ls",
   "nombre": "ls",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista nombres y metadatos de archivos y directorios, con opciones para mostrar ocultos, ordenar o recorrer directorios.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "ls",
+    "principal": "ls [opciones] [archivo_o_directorio...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra formato largo con permisos, propietario, tamaño y fecha.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Incluye entradas ocultas que comienzan por punto, incluidos . y .. .", "conflictos": [], "requiere": []},
+    {"flag": "-A", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Incluye entradas ocultas excepto . y .. .", "conflictos": [], "requiere": []},
+    {"flag": "-h", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Con -l, muestra tamaños en unidades legibles para humanos.", "conflictos": [], "requiere": ["-l"]},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lista subdirectorios recursivamente.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ordena por hora de modificación, con los más recientes primero.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura del directorio y búsqueda en rutas de acceso; metadatos pueden depender de permisos."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los nombres de archivo pueden contener caracteres de control que alteren una terminal; use opciones de escape o herramientas de scripting para procesar nombres.", "El listado es una instantánea y puede cambiar inmediatamente después."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; generalmente viene preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Listar detalles legibles", "comando": "ls -lh /var/log", "descripcion": "Muestra permisos y metadatos con tamaños legibles para cada entrada de /var/log.", "resultado_esperado": "Aparece un listado largo con tamaños como KiB o MiB."},
+    {"nombre": "Mostrar también archivos ocultos", "comando": "ls -A proyecto", "descripcion": "Lista entradas normales y ocultas sin incluir . ni .. .", "resultado_esperado": "Se imprimen los nombres de todas las entradas visibles para el usuario."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["ruta"],
+    "validaciones": ["No analizar la salida orientada a humanos como formato de datos estable.", "Usar find u otra interfaz estructurada para automatizar el inventario."],
     "rollback": null
   }
 }

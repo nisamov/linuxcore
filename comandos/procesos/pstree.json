@@ -1,7 +1,7 @@
 {
   "id": "pstree",
   "nombre": "pstree",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra los procesos en forma de árbol, agrupando visualmente las relaciones entre procesos padre e hijo.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,122 @@
     ]
   },
   "sintaxis": {
-    "principal": "pstree",
+    "principal": "pstree [opciones] [PID | usuario]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-p",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra los PID junto a los nombres de proceso.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra los argumentos de la línea de órdenes; puede revelar datos sensibles.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra las transiciones de usuario cuando un proceso cambia de propietario.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-s",
+      "argumento": "PID",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Muestra los procesos antecesores del proceso indicado.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Ordena los procesos hermanos por PID numérico.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Acceso de lectura a los procesos visibles para el usuario."
+    ],
+    "dependencias": [
+      "/proc en Linux"
+    ],
+    "paquetes": [
+      "psmisc"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los procesos de otros usuarios pueden no ser visibles.",
+      "La opción -a expone argumentos de procesos y puede mostrar información sensible."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install psmisc",
+      "arch_linux": "sudo pacman -S psmisc",
+      "rhel_centos": "sudo dnf install psmisc"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Árbol con PID",
+      "comando": "pstree -p",
+      "descripcion": "Muestra el árbol de procesos e incluye los PID.",
+      "resultado_esperado": "Vista jerárquica de procesos con sus PID entre paréntesis."
+    },
+    {
+      "nombre": "Árbol de un proceso y sus ancestros",
+      "comando": "pstree -s 1234",
+      "descripcion": "Muestra la cadena de procesos antecesores del PID 1234.",
+      "resultado_esperado": "Cadena desde el proceso raíz hasta el proceso indicado, si es visible."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "pid",
+      "usuario"
+    ],
+    "validaciones": [
+      "Comprobar que el PID indicado exista y sea visible.",
+      "Evitar registrar la salida con argumentos sensibles sin necesidad."
+    ],
     "rollback": null
   }
 }

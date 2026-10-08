@@ -1,7 +1,7 @@
 {
   "id": "lvscan",
   "nombre": "lvscan",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca volúmenes lógicos LVM y muestra un resumen de sus nombres, tamaños y estado de disponibilidad.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvscan",
+    "principal": "lvscan [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye volúmenes lógicos internos y normalmente omitidos.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información detallada durante el escaneo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de metadatos LVM"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los volúmenes visibles dependen de los filtros de dispositivos y configuración LVM."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Escanear LVs visibles","comando":"sudo lvscan","descripcion":"Busca volúmenes lógicos visibles y presenta un resumen de cada uno.","resultado_esperado":"Lista de LVs y estado activo/inactivo detectado."},
+    {"nombre":"Incluir volúmenes internos","comando":"sudo lvscan -a","descripcion":"Incluye volúmenes lógicos internos normalmente omitidos en el escaneo.","resultado_esperado":"Inventario ampliado de volúmenes lógicos según metadatos visibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verificar filtros LVM cuando se espere encontrar un volumen ausente."],
     "rollback": null
   }
 }

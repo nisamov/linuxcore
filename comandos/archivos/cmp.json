@@ -1,7 +1,7 @@
 {
   "id": "cmp",
   "nombre": "cmp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Compara dos archivos byte a byte e informa de la primera diferencia; también puede enumerar las diferencias en lugar de detenerse en la primera.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "cmp",
+    "principal": "cmp [opciones] archivo1 archivo2 [byte1] [byte2]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No muestra salida; el estado de salida indica si los archivos difieren.", "conflictos": [], "requiere": []},
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Enumera todos los bytes diferentes y sus valores octales.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": "bytes", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Compara como máximo el número indicado de bytes.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura sobre ambos archivos."],
+    "dependencias": ["GNU diffutils."],
+    "paquetes": ["diffutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El estado de salida es 0 si son iguales, 1 si difieren y un valor mayor si ocurre un error; no lo interprete como booleano genérico sin distinguirlos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar diffutils mediante el gestor de paquetes de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "diffutils",
+      "arch_linux": "diffutils",
+      "rhel_centos": "diffutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Comparar archivos en silencio", "comando": "cmp -s archivo-viejo.bin archivo-nuevo.bin", "descripcion": "Compara ambos archivos sin imprimir diferencias; útil en una condición de shell.", "resultado_esperado": "Estado 0 si son iguales, 1 si difieren y mayor que 1 ante un error."},
+    {"nombre": "Informar diferencias de bytes", "comando": "cmp -l imagen1.img imagen2.img", "descripcion": "Muestra las posiciones y valores de los bytes que no coinciden.", "resultado_esperado": "Aparece una línea por cada byte distinto dentro de la parte comparada."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo1", "archivo2"],
+    "validaciones": ["Comprobar que ambos archivos existan y sean legibles.", "Distinguir estados de salida 0, 1 y error en el script."],
     "rollback": null
   }
 }

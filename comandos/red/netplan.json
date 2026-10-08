@@ -1,7 +1,7 @@
 {
   "id": "netplan",
   "nombre": "netplan",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Genera, consulta, prueba y aplica configuraciones de red declarativas YAML en sistemas Ubuntu que usan Netplan como capa entre el sistema y sus renderizadores.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "netplan",
+    "principal": "netplan [opciones] {get|generate|try|apply|status|set} [argumentos]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"get","argumento":"[clave]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Consulta la configuracion Netplan fusionada o una clave concreta.","conflictos":[],"requiere":[]},
+    {"flag":"generate","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Genera configuracion para el renderizador a partir de los archivos YAML.","conflictos":[],"requiere":[]},
+    {"flag":"try","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Aplica configuracion de forma temporal y ofrece revertirla si no se confirma, util en conexiones remotas.","conflictos":[],"requiere":[]},
+    {"flag":"apply","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Aplica la configuracion declarada al sistema.","conflictos":[],"requiere":[]},
+    {"flag":"--debug","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra informacion de depuracion.","conflictos":[],"requiere":[]},
+    {"flag":"status","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra el estado de dispositivos y configuracion cuando es compatible con la version instalada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para generar/aplicar configuracion"],
+    "dependencias": ["Netplan, systemd-networkd o NetworkManager segun el renderizador"],
+    "paquetes": ["netplan.io"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Errores YAML o de direccionamiento y la aplicacion remota pueden cortar conectividad. Haga copia de /etc/netplan y prefiera netplan try en accesos remotos.",
+      "La sintaxis y subcomandos varian con la version; valide primero con netplan generate."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (Ubuntu/Debian; disponibilidad depende de version)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install netplan.io",
+      "arch_linux": "No suele ser el gestor de red predeterminado; verificar repositorios",
+      "rhel_centos": "No suele estar incluido en repositorios base; verificar repositorios"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Validar y generar configuracion","comando":"sudo netplan generate","descripcion":"Comprueba los archivos YAML y genera datos para el renderizador sin activar la configuracion de red nueva.","resultado_esperado":"Termina sin errores si la configuracion es valida; de lo contrario informa del archivo/problema."},
+    {"nombre":"Aplicacion con mecanismo de retorno","comando":"sudo netplan try","descripcion":"Prueba temporalmente la configuracion y requiere confirmacion antes de conservarla.","resultado_esperado":"Se aplica temporalmente y se revierte al vencer el plazo si no se confirma."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivos_yaml","renderizador"],
+    "validaciones": ["Respaldar /etc/netplan, ejecutar netplan generate, comprobar direccionamiento y usar netplan try antes de cambios remotos."],
     "rollback": null
   }
 }

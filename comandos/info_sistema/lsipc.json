@@ -1,7 +1,7 @@
 {
   "id": "lsipc",
   "nombre": "lsipc",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra información sobre los recursos de comunicación entre procesos disponibles en el sistema, incluidos colas de mensajes, memoria compartida y semáforos System V.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsipc",
+    "principal": "lsipc [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-m, --shmems","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra los segmentos de memoria compartida System V.","conflictos":[],"requiere":[]},
+    {"flag":"-q, --queues","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra las colas de mensajes System V.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --semaphores","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra los conjuntos de semáforos System V.","conflictos":[],"requiere":[]},
+    {"flag":"-J, --json","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite la información en formato JSON.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida refleja recursos visibles para el usuario actual y el espacio de nombres activo."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en util-linux (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux",
+      "arch_linux": "util-linux",
+      "rhel_centos": "util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Resumen de IPC","comando":"lsipc","descripcion":"Muestra un resumen de los recursos IPC de System V visibles.","resultado_esperado":"Tablas de recursos con identificadores, propietarios y límites del sistema."},
+    {"nombre":"Listar segmentos de memoria compartida en JSON","comando":"lsipc -m -J","descripcion":"Muestra los segmentos de memoria compartida en formato JSON.","resultado_esperado":"Objeto JSON con los segmentos visibles y sus atributos."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Si se procesa automáticamente, comprobar la versión de util-linux y el código de salida."],
     "rollback": null
   }
 }

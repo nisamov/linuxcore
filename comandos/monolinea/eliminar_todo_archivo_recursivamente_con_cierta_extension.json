@@ -1,7 +1,7 @@
 {
   "id": "eliminar_todo_archivo_recursivamente_con_cierta_extension",
   "nombre": "Eliminacion de archivos por extension",
-  "descripcion": "Elimina todos los archivos con una extension especifica de forma recursiva.",
+  "descripcion": "Busca desde la raíz del sistema archivos cuyo nombre termine en .txt y los elimina recursivamente. Redirige los mensajes de error a /dev/null, por lo que puede ocultar rutas inaccesibles y no implica que se hayan revisado todas.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,30 @@
     "principal": "find / -name \"*.txt\" -delete 2>/dev/null",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "extension",
+      "tipo": "string",
+      "requerido": false,
+      "default": "txt",
+      "valores": [],
+      "descripcion": "Extensión fija del patrón de búsqueda (txt en la sintaxis registrada); adaptar el patrón manualmente para otro tipo de archivo.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "",
+      "argumento": "directorio_inicial",
+      "tipo": "string",
+      "requerido": false,
+      "default": "/",
+      "valores": [],
+      "descripcion": "Árbol desde el que se buscan los archivos; la receta fija la raíz del sistema.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -24,14 +47,16 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Elimina sin confirmación los archivos coincidentes de todo el árbol iniciado en /; la acción no tiene deshacer y el silenciamiento de errores puede ocultar resultados parciales. Acote el ámbito y verifique las coincidencias antes de borrar."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza find y utilidades proporcionadas por el sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +69,12 @@
       "comando": "find / -name \"*.txt\" -delete 2>/dev/null",
       "descripcion": "Elimina todos los archivos con una extension especifica de forma recursiva.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Previsualizar archivos temporales de Descargas",
+      "comando": "find \"$HOME/Downloads\" -type f -name '*.tmp' -print",
+      "descripcion": "Muestra archivos .tmp bajo Descargas para confirmar las coincidencias antes de considerar una eliminación.",
+      "resultado_esperado": "Se listan únicamente las rutas coincidentes y no se modifica ningún archivo."
     }
   ],
   "automatizacion": {
@@ -51,7 +82,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["No ejecute una eliminación desde / sin acotar primero el ámbito; confirme la ruta objetivo y que sea la prevista.", "Confirme la extensión exacta, previsualice las coincidencias sin -delete y revise cada ruta antes de borrar.", "Verifique permisos, exclusiones de sistemas de archivos montados y respaldo de los datos que deban preservarse."] ,
     "rollback": null
   }
 }

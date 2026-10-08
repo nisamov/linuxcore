@@ -1,7 +1,7 @@
 {
   "id": "pv",
   "nombre": "pv",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Supervisa el progreso y la tasa de transferencia de datos entre procesos en una tubería; puede limitar velocidad y tamaño conocidos.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "pv",
+    "principal": "pv [opciones] [archivo ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-p", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la barra de progreso.", "conflictos": [], "requiere": []},
+    {"flag": "-t", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el tiempo transcurrido.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el tiempo estimado restante cuando se conoce el tamaño.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la tasa de transferencia actual.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el total de bytes transferidos.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": "tamaño", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el tamaño total esperado, permitiendo calcular progreso y tiempo restante.", "conflictos": [], "requiere": []},
+    {"flag": "-L", "argumento": "tasa", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Limita la tasa máxima de transferencia a la cantidad indicada.", "conflictos": [], "requiere": []},
+    {"flag": "-N", "argumento": "nombre", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Asigna una etiqueta a la fuente de datos mostrada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +33,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["pv procesa datos de la tubería y puede limitar el flujo; si se usa con dispositivos o flujos grandes, compruebe cuidadosamente origen, destino y capacidad disponible."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "pv",
+      "arch_linux": "pv",
+      "rhel_centos": "pv"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Mostrar progreso de copia", "comando": "pv archivo.iso > copia.iso", "descripcion": "Copia el archivo y muestra progreso, tasa y bytes transferidos en el terminal.", "resultado_esperado": "copia.iso recibe los datos y pv presenta el avance mientras se realiza la copia."},
+    {"nombre": "Medir progreso en una tubería", "comando": "tar cf - directorio | pv -s 500M | gzip > directorio.tar.gz", "descripcion": "Inserta pv en la tubería para visualizar el avance aproximado durante la compresión.", "resultado_esperado": "La barra de progreso refleja el flujo de datos; 500M debe ajustarse al tamaño real aproximado de la salida tar."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Use -s solo con una estimación adecuada y valide que la tubería terminó sin errores; recuerde que pv muestra bytes, no necesariamente archivos procesados."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "driftnet",
   "nombre": "driftnet",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Captura y muestra imagenes transportadas en trafico de red visible en una interfaz, principalmente contenido HTTP sin cifrar; herramienta de inspeccion pasiva.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "driftnet",
+    "principal": "driftnet [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-i","argumento":"interfaz","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Captura trafico en la interfaz de red indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":"archivo_pcap","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee paquetes desde un archivo de captura en vez de capturar en vivo.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Impide que la interfaz se coloque en modo promiscuo.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"directorio","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Usa el directorio indicado para archivos temporales; driftnet puede limpiar sus propios temporales al salir.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_RAW para captura en vivo; acceso de lectura para archivos pcap"],
+    "dependencias": ["libpcap"],
+    "paquetes": ["driftnet"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Capturar trafico de terceros sin consentimiento invade la privacidad; use solo redes propias o autorizadas y datos de prueba.",
+      "El trafico HTTPS cifrado normalmente no permite recuperar imagenes en claro; capturas pueden contener informacion sensible."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install driftnet",
+      "arch_linux": "AUR: driftnet (paquete comunitario; verificar disponibilidad)",
+      "rhel_centos": "No disponible en repositorios base habituales; verificar repositorios habilitados"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Leer captura de laboratorio","comando":"driftnet -f laboratorio.pcap","descripcion":"Inspecciona un archivo de captura propio para extraer imagenes visibles.","resultado_esperado":"Abre una ventana con imagenes reconocidas en el trafico capturado."},
+    {"nombre":"Capturar interfaz autorizada","comando":"sudo driftnet -i lo","descripcion":"Observa trafico en loopback de un laboratorio local bajo control del usuario.","resultado_esperado":"Se muestran imagenes detectadas en trafico compatible, si las hay; Ctrl+C finaliza."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["interfaz_o_pcap","directorio_salida"],
+    "validaciones": ["Obtener autorizacion explicita, minimizar captura y proteger/borrar capturas que puedan contener datos personales."],
     "rollback": null
   }
 }

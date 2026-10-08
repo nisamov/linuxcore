@@ -1,7 +1,7 @@
 {
   "id": "last",
   "nombre": "last",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra registros de inicios y cierres de sesión obtenidos de wtmp, incluidos usuario, terminal, origen y duración cuando esos datos están disponibles.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,14 +10,20 @@
     ]
   },
   "sintaxis": {
-    "principal": "last",
+    "principal": "last [opciones] [usuario ...] [tty ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-f","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee los registros desde el archivo wtmp indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":"número","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita el número de registros mostrados.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye entradas de apagado y cambios de nivel de ejecución en implementaciones util-linux compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra direcciones IP numéricas en vez de nombres de host cuando está disponible.","conflictos":[],"requiere":[]},
+    {"flag":"-R","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No muestra el campo de nombre de host en implementaciones util-linux compatibles.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura del registro wtmp; algunas configuraciones limitan su acceso"],
+    "dependencias": ["archivo wtmp, normalmente /var/log/wtmp"],
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +31,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los registros pueden incluir nombres de cuenta, terminales, direcciones de origen y horarios; trátalos como datos sensibles de auditoría.",
+      "La salida depende de que wtmp esté habilitado y conservado; la ausencia de registros no demuestra que no hubiera accesos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido normalmente en util-linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar los accesos recientes","comando":"last -n 10","descripcion":"Muestra hasta diez registros recientes del archivo wtmp predeterminado.","resultado_esperado":"Presenta entradas de sesión recientes y, cuando existe, la línea de reinicio/apagado."},
+    {"nombre":"Filtrar sesiones de una cuenta","comando":"last ana","descripcion":"Muestra registros históricos asociados al usuario ana.","resultado_esperado":"Imprime las sesiones coincidentes disponibles en wtmp."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "archivo_wtmp", "límite"],
+    "validaciones": ["Asegurar que se consulta el archivo correcto y que el usuario tiene permiso de lectura.", "Proteger los resultados y considerar que el registro puede estar rotado o incompleto."],
     "rollback": null
   }
 }

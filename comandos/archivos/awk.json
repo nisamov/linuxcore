@@ -1,7 +1,7 @@
 {
   "id": "awk",
   "nombre": "awk",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Procesa texto línea por línea mediante patrones y acciones; permite seleccionar registros, dividir campos y generar informes o transformaciones.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "awk",
+    "principal": "awk [opciones] 'patrón { acción }' [archivo...], awk -f programa.awk [archivo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-F", "argumento": "separador", "tipo": "string", "requerido": false, "default": "espacios en blanco", "valores": [], "descripcion": "Establece el separador de campos de entrada (FS).", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": "asignación", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Asigna una variable antes de ejecutar el programa, por ejemplo nombre=valor.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo_programa", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Lee el programa awk desde un archivo en lugar de la línea de comandos.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": "programa", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una cadena de programa awk para su ejecución.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de los archivos de entrada; permisos de ejecución solo si se invoca desde un script."],
+    "dependencias": ["Implementación awk (gawk, mawk o la incluida en busybox)."],
+    "paquetes": ["gawk (GNU awk; suele estar instalado por defecto)"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los programas awk pueden ejecutar funciones de sistema y modificar archivos si se programan para ello; revise programas de origen no confiable."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar el paquete gawk con el gestor de paquetes de la distribución; awk puede venir proporcionado por otra implementación.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "gawk",
+      "arch_linux": "gawk",
+      "rhel_centos": "gawk"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Imprimir una columna", "comando": "awk -F: '{print $1}' /etc/passwd", "descripcion": "Divide las líneas de /etc/passwd por dos puntos e imprime el primer campo.", "resultado_esperado": "Muestra un nombre de usuario por línea."},
+    {"nombre": "Filtrar registros por valor", "comando": "awk '$3 >= 1000 {print $1, $3}' usuarios.txt", "descripcion": "Imprime el primer y tercer campo de las líneas cuyo tercer campo sea al menos 1000.", "resultado_esperado": "Lista los registros que cumplen la condición, con los campos seleccionados."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_entrada", "separador", "programa_awk"],
+    "validaciones": ["Comprobar que los archivos de entrada existan y sean legibles.", "Probar el programa con una muestra antes de procesar datos críticos."],
     "rollback": null
   }
 }

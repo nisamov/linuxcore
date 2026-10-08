@@ -1,7 +1,7 @@
 {
   "id": "tmux",
   "nombre": "tmux",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Multiplexor de terminal que ejecuta un servidor persistente con sesiones, ventanas y paneles, permitiendo desacoplarse y reconectarse.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "tmux",
+    "principal": "tmux [-2] [-f archivo] [-L socket| -S ruta] [-V] [comando [argumentos ...]]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-2", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Fuerza el terminal a anunciar soporte de 256 colores.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Lee la configuración desde el archivo indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-L", "argumento": "nombre_socket", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Usa un socket de servidor identificado por nombre.", "conflictos": ["-S"], "requiere": []},
+    {"flag": "-S", "argumento": "ruta_socket", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el socket de servidor ubicado en la ruta indicada.", "conflictos": ["-L"], "requiere": []},
+    {"flag": "-V", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la versión instalada y finaliza.", "conflictos": [], "requiere": []},
+    {"flag": "new-session", "argumento": "[nombre]", "tipo": "comando", "requerido": false, "default": null, "valores": [], "descripcion": "Crea una sesión nueva, opcionalmente con nombre.", "conflictos": [], "requiere": []},
+    {"flag": "attach-session", "argumento": "[nombre]", "tipo": "comando", "requerido": false, "default": null, "valores": [], "descripcion": "Se conecta a una sesión existente.", "conflictos": [], "requiere": []},
+    {"flag": "list-sessions", "argumento": null, "tipo": "comando", "requerido": false, "default": null, "valores": [], "descripcion": "Lista las sesiones del servidor tmux.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +33,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los procesos continúan en sesiones separadas; proteja el socket y la configuración, y cierre sesiones que ya no necesite. El acceso a la sesión equivale al acceso del usuario propietario."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "tmux",
+      "arch_linux": "tmux",
+      "rhel_centos": "tmux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear sesión nombrada", "comando": "tmux new-session -s trabajo", "descripcion": "Crea una sesión llamada trabajo y la conecta a la terminal actual.", "resultado_esperado": "Se abre un shell dentro de tmux; Ctrl+B, D separa la sesión sin cerrarla."},
+    {"nombre": "Listar y reconectar", "comando": "tmux list-sessions; tmux attach-session -t trabajo", "descripcion": "Enumera las sesiones disponibles y se conecta a la sesión trabajo.", "resultado_esperado": "Se muestra la lista y después se restaura la sesión nombrada, si existe."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe la sesión con tmux list-sessions; en tareas automatizadas prefiera invocar subcomandos explícitos sin adjuntar una interfaz."],
     "rollback": null
   }
 }

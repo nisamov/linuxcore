@@ -1,7 +1,7 @@
 {
   "id": "setsebool",
   "nombre": "setsebool",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia un booleano de política SELinux en ejecución y, con -P, persiste el valor para reinicios; los nombres disponibles dependen de la política instalada.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,41 @@
     "principal": "setsebool",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-P", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Hace persistente el cambio además de aplicarlo en ejecución.", "conflictos": [], "requiere": []},
+    {"flag": "boolean", "argumento": "nombre valor", "tipo": "string", "requerido": true, "default": null, "valores": ["on", "off"], "descripcion": "Indica el nombre de booleano y el valor on u off que se desea establecer.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_MAC_ADMIN; normalmente requiere root"],
+    "dependencias": ["SELinux habilitado y booleano definido por la política instalada"],
+    "paquetes": ["policycoreutils"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Cambiar booleanos debilita o altera controles SELinux; valide necesidad y alcance. Con -P el cambio persiste y puede ampliar exposición tras reinicio.", "No active booleanos por sugerencias automáticas sin revisar su efecto en la política."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install policycoreutils",
+      "arch_linux": "sudo pacman -S policycoreutils",
+      "rhel_centos": "sudo dnf install policycoreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar estado antes del cambio", "comando": "getsebool httpd_can_network_connect", "descripcion": "Audita el booleano correspondiente antes de decidir si el cambio está justificado.", "resultado_esperado": "Muestra valor actual on u off."},
+    {"nombre": "Cambiar booleano temporalmente en laboratorio", "comando": "sudo setsebool httpd_can_network_connect on", "descripcion": "En un servidor de prueba autorizado, permite temporalmente conexiones de red para httpd; no usa -P.", "resultado_esperado": "El valor cambia durante la ejecución actual; verificar con getsebool y revertir al terminar."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["nombre_booleano", "valor", "persistente"],
+    "validaciones": ["Consultar el valor previo, confirmar el nombre y el efecto documentado, preferir prueba temporal sin -P y verificar/revertir al finalizar."],
     "rollback": null
   }
 }

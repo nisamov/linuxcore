@@ -1,7 +1,7 @@
 {
   "id": "cal",
   "nombre": "cal",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra un calendario en la terminal para el mes actual, una fecha concreta o varios meses según las opciones de util-linux.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "cal",
+    "principal": "cal [-1] [-3] [-j] [-m] [-y] [mes] [año]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-1", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra únicamente el mes indicado o el mes actual.", "conflictos": ["-3"], "requiere": []},
+    {"flag": "-3", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el mes anterior, el actual y el siguiente.", "conflictos": ["-1"], "requiere": []},
+    {"flag": "-j", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra días julianos (día del año) en lugar de números de día del mes.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la semana comenzando en lunes; la opción -s la comienza en domingo en implementaciones que la ofrecen.", "conflictos": [], "requiere": []},
+    {"flag": "-y", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el calendario completo del año actual o del año indicado.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "mes año", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Mes (1-12) y año del calendario solicitado; las opciones aceptadas varían ligeramente entre implementaciones.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": []
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Utilidad de util-linux; normalmente viene instalada en distribuciones Linux.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux (incluido en el sistema)",
+      "arch_linux": "util-linux (incluido en el sistema)",
+      "rhel_centos": "util-linux (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Calendario del mes", "comando": "cal", "descripcion": "Muestra el mes actual según la fecha y configuración regional del sistema.", "resultado_esperado": "Una cuadrícula con los días del mes y el día actual resaltado si el terminal lo admite."},
+    {"nombre": "Calendario de un año", "comando": "cal -y 2025", "descripcion": "Muestra los doce meses del año indicado.", "resultado_esperado": "La disposición anual del calendario de 2025."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Use un año y mes válidos y confirme las opciones disponibles con la versión local de cal."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "openssl",
   "nombre": "openssl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Conjunto de herramientas criptográficas para inspeccionar certificados, calcular digests, generar claves y operar con TLS; las opciones dependen del subcomando.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,7 +13,13 @@
     "principal": "openssl",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "version", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra versión, opciones de compilación y directorios de OpenSSL.", "conflictos": [], "requiere": []},
+    {"flag": "x509 -in", "argumento": "certificado", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Carga certificado X.509 para inspección u operación indicada por otras opciones.", "conflictos": [], "requiere": ["x509"]},
+    {"flag": "-noout", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime la salida codificada del certificado o clave cuando se muestran otros campos.", "conflictos": [], "requiere": []},
+    {"flag": "-text", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Imprime representación textual legible para subcomandos compatibles.", "conflictos": [], "requiere": []},
+    {"flag": "dgst -sha256", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Calcula SHA-256 del archivo mediante el subcomando dgst.", "conflictos": [], "requiere": ["dgst"]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +30,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Proteja claves privadas y evite passphrases en argumentos o historial; valide certificados, nombres y cadena de confianza según el contexto.", "La sintaxis depende del subcomando y puede variar entre versiones OpenSSL."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install openssl",
+      "arch_linux": "sudo pacman -S openssl",
+      "rhel_centos": "sudo dnf install openssl"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Inspeccionar certificado de prueba", "comando": "openssl x509 -in ./certificado-prueba.pem -noout -subject -issuer -dates", "descripcion": "Inspecciona sujeto, emisor y vigencia de un certificado propio.", "resultado_esperado": "Muestra los campos solicitados sin imprimir el certificado codificado."},
+    {"nombre": "Calcular digest de archivo", "comando": "openssl dgst -sha256 ./archivo-prueba.bin", "descripcion": "Calcula SHA-256 para verificar una copia local de prueba.", "resultado_esperado": "Imprime digest SHA-256 del archivo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["subcomando", "archivo_entrada", "archivo_salida"],
+    "validaciones": ["Validar sintaxis y códigos de salida, proteger claves privadas y confirmar que los archivos de entrada/salida son los previstos."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "whois",
   "nombre": "whois",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta servicios WHOIS/RDAP compatibles para obtener datos publicos de registro de dominios, direcciones IP y sistemas autonomos.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,19 @@
     ]
   },
   "sintaxis": {
-    "principal": "whois",
+    "principal": "whois [opciones] nombre_o_direccion",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-h","argumento":"servidor","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Consulta el servidor WHOIS especificado en vez del servidor predeterminado.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"puerto","tipo":"integer","requerido":false,"default":43,"valores":[],"descripcion":"Usa el puerto TCP indicado para el servicio WHOIS.","conflictos":[],"requiere":[]},
+    {"flag":"-H","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite avisos legales del servidor en implementaciones que admiten esta opcion.","conflictos":[],"requiere":[]},
+    {"flag":"-I","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Consulta primero whois.iana.org y sigue la referencia al servidor autoritativo para IP, ASN o dominios.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de salida al servidor de consulta, normalmente TCP/43 para WHOIS"],
+    "dependencias": ["cliente whois; acceso a servidor WHOIS/RDAP"],
+    "paquetes": ["whois"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +30,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las respuestas son publicas pero pueden incluir datos de contacto; respetar avisos, limites de consulta y normativa de privacidad. Con -I, IANA recibe la consulta completa.",
+      "Los datos pueden estar desactualizados y las opciones varian entre clientes; las consultas no verifican titularidad ni derechos sobre un dominio."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install whois",
+      "arch_linux": "sudo pacman -S whois",
+      "rhel_centos": "sudo dnf install whois"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar dominio de ejemplo","comando":"whois example.com","descripcion":"Solicita al servidor correspondiente los datos de registro publicos del dominio de ejemplo.","resultado_esperado":"Imprime respuesta WHOIS disponible o indica que el servidor no ofrece datos para la consulta."},
+    {"nombre":"Consultar direccion reservada","comando":"whois 192.0.2.10","descripcion":"Consulta informacion de asignacion para una direccion de documentacion reservada.","resultado_esperado":"Muestra el resultado del registro regional disponible o una respuesta sin asignacion especifica."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_o_IP","servidor_WHOIS"],
+    "validaciones": ["Validar el identificador, respetar limites del servidor, manejar datos personales con cuidado y no asumir esquema estable de la respuesta."],
     "rollback": null
   }
 }

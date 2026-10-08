@@ -1,7 +1,7 @@
 {
   "id": "sensors",
   "nombre": "sensors",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lee y muestra las temperaturas, voltajes, velocidades de ventilador y otros datos expuestos por sensores de hardware configurados.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,110 @@
     ]
   },
   "sintaxis": {
-    "principal": "sensors",
+    "principal": "sensors [opciones] [chip...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-A",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Omite la línea que identifica el adaptador para cada chip.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra temperaturas en grados Fahrenheit en lugar de Celsius.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra valores numéricos sin formato de unidades legible para humanos en versiones que lo admiten.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-j",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Emite salida JSON en versiones actuales compatibles.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Lectura de interfaces de sensores y módulos del kernel; puede estar limitada por permisos."
+    ],
+    "dependencias": [
+      "Sensores compatibles, módulos/controladores y configuración de lm-sensors; la detección puede requerir configuración administrativa inicial"
+    ],
+    "paquetes": [
+      "lm-sensors"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Los valores solo están disponibles si el hardware y sus controladores los exponen; nombres y escalas dependen del equipo.",
+      "La consulta es de lectura; no use sensores -s sin conocer que esa opción escribe configuración de límites."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lm-sensors",
+      "arch_linux": "sudo pacman -S lm_sensors",
+      "rhel_centos": "sudo dnf install lm_sensors"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Mostrar sensores configurados",
+      "comando": "sensors",
+      "descripcion": "Muestra los chips y valores de sensores disponibles.",
+      "resultado_esperado": "Lecturas de temperatura, voltaje o ventilador disponibles para el hardware."
+    },
+    {
+      "nombre": "Consultar salida JSON",
+      "comando": "sensors -j",
+      "descripcion": "Solicita salida JSON para procesamiento automatizado en versiones que admiten la opción.",
+      "resultado_esperado": "Objeto JSON con chips y lecturas, o error de opción en versiones antiguas."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "chip"
+    ],
+    "validaciones": [
+      "Confirmar la disponibilidad de -j y validar el JSON emitido según la versión.",
+      "Tratar sensores ausentes como no disponibles y no como lectura cero."
+    ],
     "rollback": null
   }
 }

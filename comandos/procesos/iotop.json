@@ -1,7 +1,7 @@
 {
   "id": "iotop",
   "nombre": "iotop",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Monitoriza en tiempo real el uso de E/S de disco por procesos e hilos, cuando el kernel proporciona contabilidad de E/S.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,135 @@
     ]
   },
   "sintaxis": {
-    "principal": "iotop",
+    "principal": "iotop [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-o",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra solo procesos o hilos que actualmente realizan E/S.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-b",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Usa modo batch sin interfaz interactiva, adecuado para captura por scripts.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": "iteraciones",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Número de iteraciones antes de salir en modo batch.",
+      "conflictos": [],
+      "requiere": ["-b"]
+    },
+    {
+      "flag": "-d",
+      "argumento": "segundos",
+      "tipo": "number",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Establece el intervalo de muestreo en versiones que ofrecen esta opción.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": "PID",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Limita la visualización al proceso indicado cuando la versión lo admite.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Filtra procesos por usuario en versiones compatibles.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Puede requerir root o CAP_NET_ADMIN/CAP_SYS_ADMIN según kernel y versión para obtener contabilidad completa."
+    ],
+    "dependencias": [
+      "Kernel con contabilidad de E/S de procesos habilitada; soporte de tareas de bloque"
+    ],
+    "paquetes": [
+      "iotop"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Es un monitor de lectura; la contabilidad puede no estar habilitada o disponible para todos los dispositivos.",
+      "En versiones antiguas algunas capacidades requieren ejecución como root; evita otorgar privilegios persistentes innecesarios."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iotop",
+      "arch_linux": "sudo pacman -S iotop",
+      "rhel_centos": "sudo dnf install iotop"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Monitor interactivo de E/S",
+      "comando": "sudo iotop",
+      "descripcion": "Abre el monitor de E/S con los privilegios necesarios si la distribución/kernel los exige.",
+      "resultado_esperado": "Tabla actualizable con tasas de lectura/escritura por proceso."
+    },
+    {
+      "nombre": "Captura batch de cinco iteraciones",
+      "comando": "sudo iotop -b -o -n 5",
+      "descripcion": "Emite cinco informes batch y limita la salida a procesos con E/S.",
+      "resultado_esperado": "Salida finita de informes de E/S, posiblemente vacía si no hay actividad."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "idempotente": true,
+    "interactivo": true,
+    "apto_script": true,
+    "variables": [
+      "iteraciones",
+      "intervalo",
+      "pid",
+      "usuario"
+    ],
+    "validaciones": [
+      "Comprobar requisitos de contabilidad y privilegios de la versión local.",
+      "Usar -b y un número finito de iteraciones para scripts."
+    ],
     "rollback": null
   }
 }

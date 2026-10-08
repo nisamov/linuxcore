@@ -1,7 +1,7 @@
 {
   "id": "faillog",
   "nombre": "faillog",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o administra contadores de inicios de sesión fallidos del mecanismo faillog en sistemas que aún lo utilizan; el soporte depende de PAM y la distribución.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "faillog",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra registros de todas las cuentas con datos de fallo.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": "usuario", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra o modifica el registro de la cuenta indicada.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Restablece el registro de fallos de la cuenta seleccionada.", "conflictos": [], "requiere": ["-u"]},
+    {"flag": "-m", "argumento": "max_fallos", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el umbral de fallos asociado al registro indicado.", "conflictos": [], "requiere": ["-u"]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["La lectura global y la modificación de registros suelen requerir root"],
+    "dependencias": ["PAM con soporte faillog y almacén faillog configurado; puede no estar activo en sistemas actuales"],
+    "paquetes": ["shadow-utils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La opción -r borra el historial de fallos de la cuenta seleccionada y afecta a auditoría; no la use para ocultar actividad.", "Muchas distribuciones modernas usan otros módulos PAM y faillog puede no reflejar los bloqueos efectivos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_shadow_utils_si_disponible",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en passwd/shadow-utils según versión",
+      "arch_linux": "incluido en shadow",
+      "rhel_centos": "incluido en shadow-utils según versión"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar fallos de una cuenta de prueba", "comando": "sudo faillog -u usuario_prueba", "descripcion": "Inspecciona el registro de una cuenta de ensayo autorizada.", "resultado_esperado": "Muestra contador y última información de fallos, si existe."},
+    {"nombre": "Informe global de auditoría", "comando": "sudo faillog -a", "descripcion": "Revisa los registros faillog disponibles para las cuentas locales.", "resultado_esperado": "Lista cuentas con información de fallos registrada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "umbral_fallos"],
+    "validaciones": ["Confirmar que PAM usa faillog y que el sistema está configurado para este almacén antes de interpretar resultados."],
     "rollback": null
   }
 }

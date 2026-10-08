@@ -1,7 +1,7 @@
 {
   "id": "cksum",
   "nombre": "cksum",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Calcula una suma de comprobación CRC y el tamaño en bytes de cada archivo; sirve para detectar cambios accidentales, no como hash criptográfico.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "cksum",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "--algorithm", "argumento": "algoritmo", "tipo": "string", "requerido": false, "default": "cksum", "valores": ["cksum", "crc", "md5", "sha1", "sha256", "sha384", "sha512", "sm3"], "descripcion": "Selecciona algoritmo conforme a la versión de GNU coreutils instalada.", "conflictos": [], "requiere": []},
+    {"flag": "--check", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Lee sumas previamente guardadas y comprueba los archivos nombrados.", "conflictos": [], "requiere": []},
+    {"flag": "--status", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Suprime la salida normal; útil junto con --check para evaluar el código de salida.", "conflictos": [], "requiere": ["--check"]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Coreutils"],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El CRC predeterminado no es criptográficamente seguro y no debe usarse para autenticar datos frente a un atacante.", "--algorithm depende de la versión de coreutils."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido_en_coreutils",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "incluido en coreutils",
+      "arch_linux": "incluido en coreutils",
+      "rhel_centos": "incluido en coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Comprobar tamaño y CRC", "comando": "cksum ./archivo-prueba.bin", "descripcion": "Obtiene CRC y longitud de un archivo de prueba propio.", "resultado_esperado": "Imprime CRC, tamaño en bytes y nombre del archivo."},
+    {"nombre": "Crear y verificar manifiesto", "comando": "cksum ./informe-prueba.txt > ./informe.cksum && cksum --check ./informe.cksum", "descripcion": "Guarda y verifica una suma para detectar modificaciones accidentales en un archivo propio.", "resultado_esperado": "El verificador informa OK si el archivo coincide."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "archivo_manifiesto"],
+    "validaciones": ["Comprobar que los archivos existen y que --check termina con código de salida cero; CRC solo detecta cambios no maliciosos."],
     "rollback": null
   }
 }

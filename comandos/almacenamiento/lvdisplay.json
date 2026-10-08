@@ -1,7 +1,7 @@
 {
   "id": "lvdisplay",
   "nombre": "lvdisplay",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra información detallada de volúmenes lógicos LVM, tamaño, estado, grupo asociado y mapeo de segmentos.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvdisplay",
+    "principal": "lvdisplay [opciones] [LV...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-m","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la asignación de segmentos del volumen lógico a volúmenes físicos.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa salida compacta separada por dos puntos.","conflictos":[],"requiere":[]},
+    {"flag":"-C","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Produce salida tabular adecuada para procesamiento.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de metadatos LVM"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La información depende de metadatos LVM y de los dispositivos visibles conforme a la configuración local."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar LVs disponibles","comando":"sudo lvdisplay","descripcion":"Muestra información detallada de los volúmenes lógicos detectados.","resultado_esperado":"Bloques por LV con ruta, estado, tamaño y VG correspondiente."},
+    {"nombre":"Ver mapa de un LV","comando":"sudo lvdisplay -m /dev/vg_datos/archivos","descripcion":"Muestra cómo se asignan los segmentos físicos del LV indicado.","resultado_esperado":"Mapa de segmentos y dispositivos físicos subyacentes."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["lv"],
+    "validaciones": ["Confirmar que los filtros LVM incluyan todos los dispositivos relevantes."],
     "rollback": null
   }
 }

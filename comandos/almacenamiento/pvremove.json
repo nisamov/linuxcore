@@ -250,7 +250,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Forma parte de LVM2. Compruebe primero `command -v pvremove`; si no está instalado, instale lvm2 con el gestor de paquetes de su distribución (Debian/Ubuntu: `sudo apt install lvm2`; Arch: `sudo pacman -S lvm2`; RHEL/CentOS: `sudo dnf install lvm2`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -280,7 +280,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique que cada ruta indicada exista y sea el dispositivo de bloques PV previsto; inspeccione `pvs -o pv_name,vg_name,pv_attr,pv_used` y confirme que no contiene extents necesarios ni pertenece a un VG activo.", "Si el PV pertenece a un VG, migre los datos necesarios y retírelo correctamente del grupo (normalmente con `pvmove` y `vgreduce`) antes de borrar la etiqueta; haga una copia de los metadatos LVM y confirme que no es un disco del sistema.", "Ejecute primero con `-t` cuando proceda; no use `-ff` ni `-y` sin autorización explícita y verificación independiente del dispositivo, ya que la operación elimina metadatos LVM y puede dejar datos inaccesibles."],
     "rollback": null
   }
 }

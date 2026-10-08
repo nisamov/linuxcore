@@ -1,7 +1,7 @@
 {
   "id": "smartctl",
   "nombre": "smartctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y administra datos SMART de unidades compatibles, incluidos atributos, registros de errores y pruebas de autodiagnóstico.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,14 +10,20 @@
     ]
   },
   "sintaxis": {
-    "principal": "smartctl",
+    "principal": "smartctl [opciones] dispositivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra toda la información SMART disponible para el dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-H","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el resultado general de la evaluación de salud SMART.","conflictos":[],"requiere":[]},
+    {"flag":"-i","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información de identidad y capacidades SMART del dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":"prueba","tipo":"string","requerido":false,"default":null,"valores":["short","long","conveyance"],"descripcion":"Inicia una prueba SMART de autodiagnóstico; consulte el soporte del dispositivo para los tipos disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":"registro","tipo":"string","requerido":false,"default":null,"valores":["error","selftest"],"descripcion":"Muestra el registro de errores o de autodiagnósticos del dispositivo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura del dispositivo; root puede ser necesario para acceso completo"],
+    "dependencias": ["smartmontools"],
+    "paquetes": ["smartmontools"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +31,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La disponibilidad y semántica SMART dependen del dispositivo y del controlador; puentes USB pueden limitar el acceso.",
+      "Las pruebas de autodiagnóstico pueden tardar y generar actividad de E/S; no equivalen a una reparación."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install smartmontools",
+      "arch_linux": "sudo pacman -S smartmontools",
+      "rhel_centos": "sudo dnf install smartmontools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar estado SMART","comando":"sudo smartctl -H /dev/sda","descripcion":"Solicita el resultado general de salud SMART de la unidad indicada.","resultado_esperado":"Estado de evaluación SMART, si el dispositivo lo admite."},
+    {"nombre":"Mostrar información detallada","comando":"sudo smartctl -a /dev/sda","descripcion":"Muestra identidad, atributos y registros SMART disponibles para la unidad.","resultado_esperado":"Informe detallado; la falta de soporte SMART se comunica en la salida o estado de retorno."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo"],
+    "validaciones": ["Verificar que el dispositivo seleccionado sea la unidad correcta.","Interpretar el código de salida junto con la salida completa, no solo como un booleano de salud."],
     "rollback": null
   }
 }

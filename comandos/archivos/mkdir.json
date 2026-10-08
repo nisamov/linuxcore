@@ -1,7 +1,7 @@
 {
   "id": "mkdir",
   "nombre": "mkdir",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea uno o varios directorios; puede crear también los directorios padres que falten y establecer permisos iniciales.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "mkdir",
+    "principal": "mkdir [opciones] directorio...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-p", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Crea directorios padres inexistentes y no falla si el directorio ya existe.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": "modo", "tipo": "mode", "requerido": false, "default": "0777 modificado por umask", "valores": [], "descripcion": "Establece los permisos iniciales del directorio.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra un mensaje por cada directorio creado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura y búsqueda en el directorio padre; los permisos efectivos consideran umask."],
+    "dependencias": ["GNU coreutils."],
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["-p trata como éxito un directorio ya existente y no necesariamente corrige sus permisos.", "Revise -m y la umask para evitar conceder acceso excesivo a datos sensibles."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar coreutils mediante el gestor de paquetes; normalmente viene preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear árbol de directorios", "comando": "mkdir -p proyecto/src/modulos", "descripcion": "Crea la jerarquía completa y no falla si ya existe.", "resultado_esperado": "Existe proyecto/src/modulos junto con los padres que faltaban."},
+    {"nombre": "Crear directorio privado", "comando": "mkdir -m 0700 datos-privados", "descripcion": "Crea el directorio con permisos solo para su propietario, sujeto a las reglas del sistema.", "resultado_esperado": "El directorio queda con permisos 0700."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["directorio", "modo"],
+    "validaciones": ["Comprobar que la ruta no colisione con un archivo existente.", "Definir permisos requeridos y considerar umask."],
     "rollback": null
   }
 }

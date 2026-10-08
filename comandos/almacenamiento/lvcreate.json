@@ -1,7 +1,7 @@
 {
   "id": "lvcreate",
   "nombre": "lvcreate",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea volúmenes lógicos LVM lineales, espejados, snapshots o volúmenes thin según las opciones y el espacio disponible del VG.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvcreate",
+    "principal": "lvcreate [opciones] VG|PV...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-L","argumento":"tamaño","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Solicita un tamaño lógico absoluto, por ejemplo 10G.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":"extents","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Solicita un número o porcentaje de extensiones lógicas, por ejemplo 100%FREE.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":"nombre","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Asigna un nombre al nuevo volumen lógico.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"origen","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Crea un snapshot del volumen lógico origen usando el tamaño especificado.","conflictos":[],"requiere":["-L"]},
+    {"flag":"-T","argumento":"VG/ThinPool","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Crea un volumen thin en el thin pool indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Intenta crear el sistema de archivos en el LV recién creado; el tipo puede detectarse automáticamente.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2 y device-mapper"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Crear un LV modifica metadatos LVM y puede escribir un sistema de archivos si se usa -r. Verifique VG, espacio, nombre y tipo de volumen antes de ejecutar.",
+      "Snapshots tradicionales requieren espacio y pueden llenarse; los snapshots thin dependen de la capacidad del pool de datos y metadatos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular creación de volumen","comando":"sudo lvcreate --test -L 10G -n archivos vg_datos","descripcion":"Valida en modo de prueba la creación de un LV de 10 GiB llamado archivos.","resultado_esperado":"LVM informa del resultado simulado sin actualizar metadatos."},
+    {"nombre":"Crear volumen lógico","comando":"sudo lvcreate -L 10G -n archivos vg_datos","descripcion":"Reserva 10 GiB del grupo vg_datos para el nuevo LV /dev/vg_datos/archivos.","resultado_esperado":"Se crea el LV y se informa de su ruta; todavía no contiene sistema de archivos salvo que se especifique."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["nombre_vg", "nombre_lv", "tamaño"],
+    "validaciones": ["Verificar espacio libre en el VG y unicidad del nombre del LV.","Confirmar el tipo de LV y planear sistema de archivos, montaje y respaldo."],
     "rollback": null
   }
 }

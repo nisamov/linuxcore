@@ -1,7 +1,7 @@
 {
   "id": "lscpu",
   "nombre": "lscpu",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra información de la arquitectura de CPU, como topología, sockets, núcleos, hilos, cachés y modos de operación disponibles.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "lscpu",
+    "principal": "lscpu [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-e, --extended","argumento":"lista_de_columnas","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra una tabla de CPU lógica y topología; opcionalmente limita las columnas indicadas.","conflictos":[],"requiere":[]},
+    {"flag":"-p, --parse","argumento":"lista_de_columnas","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Imprime una salida parseable delimitada por comas, con las columnas solicitadas.","conflictos":[],"requiere":[]},
+    {"flag":"-J, --json","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la información en formato JSON; puede combinarse con modos de tabla compatibles.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["util-linux"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La topología y las columnas disponibles dependen del kernel, la arquitectura y los recursos virtualizados visibles."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en util-linux (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "util-linux",
+      "arch_linux": "util-linux",
+      "rhel_centos": "util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Resumen de CPU","comando":"lscpu","descripcion":"Muestra un resumen de la CPU y su topología reconocida por el kernel.","resultado_esperado":"Campos como arquitectura, CPU(s), sockets, núcleos por socket y modelo."},
+    {"nombre":"Tabla extendida por CPU lógica","comando":"lscpu -e","descripcion":"Lista cada CPU lógica con sus atributos de topología en formato tabular.","resultado_esperado":"Tabla con CPU, nodo NUMA, socket, núcleo y otras columnas disponibles."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["LISTA_COLUMNAS (opcional)"],
+    "validaciones": ["Si se consume la salida automáticamente, fijar columnas explícitas y no depender del formato predeterminado."],
     "rollback": null
   }
 }

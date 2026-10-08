@@ -1,7 +1,7 @@
 {
   "id": "ldd",
   "nombre": "ldd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra las dependencias compartidas que requiere un ejecutable o un objeto compartido, resolviendo los nombres de bibliotecas mediante el cargador dinámico.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "ldd",
+    "principal": "ldd [OPCIÓN]... ARCHIVO...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-v, --verbose","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información detallada sobre las dependencias y las versiones de símbolos.","conflictos":[],"requiere":[]},
+    {"flag":"-u, --unused","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra dependencias directas no utilizadas, cuando el cargador lo admite.","conflictos":[],"requiere":[]},
+    {"flag":"-d, --data-relocs","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Realiza reubicaciones de datos e informa objetos faltantes.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Ejecutable ELF o biblioteca compartida"],
+    "paquetes": ["libc-bin (Debian/Ubuntu)", "glibc (Arch Linux)", "glibc-common (RHEL/CentOS)"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No ejecutes ldd sobre ejecutables no confiables: algunas implementaciones pueden invocar el intérprete ELF del archivo. Para inspección segura de binarios desconocidos, usa herramientas como readelf." ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido con glibc (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "libc-bin",
+      "arch_linux": "glibc",
+      "rhel_centos": "glibc-common"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Inspeccionar dependencias de un ejecutable confiable","comando":"ldd /usr/bin/bash","descripcion":"Lista las bibliotecas compartidas que el cargador resolvería para bash.","resultado_esperado":"Rutas de bibliotecas y direcciones de carga, o indicación de dependencias ausentes."},
+    {"nombre":"Comprobar dependencias no resueltas","comando":"ldd /usr/bin/grep","descripcion":"Inspecciona dependencias de un binario del sistema conocido.","resultado_esperado":"Las bibliotecas resueltas aparecen con su ruta; las no disponibles se indican como not found."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ARCHIVO_ELF"],
+    "validaciones": ["Usar únicamente sobre ejecutables confiables y verificar el código de salida y la presencia de dependencias no resueltas."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "screen",
   "nombre": "screen",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Multiplexor de terminal que mantiene sesiones persistentes, permite desacoplarse y volver a conectarse, y crea varias ventanas dentro de una terminal.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,18 @@
     ]
   },
   "sintaxis": {
-    "principal": "screen",
+    "principal": "screen [-ls] [-r [sesion]] [-S nombre] [-dmS nombre] [-c archivo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-ls", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Lista las sesiones screen existentes.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": "sesion", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Se reconecta a una sesión separada; puede omitirse si solo hay una sesión elegible.", "conflictos": [], "requiere": []},
+    {"flag": "-d -r", "argumento": "sesion", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Desconecta la sesión de otra terminal y vuelve a conectarla a la actual.", "conflictos": [], "requiere": []},
+    {"flag": "-S", "argumento": "nombre", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Asigna un nombre a la sesión nueva.", "conflictos": [], "requiere": []},
+    {"flag": "-dmS", "argumento": "nombre", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Crea una sesión con nombre separada y la inicia en segundo plano.", "conflictos": [], "requiere": []},
+    {"flag": "-c", "argumento": "archivo", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa un archivo de configuración alternativo.", "conflictos": [], "requiere": []},
+    {"flag": "-X", "argumento": "orden", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Envía una orden de control a una sesión screen existente.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +32,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Una sesión separada puede seguir ejecutando procesos después de cerrar la terminal; proteja el socket de control y cierre las sesiones que ya no necesite."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "screen",
+      "arch_linux": "screen",
+      "rhel_centos": "screen"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Crear sesión nombrada", "comando": "screen -S mantenimiento", "descripcion": "Abre una sesión screen interactiva identificada como mantenimiento.", "resultado_esperado": "Se inicia un shell dentro de screen; Ctrl+A, D lo separa sin terminarlo."},
+    {"nombre": "Listar y reconectar sesiones", "comando": "screen -ls; screen -r mantenimiento", "descripcion": "Lista las sesiones y luego vuelve a conectar la sesión nombrada.", "resultado_esperado": "La sesión persistente reaparece en la terminal actual si existe y está disponible."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
-    "apto_script": false,
+    "interactivo": true,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe el identificador con screen -ls y use nombres inequívocos si existen varias sesiones."],
     "rollback": null
   }
 }

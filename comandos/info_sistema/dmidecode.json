@@ -1,7 +1,7 @@
 {
   "id": "dmidecode",
   "nombre": "dmidecode",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lee las tablas SMBIOS/DMI del firmware para mostrar inventario de hardware, como BIOS, sistema, placa base y memoria. El acceso directo a las tablas suele requerir privilegios de superusuario.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "dmidecode",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":"tipo","tipo":"string","requerido":false,"default":null,"valores":["bios","system","baseboard","chassis","processor","memory"],"descripcion":"Limita la salida al tipo SMBIOS indicado; también admite números de tipo definidos por SMBIOS.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":"keyword","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Imprime únicamente el valor de la palabra clave DMI indicada.","conflictos":[],"requiere":[]},
+    {"flag":"-q","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Reduce la salida a los valores, omitiendo nombres y encabezados de sección.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de /dev/mem o de las interfaces DMI del kernel; normalmente requiere root para leer las tablas directamente."],
+    "dependencias": ["Tablas SMBIOS/DMI expuestas por el firmware y el kernel"],
+    "paquetes": ["dmidecode"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La información procede del firmware y puede ser incompleta o contener valores genéricos del fabricante."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install dmidecode",
+      "arch_linux": "sudo pacman -S dmidecode",
+      "rhel_centos": "sudo dnf install dmidecode"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar información del BIOS","comando":"sudo dmidecode -t bios","descripcion":"Muestra la información SMBIOS correspondiente al firmware BIOS.","resultado_esperado":"Fabricante, versión y fechas del BIOS, si están presentes en la tabla DMI."},
+    {"nombre":"Consultar ranuras de memoria","comando":"sudo dmidecode -t memory","descripcion":"Muestra los dispositivos y arreglos de memoria descritos por SMBIOS.","resultado_esperado":"Registros de memoria con capacidad, tipo y ranura reportados por el firmware."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["TIPO_SMBIOS"] ,
+    "validaciones": ["Verificar permisos de lectura de la interfaz DMI (usar root cuando el sistema lo requiera)."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "systemctl",
   "nombre": "systemctl",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y controla el gestor systemd: inspecciona unidades, inicia o detiene servicios y administra su activacion durante el arranque. No es una interfaz para SysV init ni OpenRC.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "systemctl",
+    "principal": "systemctl [opciones] subcomando [unidad...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"status","argumento":"unidad","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra estado y registros recientes de una unidad.","conflictos":[],"requiere":[]},
+    {"flag":"start|stop|restart|reload","argumento":"unidad","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Inicia, detiene, reinicia o solicita recarga de configuración a la unidad. reload requiere que el servicio lo admita.","conflictos":[],"requiere":[]},
+    {"flag":"enable|disable","argumento":"unidad","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Activa o desactiva enlaces de arranque; por sí solo no inicia ni detiene la unidad.","conflictos":[],"requiere":[]},
+    {"flag":"--now","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Con enable o disable también inicia o detiene la unidad inmediatamente.","conflictos":[],"requiere":["enable|disable"]},
+    {"flag":"is-active|is-enabled","argumento":"unidad","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Comprueba respectivamente si una unidad está activa o habilitada; devuelve código de salida útil para scripts.","conflictos":[],"requiere":[]},
+    {"flag":"list-units|list-unit-files","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Lista unidades cargadas o archivos de unidad instalados.","conflictos":[],"requiere":[]},
+    {"flag":"--failed","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Limita la lista a unidades en estado fallido.","conflictos":[],"requiere":["list-units"]},
+    {"flag":"--no-pager","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No canaliza la salida por un paginador.","conflictos":[],"requiere":[]},
+    {"flag":"--user","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Opera sobre el gestor systemd de la sesión del usuario actual, no sobre el gestor del sistema.","conflictos":["--system"],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de unidades normalmente disponible para usuarios; cambios del gestor del sistema suelen requerir root, sudo o autorización polkit."],
+    "dependencias": ["systemd como gestor PID 1 para controlar servicios del sistema"],
+    "paquetes": ["systemd"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["start, stop, restart y disable afectan la disponibilidad; confirma unidad y entorno antes de ejecutar.", "enable no equivale a start; --now combina el cambio de arranque con una acción inmediata.", "Use este comando solo en sistemas cuyo init sea systemd."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Herramienta incluida con systemd en distribuciones que usan este gestor; normalmente no se instala de forma independiente.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "systemd (incluido en la instalación base)",
+      "arch_linux": "systemd",
+      "rhel_centos": "systemd"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar estado de SSH","comando":"systemctl status ssh.service --no-pager","descripcion":"Muestra el estado del servicio SSH en distribuciones donde la unidad se llama ssh.service.","resultado_esperado":"Estado de la unidad, proceso principal y últimas líneas del diario; el nombre puede ser sshd.service según distribución."},
+    {"nombre":"Habilitar e iniciar Nginx","comando":"sudo systemctl enable --now nginx.service","descripcion":"Crea los enlaces de arranque y solicita el inicio inmediato de Nginx.","resultado_esperado":"La unidad queda habilitada para arranques futuros y activa si la operación termina correctamente."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["unidad", "subcomando"],
+    "validaciones": ["Comprobar que systemd sea el gestor activo y que exista la unidad.", "Validar el código de salida y el estado posterior; usar privilegios mínimos."],
     "rollback": null
   }
 }

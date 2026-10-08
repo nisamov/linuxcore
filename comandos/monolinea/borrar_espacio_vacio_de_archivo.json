@@ -1,7 +1,7 @@
 {
   "id": "borrar_espacio_vacio_de_archivo",
   "nombre": "Borrar espacio vacio de archivo",
-  "descripcion": "Elimina las lineas en blanco de un archivo.",
+  "descripcion": "Elimina las líneas completamente vacías del archivo indicado editándolo en el mismo lugar con sed -i; no crea una copia de respaldo automáticamente.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "sed -i '/^$/d' mi_archivo.txt",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "archivo",
+      "tipo": "string",
+      "requerido": false,
+      "default": "mi_archivo.txt",
+      "valores": [],
+      "descripcion": "Ruta del archivo que se modifica en el sitio; mi_archivo.txt es el valor de la receta y puede sustituirse por otra ruta.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -24,14 +36,16 @@
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "sed -i altera el archivo original y elimina las líneas vacías sin generar respaldo; compruebe la ruta y conserve una copia si necesita revertir el cambio."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza sed y funciones proporcionadas por el sistema.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "sed -i '/^$/d' mi_archivo.txt",
       "descripcion": "Elimina las lineas en blanco de un archivo.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Eliminar líneas vacías o con espacios",
+      "comando": "sed -i '/^[[:space:]]*$/d' mi_archivo.txt",
+      "descripcion": "Elimina líneas vacías y líneas que solo contienen espacios o tabulaciones del archivo indicado.",
+      "resultado_esperado": "El archivo queda sin líneas vacías ni líneas formadas únicamente por espacios en blanco."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que mi_archivo.txt es la ruta prevista, existe, es un archivo regular y tiene permiso de escritura.", "Revise una copia de seguridad o controle el diff antes de aceptar la edición in situ."] ,
     "rollback": null
   }
 }

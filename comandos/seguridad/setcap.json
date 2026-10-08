@@ -1,7 +1,7 @@
 {
   "id": "setcap",
   "nombre": "setcap",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Asigna o elimina capacidades Linux de un archivo ejecutable, concediendo privilegios granulares sin setuid; puede cambiar la superficie de privilegios del sistema.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "setcap",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-r", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina todas las capacidades extendidas del archivo indicado.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra la capacidad establecida y verifica que se aplicó.", "conflictos": [], "requiere": []},
+    {"flag": "-n", "argumento": "rootuid", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Establece root UID asociado a capacidades de usuario en espacios de nombres compatibles.", "conflictos": [], "requiere": []},
+    {"flag": "capacidad", "argumento": "archivo", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Expresión de capacidades, por ejemplo cap_net_bind_service=ep, seguida del archivo objetivo.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Root o CAP_SETFCAP para asignar capacidades; el propietario no privilegiado no puede otorgarlas arbitrariamente"],
+    "dependencias": ["Kernel y sistema de archivos con soporte de capacidades extendidas"],
+    "paquetes": ["libcap2-bin", "libcap"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Una capacidad amplia puede elevar privilegios del programa; conceda solo la capacidad mínima y audite con getcap.", "-r revoca capacidades del archivo y puede cambiar el funcionamiento esperado."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install libcap2-bin",
+      "arch_linux": "sudo pacman -S libcap",
+      "rhel_centos": "sudo dnf install libcap"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Inspeccionar binario de prueba", "comando": "getcap ./binario-prueba", "descripcion": "Comprueba capacidades antes de otorgar o retirar privilegios.", "resultado_esperado": "Muestra capacidades asignadas o ninguna salida si no existen."},
+    {"nombre": "Asignar capacidad en laboratorio", "comando": "sudo setcap cap_net_bind_service=ep ./servidor-prueba", "descripcion": "En un laboratorio propio, concede al binario de prueba la capacidad de enlazar puertos bajos sin setuid.", "resultado_esperado": "La capacidad queda visible con getcap; no usar sobre binarios no auditados."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["archivo", "expresion_capacidad"],
+    "validaciones": ["Verificar el binario, justificar la capacidad mínima, comprobar el resultado con getcap y documentar cómo revocarla."],
     "rollback": null
   }
 }

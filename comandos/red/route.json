@@ -1,7 +1,7 @@
 {
   "id": "route",
   "nombre": "route",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra y modifica la tabla de rutas IPv4 mediante la utilidad heredada net-tools; se recomienda ip route para administracion actual.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "route",
+    "principal": "route [-n] [-A familia] [add|del] [opciones] destino",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra direcciones numericas sin resolver nombres.","conflictos":[],"requiere":[]},
+    {"flag":"-A","argumento":"familia","tipo":"string","requerido":false,"default":"inet","valores":["inet","inet6"],"descripcion":"Selecciona la familia de direcciones cuando la implementacion admite la operacion.","conflictos":[],"requiere":[]},
+    {"flag":"add","argumento":"destino [gw gateway] [dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Agrega una ruta a la tabla del kernel.","conflictos":["del"],"requiere":[]},
+    {"flag":"del","argumento":"destino [gw gateway] [dev interfaz]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Elimina una ruta de la tabla del kernel.","conflictos":["add"],"requiere":[]},
+    {"flag":"-e","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la tabla en formato netstat cuando esta disponible.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consulta; root o CAP_NET_ADMIN para modificar rutas"],
+    "dependencias": ["net-tools"],
+    "paquetes": ["net-tools"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Agregar/eliminar rutas puede cortar conectividad o desviar trafico; valide gateway e interfaz y tenga acceso de recuperacion.",
+      "route es una herramienta heredada y su soporte de IPv6 es limitado; use ip route en sistemas actuales."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install net-tools",
+      "arch_linux": "sudo pacman -S net-tools",
+      "rhel_centos": "sudo dnf install net-tools"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar rutas IPv4","comando":"route -n","descripcion":"Muestra la tabla IPv4 en formato numerico sin cambiarla.","resultado_esperado":"Se imprimen destinos, gateways, mascaras y dispositivos de salida."},
+    {"nombre":"Consultar alternativa moderna","comando":"ip route show","descripcion":"Consulta la tabla de rutas con iproute2, herramienta recomendada para sistemas actuales.","resultado_esperado":"Se muestran rutas activas y sus interfaces/gateways."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["destino","gateway","interfaz"],
+    "validaciones": ["Guardar tabla actual, validar prefijo/gateway/interfaz y evitar cambios por una sesion remota sin retorno."],
     "rollback": null
   }
 }

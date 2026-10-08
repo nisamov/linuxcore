@@ -1,7 +1,7 @@
 {
   "id": "vgdisplay",
   "nombre": "vgdisplay",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra atributos de grupos de volúmenes LVM, capacidad, extensiones, volúmenes físicos y volúmenes lógicos asociados.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "vgdisplay",
+    "principal": "vgdisplay [opciones] [VG...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra un resumen breve por grupo de volúmenes.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra información detallada, incluidos volúmenes físicos y lógicos asociados.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de metadatos LVM"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La salida depende de los dispositivos visibles según la configuración y filtros de LVM."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar resumen de VGs","comando":"sudo vgdisplay -s","descripcion":"Presenta una línea de resumen para cada grupo de volúmenes visible.","resultado_esperado":"Nombre y capacidad resumida de los grupos detectados."},
+    {"nombre":"Inspeccionar un VG","comando":"sudo vgdisplay vg_datos","descripcion":"Muestra atributos detallados del grupo vg_datos.","resultado_esperado":"Información de estado, tamaño, extents y miembros del grupo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_vg"],
+    "validaciones": ["Confirmar que los filtros de dispositivos incluyan los PV esperados."],
     "rollback": null
   }
 }

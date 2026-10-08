@@ -1,7 +1,7 @@
 {
   "id": "pvcreate",
   "nombre": "pvcreate",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Inicializa uno o varios dispositivos para usarlos como volúmenes físicos LVM, escribiendo metadatos de PV.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "pvcreate",
+    "principal": "pvcreate [opciones] dispositivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la creación y omite algunas comprobaciones; repetir -f puede permitir sobrescribir firmas existentes.","conflictos":[],"requiere":[]},
+    {"flag":"-y","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Responde afirmativamente a todas las preguntas de confirmación.","conflictos":[],"requiere":[]},
+    {"flag":"--dataalignment","argumento":"tamaño","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Alinea el área de datos del PV al tamaño indicado.","conflictos":[],"requiere":[]},
+    {"flag":"--metadatasize","argumento":"tamaño","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Solicita un tamaño para el área de metadatos LVM.","conflictos":[],"requiere":[]},
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Modo de prueba: no actualiza metadatos de dispositivos.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o privilegios equivalentes"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "pvcreate escribe metadatos LVM en el dispositivo y puede sobrescribir firmas/datos que ya existan. Confirme el dispositivo, respalde cualquier dato necesario y compruebe que no pertenece a otro VG.",
+      "Evite -f y -y salvo que la identidad del dispositivo y la destrucción de metadatos estén explícitamente confirmadas."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Simular inicialización de PV","comando":"sudo pvcreate -t /dev/sdb1","descripcion":"Ejecuta una prueba sin actualizar los metadatos de /dev/sdb1.","resultado_esperado":"LVM informa de la operación prevista sin inicializar el dispositivo."},
+    {"nombre":"Inicializar dispositivo confirmado","comando":"sudo pvcreate /dev/sdb1","descripcion":"Inicializa /dev/sdb1 como volumen físico LVM; realizar solo en un dispositivo vacío y verificado.","resultado_esperado":"LVM crea metadatos de PV y confirma el dispositivo preparado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo"],
+    "validaciones": ["Verificar modelo, tamaño, firmas existentes, montajes y pertenencia a VG antes de inicializar.","Mantener copia de seguridad si se sobrescriben metadatos LVM.","No habilitar -f/-y de forma predeterminada."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "shopt",
   "nombre": "shopt",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o modifica opciones específicas de Bash, como el comportamiento de globbing y del historial del shell.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "shopt",
+    "principal": "shopt [-pqsu] [opcion ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-s", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Activa las opciones nombradas.", "conflictos": ["-u"], "requiere": []},
+    {"flag": "-u", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Desactiva las opciones nombradas.", "conflictos": ["-s"], "requiere": []},
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "No imprime la salida; devuelve estado cero si todas las opciones indicadas están activadas.", "conflictos": [], "requiere": []},
+    {"flag": "-p", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Imprime las opciones en un formato reutilizable como entrada de Bash.", "conflictos": [], "requiere": []},
+    {"flag": "-o", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Restringe la consulta a opciones de set que también reconoce shopt.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "opcion", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Nombre de una opción Bash (por ejemplo, nullglob o histappend); sin nombres lista su estado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las opciones modifican solo la instancia actual de Bash; activar opciones como extglob cambia cómo se interpretan patrones."]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Builtin exclusivo de Bash; no se instala por separado.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "bash (incluido en el sistema)",
+      "arch_linux": "bash (incluido en el sistema)",
+      "rhel_centos": "bash (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Activar coincidencia glob sin resultados", "comando": "shopt -s nullglob", "descripcion": "Hace que un patrón glob sin coincidencias se expanda a una lista vacía en lugar de permanecer literal.", "resultado_esperado": "Una expresión como *.noexiste no produce un nombre literal en Bash."},
+    {"nombre": "Consultar una opción", "comando": "shopt -q histappend; printf '%s\\n' $?", "descripcion": "Comprueba silenciosamente si histappend está activada e imprime el estado de retorno.", "resultado_esperado": "0 si está activada; 1 si no lo está."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Verifique que el intérprete sea Bash y compruebe el estado con shopt -q antes de depender de una opción."],
     "rollback": null
   }
 }

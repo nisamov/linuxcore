@@ -1,7 +1,7 @@
 {
   "id": "chattr",
   "nombre": "chattr",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia atributos extendidos de archivos en sistemas de archivos que los admiten, como el atributo inmutable de ext2, ext3 y ext4.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "chattr",
+    "principal": "chattr [opciones] [+-=atributos] archivo...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Aplica los cambios recursivamente a directorios y su contenido.", "conflictos": [], "requiere": []},
+    {"flag": "-V", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra información detallada durante la operación.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": "versión", "tipo": "integer", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el número de versión del archivo (no es el modo de verbose).", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permisos de escritura sobre el archivo; cambiar algunos atributos requiere root o capacidades adecuadas."],
+    "dependencias": ["Utilidades e2fsprogs y sistema de archivos compatible."],
+    "paquetes": ["e2fsprogs"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El atributo +i impide modificar, renombrar o eliminar el archivo hasta quitarlo; puede exigir root.", "La disponibilidad y semántica de atributos depende del sistema de archivos; verifique antes de usar -R."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar e2fsprogs mediante el gestor de paquetes de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "e2fsprogs",
+      "arch_linux": "e2fsprogs",
+      "rhel_centos": "e2fsprogs"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Marcar como inmutable", "comando": "sudo chattr +i archivo.conf", "descripcion": "Añade el atributo inmutable al archivo en un sistema compatible.", "resultado_esperado": "El archivo no se puede modificar ni borrar hasta retirar el atributo."},
+    {"nombre": "Consultar atributos", "comando": "lsattr archivo.conf", "descripcion": "Muestra los atributos extendidos que reconoce el sistema de archivos para el archivo.", "resultado_esperado": "La salida incluye una secuencia de atributos, entre ellos i si está activo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo", "atributos"],
+    "validaciones": ["Confirmar que el sistema de archivos admite el atributo solicitado.", "Registrar los atributos previos con lsattr antes de modificarlos.", "Evitar -R sin revisar previamente todo el árbol afectado."],
     "rollback": null
   }
 }

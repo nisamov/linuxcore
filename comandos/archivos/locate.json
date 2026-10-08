@@ -1,7 +1,7 @@
 {
   "id": "locate",
   "nombre": "locate",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca rutas de archivo en una base de datos previamente generada, normalmente con mayor rapidez que un recorrido en tiempo real del sistema de archivos.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "locate",
+    "principal": "locate [opciones] patrón...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Ignora diferencias entre mayúsculas y minúsculas.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Compara el patrón con el nombre base en vez de con la ruta completa.", "conflictos": [], "requiere": []},
+    {"flag": "-e", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Comprueba que las rutas encontradas sigan existiendo en el sistema de archivos.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": "expresión", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Interpreta el argumento como expresión regular básica en las implementaciones compatibles.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de lectura de la base de datos de rutas; -e puede revelar nombres de archivos existentes."],
+    "dependencias": ["Implementación locate y base de datos actualizada (generada por updatedb)."],
+    "paquetes": ["plocate o mlocate, según distribución"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los resultados pueden estar desactualizados si la base de datos no se ha regenerado.", "La base de datos suele restringir resultados por privacidad; no asuma que la ausencia de resultados demuestra que una ruta no existe.", "Las opciones exactas varían entre plocate y mlocate."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar plocate o mlocate con el gestor de paquetes de la distribución; consulte cuál proporciona el comando locate.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "plocate (o mlocate en versiones antiguas)",
+      "arch_linux": "plocate",
+      "rhel_centos": "mlocate o plocate, según versión"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar rutas por nombre", "comando": "locate informe.pdf", "descripcion": "Busca rutas de la base de datos que contienen el patrón informe.pdf.", "resultado_esperado": "Imprime rutas coincidentes registradas en el índice."},
+    {"nombre": "Buscar sin distinguir mayúsculas", "comando": "locate -i '*.jpg'", "descripcion": "Busca rutas que coinciden con el patrón, ignorando mayúsculas en implementaciones compatibles.", "resultado_esperado": "Muestra las rutas indexadas coincidentes; el patrón se interpreta según la implementación."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["patrón"],
+    "validaciones": ["Identificar implementación y sintaxis con locate --help.", "Verificar directamente las rutas antes de operar sobre ellas.", "Actualizar la base de datos si se requiere información reciente y se tienen permisos."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "newgrp",
   "nombre": "newgrp",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Inicia una nueva shell con un grupo efectivo distinto; sin grupo indicado, usa el grupo primario. El cambio afecta a esa shell y sus procesos descendientes.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,14 +10,16 @@
     ]
   },
   "sintaxis": {
-    "principal": "newgrp",
+    "principal": "newgrp [-] [grupo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Inicia una shell de tipo login y configura el entorno correspondiente.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El usuario debe pertenecer al grupo o autenticar según la política local"],
+    "dependencias": ["base de datos local/NSS de grupos y una shell configurada"],
+    "paquetes": ["shadow en Debian/Ubuntu/Arch; shadow-utils en RHEL/Fedora"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +27,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La shell nueva cambia el GID efectivo de los procesos que lance, lo que puede alterar el acceso a archivos; cierra la shell para volver al contexto anterior.",
+      "No introduzcas contraseñas de grupo en scripts ni en historiales de shell."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades shadow.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Abrir shell con grupo de proyecto","comando":"newgrp proyecto","descripcion":"Inicia una shell cuyo grupo efectivo es proyecto si el usuario está autorizado.","resultado_esperado":"En la shell nueva, id -g muestra el GID de proyecto; salir restaura el shell previo."},
+    {"nombre":"Iniciar shell de login con grupo","comando":"newgrp - proyecto","descripcion":"Abre una shell de tipo login usando proyecto como grupo efectivo.","resultado_esperado":"Se inicia una shell con entorno de login y el grupo solicitado, sujeto a la política local."}
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["grupo"],
+    "validaciones": ["Comprobar que el grupo existe y que la cuenta está autorizada.", "No depender del cambio de grupo fuera de la shell iniciada por newgrp."],
     "rollback": null
   }
 }

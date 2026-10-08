@@ -1,7 +1,7 @@
 {
   "id": "uptime",
   "nombre": "uptime",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra cuánto tiempo lleva activo el sistema, el número de usuarios conectados y los promedios de carga del sistema.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,44 @@
     ]
   },
   "sintaxis": {
-    "principal": "uptime",
+    "principal": "uptime [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-p, --pretty","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra el tiempo activo en un formato legible por humanos.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --since","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la fecha y hora desde la que el sistema está activo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Datos de actividad del sistema expuestos por el kernel"],
+    "paquetes": ["procps (Debian/Ubuntu)", "procps-ng (Arch Linux, RHEL/CentOS)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los promedios de carga no son porcentajes de uso de CPU y deben interpretarse según el número de CPU y la carga de E/S."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en procps/procps-ng (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "procps",
+      "arch_linux": "procps-ng",
+      "rhel_centos": "procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Resumen de actividad","comando":"uptime","descripcion":"Muestra hora actual, tiempo activo, usuarios y promedios de carga.","resultado_esperado":"Una línea de estado con duración y promedios de carga de 1, 5 y 15 minutos."},
+    {"nombre":"Consultar inicio del sistema","comando":"uptime -s","descripcion":"Solicita la fecha y hora aproximadas del último arranque.","resultado_esperado":"Fecha y hora local en que se inició el sistema."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Interpretar los promedios de carga junto con el número de CPU lógicas y el periodo observado."],
     "rollback": null
   }
 }

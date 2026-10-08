@@ -1,7 +1,7 @@
 {
   "id": "fuser",
   "nombre": "fuser",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Identifica procesos que utilizan archivos, directorios, sistemas de archivos o sockets especificados.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,130 @@
     ]
   },
   "sintaxis": {
-    "principal": "fuser",
-    "alternativas": []
+    "principal": "fuser [opciones] archivo...",
+    "alternativas": [
+      "fuser -n espacio nombre"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-v",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra salida detallada con usuario, PID y tipo de acceso.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Muestra todos los archivos especificados, incluso si no están siendo utilizados.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-m",
+      "argumento": "archivo_o_montaje",
+      "tipo": "path",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Busca procesos que usan el sistema de archivos asociado al archivo o punto de montaje.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": "espacio",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [
+        "file",
+        "tcp",
+        "udp"
+      ],
+      "descripcion": "Selecciona el espacio de nombres de búsqueda; tcp/udp aceptan especificación de puerto en formas admitidas.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-k",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Envía SIGKILL a procesos que usan el recurso; acción de terminación peligrosa.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "La información puede estar limitada a procesos del usuario; señalizar procesos ajenos requiere privilegios."
+    ],
+    "dependencias": [
+      "/proc y soporte de los espacios de nombres indicados"
+    ],
+    "paquetes": [
+      "psmisc"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La opción -k termina procesos (SIGKILL de forma predeterminada en psmisc); identifique y revise PID antes de usarla.",
+      "Las opciones de montaje y puertos pueden coincidir con múltiples procesos; no automatice la terminación sin una lista permitida."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_psmisc",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install psmisc",
+      "arch_linux": "sudo pacman -S psmisc",
+      "rhel_centos": "sudo dnf install psmisc"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Ver procesos que usan un archivo",
+      "comando": "fuser -v /var/log/syslog",
+      "descripcion": "Muestra procesos que tienen abierto el archivo indicado, si es visible.",
+      "resultado_esperado": "Usuario, PID y tipo de acceso de los procesos detectados."
+    },
+    {
+      "nombre": "Identificar procesos que usan puerto TCP",
+      "comando": "fuser -v -n tcp 8080",
+      "descripcion": "Busca procesos asociados al puerto TCP local 8080.",
+      "resultado_esperado": "PID de procesos que usan el puerto si los permisos y la implementación lo permiten."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "archivo",
+      "punto_montaje",
+      "espacio",
+      "puerto"
+    ],
+    "validaciones": [
+      "Ejecutar primero sin -k y revisar todas las coincidencias.",
+      "Validar recurso, protocolo, puerto y propietario antes de enviar señales."
+    ],
     "rollback": null
   }
 }

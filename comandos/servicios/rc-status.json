@@ -1,7 +1,7 @@
 {
   "id": "rc-status",
   "nombre": "rc-status",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra el estado de servicios y niveles de ejecución gestionados por OpenRC, incluidos servicios iniciados, detenidos o fallidos.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "rc-status",
+    "principal": "rc-status [opciones] [nivel_ejecución]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a, --all","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye todos los servicios conocidos, no solo los que están activos en el nivel actual.","conflictos":[],"requiere":[]},
+    {"flag":"-c, --crashed","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra los servicios que han fallado.","conflictos":[],"requiere":[]},
+    {"flag":"-l, --list","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista los niveles de ejecución disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"-r, --runlevel","argumento":"nivel","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Muestra servicios de un nivel de ejecución indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-s, --servicelist","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Imprime solo nombres de servicios, adecuados para consumo por otros comandos.","conflictos":[],"requiere":[]},
+    {"flag":"-u, --unused","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye servicios que no pertenecen a un nivel de ejecución activo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Normalmente basta acceso de lectura a la información de OpenRC."],
+    "dependencias": ["OpenRC y su base de estado de servicios"],
+    "paquetes": ["openrc"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Es una herramienta de consulta; los datos solo describen el sistema OpenRC local."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Se distribuye como parte del paquete OpenRC en sistemas que lo ofrecen.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "openrc (disponibilidad según versión)",
+      "arch_linux": "openrc (paquete/repositorio según variante de Arch)",
+      "rhel_centos": "No suele ofrecerse como gestor init soportado"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Ver resumen del nivel actual","comando":"rc-status","descripcion":"Presenta el estado de los servicios en los niveles de ejecución actuales.","resultado_esperado":"Resumen de niveles y servicios activos, detenidos o fallidos según la configuración local."},
+    {"nombre":"Mostrar servicios fallidos","comando":"rc-status --crashed","descripcion":"Filtra la salida para localizar servicios que OpenRC registra como fallidos.","resultado_esperado":"Lista los servicios fallidos; una salida vacía indica que no hay fallos registrados."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nivel_ejecución"],
+    "validaciones": ["Comprobar que OpenRC esté instalado y activo.", "Interpretar códigos de salida y formato de salida según la versión de OpenRC."],
     "rollback": null
   }
 }

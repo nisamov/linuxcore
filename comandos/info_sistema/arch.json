@@ -1,7 +1,7 @@
 {
   "id": "arch",
   "nombre": "arch",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Sin argumentos, muestra la arquitectura de máquina informada por el kernel en ejecución (por ejemplo, x86_64 o aarch64); no identifica por sí sola la arquitectura de los paquetes instalados.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -13,37 +13,40 @@
     "principal": "arch",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "arquitectura_de_maquina (entrada implícita)", "tipo": "string", "requerido": false, "default": "arquitectura informada por el kernel en ejecución", "valores": [], "descripcion": "Dato del sistema consultado por arch; es una entrada implícita y no un argumento posicional aceptado por el comando.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
-    "paquetes": []
+    "paquetes": ["coreutils"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": []
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido en coreutils (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils",
+      "arch_linux": "coreutils",
+      "rhel_centos": "coreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar arquitectura","comando":"arch","descripcion":"Imprime la arquitectura de la máquina según el kernel.","resultado_esperado":"Una cadena como x86_64 o aarch64."},
+    {"nombre":"Guardar arquitectura en una variable","comando":"arquitectura=$(arch)","descripcion":"Captura la arquitectura para usarla en una condición de un script.","resultado_esperado":"La variable arquitectura contiene el nombre informado por el kernel."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que arch está disponible en PATH si se usa en un script."],
     "rollback": null
   }
 }

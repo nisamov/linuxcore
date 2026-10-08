@@ -1,7 +1,7 @@
 {
   "id": "nmcli",
   "nombre": "nmcli",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz de linea de comandos de NetworkManager para consultar y administrar dispositivos, conexiones, rutas, radio Wi-Fi y estado de red.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "nmcli",
+    "principal": "nmcli [opciones] {general|networking|radio|connection|device} [comando]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t, --terse","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite salida concisa, adecuada para procesamiento por scripts si se controla el escape.","conflictos":[],"requiere":[]},
+    {"flag":"-f, --fields","argumento":"campos","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona campos de salida para comandos compatibles.","conflictos":[],"requiere":[]},
+    {"flag":"connection show","argumento":"[id|uuid]","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Lista perfiles de conexion o consulta un perfil especifico.","conflictos":[],"requiere":[]},
+    {"flag":"device status","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra estado de dispositivos de red administrados por NetworkManager.","conflictos":[],"requiere":[]},
+    {"flag":"connection up","argumento":"id|uuid","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Activa el perfil de conexion indicado; puede alterar la red activa.","conflictos":[],"requiere":[]},
+    {"flag":"radio wifi","argumento":"on|off","tipo":"subcomando","requerido":false,"default":null,"valores":["on","off"],"descripcion":"Consulta o cambia el estado de radio Wi-Fi.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consultas; autorizacion polkit/root para cambios"],
+    "dependencias": ["NetworkManager y servicio NetworkManager activo"],
+    "paquetes": ["network-manager (Debian/Ubuntu), NetworkManager (Arch/RHEL)"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Activar/desactivar perfiles, dispositivos o radio puede interrumpir conectividad; los cambios pueden requerir privilegios.",
+      "Los perfiles pueden contener secretos; proteja salidas y evite compartir nmcli connection show con datos sensibles."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install network-manager",
+      "arch_linux": "sudo pacman -S networkmanager",
+      "rhel_centos": "sudo dnf install NetworkManager"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar dispositivos","comando":"nmcli device status","descripcion":"Lista interfaces y su estado de gestion/conectividad.","resultado_esperado":"Se muestra una tabla de dispositivos, tipo, estado y conexion asociada."},
+    {"nombre":"Listar perfiles de conexion","comando":"nmcli connection show","descripcion":"Consulta los perfiles NetworkManager configurados localmente.","resultado_esperado":"Se listan nombres, UUID, tipo y dispositivo; algunos campos pueden considerarse sensibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["perfil","dispositivo","accion"],
+    "validaciones": ["Confirmar NetworkManager activo, validar perfil/dispositivo y asegurar canal alternativo antes de cambios remotos."],
     "rollback": null
   }
 }

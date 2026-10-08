@@ -1,7 +1,7 @@
 {
   "id": "fio",
   "nombre": "fio",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Herramienta flexible para medir y reproducir patrones de entrada/salida mediante trabajos configurables; puede generar carga intensa y sobrescribir datos si el destino es un dispositivo o archivo existente.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "fio",
+    "principal": "fio [opciones_de_trabajo] [archivo_de_trabajo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--name","argumento":"nombre","tipo":"string","requerido":true,"default":null,"valores":[],"descripcion":"Define el nombre del trabajo; en un archivo de trabajo inicia una sección de trabajo.","conflictos":[],"requiere":[]},
+    {"flag":"--filename","argumento":"ruta","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el archivo o dispositivo objetivo de la carga de E/S.","conflictos":[],"requiere":[]},
+    {"flag":"--rw","argumento":"modo","tipo":"string","requerido":false,"default":"readwrite","valores":["read","write","randread","randwrite","rw","randrw"],"descripcion":"Selecciona el patrón secuencial o aleatorio de lectura/escritura.","conflictos":[],"requiere":[]},
+    {"flag":"--size","argumento":"tamaño","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita el tamaño del conjunto de datos de prueba.","conflictos":[],"requiere":[]},
+    {"flag":"--runtime","argumento":"segundos","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Limita la duración del trabajo; normalmente se combina con --time_based.","conflictos":[],"requiere":[]},
+    {"flag":"--time_based","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ejecuta el trabajo durante el tiempo indicado por --runtime.","conflictos":[],"requiere":["--runtime"]},
+    {"flag":"--readonly","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Impide que fio ejecute operaciones de escritura en el trabajo.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura/escritura sobre el objetivo según el trabajo"],
+    "dependencias": ["fio"],
+    "paquetes": ["fio"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Una prueba de escritura puede sobrescribir y destruir los datos del archivo o dispositivo objetivo. Use únicamente un archivo de prueba dedicado o un dispositivo vacío, con copias de seguridad verificadas.",
+      "Los trabajos pueden saturar el almacenamiento, elevar latencia y producir desgaste; no ejecute pruebas de carga en producción sin planificación."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install fio",
+      "arch_linux": "sudo pacman -S fio",
+      "rhel_centos": "sudo dnf install fio"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Lectura secuencial de un archivo de prueba","comando":"fio --name=lectura --filename=/tmp/fio-test.bin --size=1G --rw=read --readonly --runtime=30 --time_based","descripcion":"Mide lecturas secuenciales durante 30 segundos sobre el archivo indicado; --readonly evita escrituras del trabajo.","resultado_esperado":"Resumen con ancho de banda, IOPS y latencias observadas."},
+    {"nombre":"Crear archivo de prueba temporal","comando":"fio --name=escritura --filename=/tmp/fio-test.bin --size=256M --rw=write --runtime=10 --time_based","descripcion":"Escribe en un archivo temporal durante 10 segundos; el archivo indicado puede ser sobrescrito.","resultado_esperado":"Informe de rendimiento de escritura; elimina el archivo de prueba solo después de confirmar que no contiene datos necesarios."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_prueba", "tamaño", "duracion"],
+    "validaciones": ["Rechazar destinos de bloque salvo autorización explícita y confirmación de dispositivo.","Verificar espacio disponible, tamaño y permisos del archivo de prueba.","No ejecutar trabajos de escritura contra datos que deban conservarse."],
     "rollback": null
   }
 }

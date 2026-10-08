@@ -1,7 +1,7 @@
 {
   "id": "lsinitramfs",
   "nombre": "lsinitramfs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista los archivos incluidos en una imagen initramfs/initrd, normalmente generada para el arranque del sistema.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,43 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsinitramfs",
+    "principal": "lsinitramfs [OPCIÓN]... IMAGEN",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la lista en formato largo con metadatos de archivos cuando están disponibles.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Imagen initramfs compatible con initramfs-tools"],
+    "paquetes": ["initramfs-tools (Debian/Ubuntu)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La herramienta está asociada a initramfs-tools; otras distribuciones pueden usar utilidades diferentes para sus imágenes initramfs."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (paquete initramfs-tools en Debian/Ubuntu)",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "sudo apt install initramfs-tools",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar contenido de initramfs","comando":"lsinitramfs /boot/initrd.img-$(uname -r)","descripcion":"Lista los archivos de la imagen initramfs correspondiente al kernel en ejecución.","resultado_esperado":"Rutas de módulos, scripts y otros archivos incluidos en la imagen, si existe."},
+    {"nombre":"Consultar entradas con metadatos","comando":"lsinitramfs -l /boot/initrd.img-$(uname -r)","descripcion":"Solicita una lista larga del contenido de la imagen indicada.","resultado_esperado":"Entradas en formato detallado cuando la imagen y la versión de la herramienta lo permiten."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["IMAGEN_INITRAMFS"],
+    "validaciones": ["Comprobar que la ruta de la imagen exista y que se trate de un formato admitido por initramfs-tools."],
     "rollback": null
   }
 }

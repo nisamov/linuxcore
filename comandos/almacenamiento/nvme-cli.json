@@ -1,7 +1,7 @@
 {
   "id": "nvme-cli",
   "nombre": "nvme-cli",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Suite de administración NVMe que enumera unidades y ejecuta comandos de identificación, telemetría y gestión compatibles con el controlador.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,14 +10,20 @@
     ]
   },
   "sintaxis": {
-    "principal": "nvme-cli",
+    "principal": "nvme <comando> [opciones] [dispositivo_nvme]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"list","argumento":null,"tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Enumera controladores y espacios de nombres NVMe detectados.","conflictos":[],"requiere":[]},
+    {"flag":"id-ctrl","argumento":"dispositivo","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Obtiene la estructura de identificación del controlador NVMe indicado.","conflictos":[],"requiere":[]},
+    {"flag":"id-ns","argumento":"dispositivo","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Obtiene información de identificación del espacio de nombres indicado.","conflictos":[],"requiere":[]},
+    {"flag":"smart-log","argumento":"dispositivo","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Lee el registro de salud SMART/health del dispositivo NVMe.","conflictos":[],"requiere":[]},
+    {"flag":"list-ns","argumento":"dispositivo","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Enumera espacios de nombres asociados al controlador indicado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura; acceso completo puede requerir root"],
+    "dependencias": ["nvme-cli y controlador NVMe compatible"],
+    "paquetes": ["nvme-cli"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +31,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Esta utilidad también ofrece comandos de escritura y borrado; esta ficha limita sus ejemplos a consultas no destructivas. Revise el subcomando exacto antes de ejecutarlo.",
+      "Algunos dispositivos detrás de puentes o virtualización no exponen todas las funciones NVMe."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install nvme-cli",
+      "arch_linux": "sudo pacman -S nvme-cli",
+      "rhel_centos": "sudo dnf install nvme-cli"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Enumerar dispositivos NVMe","comando":"sudo nvme list","descripcion":"Enumera controladores y espacios de nombres NVMe visibles en el sistema.","resultado_esperado":"Tabla con nombres de dispositivo, modelo, número de serie y capacidad disponibles."},
+    {"nombre":"Leer registro de salud","comando":"sudo nvme smart-log /dev/nvme0","descripcion":"Consulta los contadores de salud SMART del controlador o dispositivo indicado.","resultado_esperado":"Informe de temperatura, vida útil y errores, según los campos expuestos por el dispositivo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["dispositivo_nvme"],
+    "validaciones": ["Confirmar el nombre del controlador con nvme list antes de consultas específicas.","No permitir comandos de escritura o formato en rutinas de monitorización."],
     "rollback": null
   }
 }

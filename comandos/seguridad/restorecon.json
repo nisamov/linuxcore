@@ -1,7 +1,7 @@
 {
   "id": "restorecon",
   "nombre": "restorecon",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Restaura los contextos SELinux de archivos según las reglas de etiquetado de política; permite simular el cambio antes de aplicarlo.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,43 @@
     "principal": "restorecon",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "No cambia etiquetas; informa qué contextos se cambiarían.", "conflictos": [], "requiere": []},
+    {"flag": "-v", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra detalles de las etiquetas procesadas.", "conflictos": [], "requiere": []},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Procesa directorios y su contenido recursivamente.", "conflictos": [], "requiere": []},
+    {"flag": "-F", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Fuerza el restablecimiento de etiquetas incluso si parecen correctas.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de rutas; escritura de atributos SELinux para aplicar cambios, normalmente root en archivos de sistema"],
+    "dependencias": ["SELinux habilitado, política instalada y herramienta policycoreutils"],
+    "paquetes": ["policycoreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Aplicar etiquetas incorrectas puede impedir acceso de servicios; primero use -n para inspeccionar.", "Los cambios restauran etiquetas de política y pueden sobrescribir ajustes manuales previos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install policycoreutils",
+      "arch_linux": "sudo pacman -S policycoreutils",
+      "rhel_centos": "sudo dnf install policycoreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Simular restauración", "comando": "sudo restorecon -n -v /var/www/html/index.html", "descripcion": "Muestra qué etiqueta se aplicaría a un archivo administrado sin modificarlo.", "resultado_esperado": "Lista cambios propuestos o indica que no hay cambios."},
+    {"nombre": "Restaurar etiqueta de archivo de prueba", "comando": "sudo restorecon -v ./archivo-selinux-prueba", "descripcion": "Restaura etiqueta según política en un archivo controlado del sistema de pruebas.", "resultado_esperado": "Informa cambios realizados conforme a política."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["ruta", "recursivo", "simulacion"],
+    "validaciones": ["Simular con -n, confirmar la política y la ruta, y revisar el resultado con ls -Z antes de ampliar el alcance."],
     "rollback": null
   }
 }

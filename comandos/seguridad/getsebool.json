@@ -1,7 +1,7 @@
 {
   "id": "getsebool",
   "nombre": "getsebool",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra el valor actual de booleanos de política SELinux, incluidos valores persistentes cuando se solicita; es una consulta de solo lectura.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,42 @@
     "principal": "getsebool",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra todos los booleanos SELinux disponibles y sus valores actuales.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Muestra también el valor persistente configurado.", "conflictos": [], "requiere": []},
+    {"flag": "boolean", "argumento": "nombre", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el valor de un booleano SELinux específico.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["SELinux habilitado"],
+    "paquetes": ["policycoreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Los booleanos disponibles dependen de las políticas instaladas; no confunda valores actuales con persistentes."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install policycoreutils",
+      "arch_linux": "sudo pacman -S policycoreutils",
+      "rhel_centos": "sudo dnf install policycoreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Consultar booleano", "comando": "getsebool httpd_can_network_connect", "descripcion": "Consulta el valor actual de un booleano SELinux conocido.", "resultado_esperado": "Muestra el booleano y su valor on/off."},
+    {"nombre": "Auditar configuración persistente", "comando": "getsebool -a -P", "descripcion": "Lista booleanos y sus valores actuales/persistentes para una revisión local.", "resultado_esperado": "Listado de booleanos disponibles y valores correspondientes."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_booleano"],
+    "validaciones": ["Verificar que el booleano existe y distinguir los valores actuales de los persistentes."],
     "rollback": null
   }
 }

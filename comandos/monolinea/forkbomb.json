@@ -1,7 +1,7 @@
 {
   "id": "forkbomb",
   "nombre": "Fork bomb",
-  "descripcion": "Un script que crea multiples procesos hijo hasta agotar los recursos del sistema",
+  "descripcion": "Definición recursiva conocida como fork bomb: cada invocación genera más procesos en segundo plano y puede agotar rápidamente la tabla de procesos, CPU y memoria, dejando el sistema sin respuesta. No es una utilidad de diagnóstico.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": ":(){ :|:& };:",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "ninguno",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "La receta no acepta entradas posicionales; su ejecución inicia la creación recursiva de procesos inmediatamente.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -23,15 +35,18 @@
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "critico",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "PELIGRO: ejecutar esta línea puede bloquear el equipo y agotar los recursos del sistema; no la ejecute en un sistema operativo activo ni en un entorno compartido.",
+      "Puede requerir reinicio forzado para recuperar el sistema y provocar pérdida de trabajo no guardado."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; las consultas de diagnóstico usan interfaces y herramientas del sistema. No ejecute una fork bomb.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -40,10 +55,16 @@
   },
   "ejemplos": [
     {
-      "nombre": "Fork bomb",
-      "comando": ":(){ :|:& };:",
-      "descripcion": "Un script que crea multiples procesos hijo hasta agotar los recursos del sistema",
-      "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+      "nombre": "Consultar el límite de procesos del shell",
+      "comando": "ulimit -u",
+      "descripcion": "Muestra el máximo de procesos disponibles para el usuario en el shell actual sin crear procesos adicionales.",
+      "resultado_esperado": "Se muestra el límite de procesos configurado para el usuario."
+    },
+    {
+      "nombre": "Contar procesos visibles",
+      "comando": "ps -e --no-headers | wc -l",
+      "descripcion": "Cuenta los procesos visibles en el sistema como comprobación defensiva, sin iniciar procesos en bucle.",
+      "resultado_esperado": "Se imprime el número aproximado de procesos visibles en ese instante."
     }
   ],
   "automatizacion": {
@@ -51,7 +72,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["No ejecute ni copie en un shell la receta fork bomb; mantenga cualquier análisis en texto o en un entorno aislado y controlado.", "Para diagnóstico, use únicamente comandos de lectura como ulimit -u y ps; confirme que la carga observada es segura antes de investigar."] ,
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "apt-get",
   "nombre": "apt-get",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Interfaz APT de bajo nivel y más estable para scripts en Debian y Ubuntu; gestiona índices, instalación, actualización y eliminación de paquetes desde repositorios. No debe confundirse con apt-cache, que consulta metadatos locales.",
   "clasificacion": {
     "categoria": "paquetes",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "apt-get",
+    "principal": "apt-get [opciones] <comando> [paquetes...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "update", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza las listas locales de paquetes desde los repositorios configurados; no instala actualizaciones.", "conflictos": [], "requiere": []},
+    {"flag": "install", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Instala o actualiza los paquetes indicados y resuelve dependencias.", "conflictos": [], "requiere": []},
+    {"flag": "upgrade", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Actualiza paquetes instalados sin eliminar los existentes ni instalar paquetes nuevos.", "conflictos": [], "requiere": []},
+    {"flag": "dist-upgrade", "argumento": null, "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Resuelve cambios de dependencias y puede instalar o eliminar paquetes al actualizar el sistema.", "conflictos": [], "requiere": []},
+    {"flag": "remove", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los binarios de los paquetes, conservando normalmente su configuración.", "conflictos": [], "requiere": []},
+    {"flag": "purge", "argumento": "PAQUETE...", "tipo": "subcomando", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina los paquetes y su configuración administrada por dpkg.", "conflictos": [], "requiere": []},
+    {"flag": "-y, --assume-yes", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Responde sí a las preguntas; revisa previamente la transacción, especialmente en automatización.", "conflictos": [], "requiere": []},
+    {"flag": "-s, --simulate", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Simula la operación e informa de los cambios previstos sin modificar el sistema.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o sudo para instalar, actualizar o eliminar paquetes"],
+    "dependencias": ["repositorios APT configurados", "conectividad de red para descargar índices y paquetes"],
+    "paquetes": ["apt (proporciona apt-get)"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["dist-upgrade puede eliminar paquetes; inspecciona la transacción antes de aplicarla.", "-y elimina la confirmación interactiva y no hace segura una operación no revisada.", "apt-get update actualiza metadatos; apt-cache no descarga índices."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en el paquete apt de Debian y Ubuntu; suele estar preinstalado.",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "apt",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Actualizar índices e instalar nginx", "comando": "sudo apt-get update && sudo apt-get install -y nginx", "descripcion": "Actualiza índices y realiza la instalación de nginx sin preguntas interactivas.", "resultado_esperado": "nginx y sus dependencias quedan instalados desde los repositorios configurados."},
+    {"nombre": "Simular la actualización completa", "comando": "sudo apt-get -s dist-upgrade", "descripcion": "Muestra la transacción que apt-get aplicaría, incluidas posibles instalaciones o eliminaciones, sin ejecutarla.", "resultado_esperado": "Se imprime el plan de cambios y el sistema permanece sin modificar."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que los repositorios corresponden a la versión instalada.", "En scripts, revisar primero la simulación cuando se actualice o elimine un conjunto de paquetes.", "Comprobar el código de salida antes de continuar con pasos dependientes."],
     "rollback": null
   }
 }

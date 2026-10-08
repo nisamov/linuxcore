@@ -1,7 +1,7 @@
 {
   "id": "ldapmodify",
   "nombre": "ldapmodify",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Aplica operaciones LDAP codificadas en LDIF para modificar atributos, añadir o eliminar entradas. El modo -a permite altas y corresponde a la función de ldapadd.",
   "clasificacion": {
     "categoria": "servicios",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "ldapmodify",
+    "principal": "ldapmodify [opciones] [archivo_ldif...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-H","argumento":"URI","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"URI del servidor LDAP, por ejemplo ldap://servidor:389 o ldaps://servidor:636.","conflictos":[],"requiere":[]},
+    {"flag":"-x","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa autenticación simple en lugar de SASL.","conflictos":[],"requiere":[]},
+    {"flag":"-D","argumento":"DN_bind","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"DN de autenticación para realizar bind.","conflictos":[],"requiere":[]},
+    {"flag":"-W","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Solicita interactivamente la contraseña del bind.","conflictos":["-w"],"requiere":["-D"]},
+    {"flag":"-w","argumento":"contraseña","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Pasa la contraseña como argumento; puede exponerse en el historial o lista de procesos.","conflictos":["-W"],"requiere":["-D"]},
+    {"flag":"-f","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Lee operaciones LDIF del archivo indicado; si se omite, usa la entrada estándar.","conflictos":[],"requiere":[]},
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Interpreta los registros de entrada como nuevas entradas a añadir (comportamiento de ldapadd).","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra las modificaciones que se intentarían sin enviarlas al servidor.","conflictos":[],"requiere":[]},
+    {"flag":"-c","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Continúa con los siguientes registros aunque uno produzca error.","conflictos":[],"requiere":[]},
+    {"flag":"-ZZ","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Exige establecer StartTLS; falla si no puede negociar TLS.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["La identidad LDAP debe tener permisos de escritura sobre los DN y atributos afectados."],
+    "dependencias": ["Servidor LDAP accesible; LDIF válido; cliente OpenLDAP"],
+    "paquetes": ["ldap-utils / openldap-clients / openldap"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las modificaciones son persistentes y pueden eliminar o alterar datos del directorio; revise LDIF y DN antes de aplicarlo.", "Use -n para inspección preliminar cuando sea aplicable, pero no lo trate como una transacción ni garantía de éxito.", "Use TLS y evite contraseñas literales con -w."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Cliente OpenLDAP instalable desde los repositorios de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "ldap-utils",
+      "arch_linux": "openldap",
+      "rhel_centos": "openldap-clients"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Modificar atributo con LDIF","comando":"ldapmodify -x -H ldaps://ldap.example.org -D 'cn=admin,dc=example,dc=org' -W -f cambios.ldif","descripcion":"Aplica al servidor por LDAPS las modificaciones descritas en cambios.ldif, solicitando la contraseña de forma interactiva.","resultado_esperado":"El servidor informa las operaciones aplicadas o devuelve un error de autorización, sintaxis o concurrencia."},
+    {"nombre":"Previsualizar modificaciones","comando":"ldapmodify -n -x -H ldaps://ldap.example.org -D 'cn=admin,dc=example,dc=org' -W -f cambios.ldif","descripcion":"Imprime las operaciones que se procesarían sin enviarlas al servidor LDAP.","resultado_esperado":"Se presenta el plan interpretado desde LDIF; el directorio no se modifica."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["uri_ldap", "dn_bind", "archivo_ldif"],
+    "validaciones": ["Validar LDIF, DN, atributos y permisos mínimos antes de ejecutar.", "Usar TLS, comprobar el código de salida y considerar exportación/backup previo para cambios sensibles."],
     "rollback": null
   }
 }

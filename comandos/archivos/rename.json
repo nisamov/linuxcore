@@ -1,7 +1,7 @@
 {
   "id": "rename",
   "nombre": "rename",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Renombra archivos mediante una expresión o regla de sustitución; existen implementaciones incompatibles entre sí, por lo que la sintaxis debe confirmarse localmente.",
   "clasificacion": {
     "categoria": "archivos",
     "subcategoria": "general",
@@ -10,40 +10,43 @@
     ]
   },
   "sintaxis": {
-    "principal": "rename",
+    "principal": "rename [opciones] expresión archivos... (variante Perl), o rename expresión reemplazo archivos... (variante util-linux)",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-n", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "En varias implementaciones solicita una simulación sin renombrar; confirme la semántica en el manual instalado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura en los directorios que contienen los archivos."],
+    "dependencias": ["Una implementación rename; la sintaxis depende del paquete instalado."],
+    "paquetes": ["Paquete rename, perl-rename o util-linux según distribución e implementación"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["No hay una sintaxis única: la variante Perl usa una expresión de sustitución y la variante util-linux suele recibir expresión y reemplazo separados.", "Un patrón amplio puede cambiar nombres inesperados o colisionar con destinos existentes; simule primero con la opción admitida por su versión."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalar la implementación rename documentada por la distribución; inspeccionar rename --version y man rename antes de usarla.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "rename o util-linux, según implementación",
+      "arch_linux": "perl-rename o util-linux, según implementación",
+      "rhel_centos": "prename o util-linux, según versión"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Simular cambio de extensión (variante Perl)", "comando": "rename -n 's/\\.jpeg$/.jpg/' *.jpeg", "descripcion": "En la implementación Perl rename, muestra qué nombres cambiaría sin ejecutar la sustitución.", "resultado_esperado": "Lista los nombres propuestos si esa variante admite -n; no modifica archivos."},
+    {"nombre": "Renombrar extensión (variante Perl)", "comando": "rename 's/\\.jpeg$/.jpg/' *.jpeg", "descripcion": "En la implementación Perl, sustituye la extensión final .jpeg por .jpg para los archivos coincidentes.", "resultado_esperado": "Los nombres se actualizan según la expresión Perl; no es sintaxis válida para todas las variantes."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["expresión", "archivos"],
+    "validaciones": ["Identificar con exactitud la implementación y consultar su manual.", "Probar la regla en un directorio temporal o en modo simulación.", "Revisar posibles colisiones de nombres antes de renombrar."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "modinfo",
   "nombre": "modinfo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra información de un módulo del kernel, como descripción, licencia, autor, parámetros y dependencias, sin cargarlo.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,45 @@
     ]
   },
   "sintaxis": {
-    "principal": "modinfo",
+    "principal": "modinfo [OPCIÓN]... MÓDULO|ARCHIVO",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-F, --field","argumento":"campo","tipo":"string","requerido":false,"default":null,"valores":["filename","description","license","author","depends","parm"],"descripcion":"Muestra únicamente el campo indicado del módulo.","conflictos":[],"requiere":[]},
+    {"flag":"-n, --filename","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la ruta del archivo del módulo en lugar de todos sus metadatos.","conflictos":[],"requiere":[]},
+    {"flag":"-k, --set-version","argumento":"versión_kernel","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Busca el módulo para la versión de kernel indicada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Metadatos del módulo disponibles en el árbol de módulos del kernel seleccionado"],
+    "paquetes": ["kmod"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La consulta se limita a los metadatos disponibles para los módulos instalados del kernel seleccionado."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "incluido con kmod (normalmente preinstalado)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "kmod",
+      "arch_linux": "kmod",
+      "rhel_centos": "kmod"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar metadatos del módulo ext4","comando":"modinfo ext4","descripcion":"Muestra los metadatos disponibles del módulo ext4.","resultado_esperado":"Información como nombre, descripción, licencia, parámetros y dependencias."},
+    {"nombre":"Mostrar parámetros disponibles","comando":"modinfo -F parm e1000e","descripcion":"Extrae únicamente la declaración de parámetros del módulo e1000e.","resultado_esperado":"Lista de parámetros documentados para el módulo, o salida vacía si no hay ninguno."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["MODULO", "VERSION_KERNEL (opcional)", "CAMPO (opcional)"],
+    "validaciones": ["Comprobar que el módulo exista para el kernel objetivo y que el nombre sea válido."],
     "rollback": null
   }
 }

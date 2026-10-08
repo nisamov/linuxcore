@@ -1,7 +1,7 @@
 {
   "id": "crear_cien_directorios",
   "nombre": "Crear cien directorios",
-  "descripcion": "Crea cien directorios con nombres secuenciales",
+  "descripcion": "La receta pretende crear cien directorios con nombres secuenciales a partir de un prefijo. Tenga en cuenta que Bash realiza expansión de llaves antes de la expansión de parámetros, por lo que la sintaxis literal puede expandir $101…$1100 en lugar de concatenar $1 con los sufijos.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "mkdir $1{01..100}",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "prefijo_directorio",
+      "tipo": "string",
+      "requerido": true,
+      "default": null,
+      "valores": [],
+      "descripcion": "Prefijo previsto para los nombres secuenciales de los directorios (referencia posicional $1 en la sintaxis registrada).",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +39,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Crea directorios en el directorio actual y falla si ya existen; revise la expansión de $1{01..100} en la shell utilizada antes de ejecutarlo."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza mkdir y expansión de llaves de Bash.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "mkdir $1{01..100}",
       "descripcion": "Crea cien directorios con nombres secuenciales",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Crear cien directorios de proyecto de forma idempotente",
+      "comando": "mkdir -p proyecto{01..100}",
+      "descripcion": "Crea los directorios proyecto01 a proyecto100 sin error si alguno ya existe como directorio.",
+      "resultado_esperado": "Los cien directorios existen en el directorio actual."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme el directorio actual y que el prefijo y rango de nombres sean los previstos.", "Compruebe permisos de escritura y que las rutas existentes no sean archivos ni datos que deban conservarse."] ,
     "rollback": null
   }
 }

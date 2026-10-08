@@ -1,7 +1,7 @@
 {
   "id": "lvs",
   "nombre": "lvs",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Genera informes tabulares de volúmenes lógicos LVM con nombre, tamaño, estado, grupo y otras columnas seleccionables.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,48 @@
     ]
   },
   "sintaxis": {
-    "principal": "lvs",
+    "principal": "lvs [opciones] [LV|VG|Tag...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Incluye volúmenes internos y normalmente omitidos.","conflictos":[],"requiere":[]},
+    {"flag":"-o","argumento":"columnas","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona las columnas del informe separadas por comas.","conflictos":[],"requiere":[]},
+    {"flag":"-S","argumento":"criterio","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Filtra volúmenes según criterios de selección LVM.","conflictos":[],"requiere":[]},
+    {"flag":"--reportformat","argumento":"formato","tipo":"string","requerido":false,"default":null,"valores":["basic","json"],"descripcion":"Selecciona informe tabular básico o JSON.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura de metadatos LVM"],
+    "dependencias": ["LVM2"],
+    "paquetes": ["lvm2"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La salida depende de los dispositivos visibles según la configuración LVM y de las columnas seleccionadas."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install lvm2",
+      "arch_linux": "sudo pacman -S lvm2",
+      "rhel_centos": "sudo dnf install lvm2"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar volúmenes lógicos","comando":"sudo lvs","descripcion":"Muestra un resumen de los LVs visibles y su grupo asociado.","resultado_esperado":"Tabla con nombre, VG, atributos y tamaños."},
+    {"nombre":"Consultar LVs en JSON","comando":"sudo lvs --reportformat json -o lv_name,vg_name,lv_size,lv_attr","descripcion":"Solicita un informe JSON con nombre, grupo, tamaño y atributos del LV.","resultado_esperado":"Documento JSON con uno o más informes de volúmenes lógicos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["nombre_vg", "nombre_lv"],
+    "validaciones": ["Verificar formato y nombres de campos antes de consumir salida automatizada."],
     "rollback": null
   }
 }

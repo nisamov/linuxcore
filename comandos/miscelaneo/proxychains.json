@@ -1,7 +1,7 @@
 {
   "id": "proxychains",
   "nombre": "proxychains",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Ejecuta un programa a través de una cadena de proxies configurada, normalmente SOCKS4/5 o HTTP CONNECT; no convierte automáticamente todo el tráfico del sistema.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,15 @@
     ]
   },
   "sintaxis": {
-    "principal": "proxychains",
+    "principal": "proxychains4 [-q] [-f archivo_configuracion] [-d] comando [argumentos ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-q", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Suprime mensajes informativos de proxychains.", "conflictos": [], "requiere": []},
+    {"flag": "-f", "argumento": "archivo_configuracion", "tipo": "path", "requerido": false, "default": null, "valores": [], "descripcion": "Usa el archivo de configuración indicado en lugar de la ubicación predeterminada.", "conflictos": [], "requiere": []},
+    {"flag": "-h", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra la ayuda de proxychains-ng y finaliza.", "conflictos": [], "requiere": []},
+    {"flag": "", "argumento": "comando [argumentos]", "tipo": "string", "requerido": true, "default": null, "valores": [], "descripcion": "Programa compatible con la interposición de bibliotecas dinámicas que se ejecutará con el proxy configurado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +29,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Proxychains solo intercepta conexiones compatibles de procesos dinámicos y puede filtrar tráfico DNS si se configura mal; no garantiza anonimato ni evita fugas. Confíe únicamente en proxies autorizados."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Instalable desde repositorios; el ejecutable se denomina habitualmente proxychains4.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "proxychains4",
+      "arch_linux": "proxychains-ng",
+      "rhel_centos": "proxychains-ng (si está disponible en repositorios habilitados)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Usar configuración predeterminada", "comando": "proxychains4 curl https://example.org", "descripcion": "Inicia curl bajo la cadena de proxies definida en la configuración predeterminada.", "resultado_esperado": "curl intenta conectar a través de los proxies configurados, si son accesibles."},
+    {"nombre": "Seleccionar configuración", "comando": "proxychains4 -f ./proxychains.conf curl https://example.org", "descripcion": "Usa un archivo de configuración explícito para la ejecución del cliente.", "resultado_esperado": "La conexión se enruta por los proxies definidos en el archivo indicado."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Revise la configuración, confirme compatibilidad de la aplicación y pruebe resolución DNS/fugas de conexión antes de confiar en el enrutamiento."],
     "rollback": null
   }
 }

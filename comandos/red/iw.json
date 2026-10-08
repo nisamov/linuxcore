@@ -1,7 +1,7 @@
 {
   "id": "iw",
   "nombre": "iw",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Configura y consulta dispositivos Wi-Fi del kernel Linux mediante nl80211, incluyendo interfaces, escaneo de redes y asociacion a puntos de acceso.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,50 @@
     ]
   },
   "sintaxis": {
-    "principal": "iw",
+    "principal": "iw [opciones] objeto comando [argumentos]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"dev","argumento":"interfaz info","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra informacion de la interfaz Wi-Fi indicada.","conflictos":[],"requiere":[]},
+    {"flag":"dev","argumento":"interfaz scan","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Busca redes Wi-Fi visibles; normalmente requiere interfaz activa y privilegios adecuados.","conflictos":[],"requiere":[]},
+    {"flag":"dev","argumento":"interfaz link","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Muestra el estado de enlace Wi-Fi asociado.","conflictos":[],"requiere":[]},
+    {"flag":"dev","argumento":"interfaz set type","tipo":"subcomando","requerido":false,"default":null,"valores":[],"descripcion":"Cambia el tipo de interfaz cuando el controlador lo admite; puede desconectar el dispositivo.","conflictos":[],"requiere":[]},
+    {"flag":"--help","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra ayuda general o de un objeto/subcomando.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o CAP_NET_ADMIN para escaneo/cambios; capacidades segun controlador"],
+    "dependencias": ["iproute2, nl80211 y controlador Wi-Fi compatible"],
+    "paquetes": ["iw"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Escaneos y cambios de canal/tipo generan actividad radioelectrica y pueden desconectar clientes; respete normativa local y redes autorizadas.",
+      "El gestor de red puede volver a aplicar su propia configuracion y revertir cambios manuales."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iw",
+      "arch_linux": "sudo pacman -S iw",
+      "rhel_centos": "sudo dnf install iw"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar capacidades locales","comando":"iw list","descripcion":"Muestra dispositivos Wi-Fi y capacidades anunciadas por el controlador local.","resultado_esperado":"Se imprimen bandas, canales y capacidades compatibles con el hardware."},
+    {"nombre":"Consultar enlace Wi-Fi","comando":"iw dev wlan0 link","descripcion":"Consulta asociacion actual de la interfaz wlan0 sin cambiar su configuracion.","resultado_esperado":"Se muestra SSID, frecuencia y señal si hay asociacion, o se indica que no esta conectada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["interfaz_wifi","subcomando"],
+    "validaciones": ["Comprobar interfaz, compatibilidad del controlador y autorizacion; evitar cambios de radio que interrumpan servicios."],
     "rollback": null
   }
 }

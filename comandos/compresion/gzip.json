@@ -228,7 +228,7 @@
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "Compruebe primero `command -v gzip`; si falta, instale el paquete gzip con el gestor de paquetes de su distribución (Debian/Ubuntu: `sudo apt install gzip`; Arch: `sudo pacman -S gzip`; RHEL/CentOS: `sudo dnf install gzip`).",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -250,7 +250,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que cada entrada exista, sea legible y que la extensión/formato concuerde con la operación; use `gzip -t` para probar archivos .gz antes de descomprimirlos.", "Verifique que la ruta de salida correspondiente no sobrescriba un archivo necesario y que haya espacio y permisos suficientes; no use `-f` salvo autorización explícita.", "La compresión y descompresión habituales eliminan la entrada tras completarse: use `-k` para conservarla, especialmente en tareas automatizadas o antes de validar el resultado."],
     "rollback": null
   }
 }

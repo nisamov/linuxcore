@@ -1,7 +1,7 @@
 {
   "id": "lsdev",
   "nombre": "lsdev",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra información de dispositivos del sistema obtenida principalmente de /proc, como interrupciones y recursos de E/S. Es una utilidad heredada y puede no estar instalada en sistemas actuales.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,43 @@
     ]
   },
   "sintaxis": {
-    "principal": "lsdev",
+    "principal": "lsdev [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "recursos_de_dispositivos (entrada implícita)", "tipo": "string", "requerido": false, "default": "información disponible en /proc", "valores": [], "descripcion": "Información del kernel que la utilidad heredada intenta listar; es una fuente implícita, no un operando posicional. La disponibilidad y el detalle dependen de la versión y del sistema.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Interfaz /proc con información de dispositivos; utilidad heredada procinfo"],
+    "paquetes": ["procinfo (Debian/Ubuntu)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La utilidad depende de interfaces heredadas de /proc y puede omitir información en kernels o distribuciones modernos."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes (disponibilidad dependiente de distribución)",
     "paquetes": {
-      "debian_ubuntu": "",
+      "debian_ubuntu": "sudo apt install procinfo",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Mostrar recursos de dispositivos","comando":"lsdev","descripcion":"Muestra la tabla de dispositivos y recursos que la utilidad puede leer del sistema.","resultado_esperado":"Tabla con dispositivos y recursos como IRQ o puertos, si el kernel los publica."},
+    {"nombre":"Ordenar el inventario por nombre","comando":"lsdev | sort","descripcion":"Ordena alfabéticamente las líneas del inventario para facilitar la comparación manual.","resultado_esperado":"La salida de lsdev ordenada alfabéticamente; el formato original del listado se conserva por línea."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Comprobar que esta versión de lsdev acepta las opciones utilizadas y que /proc está montado."],
     "rollback": null
   }
 }

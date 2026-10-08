@@ -1,7 +1,7 @@
 {
   "id": "xwininfo",
   "nombre": "xwininfo",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta atributos de ventanas del sistema X, como identificador, geometría, posición, tamaño, mapa de hijos y clase.",
   "clasificacion": {
     "categoria": "info_sistema",
     "subcategoria": "general",
@@ -10,40 +10,46 @@
     ]
   },
   "sintaxis": {
-    "principal": "xwininfo",
+    "principal": "xwininfo [OPCIÓN]...",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-root","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Obtiene información de la ventana raíz del servidor X.","conflictos":[],"requiere":[]},
+    {"flag":"-id","argumento":"ID_ventana","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Consulta la ventana identificada por el ID indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-name","argumento":"nombre","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Consulta una ventana cuyo nombre coincide con el argumento, según el comportamiento del cliente X.","conflictos":[],"requiere":[]},
+    {"flag":"-tree","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la jerarquía de ventanas descendientes de la ventana seleccionada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
     "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "dependencias": ["Servidor X accesible y autorización de conexión para el usuario"],
+    "paquetes": ["x11-utils (Debian/Ubuntu, RHEL/CentOS)", "xorg-xwininfo (Arch Linux)"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Requiere acceso a un servidor X y puede revelar nombres de ventanas o detalles de aplicaciones visibles."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install x11-utils",
+      "arch_linux": "sudo pacman -S xorg-xwininfo",
+      "rhel_centos": "sudo dnf install xorg-x11-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar la ventana raíz","comando":"xwininfo -root","descripcion":"Muestra atributos de la ventana raíz del servidor X actual.","resultado_esperado":"Identificador, geometría y otros atributos de la ventana raíz."},
+    {"nombre":"Mostrar árbol de ventanas","comando":"xwininfo -root -tree","descripcion":"Enumera las ventanas descendientes de la raíz en forma jerárquica.","resultado_esperado":"Árbol con identificadores y nombres de las ventanas accesibles."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["DISPLAY", "ID_VENTANA (opcional)", "NOMBRE_VENTANA (opcional)"],
+    "validaciones": ["Comprobar que DISPLAY esté configurado y que el usuario tenga permiso de acceso al servidor X."],
     "rollback": null
   }
 }

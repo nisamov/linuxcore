@@ -1,7 +1,7 @@
 {
   "id": "gpasswd",
   "nombre": "gpasswd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra la pertenencia de usuarios a grupos locales y, según la implementación, los administradores o la contraseña de un grupo.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "gpasswd",
+    "principal": "gpasswd [opciones] grupo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-a","argumento":"usuario","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Añade un usuario como miembro suplementario del grupo.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"usuario","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Elimina un usuario de la lista de miembros del grupo.","conflictos":[],"requiere":[]},
+    {"flag":"-A","argumento":"lista_usuarios","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece los administradores del grupo, sustituyendo la lista previa.","conflictos":[],"requiere":[]},
+    {"flag":"-M","argumento":"lista_usuarios","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece la lista de miembros suplementarios del grupo, sustituyendo la lista previa.","conflictos":[],"requiere":[]},
+    {"flag":"-r","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Elimina la contraseña del grupo.","conflictos":[],"requiere":[]},
+    {"flag":"-R","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Restringe el acceso al grupo mediante contraseña en implementaciones que admiten esta función.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o administrador autorizado del grupo; reglas exactas dependen de la implementación"],
+    "dependencias": ["base de datos local de grupos"],
+    "paquetes": ["shadow en Debian/Ubuntu/Arch; shadow-utils en RHEL/Fedora"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Modificar membresías cambia el acceso a archivos y servicios; verifica grupo, usuario y privilegios efectivos antes de aplicar.",
+      "-A y -M reemplazan listas completas y pueden retirar accesos existentes. Evita contraseñas de grupo en entornos compartidos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en shadow/shadow-utils.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Añadir miembro a grupo","comando":"sudo gpasswd -a ana desarrollo","descripcion":"Añade ana a los miembros suplementarios del grupo desarrollo.","resultado_esperado":"La membresía se actualiza y puede verificarse con getent group desarrollo."},
+    {"nombre":"Retirar miembro de grupo","comando":"sudo gpasswd -d ana desarrollo","descripcion":"Retira ana del grupo desarrollo sin eliminar la cuenta ni el grupo.","resultado_esperado":"ana deja de figurar como miembro suplementario del grupo."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "grupo", "miembros"],
+    "validaciones": ["Verificar que el grupo y las cuentas existan y revisar el acceso que concede la membresía.", "Guardar la lista actual antes de usar -A o -M, que sustituyen la lista completa."],
     "rollback": null
   }
 }

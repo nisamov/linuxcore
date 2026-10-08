@@ -1,7 +1,7 @@
 {
   "id": "fg",
   "nombre": "fg",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Trae un trabajo de la shell actual al primer plano y le asigna el control de la terminal.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,75 @@
     ]
   },
   "sintaxis": {
-    "principal": "fg",
+    "principal": "fg [especificación_trabajo]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "%trabajo",
+      "argumento": "especificación_trabajo",
+      "tipo": "string",
+      "requerido": false,
+      "default": "trabajo actual",
+      "valores": [],
+      "descripcion": "Selecciona el trabajo de la tabla de trabajos de la shell; si se omite se elige el trabajo actual cuando existe.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": [
+      "Debe ejecutarse como builtin en la shell interactiva que mantiene el trabajo."
+    ],
+    "dependencias": [
+      "Shell con control de trabajos habilitado"
+    ],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambia la relación del trabajo con la terminal; la entrada del usuario puede ser recibida por ese proceso.",
+      "Ctrl-C o Ctrl-Z enviados desde el terminal afectan al trabajo en primer plano."
     ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "builtin_de_shell",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Traer trabajo actual al primer plano",
+      "comando": "fg",
+      "descripcion": "Reanuda o enfoca en primer plano el trabajo actual de la shell.",
+      "resultado_esperado": "La terminal queda conectada a la entrada/salida del trabajo."
+    },
+    {
+      "nombre": "Seleccionar trabajo número 2",
+      "comando": "fg %2",
+      "descripcion": "Trae el trabajo identificado como 2 en jobs al primer plano.",
+      "resultado_esperado": "La shell reanuda el trabajo y le transfiere el control del terminal."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
-    "interactivo": false,
+    "interactivo": true,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": [
+      "especificación_trabajo"
+    ],
+    "validaciones": [
+      "Confirmar la tabla con jobs en la shell correcta.",
+      "Verificar que el programa pueda recibir entrada interactiva antes de traerlo al frente."
+    ],
     "rollback": null
   }
 }

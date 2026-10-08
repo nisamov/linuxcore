@@ -1,7 +1,7 @@
 {
   "id": "ss",
   "nombre": "ss",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Investiga sockets del kernel Linux y muestra conexiones, puertos en escucha, estadisticas y procesos asociados; es el reemplazo moderno de netstat.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,22 @@
     ]
   },
   "sintaxis": {
-    "principal": "ss",
+    "principal": "ss [opciones] [filtro]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra sockets TCP.","conflictos":[],"requiere":[]},
+    {"flag":"-u","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra sockets UDP.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra sockets en escucha.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra direcciones y puertos numericos.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra procesos asociados cuando los permisos lo permiten.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Imprime resumen de estadisticas de sockets.","conflictos":[],"requiere":[]},
+    {"flag":"-4/-6","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Limita la salida a sockets IPv4 o IPv6, respectivamente.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura; root puede ser necesario para mostrar procesos de otros usuarios"],
+    "dependencias": ["iproute2 y soporte de sockets del kernel"],
+    "paquetes": ["iproute2"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +33,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La salida puede revelar procesos, puertos y relaciones de red locales; proteja registros que incluyan esa informacion.",
+      "Los filtros de ss tienen una gramatica propia; valide expresiones antes de usarlas en scripts."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iproute2",
+      "arch_linux": "sudo pacman -S iproute2",
+      "rhel_centos": "sudo dnf install iproute"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar puertos TCP en escucha","comando":"ss -lnt","descripcion":"Muestra sockets TCP en escucha con direcciones/puertos numericos.","resultado_esperado":"Se listan los endpoints TCP locales que aceptan conexiones."},
+    {"nombre":"Consultar estadisticas de sockets","comando":"ss -s","descripcion":"Imprime un resumen agregado de sockets del kernel.","resultado_esperado":"Se muestran conteos por familia y estado de conexion."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["protocolo","estado","puerto"],
+    "validaciones": ["Controlar permisos y no depender de formatos de salida variables sin especificar opciones/campos adecuados."],
     "rollback": null
   }
 }

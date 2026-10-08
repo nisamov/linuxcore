@@ -1,7 +1,7 @@
 {
   "id": "xfs_repair",
   "nombre": "xfs_repair",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Comprueba y repara metadatos de un sistema de archivos XFS; normalmente requiere que el volumen esté desmontado.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "xfs_repair",
+    "principal": "xfs_repair [opciones] dispositivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No modifica el sistema de archivos; informa de los problemas detectados.","conflictos":[],"requiere":[]},
+    {"flag":"-v","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Aumenta la información de diagnóstico en la salida.","conflictos":[],"requiere":[]},
+    {"flag":"-L","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Pone a cero el log cuando no puede recuperarse; puede causar pérdida grave de metadatos y archivos.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Fuerza la comprobación incluso cuando el sistema de archivos parece limpio.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root o acceso de escritura al dispositivo para reparar"],
+    "dependencias": ["xfsprogs"],
+    "paquetes": ["xfsprogs"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Desmonte el sistema XFS antes de reparar. Haga una imagen o copia de seguridad antes de cualquier reparación; los cambios pueden perder datos.",
+      "No use -L salvo último recurso y con autorización: descartar el log puede provocar pérdida sustancial de archivos y metadatos."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install xfsprogs",
+      "arch_linux": "sudo pacman -S xfsprogs",
+      "rhel_centos": "sudo dnf install xfsprogs"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Diagnóstico sin modificar","comando":"sudo xfs_repair -n /dev/sdb1","descripcion":"Analiza el volumen XFS desmontado en modo sin escritura y reporta problemas potenciales.","resultado_esperado":"Diagnóstico de consistencia; el sistema de archivos no se modifica intencionalmente."},
+    {"nombre":"Reparación estándar de XFS","comando":"sudo xfs_repair /dev/sdb1","descripcion":"Repara metadatos del sistema XFS desmontado. Requiere respaldo y verificación cuidadosa del dispositivo.","resultado_esperado":"Informe de fases y reparaciones; compruebe después la integridad de los datos."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo"],
+    "validaciones": ["Confirmar XFS y que el dispositivo esté desmontado.","Crear una imagen o respaldo verificable antes de escribir.","No permitir -L en flujos automatizados sin revisión experta explícita."],
     "rollback": null
   }
 }

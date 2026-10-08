@@ -1,7 +1,7 @@
 {
   "id": "chcon",
   "nombre": "chcon",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia temporalmente el contexto de seguridad SELinux asociado a archivos; para configuraciones persistentes se prefieren las etiquetas definidas por política y restorecon.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,44 @@
     "principal": "chcon",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-t", "argumento": "tipo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el tipo SELinux del contexto.", "conflictos": [], "requiere": []},
+    {"flag": "-u", "argumento": "usuario", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el usuario SELinux del contexto.", "conflictos": [], "requiere": []},
+    {"flag": "-r", "argumento": "rol", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Establece el rol SELinux del contexto.", "conflictos": [], "requiere": []},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Aplica recursivamente a los archivos bajo la ruta indicada.", "conflictos": [], "requiere": []},
+    {"flag": "--reference", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Copia el contexto de seguridad del archivo de referencia.", "conflictos": ["-u", "-r", "-t"], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Permiso de escritura sobre los atributos extendidos del archivo; root suele ser necesario para rutas ajenas"],
+    "dependencias": ["SELinux habilitado y herramientas policycoreutils"],
+    "paquetes": ["policycoreutils"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["El cambio puede ser revertido por relabeling o restorecon; una etiqueta incorrecta puede impedir el acceso de servicios.", "Use -R solo en rutas revisadas."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install policycoreutils",
+      "arch_linux": "sudo pacman -S coreutils",
+      "rhel_centos": "sudo dnf install policycoreutils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Inspeccionar etiqueta de laboratorio", "comando": "ls -Z /var/www/html/index.html", "descripcion": "Consulta el contexto actual antes de cualquier ajuste en un sistema administrado.", "resultado_esperado": "Muestra el contexto SELinux asociado al archivo."},
+    {"nombre": "Copiar contexto en archivo propio", "comando": "sudo chcon --reference=/var/www/html/index.html /var/www/html/prueba.html", "descripcion": "En un sistema de prueba, asigna al archivo de prueba el contexto del archivo de referencia.", "resultado_esperado": "El contexto del destino coincide con la referencia; el cambio no es una política persistente."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["ruta", "contexto_objetivo", "referencia"],
+    "validaciones": ["Revisar contexto esperado con ls -Z y preferir una regla persistente de política cuando corresponda."],
     "rollback": null
   }
 }

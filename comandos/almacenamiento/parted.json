@@ -1,7 +1,7 @@
 {
   "id": "parted",
   "nombre": "parted",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Crea, elimina y modifica tablas de particiones en discos y muestra información de particiones; las órdenes de edición pueden cambiar el acceso a los datos.",
   "clasificacion": {
     "categoria": "almacenamiento",
     "subcategoria": "general",
@@ -10,40 +10,49 @@
     ]
   },
   "sintaxis": {
-    "principal": "parted",
+    "principal": "parted [opciones] dispositivo [orden...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista los dispositivos y sus tablas de particiones detectadas.","conflictos":[],"requiere":[]},
+    {"flag":"-s","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ejecuta en modo de script sin interacción; los errores no se presentan como preguntas interactivas.","conflictos":[],"requiere":[]},
+    {"flag":"-m","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Produce salida legible por máquina delimitada por dos puntos.","conflictos":[],"requiere":[]},
+    {"flag":"-a","argumento":"alineación","tipo":"string","requerido":false,"default":null,"valores":["none","cylinder","minimal","optimal"],"descripcion":"Define la alineación usada al crear particiones.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["lectura para consultar; root o privilegios equivalentes para cambiar particiones"],
+    "dependencias": ["parted"],
+    "paquetes": ["parted"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
-    "requiere_confirmacion": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Crear o cambiar particiones puede hacer inaccesibles o destruir datos. Confirme el dispositivo, respalde datos y tabla de particiones y asegure que los volúmenes afectados no estén montados.",
+      "El modo -s elimina la interacción, no el riesgo; valide cada orden antes de automatizarla."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install parted",
+      "arch_linux": "sudo pacman -S parted",
+      "rhel_centos": "sudo dnf install parted"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar particiones de un disco","comando":"sudo parted -l","descripcion":"Muestra los dispositivos de bloque detectados y sus tablas sin solicitar órdenes de edición.","resultado_esperado":"Informe de discos, tablas, tamaños y particiones."},
+    {"nombre":"Consultar tabla de un disco concreto","comando":"sudo parted /dev/sda print","descripcion":"Imprime la tabla de particiones y detalles de /dev/sda sin cambiarla.","resultado_esperado":"Esquema, tabla (por ejemplo GPT) y lista de particiones actuales."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["dispositivo", "orden"],
+    "validaciones": ["Comprobar modelo, capacidad y dispositivo por identificador estable antes de editar.","Respaldar tabla y datos, y comprobar que las particiones no estén en uso.","Revisar explícitamente las órdenes de edición y nunca confiar únicamente en -s."],
     "rollback": null
   }
 }

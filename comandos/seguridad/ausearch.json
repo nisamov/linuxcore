@@ -1,7 +1,7 @@
 {
   "id": "ausearch",
   "nombre": "ausearch",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Busca eventos en los registros de Linux Audit por clave, usuario, tipo o intervalo temporal; no modifica las reglas ni los registros.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,45 @@
     "principal": "ausearch",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-k", "argumento": "clave", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca eventos etiquetados con la clave indicada.", "conflictos": [], "requiere": []},
+    {"flag": "-m", "argumento": "tipo_mensaje", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Filtra por tipo de mensaje de auditoría.", "conflictos": [], "requiere": []},
+    {"flag": "-ua", "argumento": "usuario", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Filtra por usuario de auditoría.", "conflictos": [], "requiere": []},
+    {"flag": "-ts", "argumento": "fecha_hora", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca desde la fecha y hora indicadas.", "conflictos": [], "requiere": []},
+    {"flag": "-te", "argumento": "fecha_hora", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Busca hasta la fecha y hora indicadas.", "conflictos": [], "requiere": []},
+    {"flag": "-i", "argumento": null, "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Interpreta valores numéricos como UID/GID y los presenta con nombres cuando corresponde.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de los registros audit; puede requerir root o grupo autorizado"],
+    "dependencias": ["auditd y registros disponibles"],
+    "paquetes": ["audit"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida puede incluir datos personales o rutas sensibles; limite su exposición."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install auditd",
+      "arch_linux": "sudo pacman -S audit",
+      "rhel_centos": "sudo dnf install audit"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Buscar por clave propia", "comando": "sudo ausearch -k prueba_local", "descripcion": "Busca eventos asociados a una clave de regla conocida en el equipo administrado.", "resultado_esperado": "Eventos coincidentes o indicación de que no se encontraron."},
+    {"nombre": "Buscar autenticaciones recientes", "comando": "sudo ausearch -m USER_LOGIN -ts today", "descripcion": "Consulta eventos de inicio de sesión desde hoy en el registro local.", "resultado_esperado": "Eventos USER_LOGIN dentro del periodo, si existen."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["clave", "usuario", "tipo_evento", "intervalo"],
+    "validaciones": ["Comprobar que se consulta el archivo y periodo correctos; proteger cualquier salida almacenada."],
     "rollback": null
   }
 }

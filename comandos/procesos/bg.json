@@ -1,7 +1,7 @@
 {
   "id": "bg",
   "nombre": "bg",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Reanuda en segundo plano un trabajo detenido o suspenso de la shell actual.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,75 @@
     ]
   },
   "sintaxis": {
-    "principal": "bg",
+    "principal": "bg [especificación_trabajo...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "%trabajo",
+      "argumento": "especificación_trabajo",
+      "tipo": "string",
+      "requerido": false,
+      "default": "trabajo actual",
+      "valores": [],
+      "descripcion": "Identifica el trabajo de la tabla de trabajos de la shell; si se omite se selecciona el trabajo actual cuando existe.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
+    "permisos": [
+      "Debe ejecutarse en la shell interactiva propietaria de la tabla de trabajos; normalmente no funciona como proceso externo."
+    ],
+    "dependencias": [
+      "Control de trabajos habilitado en una shell compatible, como bash"
+    ],
     "paquetes": []
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "bajo",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Reanuda un proceso que puede continuar ejecutando tareas en segundo plano y consumir recursos.",
+      "No confundir con crear una nueva sesión ni con nohup; el comportamiento al cerrar la shell depende de la shell y señales."
     ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "builtin_de_shell",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
       "rhel_centos": ""
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Reanudar el trabajo actual",
+      "comando": "bg",
+      "descripcion": "Continúa en segundo plano el trabajo detenido más reciente de la shell.",
+      "resultado_esperado": "La shell informa el identificador y la orden del trabajo reanudado."
+    },
+    {
+      "nombre": "Reanudar trabajo seleccionado",
+      "comando": "bg %2",
+      "descripcion": "Continúa en segundo plano el trabajo número 2 de la shell actual.",
+      "resultado_esperado": "El trabajo 2 pasa a estado de ejecución en segundo plano si sigue disponible."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": [
+      "especificación_trabajo"
+    ],
+    "validaciones": [
+      "Usar en la shell que creó el trabajo y comprobar primero jobs.",
+      "Confirmar que la orden es segura para seguir ejecutándose sin terminal."
+    ],
     "rollback": null
   }
 }

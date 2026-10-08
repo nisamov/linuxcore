@@ -1,7 +1,7 @@
 {
   "id": "montaje_servidor_local_http",
   "nombre": "Montaje de servidor local con python",
-  "descripcion": "Inicia un servidor HTTP en el puerto 8000.",
+  "descripcion": "Inicia el servidor HTTP sencillo de Python en el puerto TCP 8000 y publica los archivos del directorio de trabajo actual hasta que se interrumpe el proceso.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,30 @@
     "principal": "python3 -m http.server 8000",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "directorio_publicado",
+      "tipo": "string",
+      "requerido": false,
+      "default": ".",
+      "valores": [],
+      "descripcion": "Directorio de trabajo actual que el servidor expone mediante HTTP; para servir otro, cambie al directorio antes de iniciar el comando.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "",
+      "argumento": "puerto",
+      "tipo": "integer",
+      "requerido": false,
+      "default": 8000,
+      "valores": [],
+      "descripcion": "Puerto TCP local en el que escucha el servidor HTTP de Python.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +50,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "Mientras el servidor esté activo, clientes que alcancen el puerto pueden leer los archivos del directorio actual; no lo use para publicar datos sensibles ni lo exponga a redes no confiables."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional si Python 3 está disponible; utiliza el módulo http.server incluido en su biblioteca estándar.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +69,12 @@
       "comando": "python3 -m http.server 8000",
       "descripcion": "Inicia un servidor HTTP en el puerto 8000.",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Servir una carpeta local solo en loopback",
+      "comando": "python3 -m http.server 8080 --bind 127.0.0.1 --directory \"$HOME/public\"",
+      "descripcion": "Inicia un servidor HTTP en localhost:8080 para exponer la carpeta public del usuario únicamente a conexiones locales.",
+      "resultado_esperado": "Python sirve los archivos de la carpeta indicada en 127.0.0.1:8080 hasta detener el proceso."
     }
   ],
   "automatizacion": {
@@ -51,7 +82,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Compruebe que Python 3 está disponible y que el directorio indicado existe y solo contiene archivos que se pueden compartir.", "Verifique que el puerto elegido está libre; limite el enlace a 127.0.0.1 si no se pretende ofrecer acceso a la red.", "No sirva directorios con secretos o archivos privados y detenga el servidor al terminar."] ,
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "recargar_configuracion_shell",
   "nombre": "Recargar configuracion del shell",
-  "descripcion": "Recarga la configuracion del shell actual",
+  "descripcion": "Evalúa ~/.bashrc en la shell Bash actual sin iniciar una sesión nueva, aplicando sus asignaciones, funciones y demás órdenes en el entorno actual.",
   "clasificacion": {
     "categoria": "monolinea",
     "subcategoria": "utilidad_monolinea",
@@ -14,7 +14,19 @@
     "principal": "source ~/.bashrc",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "",
+      "argumento": "archivo_configuracion",
+      "tipo": "string",
+      "requerido": false,
+      "default": "~/.bashrc",
+      "valores": [],
+      "descripcion": "Archivo Bash que source evalúa en la shell actual; esta receta fija ~/.bashrc y aplica inmediatamente sus órdenes y cambios de entorno.",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [
@@ -27,11 +39,13 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": []
+    "advertencias": [
+      "source ejecuta todas las órdenes presentes en el archivo de configuración con los permisos de la shell actual; revise el contenido y tenga en cuenta que puede producir efectos secundarios."
+    ]
   },
   "instalacion": {
     "instalable": false,
-    "metodo": "",
+    "metodo": "No requiere instalación adicional; utiliza Bash y el archivo de configuración del usuario.",
     "paquetes": {
       "debian_ubuntu": "",
       "arch_linux": "",
@@ -44,6 +58,12 @@
       "comando": "source ~/.bashrc",
       "descripcion": "Recarga la configuracion del shell actual",
       "resultado_esperado": "Ejecuta el contenido indicado y devuelve su salida correspondiente."
+    },
+    {
+      "nombre": "Comprobar sintaxis de Bash antes de recargar",
+      "comando": "bash -n ~/.bashrc",
+      "descripcion": "Valida la sintaxis de .bashrc sin ejecutar sus instrucciones ni modificar la sesión actual.",
+      "resultado_esperado": "No se imprime ningún error si el archivo tiene sintaxis válida; los errores indican ubicación aproximada."
     }
   ],
   "automatizacion": {
@@ -51,7 +71,7 @@
     "interactivo": false,
     "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme que se está usando Bash y que ~/.bashrc es el archivo de configuración correcto y legible.", "Revise el contenido y valide su sintaxis antes de cargarlo; la ejecución puede cambiar variables, alias o comportamiento del shell."] ,
     "rollback": null
   }
 }

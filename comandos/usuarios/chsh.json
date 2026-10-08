@@ -1,7 +1,7 @@
 {
   "id": "chsh",
   "nombre": "chsh",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Cambia el shell de inicio de sesión de una cuenta local o muestra los shells permitidos por el sistema.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,47 @@
     ]
   },
   "sintaxis": {
-    "principal": "chsh",
+    "principal": "chsh [-s shell] [usuario]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-s","argumento":"shell","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece el shell de inicio de sesión; normalmente debe aparecer en /etc/shells.","conflictos":[],"requiere":[]},
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista los shells disponibles/permitidos según la implementación instalada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["El usuario puede cambiar su propio shell permitido; root puede cambiar el de cualquier cuenta"],
+    "dependencias": ["/etc/passwd y lista local de shells permitidos (/etc/shells)"],
+    "paquetes": ["passwd/shadow-utils, según la distribución"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Un shell inválido o restringido puede impedir el acceso interactivo; verifica que la ruta exista y esté autorizada.",
+      "Cambiar el shell de otra cuenta requiere root; no selecciones shells que permitan eludir controles de acceso."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades de cuentas de la distribución.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Listar shells permitidos","comando":"chsh -l","descripcion":"Muestra shells aceptados por la configuración local.","resultado_esperado":"Se imprime una lista de rutas de shell disponibles."},
+    {"nombre":"Cambiar el shell propio","comando":"chsh -s /bin/bash","descripcion":"Solicita la contraseña de la cuenta actual si la política lo requiere y configura bash como shell de acceso.","resultado_esperado":"El shell de la cuenta queda establecido en /bin/bash si está permitido."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "shell"],
+    "validaciones": ["Comprobar que el shell existe, es ejecutable y está permitido en /etc/shells.", "Confirmar el usuario objetivo y disponer de un método de acceso alternativo antes de cambiar shells."],
     "rollback": null
   }
 }

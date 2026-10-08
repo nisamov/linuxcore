@@ -1,7 +1,7 @@
 {
   "id": "iperf3",
   "nombre": "iperf3",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Mide el rendimiento de red entre un cliente y un servidor iperf3 mediante flujos TCP, UDP o SCTP, con duracion y parametros de prueba configurables.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "iperf3",
+    "principal": "iperf3 {-s | -c servidor} [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-s, --server","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ejecuta en modo servidor y espera clientes; normalmente escucha en el puerto 5201.","conflictos":["-c"],"requiere":[]},
+    {"flag":"-c, --client","argumento":"host","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Ejecuta en modo cliente y conecta al servidor indicado.","conflictos":["-s"],"requiere":[]},
+    {"flag":"-p, --port","argumento":"puerto","tipo":"integer","requerido":false,"default":5201,"valores":[],"descripcion":"Selecciona el puerto del servidor.","conflictos":[],"requiere":[]},
+    {"flag":"-t, --time","argumento":"segundos","tipo":"integer","requerido":false,"default":10,"valores":[],"descripcion":"Define la duracion de la prueba en segundos.","conflictos":[],"requiere":[]},
+    {"flag":"-u, --udp","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Realiza la prueba con UDP en vez de TCP.","conflictos":[],"requiere":["-c"]},
+    {"flag":"-J, --json","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Emite el resultado en formato JSON.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["acceso de red; abrir puerto de escucha en firewall si se usa como servidor"],
+    "dependencias": ["iperf3"],
+    "paquetes": ["iperf3"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Las pruebas consumen ancho de banda y pueden degradar servicios; ejecútelas solo entre equipos propios/autorizados y con duracion controlada.",
+      "El modo servidor expone un servicio de prueba en la red mientras permanece activo; cierrelo tras la medicion."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iperf3",
+      "arch_linux": "sudo pacman -S iperf3",
+      "rhel_centos": "sudo dnf install iperf3"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Servidor local de prueba","comando":"iperf3 -s -B 127.0.0.1","descripcion":"Inicia un servidor ligado solo a loopback para pruebas locales; interrumpir con Ctrl+C.","resultado_esperado":"Queda escuchando en la interfaz local y registra la conexion de clientes."},
+    {"nombre":"Medir loopback por tiempo limitado","comando":"iperf3 -c 127.0.0.1 -t 3","descripcion":"Mide TCP durante tres segundos contra el servidor local que se haya iniciado por separado.","resultado_esperado":"Muestra ancho de banda transferido y resumen de la prueba."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["servidor_autorizado","puerto","duracion"],
+    "validaciones": ["Verificar autorizacion, disponibilidad del servidor y ventana de baja carga; limitar duracion/ancho de banda y cerrar el modo servidor."],
     "rollback": null
   }
 }

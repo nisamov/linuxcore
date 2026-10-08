@@ -1,7 +1,7 @@
 {
   "id": "sealert",
   "nombre": "sealert",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Analiza alertas AVC de SELinux y presenta interpretaciones y sugerencias para ayudar a diagnosticar denegaciones registradas.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,41 @@
     "principal": "sealert",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-a", "argumento": "archivo", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Analiza alertas del archivo especificado; algunas versiones aceptan una ruta o registro AVC según su interfaz.", "conflictos": [], "requiere": []},
+    {"flag": "-b", "argumento": "ID", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el análisis de un identificador de alerta disponible en la interfaz instalada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["Lectura de registros AVC; acceso a registros del sistema puede requerir grupo autorizado o root"],
+    "dependencias": ["SELinux, setroubleshoot y registros de alertas disponibles"],
+    "paquetes": ["setroubleshoot-server"]
   },
   "seguridad": {
     "nivel": "medio",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Las sugerencias automáticas son diagnósticas, no deben aplicarse sin comprender el flujo de acceso y el principio de mínimo privilegio.", "La sintaxis y disponibilidad varían por distribución; consulte sealert --help local."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install setroubleshoot",
+      "arch_linux": "sudo pacman -S setroubleshoot",
+      "rhel_centos": "sudo dnf install setroubleshoot-server"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Analizar alertas recientes", "comando": "sudo sealert -a /var/log/audit/audit.log", "descripcion": "Analiza registros locales de auditoría para explicar denegaciones AVC, si esa interfaz acepta el archivo.", "resultado_esperado": "Diagnósticos y referencias a alertas encontradas."},
+    {"nombre": "Consultar ayuda de la versión", "comando": "sealert --help", "descripcion": "Comprueba opciones admitidas por el paquete instalado sin consultar datos ajenos.", "resultado_esperado": "Muestra uso y opciones disponibles."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_registro", "id_alerta"],
+    "validaciones": ["Confirmar opciones disponibles en la versión local y revisar recomendaciones antes de aplicarlas."],
     "rollback": null
   }
 }

@@ -1,7 +1,7 @@
 {
   "id": "taskset",
   "nombre": "taskset",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta o establece la afinidad de CPU de un proceso, o inicia un programa restringido a las CPU indicadas.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,14 +10,59 @@
     ]
   },
   "sintaxis": {
-    "principal": "taskset",
-    "alternativas": []
+    "principal": "taskset [opciones] máscara comando [argumentos...]",
+    "alternativas": [
+      "taskset -p [opciones] PID",
+      "taskset -c [opciones] lista_cpu comando [argumentos...]"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-c",
+      "argumento": "lista_cpu",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "En formas que aceptan una lista de CPU, especifica índices o rangos separados por comas, en lugar de una máscara hexadecimal.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-p",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Opera sobre un PID existente en vez de iniciar un comando; con una máscara o lista antes del PID la establece y sin ella la consulta.",
+      "conflictos": [],
+      "requiere": [
+        "PID"
+      ]
+    },
+    {
+      "flag": "-a",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Opera sobre todas las tareas/hilos del proceso indicado en modo -p.",
+      "conflictos": [],
+      "requiere": ["-p"]
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Un usuario puede cambiar la afinidad de procesos propios; para procesos ajenos se requieren privilegios apropiados."
+    ],
+    "dependencias": [
+      "Linux scheduler affinity y CPU disponibles en el conjunto permitido por cpuset/cgroups"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +70,46 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar afinidad altera dónde puede ejecutarse el proceso y puede degradar rendimiento o disponibilidad.",
+      "La lista efectiva está limitada por las CPU permitidas al proceso; los índices pueden variar entre sistemas."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Iniciar en CPU seleccionadas",
+      "comando": "taskset -c 0,2 comando_demo",
+      "descripcion": "Inicia comando_demo restringido a las CPU lógicas 0 y 2, si están permitidas.",
+      "resultado_esperado": "El comando se ejecuta con esa afinidad o falla si las CPU no están disponibles."
+    },
+    {
+      "nombre": "Consultar afinidad de un PID",
+      "comando": "taskset -pc 1234",
+      "descripcion": "Muestra la lista de CPU permitidas actualmente para el proceso 1234.",
+      "resultado_esperado": "Máscara o lista de CPU asociadas al proceso si es visible."
+    }
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "apto_script": true,
+    "variables": [
+      "pid",
+      "lista_cpu",
+      "comando"
+    ],
+    "validaciones": [
+      "Validar índices frente a la topología y afinidad permitida del sistema.",
+      "Comprobar el PID y registrar la afinidad previa si se planea modificarla."
+    ],
+    "rollback": "Restaurar la lista de CPU anterior mediante taskset -pc con los permisos necesarios."
   }
 }

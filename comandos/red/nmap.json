@@ -1,7 +1,7 @@
 {
   "id": "nmap",
   "nombre": "nmap",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Descubre hosts y servicios en una red mediante sondas configurables y analiza respuestas de puertos; util para inventario y diagnostico autorizado.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "nmap",
+    "principal": "nmap [opciones] objetivo",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-sT","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Realiza un escaneo TCP connect usando la llamada connect del sistema.","conflictos":[],"requiere":[]},
+    {"flag":"-sV","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Intenta identificar versiones de los servicios detectados.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"puertos","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Limita el escaneo a puertos o rangos indicados, por ejemplo 22,80,443.","conflictos":[],"requiere":[]},
+    {"flag":"-Pn","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Omite el descubrimiento de host y trata el objetivo como activo.","conflictos":[],"requiere":[]},
+    {"flag":"-n","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"No realiza resolucion DNS inversa.","conflictos":[],"requiere":[]},
+    {"flag":"-oN","argumento":"archivo","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Guarda salida normal en el archivo indicado.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["sin privilegios para TCP connect; root/CAP_NET_RAW puede habilitar otras tecnicas"],
+    "dependencias": ["nmap"],
+    "paquetes": ["nmap"]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
-    "requiere_confirmacion": false,
+    "requiere_confirmacion": true,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Escanear redes ajenas puede activar alarmas o incumplir politicas; obtenga autorizacion expresa y limite objetivos, puertos y ritmo.",
+      "La deteccion de versiones aumenta solicitudes; no use scripts NSE agresivos contra sistemas no propios."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install nmap",
+      "arch_linux": "sudo pacman -S nmap",
+      "rhel_centos": "sudo dnf install nmap"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar puertos localhost","comando":"nmap -sT -p 22,80,443 127.0.0.1","descripcion":"Comprueba tres puertos TCP del propio equipo mediante conexion TCP normal.","resultado_esperado":"Informa cada puerto como abierto, cerrado o filtrado segun las respuestas locales."},
+    {"nombre":"Inventario basico de localhost","comando":"nmap -sT -n 127.0.0.1","descripcion":"Realiza un escaneo TCP connect del host local sin resolucion inversa de nombres.","resultado_esperado":"Muestra el host y el estado de puertos comunes detectados."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["objetivo_autorizado","puertos"],
+    "validaciones": ["Exigir autorizacion documentada, validar que el objetivo sea propio y acotar puertos/frecuencia antes del escaneo."],
     "rollback": null
   }
 }

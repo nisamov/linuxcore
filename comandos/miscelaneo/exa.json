@@ -1,7 +1,7 @@
 {
   "id": "exa",
   "nombre": "exa",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Lista archivos con presentación mejorada, árbol de directorios, metadatos y filtros; exa está discontinuado y eza es su sucesor mantenido.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,17 @@
     ]
   },
   "sintaxis": {
-    "principal": "exa",
+    "principal": "exa [opciones] [ruta ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-l", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra un listado detallado con permisos, propietario, tamaño y fecha.", "conflictos": [], "requiere": []},
+    {"flag": "-a", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Incluye archivos y directorios ocultos.", "conflictos": [], "requiere": []},
+    {"flag": "-T", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra recursivamente el contenido en forma de árbol.", "conflictos": [], "requiere": []},
+    {"flag": "-R", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Recorre directorios de forma recursiva en formato de listado.", "conflictos": [], "requiere": []},
+    {"flag": "-s", "argumento": "campo", "tipo": "string", "requerido": false, "default": null, "valores": ["name", "extension", "size", "type", "modified", "accessed", "created"], "descripcion": "Ordena la salida por un campo admitido por la versión instalada.", "conflictos": [], "requiere": []},
+    {"flag": "-g", "argumento": null, "tipo": "boolean", "requerido": false, "default": null, "valores": [], "descripcion": "Muestra el grupo en el listado detallado.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +31,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["exa ya no recibe mantenimiento activo; las opciones pueden diferir del sucesor eza. Use listados recursivos con cuidado en árboles grandes."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Paquete exa heredado o discontinuado; se recomienda instalar eza como reemplazo compatible en muchas opciones.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "exa (según versión); eza como sucesor",
+      "arch_linux": "exa o eza, según repositorio actual",
+      "rhel_centos": "exa/eza (disponibilidad variable; consultar repositorios)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Listado detallado con ocultos", "comando": "exa -la", "descripcion": "Muestra entradas ocultas junto con metadatos en formato largo.", "resultado_esperado": "Listado de archivos con permisos, propietario/grupo cuando estén disponibles, tamaño y fecha."},
+    {"nombre": "Árbol de directorio", "comando": "exa -T -L 2", "descripcion": "Muestra el árbol hasta dos niveles; -L está disponible en versiones comunes de exa.", "resultado_esperado": "Vista jerárquica limitada a dos niveles de profundidad."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Confirme las opciones con exa --help; para nuevos despliegues evalúe eza, sucesor mantenido."],
     "rollback": null
   }
 }

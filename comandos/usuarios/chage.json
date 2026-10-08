@@ -1,7 +1,7 @@
 {
   "id": "chage",
   "nombre": "chage",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Consulta y modifica los parámetros de caducidad de contraseña de una cuenta local, como último cambio, vigencia, inactividad y fecha de expiración.",
   "clasificacion": {
     "categoria": "usuarios",
     "subcategoria": "general",
@@ -10,40 +10,52 @@
     ]
   },
   "sintaxis": {
-    "principal": "chage",
+    "principal": "chage [opciones] usuario",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-l","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra la información de caducidad de la cuenta.","conflictos":[],"requiere":[]},
+    {"flag":"-d","argumento":"fecha","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece la fecha del último cambio de contraseña; 0 obliga a cambiarla en el próximo acceso.","conflictos":[],"requiere":[]},
+    {"flag":"-E","argumento":"fecha","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Establece la fecha de expiración de la cuenta; acepta fecha YYYY-MM-DD o días desde la época según la versión.","conflictos":[],"requiere":[]},
+    {"flag":"-m","argumento":"días","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Fija el mínimo de días entre cambios de contraseña.","conflictos":[],"requiere":[]},
+    {"flag":"-M","argumento":"días","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Fija el máximo de días de vigencia de la contraseña.","conflictos":[],"requiere":[]},
+    {"flag":"-W","argumento":"días","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Fija los días de aviso antes de que expire la contraseña.","conflictos":[],"requiere":[]},
+    {"flag":"-I","argumento":"días","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Fija los días de inactividad tras la expiración antes de bloquear la cuenta.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root para modificar otras cuentas; el usuario puede consultar su propia información según la configuración"],
+    "dependencias": ["base de datos local de cuentas y contraseñas shadow"],
+    "paquetes": ["shadow (Debian/Ubuntu/Arch); shadow-utils (RHEL/Fedora) "]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
-    "requiere_root": false,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Una política de caducidad incorrecta puede bloquear accesos o forzar cambios; confirma usuario, fecha y unidades antes de modificar.",
+      "Las fechas se interpretan según la versión; consulta man chage en el sistema objetivo."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "Incluido en las utilidades shadow.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install passwd",
+      "arch_linux": "sudo pacman -S shadow",
+      "rhel_centos": "sudo dnf install shadow-utils"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Consultar caducidad","comando":"sudo chage -l ana","descripcion":"Muestra el estado de caducidad y los límites de contraseña de ana.","resultado_esperado":"Se imprimen fechas de cambio, expiración, aviso e inactividad."},
+    {"nombre":"Establecer vigencia y aviso","comando":"sudo chage -M 90 -W 14 ana","descripcion":"Limita a 90 días la vigencia y avisa 14 días antes.","resultado_esperado":"Los valores quedan actualizados; revísalos con chage -l ana."}
+  ],
   "automatizacion": {
-    "idempotente": false,
+    "idempotente": true,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["usuario", "días", "fecha"],
+    "validaciones": ["Comprobar que la cuenta existe y que fechas/días cumplen la política local.", "Registrar el estado previo para poder restaurar los valores anteriores si fuera necesario."],
     "rollback": null
   }
 }

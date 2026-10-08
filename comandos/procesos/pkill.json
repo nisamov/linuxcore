@@ -1,7 +1,7 @@
 {
   "id": "pkill",
   "nombre": "pkill",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Envía una señal a cada proceso que coincide con un patrón y los filtros indicados.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,138 @@
     ]
   },
   "sintaxis": {
-    "principal": "pkill",
+    "principal": "pkill [opciones] patrón",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "-signal",
+      "argumento": "señal",
+      "tipo": "string",
+      "requerido": false,
+      "default": "TERM",
+      "valores": [],
+      "descripcion": "Selecciona la señal que se envía; TERM es el valor predeterminado habitual. También puede expresarse con -SIGTERM.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-f",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Compara el patrón con la línea de órdenes completa, no solo con el nombre del proceso.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-u",
+      "argumento": "usuario[,usuario...]",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Limita la selección a procesos propiedad de los usuarios indicados.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-x",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Exige coincidencia exacta del nombre del proceso.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "-n",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Actúa solo sobre el proceso coincidente más reciente.",
+      "conflictos": [
+        "-o"
+      ],
+      "requiere": []
+    },
+    {
+      "flag": "-o",
+      "argumento": null,
+      "tipo": "boolean",
+      "requerido": false,
+      "default": false,
+      "valores": [],
+      "descripcion": "Actúa solo sobre el proceso coincidente más antiguo.",
+      "conflictos": [
+        "-n"
+      ],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Permiso para señalizar cada proceso seleccionado; normalmente el mismo usuario o root."
+    ],
+    "dependencias": [
+      "/proc en Linux"
+    ],
+    "paquetes": [
+      "procps o procps-ng"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
+    "nivel": "alto",
+    "destructivo": true,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Este comando cambia el estado de los procesos; puede terminarlos. Revise cuidadosamente el patrón, filtros y señal.",
+      "Prefiera una señal de terminación ordenada y use SIGKILL únicamente como último recurso; no se limita a detener servicios de forma segura."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install procps",
+      "arch_linux": "sudo pacman -S procps-ng",
+      "rhel_centos": "sudo dnf install procps-ng"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Solicitar cierre de un proceso por nombre",
+      "comando": "pkill -TERM -x proceso_demo",
+      "descripcion": "Envía SIGTERM a procesos cuyo nombre coincide exactamente con proceso_demo.",
+      "resultado_esperado": "Los procesos coincidentes reciben la señal; solo terminan si la aceptan y tienen permiso para señalizarlos."
+    },
+    {
+      "nombre": "Señalizar procesos propios por patrón",
+      "comando": "pkill -u \"$USER\" -f 'worker-demo'",
+      "descripcion": "Selecciona procesos del usuario actual cuya línea de órdenes coincide con el patrón y solicita su terminación.",
+      "resultado_esperado": "Se envía SIGTERM a cada coincidencia del usuario actual."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": [
+      "senal",
+      "patron",
+      "usuario"
+    ],
+    "validaciones": [
+      "Ejecutar primero una búsqueda equivalente con pgrep y revisar todos los PID que coinciden.",
+      "Comprobar que la señal y el usuario sean los esperados y gestionar permisos y ausencia de coincidencias."
+    ],
     "rollback": null
   }
 }

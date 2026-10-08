@@ -1,7 +1,7 @@
 {
   "id": "prlimit",
   "nombre": "prlimit",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Muestra o modifica los límites de recursos de un proceso, como número de archivos abiertos, memoria virtual o tamaño de archivos.",
   "clasificacion": {
     "categoria": "procesos",
     "subcategoria": "general",
@@ -10,40 +10,105 @@
     ]
   },
   "sintaxis": {
-    "principal": "prlimit",
-    "alternativas": []
+    "principal": "prlimit [opciones] [--recurso[=límite]] [--comando [argumentos...]]",
+    "alternativas": [
+      "prlimit --pid PID [--recurso[=límite]]"
+    ]
   },
-  "parametros": [],
+  "parametros": [
+    {
+      "flag": "--pid",
+      "argumento": "PID",
+      "tipo": "integer",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Selecciona un proceso existente para consultar o ajustar sus límites.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--nofile",
+      "argumento": "blando:duro",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Consulta el límite de descriptores de archivo si se omite el valor, o lo establece al indicar límite_blando:límite_duro.",
+      "conflictos": [],
+      "requiere": []
+    },
+    {
+      "flag": "--as",
+      "argumento": "blando:duro",
+      "tipo": "string",
+      "requerido": false,
+      "default": null,
+      "valores": [],
+      "descripcion": "Consulta o establece el límite de espacio de direcciones virtuales (RLIMIT_AS).",
+      "conflictos": [],
+      "requiere": []
+    }
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": [
+      "Para cambiar límites de otro usuario o aumentar límites duros se requieren privilegios adecuados; un proceso solo puede elevarlos dentro de las restricciones del kernel."
+    ],
+    "dependencias": [
+      "Llamadas Linux getrlimit/setrlimit y acceso a /proc"
+    ],
+    "paquetes": [
+      "util-linux"
+    ]
   },
   "seguridad": {
-    "nivel": "medio",
+    "nivel": "alto",
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Establecer límites cambia el comportamiento del proceso y puede impedirle abrir archivos o asignar memoria.",
+      "Valores incorrectos pueden afectar servicios; separar consulta de modificación y comprobar el PID."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_util_linux",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install util-linux",
+      "arch_linux": "sudo pacman -S util-linux",
+      "rhel_centos": "sudo dnf install util-linux"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {
+      "nombre": "Consultar límites de un proceso",
+      "comando": "prlimit --pid 1234",
+      "descripcion": "Muestra los límites de recursos del PID 1234 sin asignar nuevos valores.",
+      "resultado_esperado": "Tabla de recursos con límites blando y duro del proceso."
+    },
+    {
+      "nombre": "Iniciar comando con límite de archivos",
+      "comando": "prlimit --nofile=1024:2048 -- comando_demo",
+      "descripcion": "Ejecuta comando_demo con límites RLIMIT_NOFILE específicos para ese proceso y sus descendientes que hereden el límite.",
+      "resultado_esperado": "Se inicia el comando con el límite indicado si el sistema y los permisos lo permiten."
+    }
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
-    "rollback": null
+    "apto_script": true,
+    "variables": [
+      "pid",
+      "recurso",
+      "limite_blando",
+      "limite_duro",
+      "comando"
+    ],
+    "validaciones": [
+      "Consultar los límites actuales primero y comprobar que los valores cumplan las restricciones del kernel.",
+      "Confirmar el PID y probar los límites en un entorno controlado."
+    ],
+    "rollback": "Para un proceso existente, restaurar los límites anteriores con privilegios suficientes; un comando ya iniciado requiere finalizarse para descartar sus límites heredados."
   }
 }

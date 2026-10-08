@@ -1,7 +1,7 @@
 {
   "id": "sshd",
   "nombre": "sshd",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Daemon servidor OpenSSH que acepta conexiones seguras y ejecuta shell, comandos o subsistemas autorizados, de acuerdo con sshd_config.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,40 +10,51 @@
     ]
   },
   "sintaxis": {
-    "principal": "sshd",
+    "principal": "sshd [-D] [-f archivo_configuracion] [-p puerto] [-t|-T]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"-t","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Comprueba validez de la configuracion y claves host y termina.","conflictos":["-T"],"requiere":[]},
+    {"flag":"-T","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Imprime la configuracion efectiva y termina; admite criterios de conexion con opciones adicionales.","conflictos":["-t"],"requiere":[]},
+    {"flag":"-D","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Ejecuta en primer plano sin daemonizar.","conflictos":[],"requiere":[]},
+    {"flag":"-f","argumento":"archivo","tipo":"string","requerido":false,"default":"/etc/ssh/sshd_config","valores":[],"descripcion":"Lee la configuracion desde el archivo indicado.","conflictos":[],"requiere":[]},
+    {"flag":"-p","argumento":"puerto","tipo":"integer","requerido":false,"default":22,"valores":[],"descripcion":"Escucha en el puerto TCP indicado; puede repetirse.","conflictos":[],"requiere":[]},
+    {"flag":"-E","argumento":"archivo_log","tipo":"string","requerido":false,"default":null,"valores":[],"descripcion":"Anexa mensajes de depuracion a un archivo en vez de stderr.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["root para leer claves host y enlazar puertos privilegiados"],
+    "dependencias": ["OpenSSH server, claves host y configuracion sshd"],
+    "paquetes": ["openssh-server (Debian/Ubuntu), openssh (Arch), openssh-server (RHEL)"]
   },
   "seguridad": {
-    "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "nivel": "alto",
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "Cambiar configuracion de autenticacion o reiniciar el servicio puede bloquear accesos o exponer el host; mantenga una sesion administrativa de respaldo.",
+      "Antes de recargar el daemon ejecute sshd -t y aplique solo cambios revisados; limite usuarios, algoritmos y superficie de escucha."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install openssh-server",
+      "arch_linux": "sudo pacman -S openssh",
+      "rhel_centos": "sudo dnf install openssh-server"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Validar configuracion sin iniciar daemon","comando":"sudo sshd -t","descripcion":"Comprueba sintaxis y archivos de clave host con la configuracion predeterminada.","resultado_esperado":"No produce salida y devuelve exito si la configuracion es valida; informa de errores si no."},
+    {"nombre":"Consultar configuracion efectiva","comando":"sudo sshd -T","descripcion":"Imprime opciones efectivas del servidor para la configuracion local.","resultado_esperado":"Se muestran directivas evaluadas sin abrir un listener nuevo."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["archivo_configuracion","puerto"],
+    "validaciones": ["Ejecutar sshd -t antes de recargar, conservar sesion/consola de recuperacion y verificar firewall y acceso autorizado."],
     "rollback": null
   }
 }

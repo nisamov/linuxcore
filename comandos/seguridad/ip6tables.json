@@ -1,7 +1,7 @@
 {
   "id": "ip6tables",
   "nombre": "ip6tables",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Administra reglas del cortafuegos netfilter IPv6 mediante cadenas y tablas; los cambios son inmediatos y pueden cortar conectividad.",
   "clasificacion": {
     "categoria": "seguridad",
     "subcategoria": "general",
@@ -13,37 +13,45 @@
     "principal": "ip6tables",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "-L", "argumento": "cadena", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Lista reglas de una cadena o todas las cadenas.", "conflictos": [], "requiere": []},
+    {"flag": "-A", "argumento": "cadena", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Añade una regla al final de la cadena indicada.", "conflictos": [], "requiere": ["regla"]},
+    {"flag": "-I", "argumento": "cadena [número]", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Inserta una regla en la posición indicada o al principio.", "conflictos": [], "requiere": ["regla"]},
+    {"flag": "-D", "argumento": "cadena regla", "tipo": "string", "requerido": false, "default": null, "valores": [], "descripcion": "Elimina una regla coincidente o por número de línea.", "conflictos": [], "requiere": []},
+    {"flag": "-F", "argumento": "cadena", "tipo": "boolean", "requerido": false, "default": false, "valores": [], "descripcion": "Vacía reglas de una cadena o de todas si se omite.", "conflictos": [], "requiere": []},
+    {"flag": "-P", "argumento": "cadena política", "tipo": "string", "requerido": false, "default": null, "valores": ["ACCEPT", "DROP", "REJECT"], "descripcion": "Establece política predeterminada en una cadena integrada.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["CAP_NET_ADMIN (normalmente root) para consultar o cambiar reglas"],
+    "dependencias": ["Kernel con netfilter IPv6"],
+    "paquetes": ["iptables"]
   },
   "seguridad": {
     "nivel": "medio",
-    "destructivo": false,
-    "requiere_root": false,
+    "destructivo": true,
+    "requiere_root": true,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["Políticas DROP/REJECT, vaciar reglas o insertar reglas equivocadas puede interrumpir conexiones IPv6, incluida la sesión remota.", "En algunas distribuciones ip6tables usa backend nftables; verifique el backend y persistencia local."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install iptables",
+      "arch_linux": "sudo pacman -S iptables",
+      "rhel_centos": "sudo dnf install iptables-nft"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Auditar reglas IPv6", "comando": "sudo ip6tables -L -n -v", "descripcion": "Consulta reglas y contadores sin modificarlos.", "resultado_esperado": "Lista cadenas, políticas y contadores IPv6."},
+    {"nombre": "Guardar reglas actuales", "comando": "sudo ip6tables-save > ./ip6tables-auditoria.txt", "descripcion": "Respalda reglas IPv6 actuales en un archivo local protegido.", "resultado_esperado": "El archivo contiene reglas exportadas para inspección y recuperación planificada."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
     "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "variables": ["cadena", "regla", "politica", "familia_ipv6"],
+    "validaciones": ["Guardar reglas actuales, confirmar acceso alternativo y revisar cuidadosamente la política predeterminada antes de modificar."],
     "rollback": null
   }
 }

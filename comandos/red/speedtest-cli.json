@@ -1,7 +1,7 @@
 {
   "id": "speedtest-cli",
   "nombre": "speedtest-cli",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Mide latencia, descarga y subida hacia un servidor de prueba del servicio Speedtest mediante conexiones a Internet.",
   "clasificacion": {
     "categoria": "red",
     "subcategoria": "general",
@@ -10,14 +10,21 @@
     ]
   },
   "sintaxis": {
-    "principal": "speedtest-cli",
+    "principal": "speedtest-cli [opciones]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag":"--simple","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra un resumen de ping, descarga y subida.","conflictos":[],"requiere":[]},
+    {"flag":"--bytes","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Muestra velocidades en bytes por segundo en vez de bits por segundo.","conflictos":[],"requiere":[]},
+    {"flag":"--server","argumento":"ID","tipo":"integer","requerido":false,"default":null,"valores":[],"descripcion":"Selecciona el identificador del servidor de prueba.","conflictos":[],"requiere":[]},
+    {"flag":"--list","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Lista servidores de prueba disponibles.","conflictos":[],"requiere":[]},
+    {"flag":"--share","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Genera un enlace para compartir el resultado, si el servicio lo permite.","conflictos":[],"requiere":[]},
+    {"flag":"--secure","argumento":null,"tipo":"boolean","requerido":false,"default":false,"valores":[],"descripcion":"Usa HTTPS para comunicarse con el servicio cuando esta soportado por la version instalada.","conflictos":[],"requiere":[]}
+  ],
   "requisitos": {
-    "permisos": [],
-    "dependencias": [],
-    "paquetes": []
+    "permisos": ["conexion a Internet y acceso a los servidores Speedtest"],
+    "dependencias": ["speedtest-cli; version Python de speedtest-cli o cliente compatible"],
+    "paquetes": ["speedtest-cli (Debian/Ubuntu; otras distribuciones pueden requerir pip o repositorios comunitarios)"]
   },
   "seguridad": {
     "nivel": "medio",
@@ -25,25 +32,29 @@
     "requiere_root": false,
     "requiere_confirmacion": false,
     "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
+      "La prueba genera trafico de subida y descarga y puede consumir datos; ejecútela con moderacion y con permiso de la red.",
+      "El cliente contacta servidores de terceros; compartir resultados puede publicar metadatos de la medicion. La disponibilidad del proyecto/servicio puede variar."
     ]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "gestor_paquetes_o_pip (segun distribucion y version)",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "sudo apt install speedtest-cli",
+      "arch_linux": "AUR: speedtest-cli (verificar disponibilidad y procedencia)",
+      "rhel_centos": "No garantizado en repositorios base; verificar repositorios habilitados"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre":"Medicion resumida","comando":"speedtest-cli --simple","descripcion":"Ejecuta una prueba de latencia, descarga y subida y emite solo el resumen.","resultado_esperado":"Se muestran ping y velocidades medidas; la duracion depende de red y servidor."},
+    {"nombre":"Listar servidores cercanos","comando":"speedtest-cli --list","descripcion":"Consulta los servidores de prueba publicados por el servicio.","resultado_esperado":"Se imprimen identificadores y ubicaciones disponibles."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
-    "variables": [],
-    "validaciones": [],
+    "apto_script": true,
+    "variables": ["servidor_ID"],
+    "validaciones": ["Programar con baja frecuencia, limitar consumo de datos, validar conectividad y no publicar enlaces compartidos sin consentimiento."],
     "rollback": null
   }
 }

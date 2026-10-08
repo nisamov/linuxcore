@@ -1,7 +1,7 @@
 {
   "id": "yes",
   "nombre": "yes",
-  "descripcion": "Documentacion pendiente de completar con la pagina de manual oficial.",
+  "descripcion": "Escribe repetidamente la cadena y (o las cadenas indicadas) hasta que el proceso recibe una señal o se cierra la tubería; no tiene opciones de control portables.",
   "clasificacion": {
     "categoria": "miscelaneo",
     "subcategoria": "general",
@@ -10,10 +10,12 @@
     ]
   },
   "sintaxis": {
-    "principal": "yes",
+    "principal": "yes [cadena ...]",
     "alternativas": []
   },
-  "parametros": [],
+  "parametros": [
+    {"flag": "", "argumento": "cadena ...", "tipo": "string", "requerido": false, "default": "y", "valores": [], "descripcion": "Cadenas que se repiten separadas por espacios; si no se indica ninguna, imprime y.", "conflictos": [], "requiere": []}
+  ],
   "requisitos": {
     "permisos": [],
     "dependencias": [],
@@ -24,26 +26,27 @@
     "destructivo": false,
     "requiere_root": false,
     "requiere_confirmacion": false,
-    "advertencias": [
-      "Completar los parametros consultando la pagina de manual oficial antes de usar el comando."
-    ]
+    "advertencias": ["La salida es potencialmente infinita y puede consumir CPU, ancho de banda o espacio de almacenamiento si se redirige a un archivo; limite la tubería o termine el proceso."]
   },
   "instalacion": {
-    "instalable": false,
-    "metodo": "",
+    "instalable": true,
+    "metodo": "GNU coreutils, normalmente instalado en Linux; las implementaciones pueden diferir.",
     "paquetes": {
-      "debian_ubuntu": "",
-      "arch_linux": "",
-      "rhel_centos": ""
+      "debian_ubuntu": "coreutils (incluido en el sistema)",
+      "arch_linux": "coreutils (incluido en el sistema)",
+      "rhel_centos": "coreutils (incluido en el sistema)"
     }
   },
-  "ejemplos": [],
+  "ejemplos": [
+    {"nombre": "Confirmar una operación", "comando": "yes | head -n 3", "descripcion": "Genera la respuesta predeterminada y limita la salida a tres líneas.", "resultado_esperado": "Tres líneas con y."},
+    {"nombre": "Enviar una respuesta repetida", "comando": "yes no | head -n 4", "descripcion": "Repite la cadena no y detiene el generador cuando head cierra la tubería.", "resultado_esperado": "Cuatro líneas con no."}
+  ],
   "automatizacion": {
     "idempotente": false,
     "interactivo": false,
-    "apto_script": false,
+    "apto_script": true,
     "variables": [],
-    "validaciones": [],
+    "validaciones": ["Conecte la salida a un consumidor con límite o implemente una condición de terminación; no redirija sin límite a disco."],
     "rollback": null
   }
 }
