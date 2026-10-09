@@ -64,6 +64,18 @@ El contenido se desarrolla en español y está orientado tanto al aprendizaje es
 | **`seguridad/`** | Análisis defensivo, ofensivo, criptografía y análisis forense. | Algoritmos de hash, cifrado SSL/SSH, auditoría con `auditd` y herramientas forenses (`foremost`). |
 | **`servicios/`** | Configuración y gestión de demonios, servidores y bases de datos. | Servidores web (Nginx, Apache), BDD (Redis, PostgreSQL), Cron y Journald. |
 
+## LinuxCore.site
+<p align="center">
+  <a href="https://linuxcore.site/">
+    <img src=".github/media/linuxcore-site-preview.png" alt="Vista previa de inuxCore Web, el explorador de comandos Linux" width="100%">
+  </a>
+</p>
+<p align="center">
+  <a href="https://linuxcore.site/">
+    <strong>↗ Abrir LinuxCore Web</strong>
+  </a>
+</p>
+
 ## Colaboradores
 
 <div align="center">
