@@ -1,5 +1,6 @@
-FROM alpine:3 AS fetch
-RUN apk add --no-cache wget curl
+FROM alpine:3.20 AS fetch
+RUN apk update && apk upgrade --no-cache && \
+    apk add --no-cache wget curl
 WORKDIR /site
 
 RUN wget --mirror --convert-links --adjust-extension --page-requisites \
@@ -14,6 +15,7 @@ RUN set -eu; mkdir -p /site/db; \
     done
 
 FROM nginx:alpine
+RUN apk update && apk upgrade --no-cache
 LABEL org.opencontainers.image.source="https://github.com/nisamov/linuxcore" \
       org.opencontainers.image.description="LinuxCore web en local con los datos de la última release" \
       org.opencontainers.image.licenses="MIT"

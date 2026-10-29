@@ -9,6 +9,22 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-09`] - 2026-10-29
+
+## Añadido
+
+- Creada el archivo guía `documentacion/infraestructura/contenedores/docker/creacion_dockerfile.md`.
+
+## Corregido
+
+- Actualizadas dependencias de `docker/Dockerfile` por advertencias de seguridad con 'severidad [8]'.
+
+## Cambiado
+
+- Contenido teórico actualizado en `documentacion/infraestructura/contenedores/docker/teoria_docker.md`.
+
+---
+
 ## [`00-00-01-08`] - 2026-10-28
 
 ## Añadido
