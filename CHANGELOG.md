@@ -9,6 +9,19 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-10`] - 2026-10-30
+
+## Añadido
+
+- Agregada la configuración `documentacion/redes/dhcp/configuracion/dhcpd.conf`
+- Creado y documentados `INSERTS` en `documentacion/bases_de_datos/mysql_mariadb/inserciones.md`
+
+## Cambiado
+
+- El archivo `documentacion/bases_de_datos/mysql_mariadb/creador_roles_y_permisos.md` ha sido renombrado a `documentacion/bases_de_datos/mysql_mariadb/roles_y_permisos.md`
+
+---
+
 ## [`00-00-01-09`] - 2026-10-29
 
 ## Añadido
