@@ -42,6 +42,31 @@ Un **cracker** es un término usado para describir a quien vulnera sistemas o pr
 - **Probabilidad:** posibilidad de que una amenaza se materialice en unas circunstancias determinadas.
 - **Riesgo:** combinación de la probabilidad de que ocurra un incidente y la gravedad de sus consecuencias. En algunos métodos se representa como el producto de probabilidad e impacto, pero la evaluación concreta depende de la metodología utilizada.
 
+## Origen y clasificación de las vulnerabilidades
+
+Una vulnerabilidad es un error en el desarrollo o en la gestión de los sistemas. Según su origen, puede deberse a:
+
+- **Fallos en la implementación de tecnologías (administración):** por ejemplo, usar Telnet en lugar de SSH.
+- **Fallos de configuración (administración):** instalar servicios que no se van a usar y que pueden contener debilidades, o dejar el software con su configuración por defecto.
+- **Fallos de diseño (desarrollo):** desbordamientos de búfer, inyección de código, etc.
+
+Según su ámbito, se clasifican en:
+
+- **Físico:** por ejemplo, salas de sistemas poco seguras a las que puede acceder alguien con intenciones maliciosas.
+- **Organizativo:** falta de personal cualificado, falta de controles, etc.
+- **Tecnológico:** software de sistema sin actualizar, falta de control de aplicaciones (por ejemplo, permitir instalar cualquier software en los equipos de los puestos de trabajo), falta de supervisión de incidentes, redes sin proteger, mal segmentadas o sin redundancia, y mal uso del correo electrónico (como no emplear CCO) o de la navegación.
+
+## Clasificación de las amenazas
+
+Una amenaza es alguien o algo que puede explotar una vulnerabilidad para obtener o impedir el acceso a un activo, o para comprometerlo. Según su origen, pueden ser:
+
+- **Deliberadas:** robo, virus, sabotaje, interceptación, alteración de datos.
+- **Naturales o ambientales:** inundación, terremoto, incendio, corte de corriente.
+- **Accidentales:** errores humanos.
+- **Fallos técnicos:** mal funcionamiento de un equipo.
+
+Si una amenaza se materializa, puede causar daños o pérdidas que afecten a la confidencialidad y a la integridad de la información, o a la disponibilidad de los sistemas.
+
 ## Vulnerabilidades, pruebas y código de explotación
 
 Una **vulnerabilidad de día cero** (*zero-day*) es una vulnerabilidad que todavía no cuenta con una solución disponible para quienes administran o mantienen el sistema afectado. El término se refiere a la falta de tiempo o de una corrección eficaz; no implica necesariamente que nadie conozca la vulnerabilidad.
@@ -56,7 +81,7 @@ El **malware** es software creado para realizar acciones no autorizadas o perjud
 
 ## Identificación y valoración de vulnerabilidades
 
-**CVE** (*Common Vulnerabilities and Exposures*) es un sistema de identificadores públicos para vulnerabilidades conocidas. Un identificador tiene el formato `CVE-AAAA-NNNN`, donde `AAAA` indica el año y la secuencia numérica puede tener cuatro o más dígitos. MITRE gestiona el programa CVE y coordina la asignación de identificadores junto con organizaciones autorizadas.
+**CVE** (*Common Vulnerabilities and Exposures*) es un sistema de identificadores públicos para vulnerabilidades conocidas. Un identificador tiene el formato `CVE-AAAA-NNNN`, donde `AAAA` indica el año y la secuencia numérica puede tener cuatro o más dígitos. MITRE gestiona el programa CVE y coordina la asignación de identificadores junto con organizaciones autorizadas. MITRE es una organización estadounidense sin ánimo de lucro. El sitio web oficial del programa (cve.org) lista las vulnerabilidades descubiertas y aceptadas, con enlaces a fuentes que ofrecen más información y a los parches o soluciones de seguridad aportados para mitigarlas.
 
 La **NVD** (*National Vulnerability Database*) es una base de datos mantenida por el NIST estadounidense. Incluye información y análisis sobre vulnerabilidades identificadas mediante CVE. Un identificador CVE sirve para referirse a una vulnerabilidad; por sí solo no expresa su gravedad.
 
@@ -86,6 +111,29 @@ En **CVSS 3.1**, el vector base puede expresarse, por ejemplo, como `CVSS:3.1/AV
 - **Trazabilidad:** permite reconstruir qué acciones se realizaron, cuándo y, cuando es posible, quién las realizó. Los registros deben protegerse para que sean fiables.
 - **No repudio:** aporta evidencias que dificultan negar la participación en una acción o comunicación. Las firmas digitales pueden ayudar a demostrar el origen e integridad de un mensaje; acreditar su recepción suele requerir mecanismos adicionales, como un acuse de recibo verificable.
 
+## Ciberataques
+
+Un **ciberataque** es una maniobra ofensiva de explotación deliberada de una vulnerabilidad con el objetivo de tomar el control de un sistema, desestabilizarlo o aprovecharse de él, con la finalidad última de robar información o hacer daño a su objetivo. Utiliza código malicioso o exploits para comprometer aplicaciones.
+
+### Tipos de ciberataque según su efecto
+
+- **Interrupción:** afecta a la disponibilidad. El recurso deja de estar accesible.
+- **Intercepción:** afecta a la confidencialidad. Un tercero accede a información que no le corresponde.
+- **Modificación:** afecta a la integridad. Un tercero altera la información o el sistema.
+- **Fabricación:** afecta a la autenticación. Un tercero introduce elementos falsos haciéndolos pasar por legítimos.
+
+### Fases de un ataque
+
+**Footprinting:** consiste en recopilar información sobre la víctima. Se suele hacer en fuentes abiertas, habitualmente Internet (buscadores, whois, etc.), y también pueden emplearse técnicas de ingeniería social. La información obtenida se analiza después para encontrar vulnerabilidades.
+
+**Fingerprinting:** emplea la información de la fase anterior para descubrir fallos de seguridad en la infraestructura. Se lleva a cabo mediante escaneos o exploración de la red objetivo para descubrir vulnerabilidades en los dispositivos. Una herramienta típica de esta fase es el escáner de puertos.
+
+**Intrusión y explotación:** se utilizan las vulnerabilidades descubiertas con el objetivo de penetrar y comprometer el sistema para causar algún perjuicio.
+
+**Mantener el acceso:** tras una intrusión, hay que mantener la vía abierta sin ser descubierto, para seguir explorando el sistema o acceder a otros equipos de la red. Se usan herramientas como puertas traseras (*backdoors*) y *rootkits*. En otros tipos de ataque, como la denegación de servicio, esta fase no se lleva a cabo.
+
+**Borrar huellas:** busca pasar desapercibido para continuar en el sistema sin ser detectado y no ser identificado mediante técnicas de análisis forense. Se logra ocultando las direcciones IP y MAC del atacante y editando los registros (*logs*) del sistema que contienen evidencias del ataque.
+
 ## Amenazas y tipos de ataque
 
 - **Virus:** malware que se inserta en archivos o programas y se propaga cuando se ejecuta el elemento infectado.
@@ -105,5 +153,19 @@ En **CVSS 3.1**, el vector base puede expresarse, por ejemplo, como `CVSS:3.1/AV
 - **Puerta trasera:** mecanismo oculto o no autorizado que permite volver a acceder a un sistema o eludir sus controles habituales.
 - **Bomba lógica:** código que se activa cuando se cumple una condición o llega un momento determinado.
 - **Flooding:** envío de una cantidad elevada de solicitudes o tráfico para consumir recursos y degradar o interrumpir un servicio. Puede formar parte de una denegación de servicio.
+
+### Categorías de ataques
+
+- **Ataques para obtener información (*information gathering*):** primer paso de una auditoría de caja negra o de un ataque. Se recopila información de la organización mediante footprinting (búsqueda pasiva, sin interactuar con sus sistemas) y fingerprinting (búsqueda activa, con interacción).
+- **Ataques a nivel de red:** atacan protocolos o mecanismos de la capa de red, como los protocolos de enrutamiento (RIP, OSPF, BGP), el túnel ICMP, el secuestro de sesión (*session hijacking*), el enrutamiento desde origen (*source routing*), los mensajes ICMP Redirect y los ataques basados en fragmentación IP (*Tiny Fragment* y *Teardrop*).
+- **Ataques de monitorización:** el *sniffing* consiste en que una máquina escuche el tráfico de red aunque los mensajes no vayan dirigidos a ella. La suplantación de un servidor DHCP engaña a otros equipos para que crean que el atacante es su puerta de enlace.
+- **Ataques de autenticación:** intentan obtener credenciales o eludir la autenticación, por ejemplo mediante fuerza bruta o diccionario.
+- **Ataques de denegación de servicio:** buscan impedir o degradar el acceso a un servicio.
+- **Ingeniería social:** manipulan a las personas para obtener información o accesos.
+- **Malware:** software malicioso como virus, gusanos, spyware o ransomware.
+
+### Suplantación de IP
+
+El **IP spoofing** consiste en falsear la dirección IP de origen de los paquetes para hacerse pasar por otro sistema. Su principal dificultad es mantener la dirección falseada de forma efectiva: para que tenga éxito, normalmente hay que dejar fuera de juego momentáneamente al sistema suplantado (por ejemplo, con una denegación de servicio), ya que, si no, este respondería e interferiría en la comunicación.
 
 Una vulnerabilidad es una debilidad que puede ser aprovechada; no es, por sí misma, un ataque. Del mismo modo, no todas las amenazas son malware ni todos los incidentes tienen origen malicioso.

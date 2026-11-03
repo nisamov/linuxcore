@@ -1,4 +1,3 @@
-
 # Gestión de Roles y Permisos en Base de Datos
 
 En lugar de configurar los privilegios de cada usuario individualmente, las mejores prácticas dictan **crear roles y asignarles permisos**.

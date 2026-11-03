@@ -9,16 +9,51 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-11`] - 2026-11-03
+
+## Añadido
+
+- Creado y documentado el archivo `documentacion/bases_de_datos/mysql_mariadb/contruccion_guiones/construccion_guiones.md`.
+- Creación y documentación de los siguientes archivos en directorio `documentacion/seguridad`.
+  * `arp_poisoning.md`
+  * `arp.md`
+  * `ataques_enrutamiento.md`
+  * `ataques_fragmentacion.md`
+  * `dhcp_falso.md`
+  * `dispositivos_de_red.md`
+  * `ethernet.md`
+  * `fingerprinting.md`
+  * `footprinting.md`
+  * `icmp_redirect.md`
+  * `icmp.md`
+  * `ipv4.md`
+  * `session_hijacking.md`
+  * `sniffing.md`
+  * `source_routing.md`
+  * `tcp_udp.md`
+  * `teoria_seguridad.md`
+
+## Cambiado
+
+- Alterado el nombre del directorio `documentacion/bases_de_datos/mysql_mariadb/contruccion_guiones`.
+- Cambiadas las extensiones y el formato de cada archivo `.sql` de la ruta `documentacion/bases_de_datos/mysql_mariadb/contruccion_guiones`.
+
+## Corregido
+
+- Eliminado espacio sobrante al inicio del archivo `documentacion/bases_de_datos/mysql_mariadb/roles_y_permisos.md`.
+
+---
+
 ## [`00-00-01-10`] - 2026-10-30
 
 ## Añadido
 
-- Agregada la configuración `documentacion/redes/dhcp/configuracion/dhcpd.conf`
-- Creado y documentados `INSERTS` en `documentacion/bases_de_datos/mysql_mariadb/inserciones.md`
+- Agregada la configuración `documentacion/redes/dhcp/configuracion/dhcpd.conf`.
+- Creado y documentados `INSERTS` en `documentacion/bases_de_datos/mysql_mariadb/inserciones.md`.
 
 ## Cambiado
 
-- El archivo `documentacion/bases_de_datos/mysql_mariadb/creador_roles_y_permisos.md` ha sido renombrado a `documentacion/bases_de_datos/mysql_mariadb/roles_y_permisos.md`
+- El archivo `documentacion/bases_de_datos/mysql_mariadb/creador_roles_y_permisos.md` ha sido renombrado a `documentacion/bases_de_datos/mysql_mariadb/roles_y_permisos.md`.
 
 ---
 
@@ -28,13 +63,13 @@
 
 - Creada el archivo guía `documentacion/infraestructura/contenedores/docker/creacion_dockerfile.md`.
 
-## Corregido
-
-- Actualizadas dependencias de `docker/Dockerfile` por advertencias de seguridad con 'severidad [8]'.
-
 ## Cambiado
 
 - Contenido teórico actualizado en `documentacion/infraestructura/contenedores/docker/teoria_docker.md`.
+
+## Corregido
+
+- Actualizadas dependencias de `docker/Dockerfile` por advertencias de seguridad con 'severidad [8]'.
 
 ---
 
