@@ -9,6 +9,18 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-13`] - 2026-11-03
+
+## Corregido
+
+- Corregidas rutas y referencias de `README.md`.
+
+## Cambiado
+
+- Ruta recomendada en `README.md` para `documentacion/bases_de_datos` sustituida por tabla de contenido general.
+
+---
+
 ## [`00-00-01-12`] - 2026-11-03
 
 ## Cambiado

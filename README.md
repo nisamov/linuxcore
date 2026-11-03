@@ -284,21 +284,23 @@ Cada ruta se lee en el orden indicado.
 
 ### Bases de datos
 
-MySQL / MariaDB, en orden de lectura recomendado:
-
-1. [Fundamentos](documentacion/bases_de_datos/mysql_mariadb/fundamentos.md)
-2. [Instalación y servicio](documentacion/bases_de_datos/mysql_mariadb/instalacion_y_servicio.md)
-3. [Configuración del servidor](documentacion/bases_de_datos/mysql_mariadb/configuracion_servidor.md)
-4. [Bases y tablas](documentacion/bases_de_datos/mysql_mariadb/bases_y_tablas.md)
-5. [Consultas y funciones](documentacion/bases_de_datos/mysql_mariadb/consultas_y_funciones.md)
-6. [Joins y uniones](documentacion/bases_de_datos/mysql_mariadb/joins_y_uniones.md)
-7. [Usuarios y permisos](documentacion/bases_de_datos/mysql_mariadb/usuarios_y_permisos.md)
-8. [Seguridad](documentacion/bases_de_datos/mysql_mariadb/seguridad.md)
-9. [Transacciones y concurrencia](documentacion/bases_de_datos/mysql_mariadb/transacciones_y_concurrencia.md)
-10. [Metadatos y caché de consultas](documentacion/bases_de_datos/mysql_mariadb/metadatos_y_cache_de_consultas.md)
-11. [Copias de seguridad y recuperación](documentacion/bases_de_datos/mysql_mariadb/copias_seguridad_y_recuperacion.md)
-
-Scripts SQL: [`declaracion`](documentacion/bases_de_datos/mysql_mariadb/sql/declaracion.sql) · [`condicionales`](documentacion/bases_de_datos/mysql_mariadb/sql/condicionales.sql) · [`funciones`](documentacion/bases_de_datos/mysql_mariadb/sql/funciones.sql) · [`delimitador`](documentacion/bases_de_datos/mysql_mariadb/sql/delimitador.sql)
+| Tema | Documento | Contenido |
+|---|---|---|
+| Fundamentos | [fundamentos.md](documentacion/bases_de_datos/mysql_mariadb/fundamentos.md) | Conceptos básicos y arquitectura general de MySQL/MariaDB |
+| Instalación y servicio | [instalacion_y_servicio.md](documentacion/bases_de_datos/mysql_mariadb/instalacion_y_servicio.md) | Guía de instalación y gestión del servicio del sistema |
+| Configuración del servidor | [configuracion_servidor.md](documentacion/bases_de_datos/mysql_mariadb/configuracion_servidor.md) | Parámetros del motor, archivos de configuración y ajustes |
+| Bases y tablas | [bases_y_tablas.md](documentacion/bases_de_datos/mysql_mariadb/bases_y_tablas.md) | Creación, modificación y estructura de bases de datos y tablas |
+| Consultas y funciones | [consultas_y_funciones.md](documentacion/bases_de_datos/mysql_mariadb/consultas_y_funciones.md) | Consultas SQL, manipulación de datos y funciones integradas |
+| Joins y uniones | [joins_y_uniones.md](documentacion/bases_de_datos/mysql_mariadb/joins_y_uniones.md) | Combinación de tablas mediante tipos de JOIN y UNION |
+| Usuarios y permisos | [usuarios_y_permisos.md](documentacion/bases_de_datos/mysql_mariadb/usuarios_y_permisos.md) | Gestión de cuentas de usuario y asignación de privilegios |
+| Seguridad | [seguridad.md](documentacion/bases_de_datos/mysql_mariadb/seguridad.md) | Buenas prácticas, hardening y protección de datos |
+| Transacciones y concurrencia | [transacciones_y_concurrencia.md](documentacion/bases_de_datos/mysql_mariadb/transacciones_y_concurrencia.md) | Control transaccional (ACID), bloqueos y aislamiento |
+| Metadatos y caché de consultas | [metadatos_y_cache_de_consultas.md](documentacion/bases_de_datos/mysql_mariadb/metadatos_y_cache_de_consultas.md) | Inspección de metadatos, esquemas del sistema y caché |
+| Copias de seguridad y recuperación | [copias_seguridad_y_recuperacion.md](documentacion/bases_de_datos/mysql_mariadb/copias_seguridad_y_recuperacion.md) | Estrategias de backup (mysqldump) y restauración |
+| Construcción de guiones | [declaracion.md](documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/declaracion.md) | Declaración y uso de variables en scripts |
+| Construcción de guiones | [condicionales.md](documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/condicionales.md) | Estructuras de control de flujo (IF, CASE) |
+| Construcción de guiones | [funciones.md](documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/funciones.md) | Definición y uso de funciones personalizadas |
+| Construcción de guiones | [delimitador.md](documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/delimitador.md) | Uso y sintaxis del comando DELIMITER |
 
 ### Programación
 
