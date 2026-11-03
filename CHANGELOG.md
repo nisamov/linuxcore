@@ -9,6 +9,22 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-15`] - 2026-11-04
+
+## Añadido
+
+- Agregada teoría en `documentacion/redes/fundamentos/teoria_puertos.md`.
+
+## Cambiado
+
+- Reestructuración completa general de formato sobre `README.md`.
+
+## Eliminado
+
+- Eliminada linea inicial de `.github/linuxcommands/LinuxCommandsModel.md`, requerido para validez de rutas y limpieza de contenido referente.
+
+---
+
 ## [`00-00-01-14`] - 2026-11-03
 
 ## Añadido

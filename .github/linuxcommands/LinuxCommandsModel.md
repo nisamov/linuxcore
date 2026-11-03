@@ -10,7 +10,6 @@
                      \$$                                \$$             \$$$$$$$$ \$$ \$$   \$$  \$$$$$$  \$$   \$$        \$$$$$$   \$$$$$$  \$$  \$$  \$$ \$$  \$$  \$$  \$$$$$$$ \$$   \$$  \$$$$$$$ \$$$$$$$              \$$                              \$$ Por Andrés Ruslan Abadías Otal / Nisamov
 
 Linux Commands | Todos los derechos pertenecientes a Nisamov -->
-> [!] Este Documento está bajo revisión, está siendo reemplazado por [index.adoc](/document_management/index.adoc) y su lista de comandos <!-- Pues esto es imposible de leer en el formato en el que se encuentra, no está hecho para la lectura humana-->
 ```
 #---------------------------#---------------------------------------------------------------------------------------------------#---------------------------------------------------------------#-----------------------------------------------------------#---------------------------------------------------------------------------------------------------------------------------------------------------#
 |   COMANDO                 |       DESCRIPCION                                                                                 |      MUESTRA ESTRUCTURAL                                      |     MUESTRA PRACTICA                                      |       EXPLICACION                                                                                                                                 |
