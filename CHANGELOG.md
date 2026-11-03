@@ -9,6 +9,24 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-12`] - 2026-11-03
+
+## Cambiado
+
+- Cambiado indicador en tabla de `README.md` con referencia a ruta `documentacion/seguridad/osint`.
+
+## Corregido
+
+- Cambiado el pié de página de `TODO.md`, `CHANGELOG.md`.
+- Corregida errata en el nombre del directorio `documentacion/bases_de_datos/mysql_mariadb/construccion_guiones`.
+- Agregado separador `---` en `README.md` como espacio entre **Colaboradores** y **Pié de página**.
+
+## Eliminado
+
+- Eliminada línea en `TODO.md` relacionada con la categoría `programación`.
+
+---
+
 ## [`00-00-01-11`] - 2026-11-03
 
 ## Añadido
@@ -316,7 +334,7 @@
 ---
 
 <div align="center">
-  <p><b>Linux Core - Nisamov | MIT License - 2026</b></p>
+  <p><b>Linux Core - Nisamov | <a href="LICENSE">Licencia MIT</a> - 2026</b></p>
   <p><b>Contacto:</b> <a href="mailto:nisamov.contact@gmail.com">nisamov.contact@gmail.com</a></p>
   <p align="center">
     <img src=".github/media/bottom.png" alt="LinuxCore Footer" width="100%">

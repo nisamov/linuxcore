@@ -254,7 +254,7 @@ Cada ruta se lee en el orden indicado.
 | Forense | [Planificación de auditoría](documentacion/seguridad/forense/auditoria/audit_planning.md) | Auditoría con `auditd`. |
 | Forense | [Foremost](documentacion/seguridad/forense/herramientas/foremost.md) | Recuperación de archivos. |
 | Forense | [Definición de datos](documentacion/seguridad/forense/herramientas/datadefinition.md) | Conceptos de datos. |
-| OSINT | `seguridad/osint/` | En preparación. |
+| OSINT | `seguridad/osint/` | Herramientas y teoría |
 
 ### Servicios
 
@@ -383,6 +383,8 @@ python3 .github/scripts/validate_commands.py
     <img src="https://contrib.rocks/image?repo=Nisamov/linuxcore" alt="Contribuyentes de LinuxCore" />
   </a>
 </div>
+
+---
 
 <div align="center">
   <p><b>Linux Core - Nisamov | <a href="LICENSE">Licencia MIT</a> - 2026</b></p>

@@ -49,13 +49,11 @@
 - [ ] Bucles y recorridos en Bash - `documentacion/programacion/bash/bucles.sh`
 - [ ] Arrays y manipulación de cadenas en Bash - `documentacion/programacion/bash/arrays_y_cadenas.sh`
 - [ ] Funciones y reutilización de código en Bash - `documentacion/programacion/bash/funciones.sh`
-- [ ] Introducción a Python para automatización de tareas Linux - `documentacion/programacion/python/introduccion.md`
-
 
 ---
 
 <div align="center">
-  <p><b>Linux Core - Nisamov | MIT License - 2026</b></p>
+  <p><b>Linux Core - Nisamov | <a href="LICENSE">Licencia MIT</a> - 2026</b></p>
   <p><b>Contacto:</b> <a href="mailto:nisamov.contact@gmail.com">nisamov.contact@gmail.com</a></p>
   <p align="center">
     <img src=".github/media/bottom.png" alt="LinuxCore Footer" width="100%">
