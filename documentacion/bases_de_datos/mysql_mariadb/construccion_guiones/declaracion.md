@@ -66,8 +66,6 @@ END //
 DELIMITER ;
 ```
 
-Fuera del bloque, `PRECIO` y `UNIDADES` ya no existen. Los tipos disponibles están en [tipos_y_operaciones.md](tipos_y_operaciones.md).
-
 ## Diferencias entre ambos tipos
 
 - Sesión: lleva `@`, no se declara, no lleva tipo y dura toda la conexión.

@@ -54,3 +54,16 @@ echo "scale=2; 5 / 2" | bc                # output: 2.50
 
 # Con `awk`:
 awk 'BEGIN {print 5 / 2}'                 # output: 2.5
+
+# ";"    Separador entre órdenes, permite ejecutar múltiples comandos en una sola línea.
+## apt update ; apt upgrade ;
+# "&&"   Ejecuta el segundo comando solo si el primero tuvo éxito (retorno 0).
+## apt update && apt upgrade -y
+# "||"   Ejecuta el segundo comando solo si el primero falló (retorno distinto de 0).
+## apt update || rm -rf /tmp
+# "&"    Ejecuta el comando en segundo plano, permitiendo continuar con la terminal.
+## ( cmd_1 && cmd_2 ) || ( cmd_3 & cmd_4 )
+# "()"   Agrupa comandos.
+## ( cmd_1 && cmd_2 ) || ( cmd_3 & cmd_4 )
+# "{}"    Agrupa comandos.
+## { cmd_1 && cmd_2; } || { cmd_3 & cmd_4; }

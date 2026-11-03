@@ -9,6 +9,32 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-14`] - 2026-11-03
+
+## Añadido
+
+- Agregado contenido en `documentacion/programacion/bash/operadores_aritmeticos.sh`.
+- Creada ruta `.github/linuxcommands` y asignado contenido de origen como documentación de desarrollo.
+  * `.github/linuxcommands/Directorios.txt`.
+  * `.github/linuxcommands/LinuxCommandsModel.md`.
+  * `.github/linuxcommands/LinuxCommandsOrigen.md`.
+  * `.github/linuxcommands/README.md`.
+- Creados diferentes archivos.
+  * `documentacion/programacion/bash/alias.sh`.
+  * `documentacion/programacion/bash/argumentos.sh`.
+  * `documentacion/programacion/bash/contar.sh`.
+  * `documentacion/programacion/bash/depuracion.sh`.
+  * `documentacion/programacion/bash/fechas.sh`.
+  * `documentacion/programacion/bash/redirecciones.sh`.
+  * `documentacion/programacion/bash/tuberias.sh`.
+- Agregada cuenta secundaria @NisamovSandbox como `CODEOWNER` en `.github/CODEOWNERS`.
+
+## Eliminado
+
+- Eliminada `linea 69` en `documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/declaracion.md` por enlace roto e irrelevancia de contenido.
+
+---
+
 ## [`00-00-01-13`] - 2026-11-03
 
 ## Corregido
