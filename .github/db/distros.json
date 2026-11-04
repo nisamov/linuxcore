@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "total_registros": 62
+    "total_registros": 63
   },
   "distribuciones": [
     {
@@ -122,6 +122,24 @@
         "https://www.bodhilinux.com/w/release-cycle/"
       ],
       "archivo_fuente": "json/distribuciones/bodhi_linux.json"
+    },
+    {
+      "nombre": "CachyOS",
+      "descripcion": "Distribución basada en Arch Linux, orientada al rendimiento, con kernels y paquetes optimizados para distintas microarquitecturas x86-64.",
+      "web_oficial": "https://cachyos.org/",
+      "fecha_origen": "2021",
+      "autores": [
+        "Peter Jung"
+      ],
+      "distribucion_base": "Arch Linux",
+      "gestor_paquetes": [
+        "pacman"
+      ],
+      "fuentes": [
+        "https://cachyos.org/",
+        "https://wiki.cachyos.org/"
+      ],
+      "archivo_fuente": "json/distribuciones/cachyos.json"
     },
     {
       "nombre": "CAINE",
