@@ -99,7 +99,7 @@ sudo docker run -v /ruta/en/equipo:/usr/share/nginx/html nginx
 | `docker ps -a` | Lista todos los contenedores, incluidos los detenidos. |
 | `docker start [id_o_nombre]` | Inicia un contenedor detenido. |
 | `docker stop [id_o_nombre]` | Detiene un contenedor en ejecución. |
-| `docker rm [id_o_nombre]` | Elimina un contenedor detenido. Los datos guardados en un volumen se conservan; los del propio contenedor se pierden. |
+| `docker rm [id_o_nombre]` | Elimina un contenedor detenido. Los datos guardados en un volumen se conservan, los del propio contenedor se pierden. |
 | `docker rm -f [id_o_nombre]` | Fuerza la eliminación, aunque el contenedor esté en ejecución. |
 | `docker container prune` | Elimina todos los contenedores detenidos. |
 | `docker logs [id_o_nombre]` | Muestra los registros (logs) del contenedor. |

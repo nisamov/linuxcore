@@ -378,7 +378,7 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 
 **Samba**
 
-- [General de Samba](documentacion/redes/samba/general_samba.md): compartición con Windows; ver [`smb.conf`](documentacion/redes/samba/smb.conf).
+- [General de Samba](documentacion/redes/samba/general_samba.md): compartición con Windows; ver [`smb.conf`](documentacion/redes/samba/smb.conf), [`smb_test.conf`](documentacion/redes/samba/smb_test.conf) y [`smb_test2.conf`](documentacion/redes/samba/smb_test2.conf).
 
 </td>
     <td width="50%" valign="top">
@@ -543,6 +543,10 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 - [Docker: teoría](documentacion/infraestructura/contenedores/docker/teoria_docker.md): conceptos.
 - [Docker: instalación](documentacion/infraestructura/contenedores/docker/instalacion.md): puesta en marcha.
 - [Docker: crear un Dockerfile](documentacion/infraestructura/contenedores/docker/creacion_dockerfile.md): construcción de imágenes.
+- [Docker: volúmenes](documentacion/infraestructura/contenedores/docker/volumenes.md): persistencia de datos.
+- [Docker: gestión de redes](documentacion/infraestructura/contenedores/docker/gestion_redes.md): redes entre contenedores.
+- [Docker: variables de entorno](documentacion/infraestructura/contenedores/docker/variables_entorno.md): configuración de contenedores.
+- [Docker Compose](documentacion/infraestructura/contenedores/docker/docker_compose.md): aplicaciones multicontenedor.
 - [Kubernetes](documentacion/infraestructura/contenedores/kubernetes/teoria_kubernetes.md): orquestación.
 - [LXC](documentacion/infraestructura/contenedores/lxc/teoria_lxc.md): contenedores de sistema.
 

@@ -9,6 +9,24 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-16`] - 2026-11-04
+
+## Añadido
+
+- Creación y documentación de `documentacion/infraestructura/contenedores/docker/gestion_redes.md`.
+- Creación y documentación de `documentacion/infraestructura/contenedores/docker/variables_entorno.md`.
+- Creación y documentación de `documentacion/infraestructura/contenedores/docker/volumenes.md`.
+- Creación y documentación de `documentacion/infraestructura/contenedores/docker/docker_compose.md`.
+
+## Cambiado
+
+- Actualizado el contenido en `documentacion/infraestructura/contenedores/docker/gestion_redes.md`.
+- Actualizado el contenido en `documentacion/infraestructura/contenedores/docker/teoria_docker.md`.
+- Actualizado el contenido en `README.md`.
+- Actualizado el contenido en `.gitattributes`.
+
+---
+
 ## [`00-00-01-15`] - 2026-11-04
 
 ## Añadido

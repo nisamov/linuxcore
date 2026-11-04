@@ -1,35 +1,13 @@
+* text=auto eol=lf
+*.sh text eol=lf
+
 *.md linguist-detectable=true
 *.md linguist-documentation=false
-
 *.json linguist-detectable=true
 *.yaml linguist-detectable=true
 *.yml linguist-detectable=true
-*.xml linguist-detectable=true
-*.toml linguist-detectable=true
 
 *.conf linguist-detectable=true
 *.conf linguist-language=INI
 
-*.cnf linguist-detectable=true
-*.cnf linguist-language=INI
-
-*.config linguist-detectable=true
-*.config linguist-language=XML
-
-*.cfg linguist-detectable=true
-*.cfg linguist-language=INI
-
-*.ini linguist-detectable=true
-*.ini linguist-language=INI
-
-*.properties linguist-detectable=true
-*.properties linguist-language=Java-Properties
-
-*.sh linguist-detectable=true
-*.sh linguist-language=Shell
-
-*.bash linguist-detectable=true
-*.bash linguist-language=Shell
-
-*.zsh linguist-detectable=true
-*.zsh linguist-language=Shell
+.github/db/*.json linguist-generated=true
