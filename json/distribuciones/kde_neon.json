@@ -1,0 +1,12 @@
+{
+    "nombre":  "KDE Neon",
+    "descripcion":  "KDE Neon es una distribución de Linux basada en Ubuntu que ofrece la última versión del entorno de escritorio KDE.",
+    "web_oficial":  "https://neon.kde.org/",
+    "fecha_origen":  "Enero 2016",
+    "autores":  [
+                    "Jonathan Riddell"
+                ],
+    "distribucion_base":  "Arch Linux",
+    "gestor_paquetes":  ["apt"],
+    "fuentes": ["https://neon.kde.org/"]
+}

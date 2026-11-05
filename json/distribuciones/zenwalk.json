@@ -1,0 +1,12 @@
+{
+    "nombre":  "Zenwalk",
+    "descripcion":  "Zenwalk es una distribución de Linux basada en Slackware que utiliza el entorno de escritorio Xfce.",
+    "web_oficial":  "http://www.zenwalk.org/",
+    "fecha_origen":  "2004",
+    "autores":  [
+                    "Jean-Philippe Guillemin"
+                ],
+    "distribucion_base":  "Slackware",
+    "gestor_paquetes":  ["netpkg"],
+    "fuentes": ["https://www.zenwalk.org/"]
+}

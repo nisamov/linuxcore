@@ -9,6 +9,26 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-17`] - 2026-11-05
+
+## Añadido
+
+- Creación de `documentacion/programacion/php/funciones.php`.
+- Asignación de nuevas distribuciones:
+  * `json/distribuciones/zenwalk.json`.
+  * `json/distribuciones/kde_neon.json`.
+  * `json/distribuciones/gentoo.json`.
+  * `json/distribuciones/devuan.json`.
+- Creación y documentación de `documentacion/infraestructura/contenedores/docker/persistencia_datos.md`.
+
+## Cambiado
+
+- Marcado `dd` como operación destructiva y añadidas advertencias de seguridad y riesgos para sus ejemplos en `json/comandos/compresion/dd.json`.
+- Actualizadas las imágenes base de `docker/Dockerfile` a Alpine 3.24.
+- Configurado `.github/workflows/commands_db_gen.yaml` para disparar la publicación Docker después de crear un release.
+
+---
+
 ## [`00-00-01-16`] - 2026-11-04
 
 ## Añadido

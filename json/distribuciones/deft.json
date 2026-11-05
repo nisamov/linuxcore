@@ -1,13 +1,13 @@
 {
     "nombre":  "DEFT Linux",
-    "descripcion":  "",
+    "descripcion":  "Digital Evidence & Forensic Toolkit: Herramientas para Evidencia Digital y Forense.",
     "web_oficial":  "https://www.deftlinux.net/",
-    "fecha_origen":  "",
+    "fecha_origen":  "2009-10-20",
     "autores":  [
                     "",
                     ""
                 ],
-    "distribucion_base":  "",
-    "gestor_paquetes":  [],
+    "distribucion_base":  "debian",
+    "gestor_paquetes":  ["apt"],
     "fuentes": ["https://www.deftlinux.net/"]
 }

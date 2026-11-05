@@ -31,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
 
     steps:
       - name: Checkout repositorio
@@ -93,3 +94,7 @@ jobs:
           gh release create latest .github/db/commands.json .github/db/distros.json \
             --title "$TITULO_RELEASE" \
             --notes "Archivos JSON compilados automáticamente."
+
+          # Los releases creados con GITHUB_TOKEN no disparan el evento release.
+          # Despacha explícitamente la publicación de la imagen Docker tras crear el release.
+          gh workflow run docker-publish.yaml --ref main

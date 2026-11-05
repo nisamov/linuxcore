@@ -1,4 +1,4 @@
-FROM alpine:3.20 AS fetch
+FROM alpine:3.24 AS fetch
 RUN apk update && apk upgrade --no-cache && \
     apk add --no-cache wget curl
 WORKDIR /site
@@ -14,7 +14,7 @@ RUN set -eu; mkdir -p /site/db; \
       test -s "/site/db/$f"; \
     done
 
-FROM nginx:alpine
+FROM nginx:alpine3.24
 RUN apk update && apk upgrade --no-cache
 LABEL org.opencontainers.image.source="https://github.com/nisamov/linuxcore" \
       org.opencontainers.image.description="LinuxCore web en local con los datos de la última release" \

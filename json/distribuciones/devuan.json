@@ -1,0 +1,13 @@
+{
+    "nombre":  "Devuan",
+    "descripcion":  "Devuan GNU+Linux es una bifurcación de Debian sin systemd que permite a los usuarios recuperar el control sobre su sistema evitando enredos innecesarios y garantizando Init Freedom.",
+    "web_oficial":  "https://devuan.org/",
+    "fecha_origen":  "27 de noviembre de 2014",
+    "autores":  [
+                    "",
+                    ""
+                ],
+    "distribucion_base":  "Debian",
+    "gestor_paquetes":  ["apt"],
+    "fuentes": ["https://devuan.org/"]
+}

@@ -1,0 +1,12 @@
+{
+    "nombre":  "Gentoo",
+    "descripcion":  "Gentoo es un sistema operativo de código abierto basado en Linux que utiliza un sistema de paquetes personalizable y flexible.",
+    "web_oficial":  "https://www.gentoo.org/",
+    "fecha_origen":  "Diciembre 1999",
+    "autores":  [
+                    "Daniel Robbins"
+                ],
+    "distribucion_base":  "Enoch",
+    "gestor_paquetes":  ["Portage"],
+    "fuentes": ["https://www.gentoo.org/"]
+}
