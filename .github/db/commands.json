@@ -17853,11 +17853,15 @@
         "paquetes": []
       },
       "seguridad": {
-        "nivel": "medio",
-        "destructivo": false,
+        "nivel": "alto",
+        "destructivo": true,
         "requiere_root": false,
-        "requiere_confirmacion": false,
-        "advertencias": []
+        "requiere_confirmacion": true,
+        "advertencias": [
+          "`dd` escribe directamente en el destino y puede sobrescribir o destruir datos sin pedir confirmación; un error en `of=` puede inutilizar un archivo o dispositivo.",
+          "Antes de ejecutar, verifique dos veces `if=` y `of=`, confirme la identidad y capacidad del dispositivo de destino y asegure una copia de seguridad recuperable.",
+          "Use privilegios mínimos y no ejecute ejemplos que escriban en dispositivos reales hasta comprobar cuidadosamente el destino."
+        ]
       },
       "instalacion": {
         "instalable": false,
@@ -17872,11 +17876,11 @@
       "ejemplos": [
         {
           "uso": "dd if=origen.iso of=/dev/sdX bs=4M status=progress",
-          "explicacion": "Crea un USB arrancable copiando la imagen ISO al dispositivo /dev/sdX, mostrando el progreso del proceso."
+          "explicacion": "Crea un USB arrancable copiando la imagen ISO al dispositivo /dev/sdX, mostrando el progreso. OPERACIÓN DESTRUCTIVA: sobrescribe el contenido del dispositivo indicado; confirme que /dev/sdX identifica el USB correcto antes de ejecutarla."
         },
         {
           "uso": "dd if=/dev/sda of=respaldo_mbr.img bs=512 count=1",
-          "explicacion": "Realiza un respaldo del Registro de Arranque Principal (MBR) copiando exactamente los primeros 512 bytes del disco /dev/sda."
+          "explicacion": "Realiza un respaldo del Registro de Arranque Principal (MBR) copiando exactamente los primeros 512 bytes del disco /dev/sda. Verifique que el origen sea el disco correcto y que el archivo de salida no sea importante ni se sobrescriba por error."
         }
       ],
       "automatizacion": {

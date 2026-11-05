@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "total_registros": 63
+    "total_registros": 67
   },
   "distribuciones": [
     {
@@ -218,19 +218,39 @@
     },
     {
       "nombre": "DEFT Linux",
-      "descripcion": "",
+      "descripcion": "Digital Evidence & Forensic Toolkit: Herramientas para Evidencia Digital y Forense.",
       "web_oficial": "https://www.deftlinux.net/",
-      "fecha_origen": "",
+      "fecha_origen": "2009-10-20",
       "autores": [
         "",
         ""
       ],
-      "distribucion_base": "",
-      "gestor_paquetes": [],
+      "distribucion_base": "debian",
+      "gestor_paquetes": [
+        "apt"
+      ],
       "fuentes": [
         "https://www.deftlinux.net/"
       ],
       "archivo_fuente": "json/distribuciones/deft.json"
+    },
+    {
+      "nombre": "Devuan",
+      "descripcion": "Devuan GNU+Linux es una bifurcación de Debian sin systemd que permite a los usuarios recuperar el control sobre su sistema evitando enredos innecesarios y garantizando Init Freedom.",
+      "web_oficial": "https://devuan.org/",
+      "fecha_origen": "27 de noviembre de 2014",
+      "autores": [
+        "",
+        ""
+      ],
+      "distribucion_base": "Debian",
+      "gestor_paquetes": [
+        "apt"
+      ],
+      "fuentes": [
+        "https://devuan.org/"
+      ],
+      "archivo_fuente": "json/distribuciones/devuan.json"
     },
     {
       "nombre": "Drauger OS",
@@ -305,6 +325,23 @@
         "https://docs.fedoraproject.org/en-US/quick-docs/dnf/"
       ],
       "archivo_fuente": "json/distribuciones/fedora.json"
+    },
+    {
+      "nombre": "Gentoo",
+      "descripcion": "Gentoo es un sistema operativo de código abierto basado en Linux que utiliza un sistema de paquetes personalizable y flexible.",
+      "web_oficial": "https://www.gentoo.org/",
+      "fecha_origen": "Diciembre 1999",
+      "autores": [
+        "Daniel Robbins"
+      ],
+      "distribucion_base": "Enoch",
+      "gestor_paquetes": [
+        "Portage"
+      ],
+      "fuentes": [
+        "https://www.gentoo.org/"
+      ],
+      "archivo_fuente": "json/distribuciones/gentoo.json"
     },
     {
       "nombre": "gNewSense",
@@ -447,6 +484,23 @@
         "https://www.kali.org/docs/introduction/what-is-kali-linux/"
       ],
       "archivo_fuente": "json/distribuciones/kali_purple.json"
+    },
+    {
+      "nombre": "KDE Neon",
+      "descripcion": "KDE Neon es una distribución de Linux basada en Ubuntu que ofrece la última versión del entorno de escritorio KDE.",
+      "web_oficial": "https://neon.kde.org/",
+      "fecha_origen": "Enero 2016",
+      "autores": [
+        "Jonathan Riddell"
+      ],
+      "distribucion_base": "Arch Linux",
+      "gestor_paquetes": [
+        "apt"
+      ],
+      "fuentes": [
+        "https://neon.kde.org/"
+      ],
+      "archivo_fuente": "json/distribuciones/kde_neon.json"
     },
     {
       "nombre": "KNOPPIX",
@@ -1100,6 +1154,23 @@
       "gestor_paquetes": [],
       "fuentes": [],
       "archivo_fuente": "json/distribuciones/zenix_linux.json"
+    },
+    {
+      "nombre": "Zenwalk",
+      "descripcion": "Zenwalk es una distribución de Linux basada en Slackware que utiliza el entorno de escritorio Xfce.",
+      "web_oficial": "http://www.zenwalk.org/",
+      "fecha_origen": "2004",
+      "autores": [
+        "Jean-Philippe Guillemin"
+      ],
+      "distribucion_base": "Slackware",
+      "gestor_paquetes": [
+        "netpkg"
+      ],
+      "fuentes": [
+        "https://www.zenwalk.org/"
+      ],
+      "archivo_fuente": "json/distribuciones/zenwalk.json"
     },
     {
       "nombre": "Zeroshell",
