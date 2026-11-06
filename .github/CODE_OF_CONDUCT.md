@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/media/top.png" alt="LinuxCore Header" width="100%">
+  <img src="https://raw.githubusercontent.com/nisamov/linuxcore/main/.github/media/top.png" alt="LinuxCore Header" width="100%">
 </p>
 
 <div align="center">
@@ -35,6 +35,6 @@ Estas normas se aplican a **todas las contribuciones** al repositorio: código, 
   <p><b>Linux Core - Nisamov | MIT License - 2026</b></p>
   <p><b>Contacto:</b> <a href="mailto:nisamov.contact@gmail.com">nisamov.contact@gmail.com</a></p>
   <p align="center">
-    <img src=".github/media/bottom.png" alt="LinuxCore Footer" width="100%">
+    <img src="https://raw.githubusercontent.com/nisamov/linuxcore/main/.github/media/bottom.png" alt="LinuxCore Footer" width="100%">
   </p>
 </div>

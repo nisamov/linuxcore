@@ -9,6 +9,28 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-18`] - 2026-11-06
+
+## Añadido
+
+- Creado el workflow `.github\workflows\validar_pr.yaml`.
+
+## Cambiado
+
+- Actualizado los requisitos solicitados para PR en `.github/pull_request_template.md`.
+- Actualizado el contenido de `.github/CONTRIBUTING.md`.
+
+## Corregido
+
+- Corregidas las referencias del `header` y `footer` `PNG` en `.github/CONTRIBUTING.md` y `.github/CODE_OF_CONDUCT.md`.
+- Corregido el output de contribuyentes en `README.md`.
+
+## Eliminado
+
+- Eliminada referencia al archivo `.github/AGRADECIMIENTOS.md` de `.github/CONTRIBUTING.md`.
+
+---
+
 ## [`00-00-01-17`] - 2026-11-05
 
 ## Añadido

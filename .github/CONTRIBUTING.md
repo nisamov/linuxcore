@@ -1,12 +1,12 @@
 <p align="center">
-  <img src=".github/media/top.png" alt="LinuxCore Header" width="100%">
+  <img src="https://raw.githubusercontent.com/nisamov/linuxcore/main/.github/media/top.png" alt="LinuxCore Header" width="100%">
 </p>
 
 <div align="center">
   <h1>Guía de contribución | Linux Core</h1>
 </div>
 
-Gracias por querer aportar a LinuxCore. Esta guía explica qué se puede aportar, dónde va cada cosa, qué pasos seguir y qué comprobaciones se ejecutan antes de que un cambio se publique en [linuxcore.site](https://linuxcore.site).
+Gracias por querer aportar a LinuxCore. Esta guía explica qué se puede aportar, dónde va cada cosa, qué pasos seguir, qué archivos no se pueden tocar y qué comprobaciones se ejecutan antes de que un cambio se publique en [linuxcore.site](https://linuxcore.site).
 
 Si solo quieres avisar de un error o proponer un tema, no necesitas hacer un Pull Request: abre una incidencia desde la sección [Cómo informar de un problema o proponer contenido](#cómo-informar-de-un-problema-o-proponer-contenido).
 
@@ -20,10 +20,30 @@ Si solo quieres avisar de un error o proponer un tema, no necesitas hacer un Pul
 | Ficha de una distribución | `json/distribuciones/<distribucion>.json` | `distros_db_gen.py` |
 | Corrección de erratas o enlaces rotos | El archivo afectado | `validate_markdown.py` |
 | Scripts, flujos de trabajo y plantillas | `.github/` | Revisión del mantenedor |
+| Entrada en el registro de cambios (obligatoria en todo Pull Request) | [`CHANGELOG.md`](../CHANGELOG.md) | Comprobación automática del Pull Request |
 
 La carpeta `json/servicios/` está en preparación: sus archivos todavía están vacíos y no se aceptan fichas de servicios hasta que se defina su formato.
 
 El idioma oficial del repositorio es el español. Todo el contenido, los mensajes de commit y la descripción del Pull Request deben estar en español.
+
+## Archivos protegidos y obligatorios
+
+Tres archivos tienen reglas especiales. Se comprueban de forma automática en cada Pull Request y, si no se cumplen, el cambio no puede fusionarse.
+
+| Archivo | Regla | Motivo |
+| --- | --- | --- |
+| `.github/db/` | No se puede modificar. | Todo su contenido se genera de forma automática. Tocarlo a mano rompe la estandarización de los datos. |
+| [`.github/AGRADECIMIENTOS.md`](AGRADECIMIENTOS.md) | No se puede modificar. | Está reservado al creador del repositorio. Los reconocimientos los añade el mantenedor. |
+| [`CHANGELOG.md`](../CHANGELOG.md) | Hay que actualizarlo en todo Pull Request. | Es el registro de cambios del proyecto y debe reflejar cada contribución. |
+
+Si tu cambio genera archivos en `.github/db/` al ejecutar las validaciones, descártalos antes de hacer commit con `git restore .github/db/`.
+
+### Cómo actualizar el CHANGELOG
+
+- Añade una entrada por cada Pull Request, en español, que describa qué se ha añadido o cambiado.
+- Sigue el formato de las entradas más recientes del archivo: usa la categoría que corresponda de las que ya existen, como Añadido o Cambiado, y mantén el mismo estilo de redacción.
+- No reescribas ni reordenes entradas anteriores.
+- Si no sabes qué versión corresponde a tu entrada, indícalo en las notas del Pull Request y el mantenedor la ajustará al fusionar.
 
 ## Antes de empezar
 
@@ -54,24 +74,25 @@ Si es tu primera contribución, empieza por algo pequeño: corregir una errata, 
 
    Prefijos sugeridos: `doc/` para documentación, `cmd/` para fichas de comandos, `distro/` para distribuciones y `fix/` para correcciones.
 
-4. Realiza los cambios siguiendo las secciones de esta guía y las normas de [ACCESSIBILITY.md](../ACCESSIBILITY.md).
-5. Ejecuta las validaciones descritas en [Validaciones antes de enviar](#validaciones-antes-de-enviar).
-6. Registra los cambios con un mensaje claro que explique qué se ha hecho:
+4. Realiza los cambios siguiendo las secciones de esta guía y las normas de [ACCESSIBILITY.md](../ACCESSIBILITY.md). No toques `.github/db/` ni `.github/AGRADECIMIENTOS.md`.
+5. Añade una entrada en [`CHANGELOG.md`](../CHANGELOG.md) siguiendo las indicaciones de [Cómo actualizar el CHANGELOG](#cómo-actualizar-el-changelog).
+6. Ejecuta las validaciones descritas en [Validaciones antes de enviar](#validaciones-antes-de-enviar).
+7. Registra los cambios con el nombre de la versión por `CHANGELOG.md`:
 
    ```bash
-   git add documentacion/redes/correo/teoria_postfix.md README.md
-   git commit -m "Añadida teoría de Postfix y entrada en el README"
+   git add documentacion/redes/correo/teoria_postfix.md README.md CHANGELOG.md
+   git commit -m "00-03-25-47"
    ```
 
-7. Sube la rama a tu fork:
+8. Sube la rama a tu fork:
 
    ```bash
    git push origin doc/teoria-postfix
    ```
 
-8. Abre un Pull Request hacia la rama `main` de `nisamov/linuxcore` desde la pestaña [Pull requests](https://github.com/nisamov/linuxcore/pulls) y rellena la plantilla que aparece.
-9. Espera la revisión. Si se piden cambios, súbelos a la misma rama: el Pull Request se actualiza solo.
-10. Cuando el cambio se fusiona, el sitio web lo recoge de forma automática en un máximo de 15 minutos.
+9. Abre un Pull Request hacia la rama `main` de `nisamov/linuxcore` desde la pestaña [Pull requests](https://github.com/nisamov/linuxcore/pulls), rellena la plantilla que aparece y marca las casillas de la sección **Requisitos obligatorios**.
+10. Espera la revisión. Si se piden cambios, súbelos a la misma rama: el Pull Request se actualiza solo.
+11. Cuando el cambio se fusiona, el sitio web lo recoge de forma automática en un máximo de 15 minutos.
 
 Un Pull Request debe tratar un único tema. Si quieres aportar varias cosas independientes, abre un Pull Request por cada una.
 
@@ -285,7 +306,7 @@ python3 -m pip install 'jsonschema>=4.18,<5'
 python3 .github/scripts/validate_commands.py
 ```
 
-Comprobar las fichas de distribuciones. Este script regenera `.github/db/distros.json`, por lo que debes descartar ese cambio después para no incluirlo en tu Pull Request:
+Comprobar las fichas de distribuciones. Este script regenera `.github/db/distros.json`, que es un archivo protegido, por lo que debes descartar ese cambio después para no incluirlo en tu Pull Request:
 
 ```bash
 python3 .github/scripts/distros_db_gen.py
@@ -302,12 +323,13 @@ Qué cubren y qué no cubren estas comprobaciones:
 
 Al abrir o actualizar un Pull Request se ejecutan comprobaciones automáticas:
 
+- Requisitos obligatorios, en todos los Pull Request. Comprueba que las tres casillas de la sección **Requisitos obligatorios** de la plantilla están marcadas, que no se ha modificado `.github/db/` ni `.github/AGRADECIMIENTOS.md` y que `CHANGELOG.md` forma parte del cambio. Si falla, el Pull Request no puede fusionarse. Solo verifica que el CHANGELOG se ha modificado: que la entrada sea correcta lo revisa el mantenedor.
 - Detección de claves secretas, en cada `push` y en cada Pull Request.
 - Validación de Markdown, cuando el cambio afecta a archivos `.md` o a su script.
 
 La validación de fichas de comandos y la generación de la base de datos se ejecutan al fusionar los cambios en `main`, no antes. Por eso es importante ejecutarlas tú en local: un JSON incorrecto no se detectará hasta después de la fusión.
 
-Si una comprobación falla, abre el detalle en la pestaña **Checks** del Pull Request, corrige el problema y vuelve a subir la rama.
+Si una comprobación falla, abre el detalle en la pestaña **Checks** del Pull Request, corrige el problema y vuelve a subir la rama. Si el fallo es de una casilla sin marcar, edita la descripción del Pull Request y la comprobación se repetirá sola.
 
 Después de la fusión, el sitio web se actualiza de forma automática cada 15 minutos y la base de datos JSON se publica en la [última versión](https://github.com/nisamov/linuxcore/releases/latest).
 
@@ -315,12 +337,13 @@ Después de la fusión, el sitio web se actualiza de forma automática cada 15 m
 
 La plantilla del Pull Request incluye esta lista. Antes de enviarlo, confirma que:
 
+- No has modificado `.github/db/` ni `.github/AGRADECIMIENTOS.md`.
+- Has añadido una entrada en `CHANGELOG.md` con el formato del archivo.
 - Los cambios están en español y siguen el estilo del repositorio.
 - Has respetado la estructura de carpetas y las extensiones de archivo.
 - Has ejecutado las validaciones que corresponden a tu cambio.
 - Has añadido la entrada al `README.md` si creaste un documento nuevo.
 - No has incluido contraseñas, claves ni datos personales.
-- No has modificado `.github/db/`, `CHANGELOG.md` ni `AGRADECIMIENTOS.md`. El mantenedor gestiona esos archivos.
 - Has revisado erratas y la sintaxis de los bloques de código.
 
 ## Cómo informar de un problema o proponer contenido
@@ -349,8 +372,6 @@ Estas extensiones de Visual Studio Code facilitan la edición, aunque no son obl
 
 Todas las contribuciones están sujetas al [Código de Conducta](CODE_OF_CONDUCT.md). Al enviar un Pull Request aceptas que tu aportación se publique bajo la [licencia MIT](../LICENSE) del proyecto.
 
-Quienes tengan un Pull Request aceptado aparecen en el [listado de contribuyentes de GitHub](https://github.com/nisamov/linuxcore/graphs/contributors). El archivo [AGRADECIMIENTOS.md](AGRADECIMIENTOS.md) es un reconocimiento personal del autor y no admite modificaciones externas.
-
 Para dudas que no encajen en una incidencia, escribe a [nisamov.contact@gmail.com](mailto:nisamov.contact@gmail.com).
 
 ---
@@ -359,6 +380,6 @@ Para dudas que no encajen en una incidencia, escribe a [nisamov.contact@gmail.co
   <p><b>Linux Core - Nisamov | MIT License - 2026</b></p>
   <p><b>Contacto:</b> <a href="mailto:nisamov.contact@gmail.com">nisamov.contact@gmail.com</a></p>
   <p align="center">
-    <img src=".github/media/bottom.png" alt="LinuxCore Footer" width="100%">
+    <img src="https://raw.githubusercontent.com/nisamov/linuxcore/main/.github/media/bottom.png" alt="LinuxCore Footer" width="100%">
   </p>
 </div>

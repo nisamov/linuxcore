@@ -1,6 +1,6 @@
-## Resumen
+## Solicitud de Incorporación
 
-Explica en pocas frases qué cambia este Pull Request y por qué. Si resuelve una incidencia, indícalo con `Closes #número`.
+Explica en pocas frases qué cambia este Pull Request y por qué.
 
 ## Tipo de cambio
 
@@ -17,6 +17,14 @@ Explica en pocas frases qué cambia este Pull Request y por qué. Si resuelve un
 
 Enumera los archivos principales modificados, creados o movidos.
 
+## Requisitos obligatorios
+
+Las tres casillas de esta sección deben estar marcadas para que el Pull Request pueda fusionarse.
+
+- [ ] No he modificado `.github/db/`: su contenido se genera de forma automática.
+- [ ] No he modificado `.github/AGRADECIMIENTOS.md`: está reservado al creador del repositorio.
+- [ ] He añadido una entrada en `CHANGELOG.md` que describe este cambio, siguiendo el formato del archivo.
+
 ## Validaciones ejecutadas
 
 Marca solo las que correspondan a tu cambio. Las instrucciones están en la [guía de contribución](https://github.com/nisamov/linuxcore/blob/main/.github/CONTRIBUTING.md).
@@ -24,7 +32,6 @@ Marca solo las que correspondan a tu cambio. Las instrucciones están en la [gu�
 - [ ] `python3 .github/scripts/validate_markdown.py` termina sin errores (cualquier cambio en archivos `.md`).
 - [ ] `python3 .github/scripts/validate_commands.py` termina sin errores (cambios en `json/comandos/`).
 - [ ] `python3 .github/scripts/distros_db_gen.py` termina sin errores y no he incluido cambios en `.github/db/` (cambios en `json/distribuciones/`).
-- [ ] He probado los comandos, scripts o configuraciones en una máquina virtual o contenedor, no en un sistema en producción.
 
 ## Revisión del contenido
 
@@ -34,7 +41,6 @@ Marca solo las que correspondan a tu cambio. Las instrucciones están en la [gu�
 - [ ] No incluyo contraseñas, claves, direcciones privadas ni datos personales.
 - [ ] Si he creado un documento nuevo en `documentacion/`, lo he añadido a las tablas de `README.md`.
 - [ ] Si he tocado `documentacion/`, he seguido las normas de [accesibilidad del proyecto](https://github.com/nisamov/linuxcore/blob/main/ACCESSIBILITY.md).
-- [ ] No he modificado `.github/db/`, `CHANGELOG.md` ni `AGRADECIMIENTOS.md`.
 
 ## Notas para quien revise
 

@@ -1,0 +1,69 @@
+name: Validación del Pull Request
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  requisitos:
+    name: Requisitos obligatorios
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comprobar casillas y archivos
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const autor = pr.user.login;
+            const propietario = context.repo.owner;
+            const automaticos = ['dependabot[bot]', 'github-actions[bot]'];
+            if (automaticos.includes(autor)) {
+              core.info('Pull Request automático: se omiten las comprobaciones.');
+              return;
+            }
+            const errores = [];
+            const cuerpo = pr.body || '';
+            const obligatorias = [
+              'No he modificado `.github/db/`',
+              'No he modificado `.github/AGRADECIMIENTOS.md`',
+              'He añadido una entrada en `CHANGELOG.md`',
+            ];
+            const lineas = cuerpo.split('\n');
+            for (const texto of obligatorias) {
+              const marcada = lineas.some(
+                (l) => /^\s*[-*]\s+\[[xX]\]/.test(l) && l.includes(texto)
+              );
+              if (!marcada) {
+                errores.push(`Falta marcar la casilla obligatoria: "${texto}".`);
+              }
+            }
+            const ficheros = await github.paginate(github.rest.pulls.listFiles, {
+              ...context.repo,
+              pull_number: pr.number,
+              per_page: 100,
+            });
+            const rutas = ficheros.flatMap((f) =>
+              [f.filename, f.previous_filename].filter(Boolean)
+            );
+            const esPropietario = autor.toLowerCase() === propietario.toLowerCase();
+            const protegidas = rutas.filter(
+              (r) => r.startsWith('.github/db/') || r === '.github/AGRADECIMIENTOS.md'
+            );
+            if (protegidas.length > 0 && !esPropietario) {
+              errores.push(
+                'Este Pull Request modifica archivos protegidos: ' +
+                  [...new Set(protegidas)].join(', ') + '.'
+              );
+            }
+            if (!rutas.includes('CHANGELOG.md')) {
+              errores.push('Falta actualizar CHANGELOG.md.');
+            }
+            if (errores.length > 0) {
+              core.setFailed(errores.join('\n'));
+            } else {
+              core.info('Todos los requisitos obligatorios se cumplen.');
+            }

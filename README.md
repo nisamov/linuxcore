@@ -853,7 +853,7 @@ Dependabot revisa las acciones de GitHub una vez al mes.
 
 <div align="center">
   <a href="https://github.com/nisamov/linuxcore/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=Nisamov/linuxcore" alt="Contribuyentes de LinuxCore" />
+    <img src="https://contrib.rocks/image?repo=Nisamov/linuxcore&columns=8" alt="Contribuyentes de LinuxCore" />
   </a>
 </div>
 
