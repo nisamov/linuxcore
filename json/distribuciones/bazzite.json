@@ -1,0 +1,10 @@
+{
+    "nombre":  "Bazzite",
+    "descripcion":  "Distribución basada en imágenes de Fedora Atomic (Kinoite y Silverblue) dentro de Universal Blue, orientada a videojuegos y a equipos portátiles como la Steam Deck, con actualizaciones atómicas y reversión a versiones anteriores.",
+    "web_oficial":  "https://bazzite.gg/",
+    "fecha_origen":  "2023 (versión 1.0; el proyecto comenzó a finales de 2022)",
+    "autores":  ["Kyle Gospodnetich"],
+    "distribucion_base":  "Fedora",
+    "gestor_paquetes":  ["rpm-ostree", "Flatpak", "Homebrew", "ujust"],
+    "fuentes": ["https://bazzite.gg/", "https://docs.bazzite.gg/", "https://github.com/ublue-os/bazzite", "https://en.wikipedia.org/wiki/Bazzite_(operating_system)"]
+}
