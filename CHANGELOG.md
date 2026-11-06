@@ -9,6 +9,67 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-20`] - 2026-11-06
+
+## Añadido
+
+- Creación y documentación de los siguientes archivos de `documentacion/seguridad`:
+  * `documentacion/seguridad/autenticacion/hashcat.md`.
+  * `documentacion/seguridad/autenticacion/fail2ban.md`.
+  * `documentacion/seguridad/firewall/ipfire/teoria_ipfire.md`.
+  * `documentacion/seguridad/firewall/nftables/teoria_nftables.md`.
+  * `documentacion/seguridad/control_acceso/apparmor_selinux.md`.
+  * `documentacion/seguridad/criptografia/certificados/teoria_tls.md`.
+- Creación y documentación de los siguientes archivos de `documentacion/redes`:
+  * `documentacion/redes/fundamentos/subredes_cidr.md`.
+  * `documentacion/redes/fundamentos/vlan.md`.
+  * `documentacion/redes/vpn/teoria_wireguard.md`.
+  * `documentacion/redes/ssh/endurecimiento_ssh.md`.
+- Creación y documentación de los siguientes archivos de sistema y servicios:
+  * `documentacion/sistema/linux/arranque_linux.md`.
+  * `documentacion/sistema/linux/gestion_paquetes.md`.
+  * `documentacion/servicios/sistema/systemd/teoria_systemd.md`.
+  * `documentacion/servicios/sistema/journal/centralizacion_logs.md`.
+  * `documentacion/servicios/monitorizacion/prometheus.md`.
+- Creación y documentación de los siguientes archivos de infraestructura:
+  * `documentacion/infraestructura/contenedores/docker/seguridad_docker.md`.
+  * `documentacion/infraestructura/copias_seguridad/estrategia_copias.md`.
+  * `documentacion/infraestructura/copias_seguridad/restic/teoria_restic.md`.
+  * `documentacion/infraestructura/contenedores/kubernetes/pods_deployments_servicios.md`.
+- Creación y documentación de los siguientes archivos de bases de datos:
+  * `documentacion/bases_de_datos/postgresql/fundamentos.md`.
+  * `documentacion/bases_de_datos/mysql_mariadb/replicacion_y_alta_disponibilidad.md`.
+- Creación de los siguientes ejemplos de programación en Bash:
+  * `documentacion/programacion/bash/bucles.sh`.
+  * `documentacion/programacion/bash/arrays_y_cadenas.sh`.
+  * `documentacion/programacion/bash/funciones.sh`.
+
+## Cambiado
+
+- Actualizadas las referencias de `README.md` para incluir los documentos nuevos y retirada la referencia a la lista de pendientes.
+- Reorganizado y ampliado el contenido de `documentacion/seguridad/teoria_seguridad.md`.
+- Sustitución de enumeración en:
+  * `documentacion/redes/fundamentos/subredes_cidr.md`.
+  * `documentacion/sistema/linux/arranque_linux.md`.
+  * `documentacion/infraestructura/copias_seguridad/estrategia_copias.md`.
+  * `documentacion/seguridad/control_acceso/apparmor_selinux.md`.
+  * `documentacion/seguridad/firewall/ipfire/teoria_ipfire.md`.
+  * `documentacion/seguridad/teoria_seguridad.md`.
+
+## Eliminado
+
+- Eliminado `TODO.md` tras completarse todos los elementos pendientes.
+
+---
+
+## [`00-00-01-19`] - 2026-11-06
+
+## Cambiado
+
+- Actualizado el archivo `documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/bucles.md`.
+
+---
+
 ## [`00-00-01-18`] - 2026-11-06
 
 ## Añadido
@@ -264,10 +325,6 @@
 ## [`00-00-01-05`] - 2026-10-26
 
 ### Cambiado
-
-- Migrados los métodos de instalación de 270 fichas en `json/comandos/` a los valores definidos por el esquema.
-
-### Corregido
 
 - Corregidos los `id` de `json/comandos/seguridad/apparmor_status.json`, `json/comandos/monolinea/limpiar_historial_de_terminal_de_sesion_actual.json` y `json/comandos/monolinea/limpieza_residual.json` para que coincidan con sus nombres de archivo.
 

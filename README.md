@@ -190,15 +190,18 @@ Controlar el acceso a los recursos, filtrar el tráfico con cortafuegos y audita
 3. [ACL](documentacion/sistema/permisos/listas_acceso.md): ACLs con `getfacl` / `setfacl`.
 4. [iptables](documentacion/seguridad/firewall/iptables/teoria_iptables.md): reglas y cadenas.
 5. [UFW](documentacion/seguridad/firewall/ufw/teoria_ufw.md): cortafuegos simplificado.
-6. [Auditoría](documentacion/seguridad/forense/auditoria/audit_planning.md): auditoría con `auditd`.
-7. [Forense](documentacion/seguridad/forense/teoria_forense.md): metodología.
+6. [nftables](documentacion/seguridad/firewall/nftables/teoria_nftables.md): filtrado de paquetes en Linux.
+7. [IPFire](documentacion/seguridad/firewall/ipfire/teoria_ipfire.md): distribución de cortafuegos y zonas de red.
+8. [AppArmor y SELinux](documentacion/seguridad/control_acceso/apparmor_selinux.md): control de acceso obligatorio.
+9. [Auditoría](documentacion/seguridad/forense/auditoria/audit_planning.md): auditoría con `auditd`.
+10. [Forense](documentacion/seguridad/forense/teoria_forense.md): metodología.
 
 </td>
     <td width="50%" valign="top">
 
 **Seguridad en redes**
 
-Comprender los protocolos de red y las técnicas de ataque que explotan sus debilidades. Úsala solo en entornos propios o de laboratorio.
+Comprender los protocolos de red y sus riesgos para aplicar medidas defensivas. Las pruebas activas solo deben realizarse en sistemas propios o con autorización expresa.
 
 1. [Dispositivos de red](documentacion/seguridad/dispositivos_de_red.md): equipos de red y su relevancia para la seguridad.
 2. [Ethernet](documentacion/seguridad/ethernet.md): red local y nivel de enlace.
@@ -256,6 +259,8 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 **Linux**
 
 - [Teoría de Linux](documentacion/sistema/linux/teoria_linux.md): fundamentos del sistema operativo.
+- [Arranque de Linux](documentacion/sistema/linux/arranque_linux.md): UEFI, GRUB, kernel y systemd.
+- [Gestión de paquetes](documentacion/sistema/linux/gestion_paquetes.md): APT, DNF y Pacman.
 - [Linus Torvalds](documentacion/sistema/linux/linus_torvalds.md): origen y contexto histórico.
 
 </td>
@@ -320,6 +325,8 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 
 - [Topología de redes](documentacion/redes/fundamentos/topologia_redes.md): tipos de topología.
 - [Puertos](documentacion/redes/fundamentos/teoria_puertos.md): puertos y servicios asociados.
+- [Subredes CIDR](documentacion/redes/fundamentos/subredes_cidr.md): máscaras y rangos IPv4.
+- [VLAN](documentacion/redes/fundamentos/vlan.md): segmentación Ethernet con 802.1Q.
 - [ARP](documentacion/redes/fundamentos/arp.md): resolución de direcciones.
 - [TTL e ICMP](documentacion/redes/fundamentos/ttl_icmp.md): funcionamiento de `ping` y `traceroute`.
 
@@ -386,7 +393,12 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 **SSH**
 
 - [Teoría de SSH](documentacion/redes/ssh/teoria_ssh.md): acceso remoto seguro.
+- [Endurecimiento SSH](documentacion/redes/ssh/endurecimiento_ssh.md): configuración y gestión de claves.
 - [Comandos y casos de uso](documentacion/redes/ssh/uso.md): conexiones y ejecución remota.
+
+**VPN**
+
+- [WireGuard](documentacion/redes/vpn/teoria_wireguard.md): túneles entre equipos propios.
 
 </td>
   </tr>
@@ -404,6 +416,7 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 **General**
 
 - [Teoría de seguridad](documentacion/seguridad/teoria_seguridad.md): principios y conceptos.
+- [AppArmor y SELinux](documentacion/seguridad/control_acceso/apparmor_selinux.md): perfiles y control de acceso obligatorio.
 
 </td>
     <td width="50%" valign="top">
@@ -411,6 +424,8 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 **Autenticación**
 
 - [libpam-passwdqc](documentacion/seguridad/autenticacion/libpam-passwdqc.md): política de contraseñas.
+- [Auditoría autorizada con Hashcat](documentacion/seguridad/autenticacion/hashcat.md): evaluación defensiva en laboratorio.
+- [Fail2ban](documentacion/seguridad/autenticacion/fail2ban.md): bloqueos temporales ante intentos repetidos.
 
 </td>
   </tr>
@@ -424,6 +439,7 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 - [Firma digital](documentacion/seguridad/criptografia/firma_digital/teoria_firma_digital.md): fundamentos.
 - [Firma SSL](documentacion/seguridad/criptografia/firma_digital/firma_ssl.md): aplicación práctica.
 - [Certificado RSA con OpenSSL](documentacion/seguridad/criptografia/certificados/certificado_rsa_openssl.md): generación de certificados.
+- [TLS](documentacion/seguridad/criptografia/certificados/teoria_tls.md): certificados y cadena de confianza.
 - [Entidad certificadora](documentacion/seguridad/criptografia/certificados/entidad_certificadora.sh): script de CA.
 
 </td>
@@ -433,6 +449,8 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 
 - [iptables](documentacion/seguridad/firewall/iptables/teoria_iptables.md): reglas y cadenas.
 - [UFW](documentacion/seguridad/firewall/ufw/teoria_ufw.md): cortafuegos simplificado.
+- [nftables](documentacion/seguridad/firewall/nftables/teoria_nftables.md): teoría y ejemplo de filtrado.
+- [IPFire](documentacion/seguridad/firewall/ipfire/teoria_ipfire.md): cortafuegos basado en zonas.
 - [nftables](documentacion/seguridad/firewall/nftables/nftables.conf): configuración de ejemplo.
 
 </td>
@@ -512,10 +530,16 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 
 **Sistema**
 
+- [Teoría de systemd](documentacion/servicios/sistema/systemd/teoria_systemd.md): unidades, dependencias y objetivos.
 - [Cron](documentacion/servicios/sistema/cron/teoria_cron.md): tareas programadas.
 - [Journal](documentacion/servicios/sistema/journal/teoria_journal.md): registros con `journald`.
+- [Centralización de registros](documentacion/servicios/sistema/journal/centralizacion_logs.md): diseño, conservación y protección.
 - [Diagnosticar systemd](documentacion/servicios/sistema/systemd/diagnosticar_systemd.md): resolución de problemas.
 - [Ejemplo de unidad](documentacion/servicios/sistema/systemd/ejemplo.service): fichero `.service` de ejemplo.
+
+**Monitorización**
+
+- [Prometheus](documentacion/servicios/monitorizacion/prometheus.md): métricas, exportadores y alertas.
 
 </td>
   </tr>
@@ -547,7 +571,9 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 - [Docker: gestión de redes](documentacion/infraestructura/contenedores/docker/gestion_redes.md): redes entre contenedores.
 - [Docker: variables de entorno](documentacion/infraestructura/contenedores/docker/variables_entorno.md): configuración de contenedores.
 - [Docker Compose](documentacion/infraestructura/contenedores/docker/docker_compose.md): aplicaciones multicontenedor.
+- [Seguridad de Docker](documentacion/infraestructura/contenedores/docker/seguridad_docker.md): privilegios, redes, imágenes y secretos.
 - [Kubernetes](documentacion/infraestructura/contenedores/kubernetes/teoria_kubernetes.md): orquestación.
+- [Pods, Deployments y Services](documentacion/infraestructura/contenedores/kubernetes/pods_deployments_servicios.md): recursos básicos con un manifiesto de ejemplo.
 - [LXC](documentacion/infraestructura/contenedores/lxc/teoria_lxc.md): contenedores de sistema.
 
 </td>
@@ -557,6 +583,8 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 
 **Copias de seguridad**
 
+- [Estrategia 3-2-1](documentacion/infraestructura/copias_seguridad/estrategia_copias.md): diseño y pruebas de restauración.
+- [Restic](documentacion/infraestructura/copias_seguridad/restic/teoria_restic.md): repositorios cifrados y recuperación.
 - [Borg](documentacion/infraestructura/copias_seguridad/borg/teoria_borg.md): backups deduplicados.
 
 </td>
@@ -618,6 +646,7 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 - [Transacciones y concurrencia](documentacion/bases_de_datos/mysql_mariadb/transacciones_y_concurrencia.md): control transaccional (ACID), bloqueos y aislamiento.
 - [Metadatos y caché de consultas](documentacion/bases_de_datos/mysql_mariadb/metadatos_y_cache_de_consultas.md): inspección de metadatos, esquemas del sistema y caché.
 - [Copias de seguridad y recuperación](documentacion/bases_de_datos/mysql_mariadb/copias_seguridad_y_recuperacion.md): estrategias de backup (`mysqldump`) y restauración.
+- [Replicación y alta disponibilidad](documentacion/bases_de_datos/mysql_mariadb/replicacion_y_alta_disponibilidad.md): conceptos, supervisión y recuperación.
 
 </td>
   </tr>
@@ -633,6 +662,15 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 - [Bucles](documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/bucles.md): estructuras repetitivas.
 - [Funciones](documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/funciones.md): definición y uso de funciones personalizadas.
 - [Delimitador](documentacion/bases_de_datos/mysql_mariadb/construccion_guiones/delimitador.md): uso y sintaxis del comando `DELIMITER`.
+
+</td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top">
+
+**PostgreSQL**
+
+- [Fundamentos y administración inicial](documentacion/bases_de_datos/postgresql/fundamentos.md): arquitectura, roles, seguridad y continuidad.
 
 </td>
   </tr>
@@ -657,6 +695,7 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 - [Operadores aritméticos](documentacion/programacion/bash/operadores_aritmeticos.sh) · [Condiciones](documentacion/programacion/bash/condiciones_evaluacion.sh) · [Control de flujo](documentacion/programacion/bash/control_flujo.sh) · [Devolución](documentacion/programacion/bash/devolucion.sh): lógica y funciones.
 - [Redirecciones](documentacion/programacion/bash/redirecciones.sh) · [Tuberías](documentacion/programacion/bash/tuberias.sh): entrada, salida y encadenado de comandos.
 - [Contar](documentacion/programacion/bash/contar.sh) · [Fechas](documentacion/programacion/bash/fechas.sh) · [Depuración](documentacion/programacion/bash/depuracion.sh): utilidades y depuración.
+- [Bucles](documentacion/programacion/bash/bucles.sh) · [Arrays y cadenas](documentacion/programacion/bash/arrays_y_cadenas.sh) · [Funciones](documentacion/programacion/bash/funciones.sh): recorridos, colecciones y reutilización.
 
 </td>
   </tr>
@@ -800,7 +839,6 @@ linuxcore/
 │   └── workflows/            Automatización con GitHub Actions
 ├── ACCESSIBILITY.md        Criterios de accesibilidad
 ├── CHANGELOG.md            Registro de cambios
-└── TODO.md                 Pendientes del proyecto
 ```
 
 ## Contribuir
@@ -830,7 +868,6 @@ python3 .github/scripts/validate_commands.py
 | [Política de seguridad](.github/SECURITY.md) | Directrices de uso seguro de los comandos y los scripts. |
 | [Código de conducta](.github/CODE_OF_CONDUCT.md) | Normas de convivencia y de contenido. |
 | [Registro de cambios](CHANGELOG.md) | Historial de versiones del repositorio. |
-| [Pendientes](TODO.md) | Tareas y mejoras previstas. |
 | [Agradecimientos](.github/AGRADECIMIENTOS.md) | Reconocimiento a quienes han aportado conocimiento. |
 
 > [!WARNING]

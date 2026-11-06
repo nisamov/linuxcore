@@ -4,6 +4,18 @@ La seguridad informática comprende las medidas destinadas a proteger los sistem
 
 La seguridad combina medidas preventivas, de detección, respuesta y recuperación. Su objetivo no es solo evitar incidentes, sino también reducir su probabilidad e impacto y permitir que los servicios se restablezcan cuanto antes.
 
+## Guía de lectura
+
+Esta teoría sirve como mapa general. Para estudiarla de forma progresiva, conviene avanzar desde los objetivos de protección hasta la gestión de incidentes:
+
+- Revisar las dimensiones de seguridad y los controles que las protegen.
+- Identificar activos, amenazas, vulnerabilidades e impacto para comprender el riesgo.
+- Comprender cómo se identifican y priorizan las vulnerabilidades.
+- Reconocer malware y categorías de incidentes sin confundirlos entre sí.
+- Consultar los documentos específicos de criptografía, autenticación, cortafuegos, redes, auditoría y análisis forense.
+
+La seguridad es un proceso continuo: un control reduce riesgos concretos, pero no garantiza por sí solo que un incidente no ocurra.
+
 ## Ámbitos y tipos de medidas
 
 - **Seguridad física:** protege edificios, equipos, soportes y personas frente a robos, vandalismo, accidentes y desastres. Incluye controles de acceso, vigilancia, protección contra incendios y condiciones ambientales adecuadas.
@@ -16,6 +28,21 @@ La seguridad combina medidas preventivas, de detección, respuesta y recuperaci�
 - **Medidas de respuesta y recuperación:** limitan los daños y ayudan a restablecer el servicio. Incluyen planes de respuesta, copias de seguridad y procedimientos de recuperación ante desastres.
 
 Los términos *activa* y *pasiva* pueden emplearse para clasificar medidas de distintas maneras según el contexto. No son equivalentes exactos a *preventiva* y *correctiva*.
+
+## Dimensiones de la seguridad
+
+### Tríada CIA
+
+- **Confidencialidad:** solo las personas o sistemas autorizados pueden acceder a la información. El cifrado ayuda a protegerla frente a accesos no autorizados.
+- **Integridad:** la información y los sistemas se mantienen correctos y no sufren modificaciones no autorizadas. Los hashes permiten detectar cambios, pero para proteger la integridad frente a una manipulación deliberada se necesitan mecanismos autenticados, como códigos MAC o firmas digitales.
+- **Disponibilidad:** la información y los servicios están accesibles cuando se necesitan. La redundancia, las copias de seguridad y los planes de recuperación contribuyen a mantenerla.
+
+### Otras dimensiones y controles
+
+- **Autenticación:** verifica la identidad de una persona, dispositivo o servicio.
+- **Control de acceso:** determina qué acciones puede realizar una entidad autenticada sobre un recurso, de acuerdo con sus permisos y privilegios.
+- **Trazabilidad:** permite reconstruir qué acciones se realizaron, cuándo y, cuando es posible, quién las realizó. Los registros deben protegerse para que sean fiables.
+- **No repudio:** aporta evidencias que dificultan negar la participación en una acción o comunicación. Las firmas digitales pueden ayudar a demostrar el origen e integridad de un mensaje; acreditar su recepción suele requerir mecanismos adicionales, como un acuse de recibo verificable.
 
 ## Perfiles de atacantes
 
@@ -44,11 +71,11 @@ Un **cracker** es un término usado para describir a quien vulnera sistemas o pr
 
 ## Origen y clasificación de las vulnerabilidades
 
-Una vulnerabilidad es un error en el desarrollo o en la gestión de los sistemas. Según su origen, puede deberse a:
+Una vulnerabilidad es una debilidad de diseño, implementación, configuración u operación que puede contribuir a un incidente. No toda vulnerabilidad es un error de programación. Según su origen, puede deberse a:
 
-- **Fallos en la implementación de tecnologías (administración):** por ejemplo, usar Telnet en lugar de SSH.
-- **Fallos de configuración (administración):** instalar servicios que no se van a usar y que pueden contener debilidades, o dejar el software con su configuración por defecto.
-- **Fallos de diseño (desarrollo):** desbordamientos de búfer, inyección de código, etc.
+- **Diseño o implementación:** validación insuficiente de entradas, errores de memoria o controles de autorización incompletos.
+- **Configuración y operación:** servicios innecesarios, permisos excesivos, parámetros inseguros o componentes sin actualizar.
+- **Organización y procesos:** falta de inventario, responsabilidades poco claras, formación insuficiente o ausencia de pruebas de recuperación.
 
 Según su ámbito, se clasifican en:
 
@@ -58,7 +85,7 @@ Según su ámbito, se clasifican en:
 
 ## Clasificación de las amenazas
 
-Una amenaza es alguien o algo que puede explotar una vulnerabilidad para obtener o impedir el acceso a un activo, o para comprometerlo. Según su origen, pueden ser:
+Una amenaza es una circunstancia, evento o agente con capacidad de causar daño. Puede aprovechar una vulnerabilidad, pero también puede materializarse por accidente o por un fallo técnico. Según su origen, puede ser:
 
 - **Deliberadas:** robo, virus, sabotaje, interceptación, alteración de datos.
 - **Naturales o ambientales:** inundación, terremoto, incendio, corte de corriente.
@@ -96,24 +123,9 @@ En **CVSS 3.1**, el vector base puede expresarse, por ejemplo, como `CVSS:3.1/AV
 - **S (Scope, ámbito):** indica si el impacto se limita a la autoridad de seguridad del componente vulnerable (`U`, Unchanged) o afecta a recursos fuera de ella (`C`, Changed).
 - **C, I y A:** impacto en la confidencialidad (*Confidentiality*), la integridad (*Integrity*) y la disponibilidad (*Availability*). Cada métrica puede ser `H` (High, alto), `L` (Low, bajo) o `N` (None, ninguno).
 
-## Dimensiones de la seguridad
+## Incidentes y categorías de amenazas
 
-### Tríada CIA
-
-- **Confidencialidad:** solo las personas o sistemas autorizados pueden acceder a la información. El cifrado ayuda a protegerla frente a accesos no autorizados.
-- **Integridad:** la información y los sistemas se mantienen correctos y no sufren modificaciones no autorizadas. Los hashes permiten detectar cambios, pero para proteger la integridad frente a una manipulación deliberada se necesitan mecanismos autenticados, como códigos MAC o firmas digitales.
-- **Disponibilidad:** la información y los servicios están accesibles cuando se necesitan. La redundancia, las copias de seguridad y los planes de recuperación contribuyen a mantenerla.
-
-### Otras dimensiones y controles
-
-- **Autenticación:** verifica la identidad de una persona, dispositivo o servicio.
-- **Control de acceso:** determina qué acciones puede realizar una entidad autenticada sobre un recurso, de acuerdo con sus permisos y privilegios.
-- **Trazabilidad:** permite reconstruir qué acciones se realizaron, cuándo y, cuando es posible, quién las realizó. Los registros deben protegerse para que sean fiables.
-- **No repudio:** aporta evidencias que dificultan negar la participación en una acción o comunicación. Las firmas digitales pueden ayudar a demostrar el origen e integridad de un mensaje; acreditar su recepción suele requerir mecanismos adicionales, como un acuse de recibo verificable.
-
-## Ciberataques
-
-Un **ciberataque** es una maniobra ofensiva de explotación deliberada de una vulnerabilidad con el objetivo de tomar el control de un sistema, desestabilizarlo o aprovecharse de él, con la finalidad última de robar información o hacer daño a su objetivo. Utiliza código malicioso o exploits para comprometer aplicaciones.
+Un **incidente de seguridad** es un evento que afecta o puede afectar a la confidencialidad, integridad o disponibilidad de la información o los servicios. Puede ser deliberado, accidental o consecuencia de un fallo técnico. Un **ciberataque** es un incidente deliberado que utiliza medios digitales; no todos los incidentes son ataques ni todos los ataques llegan a tener éxito.
 
 ### Tipos de ciberataque según su efecto
 
@@ -122,17 +134,17 @@ Un **ciberataque** es una maniobra ofensiva de explotación deliberada de una vu
 - **Modificación:** afecta a la integridad. Un tercero altera la información o el sistema.
 - **Fabricación:** afecta a la autenticación. Un tercero introduce elementos falsos haciéndolos pasar por legítimos.
 
-### Fases de un ataque
+### Ciclo de vida de un incidente
 
-**Footprinting:** consiste en recopilar información sobre la víctima. Se suele hacer en fuentes abiertas, habitualmente Internet (buscadores, whois, etc.), y también pueden emplearse técnicas de ingeniería social. La información obtenida se analiza después para encontrar vulnerabilidades.
+Los incidentes no siguen siempre una secuencia única. Para fines defensivos, se pueden analizar mediante estas etapas generales:
 
-**Fingerprinting:** emplea la información de la fase anterior para descubrir fallos de seguridad en la infraestructura. Se lleva a cabo mediante escaneos o exploración de la red objetivo para descubrir vulnerabilidades en los dispositivos. Una herramienta típica de esta fase es el escáner de puertos.
+- **Preparación y exposición:** existen activos, configuraciones o procesos que podrían quedar expuestos. El inventario, el endurecimiento y la gestión de vulnerabilidades reducen el riesgo.
+- **Acceso o evento inicial:** una debilidad, un error humano, una cuenta comprometida o un fallo técnico puede iniciar el incidente.
+- **Efecto sobre los activos:** puede haber acceso indebido, cambios no autorizados, pérdida de datos o interrupción del servicio.
+- **Detección y análisis:** las alertas, los registros y los informes permiten determinar qué sistemas están afectados y con qué nivel de confianza.
+- **Contención, recuperación y mejora:** se limita el impacto, se restaura desde fuentes confiables y se corrigen las causas. La respuesta debe preservar evidencias cuando sea necesario.
 
-**Intrusión y explotación:** se utilizan las vulnerabilidades descubiertas con el objetivo de penetrar y comprometer el sistema para causar algún perjuicio.
-
-**Mantener el acceso:** tras una intrusión, hay que mantener la vía abierta sin ser descubierto, para seguir explorando el sistema o acceder a otros equipos de la red. Se usan herramientas como puertas traseras (*backdoors*) y *rootkits*. En otros tipos de ataque, como la denegación de servicio, esta fase no se lleva a cabo.
-
-**Borrar huellas:** busca pasar desapercibido para continuar en el sistema sin ser detectado y no ser identificado mediante técnicas de análisis forense. Se logra ocultando las direcciones IP y MAC del atacante y editando los registros (*logs*) del sistema que contienen evidencias del ataque.
+Las guías de *footprinting* y *fingerprinting* del repositorio describen conceptos de reconocimiento. Cualquier evaluación activa debe tener autorización escrita, alcance definido, ventanas de ejecución y límites de impacto; no se deben probar sistemas ajenos.
 
 ## Amenazas y tipos de ataque
 
@@ -154,18 +166,23 @@ Un **ciberataque** es una maniobra ofensiva de explotación deliberada de una vu
 - **Bomba lógica:** código que se activa cuando se cumple una condición o llega un momento determinado.
 - **Flooding:** envío de una cantidad elevada de solicitudes o tráfico para consumir recursos y degradar o interrumpir un servicio. Puede formar parte de una denegación de servicio.
 
-### Categorías de ataques
+### Categorías de amenazas y controles defensivos
 
-- **Ataques para obtener información (*information gathering*):** primer paso de una auditoría de caja negra o de un ataque. Se recopila información de la organización mediante footprinting (búsqueda pasiva, sin interactuar con sus sistemas) y fingerprinting (búsqueda activa, con interacción).
-- **Ataques a nivel de red:** atacan protocolos o mecanismos de la capa de red, como los protocolos de enrutamiento (RIP, OSPF, BGP), el túnel ICMP, el secuestro de sesión (*session hijacking*), el enrutamiento desde origen (*source routing*), los mensajes ICMP Redirect y los ataques basados en fragmentación IP (*Tiny Fragment* y *Teardrop*).
-- **Ataques de monitorización:** el *sniffing* consiste en que una máquina escuche el tráfico de red aunque los mensajes no vayan dirigidos a ella. La suplantación de un servidor DHCP engaña a otros equipos para que crean que el atacante es su puerta de enlace.
-- **Ataques de autenticación:** intentan obtener credenciales o eludir la autenticación, por ejemplo mediante fuerza bruta o diccionario.
-- **Ataques de denegación de servicio:** buscan impedir o degradar el acceso a un servicio.
-- **Ingeniería social:** manipulan a las personas para obtener información o accesos.
-- **Malware:** software malicioso como virus, gusanos, spyware o ransomware.
+- **Exposición de información:** puede facilitar la selección de objetivos. Se reduce limitando la publicación de datos y revisando periódicamente los activos expuestos.
+- **Compromiso de cuentas:** incluye el abuso de credenciales, la reutilización de contraseñas y la ingeniería social. MFA, contraseñas únicas, límites de acceso y alertas reducen el riesgo.
+- **Abuso de protocolos o servicios de red:** puede afectar a la confidencialidad o disponibilidad. La segmentación, el cifrado, las actualizaciones y la monitorización son controles relevantes.
+- **Interrupción del servicio:** incluye fallos, errores operativos y denegación de servicio. La capacidad adecuada, la redundancia y los planes de continuidad ayudan a limitar su impacto.
+- **Malware:** incluye, entre otros, virus, gusanos, spyware y ransomware. Las copias aisladas, el control de aplicaciones, las actualizaciones y la respuesta a incidentes son medidas defensivas.
+- **Manipulación o fraude:** puede usar suplantación e ingeniería social. La verificación por un canal independiente y los procesos de aprobación reducen errores.
 
 ### Suplantación de IP
 
-El **IP spoofing** consiste en falsear la dirección IP de origen de los paquetes para hacerse pasar por otro sistema. Su principal dificultad es mantener la dirección falseada de forma efectiva: para que tenga éxito, normalmente hay que dejar fuera de juego momentáneamente al sistema suplantado (por ejemplo, con una denegación de servicio), ya que, si no, este respondería e interferiría en la comunicación.
+La **suplantación de IP** (*IP spoofing*) consiste en falsificar la dirección de origen de un paquete. La dirección que aparece como origen no prueba quién generó el tráfico, por lo que no debe utilizarse como único mecanismo de autenticación. Los filtros de entrada y salida, la validación en los límites de red y protocolos autenticados ayudan a reducir los usos indebidos.
 
 Una vulnerabilidad es una debilidad que puede ser aprovechada; no es, por sí misma, un ataque. Del mismo modo, no todas las amenazas son malware ni todos los incidentes tienen origen malicioso.
+
+## Gestión defensiva y mejora continua
+
+Un programa básico de seguridad mantiene un inventario de activos, asigna responsables, aplica actualizaciones con pruebas proporcionales al riesgo, limita privilegios, registra eventos relevantes y comprueba periódicamente las copias de seguridad. Las medidas deben priorizarse según el impacto para el negocio y revisarse cuando cambien los sistemas o las amenazas.
+
+La evaluación de seguridad requiere autorización explícita y un alcance documentado. Los hallazgos deben comunicarse de forma responsable, protegerse como información sensible y acompañarse de medidas de corrección verificables. Para profundizar, se recomienda consultar [la teoría de OSINT](osint/teoria_osint.md), [el análisis forense](forense/teoria_forense.md), las secciones de [criptografía](criptografia/cifrado/teoria_cifrado.md) y [cortafuegos](firewall/).
