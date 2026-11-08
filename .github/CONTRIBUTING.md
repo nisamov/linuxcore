@@ -110,7 +110,9 @@ La documentación está en `documentacion/`, organizada en áreas: `bases_de_dat
 
 ### Estructura recomendada de un procedimiento
 
-Los procedimientos deben incluir requisitos, pasos, verificación y reversión. Esta es una estructura de partida:
+Cuando el aporte sea un procedimiento operativo, debe incluir requisitos, pasos, verificación y reversión.
+
+Estructura presentada de muestra:
 
 ````markdown
 # Título descriptivo del procedimiento
@@ -140,6 +142,16 @@ Cómo deshacer el cambio, si es posible.
 
 Riesgos: borrado de datos, corte de servicio o cambios en el sistema.
 ````
+
+### Diferenciar teoría y procedimiento
+
+El enfoque del documento debe corresponder al tipo de contenido solicitado:
+
+- **Teoría y documentación conceptual:** explica conceptos, componentes, relaciones, mecanismos, usos y limitaciones con tono descriptivo y técnico. Evita convertir la explicación en una secuencia de instrucciones, listas de requisitos operativos o comandos para ejecutar. Los comandos pueden mencionarse como herramientas cuando ayuden a explicar un concepto, sin presentarlos como una receta.
+- **Procedimientos:** describen una tarea que el lector debe realizar. En ese caso, incluyen requisitos previos, pasos ordenados, comandos contextualizados, verificaciones y reversión cuando sea posible.
+- **Diagnóstico:** demuestra síntomas, causas posibles y comprobaciones, diferenciando observaciones de acciones que modifican el sistema.
+
+El nombre del archivo orienta su propósito: `teoria_*` para contenido conceptual, `diagnosticar_*` para resolución de problemas y nombres de acción para procedimientos. Si la petición especifica teoría, prima el tratamiento conceptual aunque el archivo existente tenga un nombre de acción.
 
 ### Reglas de estilo
 

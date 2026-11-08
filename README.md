@@ -170,10 +170,10 @@ Configurar y diagnosticar los servicios básicos de una red: direccionamiento, r
 Gestionar discos y particiones, montar RAID, sustituir hardware averiado y recuperar datos.
 
 1. [Discos y particiones](documentacion/sistema/almacenamiento/teoria_discos_particiones.md): tablas de particiones y sistemas de archivos.
-2. [Ampliar una partición](documentacion/sistema/almacenamiento/ampliar_particion.md): procedimiento paso a paso.
+2. [Ampliar una partición](documentacion/sistema/almacenamiento/ampliar_particion.md): procedimiento para ampliar particiones y sistemas de archivos.
 3. [RAID](documentacion/sistema/almacenamiento/raid/teoria_raid.md): niveles y casos de uso.
-4. [Reemplazar un disco](documentacion/sistema/almacenamiento/reemplazar_disco.md): sustitución de disco.
-5. [Recuperar sistema de archivos](documentacion/sistema/almacenamiento/recuperar_sistema_archivos.md): reparación y recuperación.
+4. [Reemplazar un disco](documentacion/sistema/almacenamiento/reemplazar_disco.md): sustitución en discos independientes, RAID y LVM.
+5. [Recuperar sistema de archivos](documentacion/sistema/almacenamiento/recuperar_sistema_archivos.md): evaluación y reparación según el formato.
 6. [Borg](documentacion/infraestructura/copias_seguridad/borg/teoria_borg.md): backups deduplicados.
 
 </td>
@@ -289,9 +289,9 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 
 - [Teoría de almacenamiento](documentacion/sistema/almacenamiento/teoria_almacenamiento.md): conceptos generales.
 - [Discos y particiones](documentacion/sistema/almacenamiento/teoria_discos_particiones.md): tablas de particiones y sistemas de archivos.
-- [Ampliar una partición](documentacion/sistema/almacenamiento/ampliar_particion.md): procedimiento paso a paso.
-- [Reemplazar un disco](documentacion/sistema/almacenamiento/reemplazar_disco.md): sustitución de disco.
-- [Recuperar sistema de archivos](documentacion/sistema/almacenamiento/recuperar_sistema_archivos.md): reparación y recuperación.
+- [Ampliar una partición](documentacion/sistema/almacenamiento/ampliar_particion.md): procedimiento para ampliar particiones y sistemas de archivos.
+- [Reemplazar un disco](documentacion/sistema/almacenamiento/reemplazar_disco.md): sustitución en discos independientes, RAID y LVM.
+- [Recuperar sistema de archivos](documentacion/sistema/almacenamiento/recuperar_sistema_archivos.md): evaluación y reparación según el formato.
 
 </td>
   </tr>

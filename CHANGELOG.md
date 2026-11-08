@@ -9,6 +9,17 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-21`] - 2026-11-08
+
+## Cambiado
+
+- Actualizado contenido de referencia en `.github/CONTRIBUTING.md`.
+- Agregado contenido en:
+  * `documentacion/sistema/almacenamiento/ampliar_particion.md`.
+  * `documentacion/sistema/almacenamiento/recuperar_sistema_archivos.md`.
+  * `documentacion/sistema/almacenamiento/reemplazar_disco.md`.
+- Actualizadas referencias en `README.md`.
+
 ## [`00-00-01-20`] - 2026-11-06
 
 ## Añadido
