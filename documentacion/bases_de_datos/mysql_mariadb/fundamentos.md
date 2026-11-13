@@ -73,8 +73,3 @@ INSERT INTO nombre_tabla (columna1, columna2) VALUES ('Valor1', 'Valor2');
 -- Eliminación de registros
 DELETE FROM nombre_tabla WHERE id = 4354;
 ```
-
-### Otros sublenguajes que aparecen en estos apuntes
-
-- **DCL** (control de acceso): `GRANT`, `REVOKE`. Ver `04_usuarios_y_permisos.md`.
-- **TCL** (control de transacciones): `COMMIT`, `ROLLBACK`, `SAVEPOINT`. Ver `08_transacciones_y_concurrencia.md`.

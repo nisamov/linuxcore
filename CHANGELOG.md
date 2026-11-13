@@ -9,6 +9,18 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-22`] - 2026-11-13
+
+## Añadido
+
+- Creación y documentación de `documentacion/programacion/bash/expresiones_regulares.sh`.
+
+## Cambiado
+
+- Limpieza de contenido residual en `documentacion/bases_de_datos/mysql_mariadb`.
+
+---
+
 ## [`00-00-01-21`] - 2026-11-08
 
 ## Cambiado

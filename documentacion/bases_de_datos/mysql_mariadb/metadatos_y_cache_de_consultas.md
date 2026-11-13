@@ -62,10 +62,3 @@ SHOW VARIABLES LIKE 'query_cache_type';
 SHOW GLOBAL STATUS LIKE 'Qcache_hits';
 SHOW GLOBAL STATUS LIKE 'Qcache_queries_in_cache';
 ```
-
-### Ejercicio de práctica: optimización, estado y caché
-
-- Métricas del servidor: consultar el tiempo de actividad (`Uptime`), el número de conexiones abiertas y el total de consultas procesadas (`Com_select`).
-- Activar la query cache: asignar 16 MB y activarla a nivel global y de sesión.
-- Comprobar aciertos: lanzar un `SELECT` sobre la tabla de usuarios y revisar el estado de la caché. Repetir exactamente la misma consulta y comprobar que `Qcache_hits` ha subido a 1.
-- Invalidar la caché: hacer un `UPDATE` sobre la tabla de usuarios y comprobar que `Qcache_queries_in_cache` vuelve a 0 al purgarse la memoria.
