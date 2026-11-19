@@ -1,0 +1,10 @@
+{
+    "nombre":  "Raspberry Pi OS",
+    "descripcion":  "Sistema operativo oficial para Raspberry Pi basado en Debian, disponible para arquitecturas ARM y como entorno de escritorio para PC.",
+    "web_oficial":  "https://www.raspberrypi.com/software/operating-systems/",
+    "fecha_origen":  "2012",
+    "autores":  ["Raspberry Pi Ltd", "Comunidad Raspberry Pi"],
+    "distribucion_base":  "Debian",
+    "gestor_paquetes":  ["APT/dpkg"],
+    "fuentes": ["https://www.raspberrypi.com/software/operating-systems/", "https://www.raspberrypi.com/documentation/computers/os.html", "https://github.com/raspberrypi"]
+}

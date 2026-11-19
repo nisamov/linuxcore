@@ -1,0 +1,10 @@
+{
+    "nombre":  "NixOS",
+    "descripcion":  "Distribución Linux declarativa y reproducible construida sobre el gestor de paquetes Nix y el repositorio Nixpkgs.",
+    "web_oficial":  "https://nixos.org/",
+    "fecha_origen":  "2003",
+    "autores":  ["Comunidad NixOS", "NixOS contributors"],
+    "distribucion_base":  "Independiente",
+    "gestor_paquetes":  ["Nix", "Nixpkgs"],
+    "fuentes": ["https://nixos.org/", "https://nixos.org/manual/nixos/stable/", "https://github.com/NixOS"]
+}

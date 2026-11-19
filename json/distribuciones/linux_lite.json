@@ -1,0 +1,10 @@
+{
+    "nombre":  "Linux Lite",
+    "descripcion":  "Distribución ligera y orientada a usuarios principiantes, diseñada para equipos antiguos y basada en Ubuntu.",
+    "web_oficial":  "https://www.linuxliteos.com/",
+    "fecha_origen":  "2012",
+    "autores":  ["Jerry Bezencon"],
+    "distribucion_base":  "Ubuntu",
+    "gestor_paquetes":  ["APT/dpkg", "Snap"],
+    "fuentes": ["https://www.linuxliteos.com/", "https://wiki.linuxliteos.com/", "https://gitlab.com/users/linuxlite/projects"]
+}

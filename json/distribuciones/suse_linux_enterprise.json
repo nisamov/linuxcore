@@ -1,0 +1,10 @@
+{
+    "nombre":  "SUSE Linux Enterprise",
+    "descripcion":  "Distribución Linux empresarial desarrollada y mantenida por SUSE para servidores, contenedores, nube y entornos críticos.",
+    "web_oficial":  "https://www.suse.com/products/",
+    "fecha_origen":  "2000",
+    "autores":  ["SUSE"],
+    "distribucion_base":  "SUSE Linux",
+    "gestor_paquetes":  ["Zypper", "RPM"],
+    "fuentes": ["https://www.suse.com/products/", "https://documentation.suse.com/", "https://www.suse.com/products/sle/"]
+}

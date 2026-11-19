@@ -1,0 +1,10 @@
+{
+    "nombre":  "Q4OS",
+    "descripcion":  "Distribución de escritorio ligera basada en Debian, orientada a equipos antiguos y al entorno Trinity en coexistencia con opciones modernas de Plasma.",
+    "web_oficial":  "https://q4os.org/",
+    "fecha_origen":  "2014",
+    "autores":  ["Jupiter 4 Foundation", "Equipo Q4OS"],
+    "distribucion_base":  "Debian",
+    "gestor_paquetes":  ["APT/dpkg", "Synaptic"],
+    "fuentes": ["https://q4os.org/", "https://q4os.org/documents.html", "https://q4os.org/blog.html"]
+}

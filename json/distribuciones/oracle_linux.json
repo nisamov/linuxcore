@@ -1,0 +1,10 @@
+{
+    "nombre":  "Oracle Linux",
+    "descripcion":  "Distribución empresarial basada en RHEL y mantenida por Oracle, orientada a cargas críticas, virtualización, nube y contenedores.",
+    "web_oficial":  "https://www.oracle.com/linux/",
+    "fecha_origen":  "2006",
+    "autores":  ["Oracle Corporation"],
+    "distribucion_base":  "Red Hat Enterprise Linux",
+    "gestor_paquetes":  ["DNF", "YUM", "RPM"],
+    "fuentes": ["https://www.oracle.com/linux/", "https://docs.oracle.com/en/operating-systems/", "https://yum.oracle.com/"]
+}

@@ -1,0 +1,10 @@
+{
+    "nombre":  "Void Linux",
+    "descripcion":  "Distribución Linux independiente y de lanzamiento continuo, con gestores escritos desde cero, runit como sistema de arranque y soporte para las bibliotecas glibc y musl.",
+    "web_oficial":  "https://voidlinux.org/",
+    "fecha_origen":  "2008",
+    "autores":  ["Juan Romero Pardines", "Comunidad Void Linux"],
+    "distribucion_base":  "Independiente",
+    "gestor_paquetes":  ["XBPS", "xbps-src"],
+    "fuentes": ["https://voidlinux.org/", "https://docs.voidlinux.org/", "https://github.com/void-linux"]
+}

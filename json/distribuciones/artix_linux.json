@@ -1,0 +1,10 @@
+{
+    "nombre":  "Artix Linux",
+    "descripcion":  "Distribución rolling release basada en Arch Linux que ofrece OpenRC, runit, s6 o dinit como alternativas sin systemd.",
+    "web_oficial":  "https://artixlinux.org/",
+    "fecha_origen":  "2017",
+    "autores":  ["Comunidad Artix Linux"],
+    "distribucion_base":  "Arch Linux",
+    "gestor_paquetes":  ["pacman", "AUR"],
+    "fuentes": ["https://artixlinux.org/", "https://wiki.artixlinux.org/", "https://gitea.artixlinux.org/explore/repos"]
+}

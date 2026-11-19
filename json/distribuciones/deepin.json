@@ -1,0 +1,10 @@
+{
+    "nombre":  "deepin",
+    "descripcion":  "Distribución Linux basada en Debian que incorpora un entorno de escritorio propio, aplicaciones integradas y herramientas centradas en una experiencia gráfica amigable.",
+    "web_oficial":  "https://www.deepin.org/",
+    "fecha_origen":  "2011",
+    "autores":  ["Deepin Technology", "Comunidad deepin"],
+    "distribucion_base":  "Debian",
+    "gestor_paquetes":  ["APT/dpkg", "deepin App Store"],
+    "fuentes": ["https://www.deepin.org/", "https://wiki.deepin.org/", "https://github.com/linuxdeepin"]
+}

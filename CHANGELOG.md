@@ -9,6 +9,24 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-28`] - 2026-11-19
+
+## Añadido
+
+- Creación de fichas para EndeavourOS, Garuda Linux, Ubuntu Unity, Linux Lite, Peppermint OS, Trisquel GNU/Linux y PureOS.
+- Creación de fichas para Mageia, OpenMandriva Lx, AlmaLinux OS, Oracle Linux, SUSE Linux Enterprise y Slackware Linux.
+- Creación de fichas para NixOS, Bedrock Linux, Void Linux, Solus, Artix Linux, Q4OS, LMDE, deepin y Raspberry Pi OS.
+
+---
+
+## [`00-00-01-27`] - 2026-11-19
+
+## Añadido
+
+- Creación de las fichas de distribuciones `json/distribuciones/steamos.json`, `json/distribuciones/opensuse.json`, `json/distribuciones/rocky_linux.json` y `json/distribuciones/tiny_core_linux.json`.
+
+---
+
 ## [`00-00-01-26`] - 2026-11-19
 
 ## Añadido

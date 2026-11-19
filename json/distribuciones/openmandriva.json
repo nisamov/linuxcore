@@ -1,0 +1,10 @@
+{
+    "nombre":  "OpenMandriva Lx",
+    "descripcion":  "Distribución Linux independiente y sucesora comunitaria de Mandriva, con versiones ROME rolling release y ROCK con ciclos más largos.",
+    "web_oficial":  "https://www.openmandriva.org/",
+    "fecha_origen":  "2012",
+    "autores":  ["OpenMandriva Association", "Comunidad OpenMandriva"],
+    "distribucion_base":  "Mandriva Linux",
+    "gestor_paquetes":  ["dnf", "RPM", "urpmi"],
+    "fuentes": ["https://www.openmandriva.org/", "https://wiki.openmandriva.org/", "https://github.com/OpenMandrivaAssociation"]
+}

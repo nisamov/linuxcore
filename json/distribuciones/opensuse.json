@@ -1,0 +1,10 @@
+{
+    "nombre":  "openSUSE",
+    "descripcion":  "Distribución comunitaria de Linux para equipos de escritorio y servidores, disponible en versiones Leap y Tumbleweed.",
+    "web_oficial":  "https://www.opensuse.org/",
+    "fecha_origen":  "1996 (como SUSE Linux)",
+    "autores":  ["Comunidad openSUSE", "SUSE"],
+    "distribucion_base":  "Independiente",
+    "gestor_paquetes":  ["Zypper", "RPM"],
+    "fuentes": ["https://www.opensuse.org/", "https://en.opensuse.org/openSUSE:About", "https://en.opensuse.org/Portal:Distribution"]
+}

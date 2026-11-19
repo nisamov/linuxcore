@@ -1,0 +1,10 @@
+{
+    "nombre":  "EndeavourOS",
+    "descripcion":  "Distribución Linux basada en Arch Linux que ofrece una instalación cercana a Arch con herramientas gráficas, perfiles de escritorio y configuración inicial simplificada.",
+    "web_oficial":  "https://endeavouros.com/",
+    "fecha_origen":  "2019",
+    "autores":  ["Bryanpwo", "Comunidad EndeavourOS"],
+    "distribucion_base":  "Arch Linux",
+    "gestor_paquetes":  ["pacman", "AUR", "Flatpak"],
+    "fuentes": ["https://endeavouros.com/", "https://discovery.endeavouros.com/", "https://github.com/endeavouros-team"]
+}

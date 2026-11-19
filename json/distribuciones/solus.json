@@ -1,0 +1,10 @@
+{
+    "nombre":  "Solus",
+    "descripcion":  "Distribución Linux independiente para escritorio, con edición Budgie principal y una selección curada de aplicaciones y lanzamientos continuos semanales.",
+    "web_oficial":  "https://getsol.us/",
+    "fecha_origen":  "2015",
+    "autores":  ["Ikey Doherty", "Comunidad Solus"],
+    "distribucion_base":  "Independiente",
+    "gestor_paquetes":  ["eopkg", "Flatpak", "Solbuild"],
+    "fuentes": ["https://getsol.us/", "https://help.getsol.us/", "https://github.com/getsolus"]
+}

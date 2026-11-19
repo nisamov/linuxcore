@@ -1,0 +1,10 @@
+{
+    "nombre":  "Rocky Linux",
+    "descripcion":  "Distribución Linux compatible a nivel binario con Red Hat Enterprise Linux, orientada a entornos empresariales y servidores.",
+    "web_oficial":  "https://rockylinux.org/",
+    "fecha_origen":  "2021",
+    "autores":  ["Community Enterprise Operating System Foundation", "Comunidad Rocky Linux"],
+    "distribucion_base":  "Red Hat Enterprise Linux",
+    "gestor_paquetes":  ["DNF", "RPM"],
+    "fuentes": ["https://rockylinux.org/", "https://docs.rockylinux.org/", "https://en.wikipedia.org/wiki/Rocky_Linux"]
+}

@@ -1,0 +1,10 @@
+{
+    "nombre":  "Garuda Linux",
+    "descripcion":  "Distribución Linux basada en Arch Linux que utiliza ajustes orientados al rendimiento, escritorios modernos, Btrfs con instantáneas y herramientas propias de mantenimiento.",
+    "web_oficial":  "https://garudalinux.org/",
+    "fecha_origen":  "2020",
+    "autores":  ["Comunidad Garuda Linux", "Garuda Linux team"],
+    "distribucion_base":  "Arch Linux",
+    "gestor_paquetes":  ["pacman", "Chaotic-AUR", "AUR", "Flatpak"],
+    "fuentes": ["https://garudalinux.org/", "https://wiki.garudalinux.org/", "https://gitlab.com/garuda-linux"]
+}

@@ -1,0 +1,10 @@
+{
+    "nombre":  "Bedrock Linux",
+    "descripcion":  "Meta-distribución que permite combinar paquetes y componentes de distribuciones Linux normalmente incompatibles dentro de un único sistema.",
+    "web_oficial":  "https://bedrocklinux.org/",
+    "fecha_origen":  "2012",
+    "autores":  ["Daniel Faust", "Comunidad Bedrock Linux"],
+    "distribucion_base":  "Meta-distribución",
+    "gestor_paquetes":  ["brl-fetch", "pmm", "Gestores de cada distribución integrada"],
+    "fuentes": ["https://bedrocklinux.org/", "https://bedrocklinux.org/introduction.html", "https://github.com/bedrocklinux"]
+}

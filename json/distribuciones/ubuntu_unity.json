@@ -1,0 +1,10 @@
+{
+    "nombre":  "Ubuntu Unity",
+    "descripcion":  "Sabor comunitario de Ubuntu que utiliza el entorno de escritorio Unity7 con una configuración moderna y actualizada.",
+    "web_oficial":  "https://ubuntuunity.org/",
+    "fecha_origen":  "2020",
+    "autores":  ["Rudra Saraswat", "Comunidad Ubuntu Unity"],
+    "distribucion_base":  "Ubuntu",
+    "gestor_paquetes":  ["APT/dpkg", "Snap", "Flatpak"],
+    "fuentes": ["https://ubuntuunity.org/", "https://gitlab.com/ubuntu-unity", "https://en.wikipedia.org/wiki/Ubuntu_Unity"]
+}

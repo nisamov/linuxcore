@@ -1,0 +1,10 @@
+{
+    "nombre":  "AlmaLinux OS",
+    "descripcion":  "Distribución Linux empresarial comunitaria, libre y compatible a nivel binario con Red Hat Enterprise Linux.",
+    "web_oficial":  "https://almalinux.org/",
+    "fecha_origen":  "2021",
+    "autores":  ["AlmaLinux OS Foundation", "Comunidad AlmaLinux"],
+    "distribucion_base":  "Red Hat Enterprise Linux",
+    "gestor_paquetes":  ["DNF", "RPM"],
+    "fuentes": ["https://almalinux.org/", "https://wiki.almalinux.org/", "https://github.com/AlmaLinux"]
+}

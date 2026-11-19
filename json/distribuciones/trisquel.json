@@ -1,0 +1,10 @@
+{
+    "nombre":  "Trisquel GNU/Linux",
+    "descripcion":  "Distribución basada en Ubuntu que utiliza exclusivamente software libre aprobado por la comunidad GNU y cuenta con múltiples variantes de escritorio.",
+    "web_oficial":  "https://trisquel.info/",
+    "fecha_origen":  "2007",
+    "autores":  ["Rubén Rodríguez Pérez", "El Proyecto Trisquel"],
+    "distribucion_base":  "Ubuntu",
+    "gestor_paquetes":  ["APT/dpkg"],
+    "fuentes": ["https://trisquel.info/", "https://trisquel.info/en/wiki", "https://gitlab.trisquel.org/groups/trisquel"]
+}

@@ -1,0 +1,10 @@
+{
+    "nombre":  "LMDE",
+    "descripcion":  "Edición Linux Mint Debian Edition basada directamente en Debian, creada para garantizar la independencia de Linux Mint respecto a Ubuntu.",
+    "web_oficial":  "https://linuxmint.com/download_lmde.php",
+    "fecha_origen":  "2010",
+    "autores":  ["Linux Mint Team", "Comunidad Linux Mint"],
+    "distribucion_base":  "Debian",
+    "gestor_paquetes":  ["APT/dpkg", "Flatpak"],
+    "fuentes": ["https://linuxmint.com/download_lmde.php", "https://linuxmint.com/rel_gigi.php", "https://github.com/linuxmint"]
+}

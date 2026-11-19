@@ -1,0 +1,10 @@
+{
+    "nombre":  "Peppermint OS",
+    "descripcion":  "Distribución de escritorio ligera basada en Debian o Devuan según la edición, con XFCE y una instalación mínima orientada a aplicaciones web y locales.",
+    "web_oficial":  "https://peppermintos.com/",
+    "fecha_origen":  "2010",
+    "autores":  ["Peppermint community"],
+    "distribucion_base":  "Debian / Devuan",
+    "gestor_paquetes":  ["APT/dpkg"],
+    "fuentes": ["https://peppermintos.com/", "https://peppermintos.com/about/", "https://codeberg.org/Peppermint_OS"]
+}

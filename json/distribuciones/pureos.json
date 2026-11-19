@@ -1,0 +1,10 @@
+{
+    "nombre":  "PureOS",
+    "descripcion":  "Distribución basada en Debian desarrollada por Purism, orientada a la privacidad, la seguridad y el software libre.",
+    "web_oficial":  "https://pureos.net/",
+    "fecha_origen":  "2008",
+    "autores":  ["Purism", "Comunidad PureOS"],
+    "distribucion_base":  "Debian",
+    "gestor_paquetes":  ["APT/dpkg", "Flatpak"],
+    "fuentes": ["https://pureos.net/", "https://puri.sm/products/", "https://source.puri.sm/pureos"]
+}

@@ -1,0 +1,10 @@
+{
+    "nombre":  "Slackware Linux",
+    "descripcion":  "Una de las distribuciones generales más antiguas todavía mantenidas, diseñada para mantener un sistema Unix-like simple y ampliamente configurable.",
+    "web_oficial":  "http://www.slackware.com/",
+    "fecha_origen":  "1993",
+    "autores":  ["Patrick Volkerding", "Slackware Team"],
+    "distribucion_base":  "Independiente",
+    "gestor_paquetes":  ["pkgtool", "slackpkg", "TXZ"],
+    "fuentes": ["http://www.slackware.com/", "https://docs.slackware.com/", "http://www.slackware.com/ports/"]
+}

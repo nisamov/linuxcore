@@ -1,0 +1,10 @@
+{
+    "nombre":  "Mageia",
+    "descripcion":  "Distribución comunitaria derivada de Mandriva Linux, orientada a servidores y escritorio y distribuida por una asociación sin ánimo de lucro.",
+    "web_oficial":  "https://www.mageia.org/",
+    "fecha_origen":  "2010",
+    "autores":  ["Comunidad Mageia", "Mageia.Org"],
+    "distribucion_base":  "Mandriva Linux",
+    "gestor_paquetes":  ["dnf", "urpmi", "RPM"],
+    "fuentes": ["https://www.mageia.org/", "https://wiki.mageia.org/", "https://www.mageia.org/en/about/"]
+}

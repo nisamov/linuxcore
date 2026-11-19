@@ -1,0 +1,10 @@
+{
+    "nombre":  "Tiny Core Linux",
+    "descripcion":  "Distribución Linux mínima y modular que ejecuta gran parte de su sistema desde memoria y carga aplicaciones mediante extensiones.",
+    "web_oficial":  "http://www.tinycorelinux.net/",
+    "fecha_origen":  "2008",
+    "autores":  ["Robert Shingledecker", "Comunidad Tiny Core Linux"],
+    "distribucion_base":  "Independiente",
+    "gestor_paquetes":  ["TCZ", "AppBrowser"],
+    "fuentes": ["http://www.tinycorelinux.net/", "http://www.tinycorelinux.net/corebook/corebook.pdf", "https://en.wikipedia.org/wiki/Tiny_Core_Linux"]
+}
