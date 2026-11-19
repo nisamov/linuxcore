@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "total_registros": 68
+    "total_registros": 94
   },
   "distribuciones": [
     {
@@ -20,6 +20,27 @@
         "https://www.absolutelinux.org/"
       ],
       "archivo_fuente": "json/distribuciones/absolute.json"
+    },
+    {
+      "nombre": "AlmaLinux OS",
+      "descripcion": "Distribución Linux empresarial comunitaria, libre y compatible a nivel binario con Red Hat Enterprise Linux.",
+      "web_oficial": "https://almalinux.org/",
+      "fecha_origen": "2021",
+      "autores": [
+        "AlmaLinux OS Foundation",
+        "Comunidad AlmaLinux"
+      ],
+      "distribucion_base": "Red Hat Enterprise Linux",
+      "gestor_paquetes": [
+        "DNF",
+        "RPM"
+      ],
+      "fuentes": [
+        "https://almalinux.org/",
+        "https://wiki.almalinux.org/",
+        "https://github.com/AlmaLinux"
+      ],
+      "archivo_fuente": "json/distribuciones/almalinux.json"
     },
     {
       "nombre": "Alpine Linux",
@@ -73,6 +94,26 @@
       "archivo_fuente": "json/distribuciones/arch.json"
     },
     {
+      "nombre": "Artix Linux",
+      "descripcion": "Distribución rolling release basada en Arch Linux que ofrece OpenRC, runit, s6 o dinit como alternativas sin systemd.",
+      "web_oficial": "https://artixlinux.org/",
+      "fecha_origen": "2017",
+      "autores": [
+        "Comunidad Artix Linux"
+      ],
+      "distribucion_base": "Arch Linux",
+      "gestor_paquetes": [
+        "pacman",
+        "AUR"
+      ],
+      "fuentes": [
+        "https://artixlinux.org/",
+        "https://wiki.artixlinux.org/",
+        "https://gitea.artixlinux.org/explore/repos"
+      ],
+      "archivo_fuente": "json/distribuciones/artix_linux.json"
+    },
+    {
       "nombre": "BackBox",
       "descripcion": "Distribución orientada a pruebas de penetración y evaluación de la seguridad informática.",
       "web_oficial": "https://linux.backbox.org/",
@@ -111,6 +152,28 @@
         "https://en.wikipedia.org/wiki/Bazzite_(operating_system)"
       ],
       "archivo_fuente": "json/distribuciones/bazzite.json"
+    },
+    {
+      "nombre": "Bedrock Linux",
+      "descripcion": "Meta-distribución que permite combinar paquetes y componentes de distribuciones Linux normalmente incompatibles dentro de un único sistema.",
+      "web_oficial": "https://bedrocklinux.org/",
+      "fecha_origen": "2012",
+      "autores": [
+        "Daniel Faust",
+        "Comunidad Bedrock Linux"
+      ],
+      "distribucion_base": "Meta-distribución",
+      "gestor_paquetes": [
+        "brl-fetch",
+        "pmm",
+        "Gestores de cada distribución integrada"
+      ],
+      "fuentes": [
+        "https://bedrocklinux.org/",
+        "https://bedrocklinux.org/introduction.html",
+        "https://github.com/bedrocklinux"
+      ],
+      "archivo_fuente": "json/distribuciones/bedrock_linux.json"
     },
     {
       "nombre": "Biebian Linux",
@@ -240,6 +303,27 @@
       "archivo_fuente": "json/distribuciones/debian.json"
     },
     {
+      "nombre": "deepin",
+      "descripcion": "Distribución Linux basada en Debian que incorpora un entorno de escritorio propio, aplicaciones integradas y herramientas centradas en una experiencia gráfica amigable.",
+      "web_oficial": "https://www.deepin.org/",
+      "fecha_origen": "2011",
+      "autores": [
+        "Deepin Technology",
+        "Comunidad deepin"
+      ],
+      "distribucion_base": "Debian",
+      "gestor_paquetes": [
+        "APT/dpkg",
+        "deepin App Store"
+      ],
+      "fuentes": [
+        "https://www.deepin.org/",
+        "https://wiki.deepin.org/",
+        "https://github.com/linuxdeepin"
+      ],
+      "archivo_fuente": "json/distribuciones/deepin.json"
+    },
+    {
       "nombre": "DEFT Linux",
       "descripcion": "Digital Evidence & Forensic Toolkit: Herramientas para Evidencia Digital y Forense.",
       "web_oficial": "https://www.deftlinux.net/",
@@ -330,6 +414,28 @@
       "archivo_fuente": "json/distribuciones/elementary_os.json"
     },
     {
+      "nombre": "EndeavourOS",
+      "descripcion": "Distribución Linux basada en Arch Linux que ofrece una instalación cercana a Arch con herramientas gráficas, perfiles de escritorio y configuración inicial simplificada.",
+      "web_oficial": "https://endeavouros.com/",
+      "fecha_origen": "2019",
+      "autores": [
+        "Bryanpwo",
+        "Comunidad EndeavourOS"
+      ],
+      "distribucion_base": "Arch Linux",
+      "gestor_paquetes": [
+        "pacman",
+        "AUR",
+        "Flatpak"
+      ],
+      "fuentes": [
+        "https://endeavouros.com/",
+        "https://discovery.endeavouros.com/",
+        "https://github.com/endeavouros-team"
+      ],
+      "archivo_fuente": "json/distribuciones/endeavouros.json"
+    },
+    {
       "nombre": "Fedora Linux",
       "descripcion": "Distribución comunitaria de Linux que impulsa tecnologías y software libre y de código abierto.",
       "web_oficial": "https://fedoraproject.org/",
@@ -348,6 +454,29 @@
         "https://docs.fedoraproject.org/en-US/quick-docs/dnf/"
       ],
       "archivo_fuente": "json/distribuciones/fedora.json"
+    },
+    {
+      "nombre": "Garuda Linux",
+      "descripcion": "Distribución Linux basada en Arch Linux que utiliza ajustes orientados al rendimiento, escritorios modernos, Btrfs con instantáneas y herramientas propias de mantenimiento.",
+      "web_oficial": "https://garudalinux.org/",
+      "fecha_origen": "2020",
+      "autores": [
+        "Comunidad Garuda Linux",
+        "Garuda Linux team"
+      ],
+      "distribucion_base": "Arch Linux",
+      "gestor_paquetes": [
+        "pacman",
+        "Chaotic-AUR",
+        "AUR",
+        "Flatpak"
+      ],
+      "fuentes": [
+        "https://garudalinux.org/",
+        "https://wiki.garudalinux.org/",
+        "https://gitlab.com/garuda-linux"
+      ],
+      "archivo_fuente": "json/distribuciones/garuda_linux.json"
     },
     {
       "nombre": "Gentoo",
@@ -577,6 +706,26 @@
       "archivo_fuente": "json/distribuciones/lesbian_linux.json"
     },
     {
+      "nombre": "Linux Lite",
+      "descripcion": "Distribución ligera y orientada a usuarios principiantes, diseñada para equipos antiguos y basada en Ubuntu.",
+      "web_oficial": "https://www.linuxliteos.com/",
+      "fecha_origen": "2012",
+      "autores": [
+        "Jerry Bezencon"
+      ],
+      "distribucion_base": "Ubuntu",
+      "gestor_paquetes": [
+        "APT/dpkg",
+        "Snap"
+      ],
+      "fuentes": [
+        "https://www.linuxliteos.com/",
+        "https://wiki.linuxliteos.com/",
+        "https://gitlab.com/users/linuxlite/projects"
+      ],
+      "archivo_fuente": "json/distribuciones/linux_lite.json"
+    },
+    {
       "nombre": "Linux Mint",
       "descripcion": "Distribución de escritorio cuyo proyecto prioriza una experiencia moderna, cómoda y fácil de usar; ofrece ediciones basadas en Ubuntu y Debian.",
       "web_oficial": "https://linuxmint.com/",
@@ -593,6 +742,27 @@
         "https://linuxmint.com/rel_virginia.php"
       ],
       "archivo_fuente": "json/distribuciones/linux_mint.json"
+    },
+    {
+      "nombre": "LMDE",
+      "descripcion": "Edición Linux Mint Debian Edition basada directamente en Debian, creada para garantizar la independencia de Linux Mint respecto a Ubuntu.",
+      "web_oficial": "https://linuxmint.com/download_lmde.php",
+      "fecha_origen": "2010",
+      "autores": [
+        "Linux Mint Team",
+        "Comunidad Linux Mint"
+      ],
+      "distribucion_base": "Debian",
+      "gestor_paquetes": [
+        "APT/dpkg",
+        "Flatpak"
+      ],
+      "fuentes": [
+        "https://linuxmint.com/download_lmde.php",
+        "https://linuxmint.com/rel_gigi.php",
+        "https://github.com/linuxmint"
+      ],
+      "archivo_fuente": "json/distribuciones/linux_mint_debian.json"
     },
     {
       "nombre": "Lubuntu",
@@ -629,6 +799,28 @@
         "https://www.lunariaos.org/"
       ],
       "archivo_fuente": "json/distribuciones/lunariaos.json"
+    },
+    {
+      "nombre": "Mageia",
+      "descripcion": "Distribución comunitaria derivada de Mandriva Linux, orientada a servidores y escritorio y distribuida por una asociación sin ánimo de lucro.",
+      "web_oficial": "https://www.mageia.org/",
+      "fecha_origen": "2010",
+      "autores": [
+        "Comunidad Mageia",
+        "Mageia.Org"
+      ],
+      "distribucion_base": "Mandriva Linux",
+      "gestor_paquetes": [
+        "dnf",
+        "urpmi",
+        "RPM"
+      ],
+      "fuentes": [
+        "https://www.mageia.org/",
+        "https://wiki.mageia.org/",
+        "https://www.mageia.org/en/about/"
+      ],
+      "archivo_fuente": "json/distribuciones/mageia.json"
     },
     {
       "nombre": "Manjaro Linux",
@@ -707,6 +899,27 @@
       "archivo_fuente": "json/distribuciones/nitrux.json"
     },
     {
+      "nombre": "NixOS",
+      "descripcion": "Distribución Linux declarativa y reproducible construida sobre el gestor de paquetes Nix y el repositorio Nixpkgs.",
+      "web_oficial": "https://nixos.org/",
+      "fecha_origen": "2003",
+      "autores": [
+        "Comunidad NixOS",
+        "NixOS contributors"
+      ],
+      "distribucion_base": "Independiente",
+      "gestor_paquetes": [
+        "Nix",
+        "Nixpkgs"
+      ],
+      "fuentes": [
+        "https://nixos.org/",
+        "https://nixos.org/manual/nixos/stable/",
+        "https://github.com/NixOS"
+      ],
+      "archivo_fuente": "json/distribuciones/nixos.json"
+    },
+    {
       "nombre": "Nyarch Linux",
       "descripcion": "Distribución temática basada en Arch Linux y EzArcher, con personalizaciones de escritorio y herramientas propias.",
       "web_oficial": "https://nyarchlinux.moe/",
@@ -726,6 +939,70 @@
       "archivo_fuente": "json/distribuciones/nyarch.json"
     },
     {
+      "nombre": "OpenMandriva Lx",
+      "descripcion": "Distribución Linux independiente y sucesora comunitaria de Mandriva, con versiones ROME rolling release y ROCK con ciclos más largos.",
+      "web_oficial": "https://www.openmandriva.org/",
+      "fecha_origen": "2012",
+      "autores": [
+        "OpenMandriva Association",
+        "Comunidad OpenMandriva"
+      ],
+      "distribucion_base": "Mandriva Linux",
+      "gestor_paquetes": [
+        "dnf",
+        "RPM",
+        "urpmi"
+      ],
+      "fuentes": [
+        "https://www.openmandriva.org/",
+        "https://wiki.openmandriva.org/",
+        "https://github.com/OpenMandrivaAssociation"
+      ],
+      "archivo_fuente": "json/distribuciones/openmandriva.json"
+    },
+    {
+      "nombre": "openSUSE",
+      "descripcion": "Distribución comunitaria de Linux para equipos de escritorio y servidores, disponible en versiones Leap y Tumbleweed.",
+      "web_oficial": "https://www.opensuse.org/",
+      "fecha_origen": "1996 (como SUSE Linux)",
+      "autores": [
+        "Comunidad openSUSE",
+        "SUSE"
+      ],
+      "distribucion_base": "Independiente",
+      "gestor_paquetes": [
+        "Zypper",
+        "RPM"
+      ],
+      "fuentes": [
+        "https://www.opensuse.org/",
+        "https://en.opensuse.org/openSUSE:About",
+        "https://en.opensuse.org/Portal:Distribution"
+      ],
+      "archivo_fuente": "json/distribuciones/opensuse.json"
+    },
+    {
+      "nombre": "Oracle Linux",
+      "descripcion": "Distribución empresarial basada en RHEL y mantenida por Oracle, orientada a cargas críticas, virtualización, nube y contenedores.",
+      "web_oficial": "https://www.oracle.com/linux/",
+      "fecha_origen": "2006",
+      "autores": [
+        "Oracle Corporation"
+      ],
+      "distribucion_base": "Red Hat Enterprise Linux",
+      "gestor_paquetes": [
+        "DNF",
+        "YUM",
+        "RPM"
+      ],
+      "fuentes": [
+        "https://www.oracle.com/linux/",
+        "https://docs.oracle.com/en/operating-systems/",
+        "https://yum.oracle.com/"
+      ],
+      "archivo_fuente": "json/distribuciones/oracle_linux.json"
+    },
+    {
       "nombre": "Parrot OS",
       "descripcion": "Distribución GNU/Linux basada en Debian, con herramientas para ciberseguridad, privacidad y análisis forense.",
       "web_oficial": "https://parrotsec.org/",
@@ -741,6 +1018,25 @@
         "https://parrotsec.org/docs/"
       ],
       "archivo_fuente": "json/distribuciones/parrot.json"
+    },
+    {
+      "nombre": "Peppermint OS",
+      "descripcion": "Distribución de escritorio ligera basada en Debian o Devuan según la edición, con XFCE y una instalación mínima orientada a aplicaciones web y locales.",
+      "web_oficial": "https://peppermintos.com/",
+      "fecha_origen": "2010",
+      "autores": [
+        "Peppermint community"
+      ],
+      "distribucion_base": "Debian / Devuan",
+      "gestor_paquetes": [
+        "APT/dpkg"
+      ],
+      "fuentes": [
+        "https://peppermintos.com/",
+        "https://peppermintos.com/about/",
+        "https://codeberg.org/Peppermint_OS"
+      ],
+      "archivo_fuente": "json/distribuciones/peppermint_os.json"
     },
     {
       "nombre": "Pop!_OS",
@@ -801,6 +1097,48 @@
       "archivo_fuente": "json/distribuciones/puppy.json"
     },
     {
+      "nombre": "PureOS",
+      "descripcion": "Distribución basada en Debian desarrollada por Purism, orientada a la privacidad, la seguridad y el software libre.",
+      "web_oficial": "https://pureos.net/",
+      "fecha_origen": "2008",
+      "autores": [
+        "Purism",
+        "Comunidad PureOS"
+      ],
+      "distribucion_base": "Debian",
+      "gestor_paquetes": [
+        "APT/dpkg",
+        "Flatpak"
+      ],
+      "fuentes": [
+        "https://pureos.net/",
+        "https://puri.sm/products/",
+        "https://source.puri.sm/pureos"
+      ],
+      "archivo_fuente": "json/distribuciones/pureos.json"
+    },
+    {
+      "nombre": "Q4OS",
+      "descripcion": "Distribución de escritorio ligera basada en Debian, orientada a equipos antiguos y al entorno Trinity en coexistencia con opciones modernas de Plasma.",
+      "web_oficial": "https://q4os.org/",
+      "fecha_origen": "2014",
+      "autores": [
+        "Jupiter 4 Foundation",
+        "Equipo Q4OS"
+      ],
+      "distribucion_base": "Debian",
+      "gestor_paquetes": [
+        "APT/dpkg",
+        "Synaptic"
+      ],
+      "fuentes": [
+        "https://q4os.org/",
+        "https://q4os.org/documents.html",
+        "https://q4os.org/blog.html"
+      ],
+      "archivo_fuente": "json/distribuciones/q4os.json"
+    },
+    {
       "nombre": "Qubes OS",
       "descripcion": "Sistema operativo centrado en la seguridad que aísla actividades en máquinas virtuales para reducir el impacto de compromisos.",
       "web_oficial": "https://www.qubes-os.org/",
@@ -817,6 +1155,26 @@
         "https://doc.qubes-os.org/en/r4.3/user/templates/templates.html"
       ],
       "archivo_fuente": "json/distribuciones/qubes_os.json"
+    },
+    {
+      "nombre": "Raspberry Pi OS",
+      "descripcion": "Sistema operativo oficial para Raspberry Pi basado en Debian, disponible para arquitecturas ARM y como entorno de escritorio para PC.",
+      "web_oficial": "https://www.raspberrypi.com/software/operating-systems/",
+      "fecha_origen": "2012",
+      "autores": [
+        "Raspberry Pi Ltd",
+        "Comunidad Raspberry Pi"
+      ],
+      "distribucion_base": "Debian",
+      "gestor_paquetes": [
+        "APT/dpkg"
+      ],
+      "fuentes": [
+        "https://www.raspberrypi.com/software/operating-systems/",
+        "https://www.raspberrypi.com/documentation/computers/os.html",
+        "https://github.com/raspberrypi"
+      ],
+      "archivo_fuente": "json/distribuciones/raspberry_pi_os.json"
     },
     {
       "nombre": "Raspbian",
@@ -925,6 +1283,49 @@
       "archivo_fuente": "json/distribuciones/rlsd_linux.json"
     },
     {
+      "nombre": "Rocky Linux",
+      "descripcion": "Distribución Linux compatible a nivel binario con Red Hat Enterprise Linux, orientada a entornos empresariales y servidores.",
+      "web_oficial": "https://rockylinux.org/",
+      "fecha_origen": "2021",
+      "autores": [
+        "Community Enterprise Operating System Foundation",
+        "Comunidad Rocky Linux"
+      ],
+      "distribucion_base": "Red Hat Enterprise Linux",
+      "gestor_paquetes": [
+        "DNF",
+        "RPM"
+      ],
+      "fuentes": [
+        "https://rockylinux.org/",
+        "https://docs.rockylinux.org/",
+        "https://en.wikipedia.org/wiki/Rocky_Linux"
+      ],
+      "archivo_fuente": "json/distribuciones/rocky_linux.json"
+    },
+    {
+      "nombre": "Slackware Linux",
+      "descripcion": "Una de las distribuciones generales más antiguas todavía mantenidas, diseñada para mantener un sistema Unix-like simple y ampliamente configurable.",
+      "web_oficial": "http://www.slackware.com/",
+      "fecha_origen": "1993",
+      "autores": [
+        "Patrick Volkerding",
+        "Slackware Team"
+      ],
+      "distribucion_base": "Independiente",
+      "gestor_paquetes": [
+        "pkgtool",
+        "slackpkg",
+        "TXZ"
+      ],
+      "fuentes": [
+        "http://www.slackware.com/",
+        "https://docs.slackware.com/",
+        "http://www.slackware.com/ports/"
+      ],
+      "archivo_fuente": "json/distribuciones/slackware.json"
+    },
+    {
       "nombre": "Slax",
       "descripcion": "Sistema live compacto y portable, diseñado para arrancar desde USB, disco u otros medios.",
       "web_oficial": "https://www.slax.org/",
@@ -942,6 +1343,69 @@
         "https://www.slax.org/"
       ],
       "archivo_fuente": "json/distribuciones/slax.json"
+    },
+    {
+      "nombre": "Solus",
+      "descripcion": "Distribución Linux independiente para escritorio, con edición Budgie principal y una selección curada de aplicaciones y lanzamientos continuos semanales.",
+      "web_oficial": "https://getsol.us/",
+      "fecha_origen": "2015",
+      "autores": [
+        "Ikey Doherty",
+        "Comunidad Solus"
+      ],
+      "distribucion_base": "Independiente",
+      "gestor_paquetes": [
+        "eopkg",
+        "Flatpak",
+        "Solbuild"
+      ],
+      "fuentes": [
+        "https://getsol.us/",
+        "https://help.getsol.us/",
+        "https://github.com/getsolus"
+      ],
+      "archivo_fuente": "json/distribuciones/solus.json"
+    },
+    {
+      "nombre": "SteamOS",
+      "descripcion": "Sistema operativo basado en Linux orientado a videojuegos, que incorpora el modo Gaming Mode de Steam y soporte para hardware de sobremesa y dispositivos portátiles.",
+      "web_oficial": "https://store.steampowered.com/steamos/",
+      "fecha_origen": "2013 (SteamOS 1.0)",
+      "autores": [
+        "Valve Corporation"
+      ],
+      "distribucion_base": "Arch Linux (SteamOS 3) / Debian (SteamOS 1 y 2)",
+      "gestor_paquetes": [
+        "pacman",
+        "Flatpak",
+        "AUR según configuración"
+      ],
+      "fuentes": [
+        "https://store.steampowered.com/steamos/",
+        "https://help.steampowered.com/es/faqs/view/1B71-EDF2-EB6D-2BB3",
+        "https://en.wikipedia.org/wiki/SteamOS"
+      ],
+      "archivo_fuente": "json/distribuciones/steamos.json"
+    },
+    {
+      "nombre": "SUSE Linux Enterprise",
+      "descripcion": "Distribución Linux empresarial desarrollada y mantenida por SUSE para servidores, contenedores, nube y entornos críticos.",
+      "web_oficial": "https://www.suse.com/products/",
+      "fecha_origen": "2000",
+      "autores": [
+        "SUSE"
+      ],
+      "distribucion_base": "SUSE Linux",
+      "gestor_paquetes": [
+        "Zypper",
+        "RPM"
+      ],
+      "fuentes": [
+        "https://www.suse.com/products/",
+        "https://documentation.suse.com/",
+        "https://www.suse.com/products/sle/"
+      ],
+      "archivo_fuente": "json/distribuciones/suse_linux_enterprise.json"
     },
     {
       "nombre": "Tails",
@@ -975,6 +1439,47 @@
       "gestor_paquetes": [],
       "fuentes": [],
       "archivo_fuente": "json/distribuciones/tinfoil_hat_linux.json"
+    },
+    {
+      "nombre": "Tiny Core Linux",
+      "descripcion": "Distribución Linux mínima y modular que ejecuta gran parte de su sistema desde memoria y carga aplicaciones mediante extensiones.",
+      "web_oficial": "http://www.tinycorelinux.net/",
+      "fecha_origen": "2008",
+      "autores": [
+        "Robert Shingledecker",
+        "Comunidad Tiny Core Linux"
+      ],
+      "distribucion_base": "Independiente",
+      "gestor_paquetes": [
+        "TCZ",
+        "AppBrowser"
+      ],
+      "fuentes": [
+        "http://www.tinycorelinux.net/",
+        "http://www.tinycorelinux.net/corebook/corebook.pdf",
+        "https://en.wikipedia.org/wiki/Tiny_Core_Linux"
+      ],
+      "archivo_fuente": "json/distribuciones/tiny_core_linux.json"
+    },
+    {
+      "nombre": "Trisquel GNU/Linux",
+      "descripcion": "Distribución basada en Ubuntu que utiliza exclusivamente software libre aprobado por la comunidad GNU y cuenta con múltiples variantes de escritorio.",
+      "web_oficial": "https://trisquel.info/",
+      "fecha_origen": "2007",
+      "autores": [
+        "Rubén Rodríguez Pérez",
+        "El Proyecto Trisquel"
+      ],
+      "distribucion_base": "Ubuntu",
+      "gestor_paquetes": [
+        "APT/dpkg"
+      ],
+      "fuentes": [
+        "https://trisquel.info/",
+        "https://trisquel.info/en/wiki",
+        "https://gitlab.trisquel.org/groups/trisquel"
+      ],
+      "archivo_fuente": "json/distribuciones/trisquel.json"
     },
     {
       "nombre": "TUXEDO OS",
@@ -1109,6 +1614,49 @@
         "https://documentation.ubuntu.com/server/how-to/software/package-management/"
       ],
       "archivo_fuente": "json/distribuciones/ubuntu_studio.json"
+    },
+    {
+      "nombre": "Ubuntu Unity",
+      "descripcion": "Sabor comunitario de Ubuntu que utiliza el entorno de escritorio Unity7 con una configuración moderna y actualizada.",
+      "web_oficial": "https://ubuntuunity.org/",
+      "fecha_origen": "2020",
+      "autores": [
+        "Rudra Saraswat",
+        "Comunidad Ubuntu Unity"
+      ],
+      "distribucion_base": "Ubuntu",
+      "gestor_paquetes": [
+        "APT/dpkg",
+        "Snap",
+        "Flatpak"
+      ],
+      "fuentes": [
+        "https://ubuntuunity.org/",
+        "https://gitlab.com/ubuntu-unity",
+        "https://en.wikipedia.org/wiki/Ubuntu_Unity"
+      ],
+      "archivo_fuente": "json/distribuciones/ubuntu_unity.json"
+    },
+    {
+      "nombre": "Void Linux",
+      "descripcion": "Distribución Linux independiente y de lanzamiento continuo, con gestores escritos desde cero, runit como sistema de arranque y soporte para las bibliotecas glibc y musl.",
+      "web_oficial": "https://voidlinux.org/",
+      "fecha_origen": "2008",
+      "autores": [
+        "Juan Romero Pardines",
+        "Comunidad Void Linux"
+      ],
+      "distribucion_base": "Independiente",
+      "gestor_paquetes": [
+        "XBPS",
+        "xbps-src"
+      ],
+      "fuentes": [
+        "https://voidlinux.org/",
+        "https://docs.voidlinux.org/",
+        "https://github.com/void-linux"
+      ],
+      "archivo_fuente": "json/distribuciones/void_linux.json"
     },
     {
       "nombre": "Whonix",
