@@ -186,3 +186,20 @@ Una vulnerabilidad es una debilidad que puede ser aprovechada; no es, por sí mi
 Un programa básico de seguridad mantiene un inventario de activos, asigna responsables, aplica actualizaciones con pruebas proporcionales al riesgo, limita privilegios, registra eventos relevantes y comprueba periódicamente las copias de seguridad. Las medidas deben priorizarse según el impacto para el negocio y revisarse cuando cambien los sistemas o las amenazas.
 
 La evaluación de seguridad requiere autorización explícita y un alcance documentado. Los hallazgos deben comunicarse de forma responsable, protegerse como información sensible y acompañarse de medidas de corrección verificables. Para profundizar, se recomienda consultar [la teoría de OSINT](osint/teoria_osint.md), [el análisis forense](forense/teoria_forense.md), las secciones de [criptografía](criptografia/cifrado/teoria_cifrado.md) y [cortafuegos](firewall/).
+
+## Fases generales de un ataque
+
+Las fases siguientes describen una secuencia general. No todos los ataques las realizan ni las completan en el mismo orden.
+
+1. **Footprinting:** recopila información pública o observable sobre el objetivo mediante fuentes abiertas, registros DNS, documentación, sitios web o ingeniería social. El objetivo es identificar activos, tecnologías y posibles puntos de entrada.
+2. **Fingerprinting:** emplea la información recopilada para descubrir servicios, versiones, sistemas operativos, topología y vulnerabilidades mediante escaneos o exploración autorizada.
+3. **Intrusión y explotación:** aprovecha una vulnerabilidad para entrar o ejecutar acciones no autorizadas. El daño puede incluir acceso a datos, modificación de información o denegación de servicio.
+4. **Mantener el acceso:** intenta conservar una vía abierta sin ser detectado para continuar la exploración o alcanzar otros sistemas. Puede utilizar puertas traseras o modificaciones persistentes. En ataques de denegación de servicio esta fase puede no ser necesaria.
+5. **Borrar huellas:** intenta evitar la detección y dificultar el análisis forense ocultando direcciones, modificando registros o eliminando evidencia.
+
+### Clasificación defensiva del reconocimiento
+
+- **Reconocimiento pasivo:** obtiene información sin interactuar directamente con el sistema objetivo. Los resultados pueden proceder de registros públicos, DNS, documentación, buscadores o metadatos.
+- **Reconocimiento activo:** interactúa con servicios o dispositivos mediante escaneos, consultas o pruebas. Puede generar tráfico visible y provocar errores o cargas adicionales.
+
+El fingerprinting activo requiere autorización escrita, alcance definido y límites de impacto. Los ejemplos de escaneo solo deben ejecutarse en sistemas propios o laboratorios aislados.

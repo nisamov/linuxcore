@@ -89,6 +89,38 @@ sudo docker run -v /ruta/en/equipo:/usr/share/nginx/html nginx
 
 `sleep infinity` permite que un contenedor se mantenga activo aunque no tenga ninguna tarea en primer plano en ejecución (evita que se cierre al terminar).
 
+## Diferencias entre contenedores y máquinas virtuales
+
+Las máquinas virtuales emulan un sistema informático completo. Sobre el anfitrión se instala un hipervisor y cada máquina virtual incluye su propio sistema operativo invitado, kernel y aplicaciones. Ocupan gigabytes, requieren más recursos y pueden tardar varios minutos en arrancar.
+
+Docker utiliza contenedorización: el Docker Engine gestiona contenedores que comparten el kernel del sistema anfitrión y empaquetan la aplicación con sus bibliotecas y dependencias. Los contenedores ocupan megabytes y suelen arrancar casi inmediatamente.
+
+| Característica | Máquina virtual | Contenedor Docker |
+|---|---|---|
+| Arquitectura | Hipervisor y sistema operativo invitado completo | Comparte el sistema operativo del anfitrión |
+| Sistema operativo | Un kernel propio por máquina virtual | Comparte el kernel del anfitrión |
+| Tamaño | Habitualmente gigabytes | Habitualmente megabytes |
+| Arranque | Minutos | Segundos |
+| Aislamiento | Muy fuerte; incluye hardware virtualizado | Aísla procesos y recursos, pero comparte kernel |
+
+## Primer contenedor
+
+El contenedor `hello-world` permite comprobar que Docker puede descargar una imagen, crear un contenedor y ejecutar su proceso predeterminado:
+
+```bash
+sudo docker run hello-world
+```
+
+Si la imagen no está disponible localmente, Docker la descarga de Docker Hub. Después crea el contenedor, ejecuta su programa y termina, por lo que el contenedor queda detenido.
+
+Comprueba su estado:
+
+```bash
+sudo docker ps -a
+```
+
+En el listado aparecerá un contenedor basado en `hello-world` con estado `Exited`.
+
 ## Comandos de gestión
 
 ### Contenedores

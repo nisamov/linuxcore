@@ -16,9 +16,28 @@ Para que los contenedores sean útiles, deben comunicarse entre sí y con el ext
 
 ### Red bridge por defecto (`docker0`)
 
-* Al instalar Docker se crea automáticamente una red bridge llamada `docker0` (rango típico `172.17.0.0/16`).
-* Si se ejecuta un contenedor sin especificar red, se conecta a esta red.
-* Limitaciones: los contenedores **solo se ven por IP**, no por nombre, y no hay aislamiento entre ellos.
+- Al instalar Docker se crea automáticamente una red bridge llamada `docker0`.
+- Si se ejecuta un contenedor sin especificar red, se conecta a esta red.
+- El rango típico es `172.17.0.0/16`, aunque Docker puede asignar otro según la configuración del anfitrión.
+- Esta red no proporciona resolución DNS automática entre contenedores por nombre. Además, ofrece menos aislamiento que una red definida por el usuario.
+
+### Ejemplo de resolución DNS
+
+Crea una red y añade dos contenedores:
+
+```bash
+sudo docker network create mi_aplicacion_net
+sudo docker run -d --name db --network mi_aplicacion_net mariadb
+sudo docker run -it --name web --network mi_aplicacion_net alpine sh
+```
+
+Dentro del contenedor `web` se puede comprobar la resolución del contenedor `db`:
+
+```bash
+ping db
+```
+
+Docker resuelve `db` mediante el DNS interno de la red definida por el usuario. Este nombre no suele resolverse fuera de dicha red.
 
 ### Red bridge definida por el usuario
 

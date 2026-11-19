@@ -691,11 +691,14 @@ Instalar, administrar y proteger un servidor MySQL/MariaDB y trabajar con sus da
 
 **Bash**
 
-- [Comentarios](documentacion/programacion/bash/comentarios.sh) · [Input](documentacion/programacion/bash/input.sh) · [Argumentos](documentacion/programacion/bash/argumentos.sh) · [Alias](documentacion/programacion/bash/alias.sh): sintaxis básica y entrada de datos.
-- [Operadores aritméticos](documentacion/programacion/bash/operadores_aritmeticos.sh) · [Condiciones](documentacion/programacion/bash/condiciones_evaluacion.sh) · [Control de flujo](documentacion/programacion/bash/control_flujo.sh) · [Devolución](documentacion/programacion/bash/devolucion.sh): lógica y funciones.
-- [Redirecciones](documentacion/programacion/bash/redirecciones.sh) · [Tuberías](documentacion/programacion/bash/tuberias.sh): entrada, salida y encadenado de comandos.
-- [Contar](documentacion/programacion/bash/contar.sh) · [Fechas](documentacion/programacion/bash/fechas.sh) · [Depuración](documentacion/programacion/bash/depuracion.sh): utilidades y depuración.
-- [Bucles](documentacion/programacion/bash/bucles.sh) · [Arrays y cadenas](documentacion/programacion/bash/arrays_y_cadenas.sh) · [Funciones](documentacion/programacion/bash/funciones.sh): recorridos, colecciones y reutilización.
+- [Comentarios](documentacion/programacion/bash/comentarios.md) · [Entrada](documentacion/programacion/bash/input.md) · [Argumentos](documentacion/programacion/bash/argumentos.md) · [Alias](documentacion/programacion/bash/alias.md): sintaxis básica y entrada de datos.
+- [Operadores aritméticos](documentacion/programacion/bash/operadores_aritmeticos.md) · [Condiciones](documentacion/programacion/bash/condiciones_evaluacion.md) · [Control de flujo](documentacion/programacion/bash/control_flujo.md) · [Devolución](documentacion/programacion/bash/devolucion.md): lógica y funciones.
+- [Redirecciones](documentacion/programacion/bash/redirecciones.md) · [Tuberías](documentacion/programacion/bash/tuberias.md): entrada, salida y encadenado de comandos.
+- [Contar](documentacion/programacion/bash/contar.md) · [Fechas](documentacion/programacion/bash/fechas.md) · [Depuración](documentacion/programacion/bash/depuracion.md): utilidades y depuración.
+- [Bucles](documentacion/programacion/bash/bucles.md) · [Arrays y cadenas](documentacion/programacion/bash/arrays_y_cadenas.md) · [Funciones](documentacion/programacion/bash/funciones.md): recorridos, colecciones y reutilización.
+- [Guía de Shell Script](documentacion/programacion/bash/guia_shell_script.md): programación completa en Bash.
+- [Chuleta rápida de Bash](documentacion/programacion/bash/cheatsheet_shell.md): sintaxis y comandos frecuentes.
+- [Expresiones regulares](documentacion/programacion/bash/expresiones_regulares.md): patrones POSIX y validación en Bash.
 
 </td>
   </tr>

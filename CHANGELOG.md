@@ -9,6 +9,45 @@
 <p>Los cambios de cada versión se agrupan en <b>Añadido</b>, <b>Cambiado</b>, <b>Corregido</b> y <b>Eliminado</b>.</p>
 </div>
 
+## [`00-00-01-26`] - 2026-11-19
+
+## Añadido
+
+- Convertida la documentación de Bash a formato Markdown en `documentacion/programacion/bash/`.
+- Creación de `documentacion/programacion/bash/guia_shell_script.md`.
+- Creación de `documentacion/programacion/bash/cheatsheet_shell.md`.
+- Creación de `documentacion/servicios/sistema/cron/teoria_cron.md` con sintaxis, gestión y comprobación de tareas programadas.
+- Creación de `documentacion/redes/fundamentos/configuracion_persistente.md` con NetworkManager, Netplan y systemd-networkd.
+- Creación de `documentacion/sistema/linux/administracion_usuarios.md` sobre cuentas, grupos, sudo y caducidad.
+- Creación de `documentacion/infraestructura/virtualizacion/laboratorio_virtualizacion.md` sobre planificación de recursos y modos de red.
+
+## Cambiado
+
+- Actualizada `documentacion/seguridad/teoria_seguridad.md` con las fases generales de footprinting, fingerprinting, intrusión, persistencia y borrado de huellas.
+- Actualizado `README.md` con enlaces a las nuevas guías de Bash, cron, red, usuarios y virtualización.
+
+## Eliminado
+
+- Eliminados los archivos `.sh` sustituidos por sus equivalentes `.md` dentro de `documentacion/programacion/bash/`.
+
+---
+
+## [`00-00-01-24`] - 2026-11-19
+
+## Añadido
+
+- Creación de `documentacion/infraestructura/contenedores/docker/comandos_docker.md`.
+- Creación de `documentacion/infraestructura/contenedores/docker/dockerfile_modo_zombie.md` sobre scripts de arranque y contenedores activos.
+
+## Cambiado
+
+- Actualizada `documentacion/infraestructura/contenedores/docker/creacion_dockerfile.md` con conceptos de `ARG`, `ENV`, formatos de ejecución y publicación de puertos.
+- Actualizada `documentacion/infraestructura/contenedores/docker/teoria_docker.md` con la comparación entre contenedores y máquinas virtuales y el ejemplo `hello-world`.
+- Actualizada `documentacion/infraestructura/contenedores/docker/gestion_redes.md` con resolución DNS en redes bridge definidas por el usuario.
+- Actualizado `README.md` con enlaces a las dos nuevas guías.
+
+---
+
 ## [`00-00-01-22`] - 2026-11-13
 
 ## Añadido
